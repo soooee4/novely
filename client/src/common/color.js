@@ -1,0 +1,32 @@
+/** 색상 모음 */
+
+export const COLOR = {
+    BLACK: "black",
+    WHITE: "white",
+    GRAY: "gray",
+    CORAL: "#FFADAD",
+    LIGHT_ORANGE: "#FFD6A5",
+    LIME: "#ecf39e",
+    LIGHT_GREEN: "#CAFFBF",
+    SKY_BLUE: "#9BF6FF",
+    LIGHT_BLUE: "#A0C4FF",
+    LIGHT_PURPLE:"#BDB2FF",
+    LIGHT_PINK: "#FFC6FF",
+    MINT:"#98F5E1",
+    LIGHT_BROWN: "#BAA587",
+    MUSTARD: "#FFCB69",
+    ORANGE_BROWN: "#E8AC65",
+    YELLOW_BEIGE: "#F2D492",
+    PINK:"#F7A399",
+    GREEN_TEA: "#C9E4CA",
+    PEACH:  "#FFAC81",
+    BLUE: "#48BFE3",
+    RED_BROWN: "#B5838D",
+    PURPLE: "#e0aaff",
+    DARK_CORAL: "#f38375",
+    GREEN: "#90a955",
+    BLUE_GRAY: "#9eb3c2",
+    HEART_PINK: "#FB2576",
+    LIGHT_GRAY: "#F1F1F1",
+    INHERIT: "inherit"
+};
