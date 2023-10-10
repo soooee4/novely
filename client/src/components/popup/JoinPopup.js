@@ -2,25 +2,27 @@ import { Box } from "@mui/material";
 
 import { COLOR } from "../../common/color"
 
-const LoginPopup = (props) => {
+const JoinPopup = (props) => {
 
   return (
     <>
       <Box
         sx={{
-          width: 100,
-          height: 100,
-          backgroundColor: COLOR.LIGHT_BROWN
+          width: 300,
+          height: 200,
+          backgroundColor: COLOR.BLUE_GRAY
         }} 
       / >
+        회원가입
       <button 
         type="button"
         onClick={props.changeState}
       >
-        회원가입
+        NEXT
       </button>
+ 
     </>
   )
 };
 
-export default LoginPopup;
+export default JoinPopup;

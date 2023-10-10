@@ -9,8 +9,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/*" element={<pages.LoginPage />} />       {/* 로그인 페이지 */}
-        <Route path="/main" element={<pages.MainPage />} />     {/* 메인 페이지 */}
+        <Route path="/*" element={<pages.MainPage />} />     {/* 메인 페이지 */}
+        <Route path="/novel-detail" element={<pages.NovDetailPage />} />       {/* 소설 상세 정보 페이지 */}
       </Routes>
     </Router>
   );

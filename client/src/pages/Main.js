@@ -36,24 +36,67 @@ import SearchBar from "components/controls/Search";
 // Dropdown Component
 import DropBox from "components/controls/DropBox";
 
+// Popup Component
+import LoginPopup from "components/popup/LoginPopup";
+import JoinPopup from "components/popup/JoinPopup";
+import ProfileAddPopup from "components/popup/ProfileAddPopup";
+
 // Constant
 import { CODE, LABEL, COLOR } from "common"; 
+import { Login } from "@mui/icons-material";
+
 
 const Main = () => {
     const [modal, setModal] = useState(false); 
+    // const [login, setLogin] = useState(true);
+    // const [join, setJoin] = useState(false);
+    // const [profile, setProfile] = useState(false);
+    const [popup, setPopup] = useState('login');
+    
+    const showModal = () => {
+      setModal(true);
+    };
+
+    // const closeLogin = () => {
+    //   setLogin(false);
+    // };
+
+    const popupChange = () => {
+      if (popup === 'login') {
+        return <LoginPopup changeState={() => setPopup('join')} />
+      } else if (popup === 'join') {
+        return <JoinPopup changeState={() => setPopup('profile')} />
+      } else if (popup === 'profile') {
+        return <ProfileAddPopup />
+      }
+    }
+
 
     return (
         <>
             <BasicTable />
-            <Header />
-            <button onClick={() => setModal(true)}>btn</button>
-            <ModalPopup 
+            <Header 
+                showModal={showModal}
+                // 함수를 만들지 않고 넘길 때 형태
+                // openLogin={() => setLogin(true)}
+                // openProfile={() => setProfile(true)}
+                changeState={() => setPopup('login')}
+            />
+            <ModalPopup
                 open={modal}
-                width={700}
-                height={700}
+                width={500}
+                height={300}
                 onClose={() => setModal(false)}
-            /> 
-            <Buttons 
+            >
+              {/* login 상태가 true일 때만 로그인 팝업 띄워지도록 조건처리 */}
+              {/* {login === false ? 
+                <JoinPopup /> 
+                : 
+                <LoginPopup closeLogin={closeLogin} /> }
+              {profile && <ProfileAddPopup /> } */}
+              {popupChange()}
+            </ModalPopup>
+            <Buttons
                 type={CODE.BUTTON.TAG}
                 name={LABEL.BUTTONS.FANTASY}
                 backgroundColor={'pink'}

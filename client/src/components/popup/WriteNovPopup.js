@@ -2,25 +2,26 @@ import { Box } from "@mui/material";
 
 import { COLOR } from "../../common/color"
 
-const LoginPopup = (props) => {
+const WriteNovPopup = (props) => {
 
   return (
     <>
       <Box
         sx={{
           width: 100,
-          height: 100,
-          backgroundColor: COLOR.LIGHT_BROWN
+          height: 110,
+          backgroundColor: COLOR.LIME
         }} 
       / >
       <button 
         type="button"
         onClick={props.changeState}
       >
-        회원가입
+        소설 작성 완료,, 다음
       </button>
+ 
     </>
   )
 };
 
-export default LoginPopup;
+export default WriteNovPopup;

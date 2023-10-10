@@ -65,8 +65,15 @@ const Buttons = (props) => {
         )
     } else if (props.type === CODE.BUTTON.BORDER) {
         return (
+          // 두개의 함수 넣기
             <BorderBtn
-              onClick={props.onClick}
+              onClick= {() => {
+                props.showModal();
+                // props.openLogin();
+                // props.openProfile();
+                props.changeState();
+              }}
+              
               style={{
                   backgroundColor: props.backgroundColor,
                   color: props.color,

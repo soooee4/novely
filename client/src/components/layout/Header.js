@@ -76,7 +76,10 @@ const Header = (props) => {
             backgroundColor={'black'}
             color={'white'}
             width={70}
-            onClick={props.showModal}
+            showModal={props.showModal}
+            changeState={props.changeState}
+            // openLogin={props.openLogin}
+            // openProfile={props.openProfile}
           />
         </MenuBtnBox>
       </MenuBar>
