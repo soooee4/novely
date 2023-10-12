@@ -7,7 +7,7 @@ import { CODE, COLOR } from 'common';
 // 기본 버튼
 const BasicBtn = styled(Button)({
     color: COLOR.BLACK,
-    borderRadius: 7
+    borderRadius: 5
     // ":hover": {
     //     border
     // }
@@ -45,7 +45,12 @@ const Buttons = (props) => {
               style={{
                 width: props.width,
                 height: props.height,
-                margin: props.margin
+                margin: props.margin,
+                padding: props.padding,
+                fontSize: props.fontSize,
+                fontWeight: props.fontWeight
+                
+
             }}
             >
                 {props.name}
@@ -57,7 +62,9 @@ const Buttons = (props) => {
                 onClick={props.onClick}
                 style={{
                     backgroundColor: props.backgroundColor,
-                    margin: props.margin
+                    margin: props.margin,
+                    padding: props.padding,
+                    fontSize: props.fontSize
                 }}
             >
                 #{props.name}
@@ -77,7 +84,11 @@ const Buttons = (props) => {
               style={{
                   backgroundColor: props.backgroundColor,
                   color: props.color,
-                  width: props.width
+                  width: props.width,
+                  height: props.height,
+                  margin: props.margin,
+                  padding: props.padding,
+                  fontSize: props.fontSize
                 }}
             >
                 {props.name}

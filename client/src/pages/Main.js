@@ -84,8 +84,8 @@ const Main = () => {
             />
             <ModalPopup
                 open={modal}
-                width={500}
-                height={300}
+                width={600}
+                height={400}
                 onClose={() => setModal(false)}
             >
               {/* login 상태가 true일 때만 로그인 팝업 띄워지도록 조건처리 */}

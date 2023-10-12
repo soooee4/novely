@@ -19,6 +19,10 @@ export const LABEL = {
         UNFOLLOW: 'Unfollow',
         FOLLOW: 'Follow',
         VIEWNOVEL: 'View',
+        LOGIN: '로그인',
+        SIGNUP: '회원가입',
+        GOTOSIGNUP:'이메일로 가입하기'
+
     },
 
     // input용 Label 정의
