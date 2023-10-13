@@ -1,10 +1,11 @@
 // import Box from '@mui/material/Box';   // material 폴더안의 Box만 사용 가능
-import { Box, styled, Typography } from '@mui/material';  // 이렇게 쓰면 material 폴더 안의 js 모든 파일 사용 가능
+import { Box, styled, Typography, useScrollTrigger } from '@mui/material';  // 이렇게 쓰면 material 폴더 안의 js 모든 파일 사용 가능
 
 import Buttons from "components/controls/Button";
 
 // Constant
 import { CODE, LABEL } from "common"; 
+import { useEffect, useState } from 'react';
 
 const Whole = styled(Box)({
   // width: '1vw',
@@ -39,10 +40,23 @@ const MenuBtnBox = styled(Box)({
   minWidth: 450,
   marginLeft: 'auto',
   marginRight: 50,
+  display: 'flex',
+  justifyContent: 'flex-end',
+  alignItems: 'center'
 })
 
 
 const Header = (props) => {
+  //로컬스토리지에 값이 담겨있는지 여부를 불리언 값으로 저장
+  const isLogin = !!localStorage.getItem('id');
+  const [login, setLogin] = useState(isLogin)
+  // console.log(isLogin);
+
+  // useEffect(() => {
+  //   setLogin(isLogin);
+  // },[login]);
+ 
+
   return (
     <Whole>
       <LogoBox>
@@ -50,6 +64,8 @@ const Header = (props) => {
       </LogoBox>
       <MenuBar>
         <MenuBtnBox>
+          {isLogin ? (
+          <>
           <Buttons
             type={CODE.BUTTON.BASIC}
             name={LABEL.BUTTONS.ALL_NOVEL}
@@ -72,15 +88,39 @@ const Header = (props) => {
           />
           <Buttons
             type={CODE.BUTTON.BORDER}
-            name={LABEL.BUTTONS.JOIN}
+            name={LABEL.BUTTONS.LOGOUT}
             backgroundColor={'black'}
             color={'white'}
-            width={70}
+            width={83}
+            showModal={props.showModal}
+            closeModal={props.closeModal}
+            changeState={props.changeState}
+            logout={props.logout}
+            // openLogin={props.openLogin}
+            // openProfile={props.openProfile}
+          />
+          </>
+        ) : (
+        <>
+          <Buttons
+            type={CODE.BUTTON.BASIC}
+            name={LABEL.BUTTONS.ALL_NOVEL}
+            margin={10}
+          />
+          <Buttons
+            type={CODE.BUTTON.BORDER}
+            name={LABEL.BUTTONS.LOGIN}
+            backgroundColor={'black'}
+            color={'white'}
+            width={83}
             showModal={props.showModal}
             changeState={props.changeState}
             // openLogin={props.openLogin}
             // openProfile={props.openProfile}
           />
+        </>
+        )
+}
         </MenuBtnBox>
       </MenuBar>
 

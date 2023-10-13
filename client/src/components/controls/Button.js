@@ -72,13 +72,15 @@ const Buttons = (props) => {
         )
     } else if (props.type === CODE.BUTTON.BORDER) {
         return (
-          // 두개의 함수 넣기
+          // 여러개의 함수 넣기
             <BorderBtn
               onClick= {() => {
-                props.showModal();
-                // props.openLogin();
-                // props.openProfile();
-                props.changeState();
+                // props로 넘어온 값이 null, undefined가 아닐 경우에만 해당 함수 실행하도록 조건 부여
+                props.showModal && props.showModal();
+                // props.closeModal && props.closeModal();
+                props.changeState && props.changeState();
+                props.onSubmit && props.onSubmit();
+                props.logout && props.logout();
               }}
               
               style={{

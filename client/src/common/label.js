@@ -21,7 +21,8 @@ export const LABEL = {
         VIEWNOVEL: 'View',
         LOGIN: '로그인',
         SIGNUP: '회원가입',
-        GOTOSIGNUP:'이메일로 가입하기'
+        GOTOSIGNUP:'이메일로 가입하기',
+        LOGOUT: '로그아웃'
 
     },
 
@@ -36,7 +37,7 @@ export const LABEL = {
       NEW_PW: '새 비밀번호',
       NEW_PW_CONFIRM: '새 비밀번호 확인',
       SEARCH: '좋아하는 작가, 작품을 검색해보세요!',
-      STANDARD: "standard"
+      STANDARD: "standard",
     },
 
     SELECT: {

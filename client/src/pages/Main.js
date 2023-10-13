@@ -57,13 +57,22 @@ const Main = () => {
       setModal(true);
     };
 
-    // const closeLogin = () => {
-    //   setLogin(false);
-    // };
+    const closeModal = () => {
+      setModal(false);
+    };
+
+    const logout = () => {
+      localStorage.removeItem('id');
+      setModal(false);
+    }
 
     const popupChange = () => {
       if (popup === 'login') {
-        return <LoginPopup changeState={() => setPopup('join')} />
+        return <LoginPopup 
+          changeState={() => setPopup('join')} 
+          closeModal={closeModal}
+          logout={logout}
+        />
       } else if (popup === 'join') {
         return <JoinPopup changeState={() => setPopup('profile')} />
       } else if (popup === 'profile') {
@@ -81,6 +90,7 @@ const Main = () => {
                 // openLogin={() => setLogin(true)}
                 // openProfile={() => setProfile(true)}
                 changeState={() => setPopup('login')}
+                logout={logout}
             />
             <ModalPopup
                 open={modal}
