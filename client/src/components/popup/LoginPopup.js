@@ -81,7 +81,7 @@ const LoginPopup = (props) => {
 		setPw(e.target.value);
 	};
 
-	console.log(id, 11);
+	// console.log(id, 11);
 
 	const onLogin = () => {
 		axios
@@ -90,20 +90,22 @@ const LoginPopup = (props) => {
 				login_pw: pw,
 			})
 			.then(function (res) {
-				console.log(res.data);
+				// console.log(res.data);
 				if (res.data === true) {
 					alert("로그인 성공");
-					// localStorage.clear();
 					localStorage.setItem("id", id);
-					props.closeModal();
+					props.closeModal(); 
+					props.isLogin();
+					// 성공을 했으니 아까 내려받은 props.isLogin 함수를 실행하면 Main.js의 isLogin값이 true로 바뀌겠죠
+					// localStorage.clear();				
 				} else {
 					alert("로그인 실패");
-				}
-			})
+				} 
+			}) 
 			.catch(function (error) {
 				console.log(error);
-			});
-	};
+			})
+	}
 
 	return (
 		<>

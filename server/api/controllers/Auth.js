@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 
-const svc = require("../services/AuthService");
+const svc = require("../services/NovelService");
 
 // 로그인 함수
 const login = async (req, res, next) => {

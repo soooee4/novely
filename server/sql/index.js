@@ -1,9 +1,8 @@
 const mybatis = require("mybatis-mapper");
 
-mybatis.createMapper(["sql/mappers/Auth.xml"]);
-// mappers 안에 있는 xml 파일들 목록은 전부 이 배열 안에 집어넣어야 함
+// mappers 안에 있는 xml 파일들 목록
+mybatis.createMapper(["sql/mappers/Auth.xml","sql/mappers/Novel.xml"]);
 
-// console에 쿼리가 어떻게 실행되는지 개발자가 보기 위해서 만든 기능일 뿐, 이해x
 const makeSql = (sqlId, params, nolog) => {
   const sqlIds = sqlId.split(".");
 

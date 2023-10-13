@@ -43,5 +43,10 @@ export const LABEL = {
     SELECT: {
       GENRE: '장르',
       KEY_WORD: '키워드'
+    },
+
+    ALERT: {
+      ERROR: 'error',
+      SUCCESS: 'success'
     }
 };

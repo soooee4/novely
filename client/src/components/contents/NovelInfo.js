@@ -11,7 +11,9 @@ const Whole = styled(Box)({
 	width: '85%',
 	height: 150,
 	display: "flex",
-  margin: '0 auto'
+  margin: '0 auto',
+  paddingTop: 20,
+  border: '1px solid orange'
 });
 
 // 좌측 소개글 및 이미지 영역
