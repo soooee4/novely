@@ -7,6 +7,13 @@ import Buttons from "components/controls/Button";
 import { CODE, LABEL } from "common";
 import { useEffect, useState } from "react";
 
+// Popup Component
+// import ToastPopup from "components/popup/ToastPopup";
+import ModalPopup from "components/popup/ModalPopup";
+import LoginPopup from "components/popup/LoginPopup";
+import JoinPopup from "components/popup/JoinPopup";
+import ProfileAddPopup from "components/popup/ProfileAddPopup";
+
 const Whole = styled(Box)({
 	// width: '1vw',
 	height: 70,
@@ -34,34 +41,59 @@ const MenuBar = styled(Box)({
 	flexGrow: 1,
 	marginLeft: "auto",
 	display: "flex",
+  // border:"2px solid blue"
+});
+
+const WelcomeMsg = styled(Typography)({
+	color: "black",
+	fontSize: 15,
+  // border:"2px solid blue",
+  marginLeft:'auto',
+	fontWeight: "bolder",
+	alignSelf: "center",
+
 });
 
 const MenuBtnBox = styled(Box)({
 	minWidth: 450,
-	marginLeft: "auto",
+	// marginLeft: "auto",
 	marginRight: 50,
 	display: "flex",
 	justifyContent: "flex-end",
 	alignItems: "center",
+  // border:"2px solid red"
 });
 
+
 const Header = (props) => {
-	// 로컬스토리지에 값이 담겨있는지 여부를 불리언 값으로 저장 
-	// const isLogin = !!localStorage.getItem("id");
-	// const [login, setLogin] = useState(isLogin);
+  const [modal, setModal] = useState(false);
+	const [popup, setPopup] = useState("login");
+  const [isLogin, setIsLogin] = useState(
+		localStorage.getItem("id") ? true : false
+	);
 
-//   console.log('this is header component rerendering')
+  const closeModal = () => {
+		setModal(false);
+	};
 
-//   // const [isLogin, setIsLogin] = useState(false);
-//   const [isLogin, setIsLogin] = useState(false);
+  const popupChange = () => {
+		if (popup === "login") {
+			return (
+				<LoginPopup
+					changeState={() => setPopup("join")}
+					closeModal={closeModal}
+					// logout={logout}
+					isLogin={() => setIsLogin(true)}
+				/>
+			);
+		} else if (popup === "join") {
+			return <JoinPopup changeState={() => setPopup("profile")} />;
+		} else if (popup === "profile") {
+			return <ProfileAddPopup />;
+		}
+	};
 
-//   useEffect(() => {
-//     if (localStorage.getItem('id')) {
-//       setIsLogin(true);
-//     } else {
-//       setIsLogin(false);
-//     }
-//   }, []);
+  console.log(props.profile,3894797)
 
 	return (
 		<Whole>
@@ -69,14 +101,33 @@ const Header = (props) => {
 				<Logo variant="h1">NOVELY</Logo>
 			</LogoBox>
 			<MenuBar>
+        {/* {props.profile.user_reg_dv === 'G'
+        ? 
+          <WelcomeMsg>예비작가 {props.profile.user_nickname}님👋</WelcomeMsg>
+        } */}
+        {props.profile && 
+          <WelcomeMsg>
+            {props.profile.user_reg_dv === 'G' ? '예비작가' : '작가'} 
+            {props.profile.user_nickname}님 👋
+          </WelcomeMsg>
+        }
 				<MenuBtnBox>
-					{/* 지금 현재 조건은 이 헤더 페이지내에서 로컬스토리지를 조회해 그 값을 기반으로 버튼을 어떤걸 보여줄 지 정했잖아요?
-					근데 메인에서 로그인/로그아웃 상태를 공유해주기로 했으니 그 조건들이 다 필요가 없어졌습니다
-					이 헤더 페이지에서 단독적으로 로컬스토리지를 조회해 그 값을 보는게 아니라
-					가장 최상단 부모에서 공유되는 값을 모달이건, 컴포넌트건 모두가 공유할겁니다  */}
-					{/* 프랍스로 넘어왔으니 프랍스.isLogin 해줍니다 */}
-					{/* 위에 유즈이펙트랑 스테이트 주석처리 하겠습니다 */}
-					{props.isLogin ? ( 
+          {/* 비로그인 상태 */}
+					{!props.profile ?  
+            <Buttons
+              type={CODE.BUTTON.BORDER}
+              name={LABEL.BUTTONS.LOGIN}
+              backgroundColor={"black"}
+              color={"white"}
+              width={83}
+              showModal={() => setModal(true)}
+              changeState={props.changeState}
+              // openLogin={props.openLogin}
+              // openProfile={props.openProfile}
+          />
+          :
+          // 일반 유저 로그인 상태
+          props.profile.user_reg_dv === 'G' ?
 						<>
 							<Buttons
 								type={CODE.BUTTON.BASIC}
@@ -88,11 +139,11 @@ const Header = (props) => {
 								name={LABEL.BUTTONS.FAVORITE_NOVEL}
 								margin={10}
 							/>
-							<Buttons
+							{/* <Buttons
 								type={CODE.BUTTON.BASIC}
 								name={LABEL.BUTTONS.FAVORITE_AUTHOR}
 								margin={10}
-							/>
+							/> */}
 							<Buttons
 								type={CODE.BUTTON.BASIC}
 								name={LABEL.BUTTONS.MY_INFO}
@@ -112,7 +163,86 @@ const Header = (props) => {
 								// openProfile={props.openProfile}
 							/>
 						</>
-					) : (
+            :
+            <>
+              <Buttons
+                type={CODE.BUTTON.BASIC}
+                name={LABEL.BUTTONS.ALL_NOVEL}
+                margin={10}
+              />
+              <Buttons
+                type={CODE.BUTTON.BASIC}
+                name={LABEL.BUTTONS.MY_NOVEL}
+                margin={10}
+              />
+              <Buttons
+                type={CODE.BUTTON.BASIC}
+                name={LABEL.BUTTONS.FAVORITE_NOVEL}
+                margin={10}
+              />
+              {/* <Buttons
+                type={CODE.BUTTON.BASIC}
+                name={LABEL.BUTTONS.FAVORITE_AUTHOR}
+                margin={10}
+              /> */}
+              <Buttons
+                type={CODE.BUTTON.BASIC}
+                name={LABEL.BUTTONS.MY_INFO}
+                margin={"10px 25px 10px 10px"}
+              />
+              <Buttons
+                type={CODE.BUTTON.BORDER}
+                name={LABEL.BUTTONS.LOGOUT}
+                backgroundColor={"black"}
+                color={"white"}
+                width={83}
+                showModal={props.showModal}
+                closeModal={props.closeModal}
+                changeState={props.changeState}
+                logout={props.logout}
+                // openLogin={props.openLogin}
+                // openProfile={props.openProfile}
+              />
+            </>
+          }
+
+          
+						{/* // <>
+						// 	<Buttons
+						// 		type={CODE.BUTTON.BASIC}
+						// 		name={LABEL.BUTTONS.ALL_NOVEL}
+						// 		margin={10}
+						// 	/>
+						// 	<Buttons
+						// 		type={CODE.BUTTON.BASIC}
+						// 		name={LABEL.BUTTONS.FAVORITE_NOVEL}
+						// 		margin={10}
+						// 	/>
+						// 	<Buttons
+						// 		type={CODE.BUTTON.BASIC}
+						// 		name={LABEL.BUTTONS.FAVORITE_AUTHOR}
+						// 		margin={10}
+						// 	/>
+						// 	<Buttons
+						// 		type={CODE.BUTTON.BASIC}
+						// 		name={LABEL.BUTTONS.MY_INFO}
+						// 		margin={"10px 25px 10px 10px"}
+						// 	/>
+						// 	<Buttons
+						// 		type={CODE.BUTTON.BORDER}
+						// 		name={LABEL.BUTTONS.LOGOUT}
+						// 		backgroundColor={"black"}
+						// 		color={"white"}
+						// 		width={83}
+						// 		showModal={props.showModal}
+						// 		closeModal={props.closeModal}
+						// 		changeState={props.changeState}
+						// 		logout={props.logout}
+						// 		// openLogin={props.openLogin}
+						// 		// openProfile={props.openProfile}
+						// 	/>
+						// </>
+					 : 
 						<>
 							<Buttons
 								type={CODE.BUTTON.BASIC}
@@ -130,10 +260,17 @@ const Header = (props) => {
 								// openLogin={props.openLogin}
 								// openProfile={props.openProfile}
 							/>
-						</>
-					)}
+						</> */}
 				</MenuBtnBox>
 			</MenuBar>
+      <ModalPopup
+				open={modal}
+				width={600}
+				height={400}
+				onClose={() => setModal(false)}
+			>
+				{popupChange()}
+			</ModalPopup>
 		</Whole>
 	);
 };

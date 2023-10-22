@@ -61,11 +61,9 @@ export const getData = async (url, params) => {
 export const postData = async (url, params) => {
   try {
     const response = await axios
-      .post(`http://localhost:8080/api/${url}`, {
-      params
-    })
-    console.log(response);
-    // return response.data;
+      .post(`http://localhost:8080/api/${url}`, params)
+    // console.log(response);
+    return response.data;
 
   } catch (err) {
     console.log(err);

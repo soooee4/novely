@@ -37,10 +37,12 @@ import NovDetail from "./NovDetail";
 // 헤더 제외 영역
 const MainBox = styled(Box)({
 	// border: "2px solid red",
-	height: "99vh",
+  
+	// height: "100vh",
 	width: "99wh",
 	display: "flex",
 	flexDirection: "column",
+  // marginTop: 10
 });
 
 // 검색창 하단 장르 태그 박스
@@ -49,12 +51,14 @@ const TagBox = styled(Box)({
 	border: "1px solid green",
 	height: 25,
 	margin: "0 auto",
+  marginBottom: 10
 });
 
-const ScrollContainer = styled(Box)({
-	height: "calc(100% - 50px)",
-	overflowY: "scroll",
-});
+// const ScrollContainer = styled(Box)({
+// 	height: "100%",
+// 	overflowY: "scroll",
+//   border: "3px solid red"
+// });
 
 // 소설 컴포넌트 카드 영역
 const NovelCardBox = styled(Box)({
@@ -102,7 +106,7 @@ const Main = () => {
 
 	useEffect(() => {
 		getData("novel/getNovel")
-			.then(function (data) {
+			.then((data) => {
 				setNovelData(data);
 			})
 			.catch((err) => {
@@ -149,7 +153,7 @@ const Main = () => {
 			</ModalPopup>
 			<SearchBar />
 			<TagBox />
-			<ScrollContainer>
+			{/* <ScrollContainer> */}
 				<NovelCardBox>
 					{novelData.map((list) => {
 						return (
@@ -170,7 +174,7 @@ const Main = () => {
 						);
 					})}
 				</NovelCardBox>
-			</ScrollContainer>
+			{/* </ScrollContainer> */}
 			<ModalPopup
 				open={modal}
 				width={600}

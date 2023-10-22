@@ -12,13 +12,21 @@ import 'styles/App.css';
 
 const App = () => {
   
-  const [isLogin, setIsLogin] = useState(localStorage.getItem("id") ? true : false);
-  const [userRegDv, setUserRegDv] = useState(localStorage.getItem("user_reg_dv") ? localStorage.getItem("user_reg_dv") : null);
+  const [profile, setProfile] = useState(localStorage.getItem("profile"));
+  console.log(profile,123798)
+  
+  const logout = () => {
+    localStorage.removeItem("profile");
+    window.location.reload();
+  };
 
 
   return (
   	<>
-		<Header /> 
+		<Header 
+      profile={profile}
+      logout={logout}
+    /> 
 		<Router> 
 			<Routes>
 				<Route path="/*" element={<pages.MainPage />} />     {/* 메인 페이지 */}

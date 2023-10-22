@@ -5,13 +5,12 @@ const svc = require("../services/AuthService");
 
 // 로그인 함수
 const login = async (req, res, next) => {
-  console.log(req.body,1444)
   try {
     const data = await svc.login({ ...req.body });
-    
 
     if (data) {
-      res.send({ data: data })
+      res.send(data[0]);
+
     } else {
       res.send(false);
     }

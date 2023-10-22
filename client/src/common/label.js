@@ -25,7 +25,8 @@ export const LABEL = {
         LOGOUT: '로그아웃',
         LATEST: '최신순',
         POPULAR: '인기순',
-        GOTOWRITE: '이어쓰기'
+        GOTOWRITE: '이어쓰기',
+        MY_NOVEL: '내 작품'
 
     },
 

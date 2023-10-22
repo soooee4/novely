@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 import { Box, Typography, styled } from "@mui/material";
 import { COLOR, LABEL, CODE, MESSAGE } from "../../common";
@@ -48,7 +48,7 @@ const LoginPopup = (props) => {
 	const [idRegMsg, setIdRegMsg] = useState("");
 	const [pwRegMsg, setPwRegMsg] = useState("");
 
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 
 	//이메일 유효성 검사
 	const idValidation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -86,32 +86,21 @@ const LoginPopup = (props) => {
 	// console.log(id, 11);
 
 	const onLogin = () => {
-		// axios
-		// 	.post("http://localhost:8080/api/auth/login", {
-		// 		login_id: id,
-		// 		login_pw: pw,
-		// 	})
-		// 	.then(function (res) {
-		// 		// console.log(res.data);
-		// 		if (res.data === true) {
-		// 			alert("로그인 성공");
-		// 			localStorage.setItem("id", id);
-		// 			props.closeModal(); 
-		// 			props.isLogin();
-		// 			// 성공을 했으니 아까 내려받은 props.isLogin 함수를 실행하면 Main.js의 isLogin값이 true로 바뀌겠죠
-		// 			// localStorage.clear();				
-		// 		} else {
-		// 			alert("로그인 실패");
-		// 		} 
-		// 	}) 
-		// 	.catch(function (error) {
-		// 		console.log(error);
-		// 	})
 		postData('auth/login', {
 			login_id: id,
 			login_pw: pw,
-		})  
-	}; 
+		})
+    .then((data) => {
+        // console.log(data)
+      data.id = id;
+      localStorage.setItem("profile", JSON.stringify(data));
+  
+      window.location.reload();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+	};
   
 
 	return (
