@@ -8,12 +8,12 @@ import { CODE, LABEL, COLOR } from "common";
 
 // 전체 영역
 const Whole = styled(Box)({
-	width: '85%',
+	width: '100%',
 	height: 150,
 	display: "flex",
   margin: '0 auto',
   paddingTop: 20,
-  border: '1px solid orange'
+  // border: '1px solid orange'
 });
 
 // 좌측 소개글 및 이미지 영역
@@ -86,23 +86,27 @@ const NovelViewBox = styled(Box)({
 });
 
 
-const NovelInfo = () => {
+const NovelInfo = (props) => {
+  // console.log(props.description,123)
+  // console.log(props)
   return (
     <Whole>
       <InfoBox>
         <TitleBox>
-          <Title>소설제목 웅앵</Title>
+          <Title>{props.title}</Title>
         </TitleBox>
         <AuthorBox>
-          <Author>By.고애옹 작가</Author>
+          <Author>By.고애옹 작가 추후 변경</Author>
         </AuthorBox>
         <DescriptionBox>
-          <Description>소설에 대한 설명이야아 웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵웅앵</Description>
+          <Description>{props.description}</Description>
         </DescriptionBox>
       </InfoBox>
       <DateBox>
         <DateInfo>마감이 7일 남았어요!</DateInfo>
-        <NovelViewBox>
+        <NovelViewBox
+          onClick={props.showModal}        
+        >
           <Icons
             type={CODE.ICON.SEARCH}
           />

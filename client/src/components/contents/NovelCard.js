@@ -7,24 +7,24 @@ import Icons from "components/controls/IconRef";
 import { CODE, LABEL, COLOR } from "common";
 
 const Whole = styled(Box)({
-	width: 230,
-	height: 380,
+	width: 211,
 	borderRadius: 15,
 	// border: "2px solid blue",
 	display: "flex",
 	flexDirection: "column",
   marginRight: 20,
-  ":first-child": {
-    marginLeft: 40
-  },
-  ":last-child": {
-    marginRight: 40
+  marginBottom: 15,
+  "&:hover": {
+    backgroundColor:'white',
+    opacity: 0.7,
+    cursor: 'pointer'
   }
 });
 
+
 const Cover = styled(Box)({
 	width: "100%",
-	height: 290,
+	minHeight: 290,
 	borderRadius: 15,
 	backgroundColor: COLOR.PURPLE,
   marginBottom: 9
@@ -56,7 +56,7 @@ const LikedBox = styled(Box)({
 });
 
 const Title = styled(Typography)({
-	fontSize: 13,
+	fontSize: 15,
 	paddingTop: 2,
   whiteSpace: 'noWrap',
   overflow: 'hidden',
@@ -64,65 +64,79 @@ const Title = styled(Typography)({
 });
 
 const CountLike = styled(Typography)({
-	fontSize: 8,
-	paddingTop: 5,
+	fontSize: 11,
+	display: 'flex',
+  alignItems: 'center',
+  marginRight: 2
 });
 
 const Description = styled(Typography)({
-	fontSize: 8,
+	fontSize: 11,
 	color: COLOR.GRAY,
   whiteSpace: 'noWrap',
   overflow: 'hidden',
-  textOverflow: 'ellipsis'
+  textOverflow: 'ellipsis',
+  // border: '1px solid black',
+  height: 15
 });
 
 const TagBox = styled(Box)({
   // border: '1px solid black',
-  marginBottom: 7
+  marginTop: 3,
+  // backgroundColor: "grey"
+  minHeight: 60
 })
 
 
 
-const NovelCard = () => {
+const NovelCard = (props) => {
 	return (
-		<Whole>
+		<Whole onClick={props.onClick}>
 			<Cover></Cover>
 			<InfoBox>
 				<InfoItemBox>
-					<TitleBox>
-						<Title>소설 제목 웅앵입니다 마라탕 마라마라마람라마라마라마라마람라ㅏ마람라</Title>
+					<TitleBox>           
+						<Title>{props.title}</Title>
 					</TitleBox>
 					<LikedBox>
-						<CountLike>255</CountLike>
+						<CountLike>{props.like_count}</CountLike>
 						<Icons type={CODE.ICON.FILLHEART} />
 					</LikedBox>
 				</InfoItemBox>
-				<InfoItemBox>
-					<Description>소설에 대한 설명이에요 소설에 대한 설명이에요 소설에 대한 설명이에요오오오 소설에대한설명이에요오오오 </Description>
+				<InfoItemBox>  
+					<Description>{props.description}</Description>
 				</InfoItemBox>
 				<TagBox>
 					<Buttons
 						type={CODE.BUTTON.TAG}
-						name={LABEL.BUTTONS.FUNNY}
+						name={props.genre_1}
 						backgroundColor={"orange"}
 					/>
+          {props.genre_2 && 
 					<Buttons
 						type={CODE.BUTTON.TAG}
-						name={LABEL.BUTTONS.SAD}
+						name={props.genre_2}
 						backgroundColor={"skyBlue"}
-					/>
+					/>}
 					<Buttons
 						type={CODE.BUTTON.TAG}
-						name={LABEL.BUTTONS.HORROR}
+						name={props.keyword_1}
+						backgroundColor={"yellow"}
+					/>
+          {props.keyword_2 && 
+					<Buttons
+						type={CODE.BUTTON.TAG}
+						name={props.keyword_2}
+						backgroundColor={"grey"}
+					/>}
+          {props.keyword_3 && 
+					<Buttons
+						type={CODE.BUTTON.TAG}
+						name={props.keyword_3}
 						backgroundColor={"coral"}
-					/>
-					<Buttons
-						type={CODE.BUTTON.TAG}
-						name={LABEL.BUTTONS.FANTASY}
-						backgroundColor={"lightGreen"}
-					/>
+					/>}
 				</TagBox>
-				<InfoItemBox>
+				{/* <InfoItemBox>
         <Icons
             type={CODE.ICON.SEARCH}
           />
@@ -131,9 +145,9 @@ const NovelCard = () => {
             name={LABEL.BUTTONS.VIEWNOVEL}
             height={10}
             margin={'5px 0 0 -12px'}
-          ></Buttons>
+          / >
      
-        </InfoItemBox>
+        </InfoItemBox> */}
 			</InfoBox>
 		</Whole>
 	);

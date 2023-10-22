@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 
 const AppPage = lazy(() => import('pages/App'));
-const MainPage = lazy(() => import('pages/Main'));
+const MainPage = lazy(() => import('pages/Main')); 
 const NovDetailPage = lazy(() => import('pages/NovDetail'));
 
 //------------------------------------------------------------------------------------------

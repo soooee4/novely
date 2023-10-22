@@ -7,46 +7,58 @@ import {
   Paper
 } from '@mui/material'
 
-function createData(제목, 작성자, 추천수) {
-  return {제목, 작성자, 추천수 };
-}
+// const createData = (제목, 작성자, 추천수) => {
+//   return {제목, 작성자, 추천수 };
+// }
 
-const rows = [
-  { title: '고애옹', created_user: 'userID', liked: 34 },
-  { title: '고애옹', created_user: 'userID', liked: 34 },
-  { title: '고애옹', created_user: 'userID', liked: 34 },
-  { title: '고애옹', created_user: 'userID', liked: 34 },
-  { title: '고애옹', created_user: 'userID', liked: 34 },
-];
+// const rows = [
+//   { title: '고애옹', created_user: 'userID', liked: 34 },
+//   { title: '고애옹', created_user: 'userID', liked: 34 },
+//   { title: '고애옹', created_user: 'userID', liked: 34 },
+//   { title: '고애옹', created_user: 'userID', liked: 34 },
+//   { title: '고애옹', created_user: 'userID', liked: 34 },
+//   { title: '고애옹', created_user: 'userID', liked: 34 },
+//   { title: '고애옹', created_user: 'userID', liked: 34 },
+//   { title: '고애옹', created_user: 'userID', liked: 34 },
+// ];
 
-export default function BasicTable() {
+const BasicTable = (props) => {
+  // console.log(props)
   return (
     <TableContainer 
       component={Paper} 
       sx={{
-        width: '80%',
-        marginLeft: 10,
-        marginTop: 10
+        width: '100%',
+        boxShadow: 'none', 
+        border: '1px solid #E0E0E0', 
     }}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table 
+        sx={{ 
+          minWidth: 650,
+        }} 
+      aria-label="simple table"
+      >
         <TableBody>
-          {rows.map((row, i) => (
+          {props.subNovelData && props.subNovelData.map((novel, i) => (
             <TableRow
               key={i}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              sx={{ 
+                '&:last-child td, &:last-child th': { border: 0 },
+              }}
             >
               <TableCell 
                 align="center"
+                size= "small"
                 sx={{
-                  width: '70%',
-                  textAlign: 'left'
+                  width: '65%',
+                  textAlign: 'left',
                 }}
-                >{row.title}</TableCell>
+                >{novel.sub_title}</TableCell>
               <TableCell  
                 sx={{
-                  width: '15%'
-                }}align="center">{row.created_user}</TableCell>
-              <TableCell align="center">{row.liked}</TableCell>
+                  width: '25%'
+                }}align="center">사용자 아이디</TableCell>
+              <TableCell align="center">{novel.sub_like_count}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -54,3 +66,5 @@ export default function BasicTable() {
     </TableContainer>
   );
 }
+
+export default BasicTable;

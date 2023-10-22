@@ -22,7 +22,10 @@ export const LABEL = {
         LOGIN: '로그인',
         SIGNUP: '회원가입',
         GOTOSIGNUP:'이메일로 가입하기',
-        LOGOUT: '로그아웃'
+        LOGOUT: '로그아웃',
+        LATEST: '최신순',
+        POPULAR: '인기순',
+        GOTOWRITE: '이어쓰기'
 
     },
 

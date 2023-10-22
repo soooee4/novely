@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Novel">
+    <select id="getNovel">
+        SELECT
+            novel_seqno,
+            title,
+            content,
+            like_count,
+            created_user,
+            genre_1,
+            genre_2,
+            keyword_1,
+            keyword_2,
+            keyword_3,
+            description
+        FROM
+            t_novel_mgt
+        ORDER BY
+            novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
+    </select>
+
+    <select id="getSubNovel">
+        SELECT
+            sub_novel_seqno,
+            sub_title,
+            sub_content,
+            sub_like_count
+        FROM
+            t_sub_novel_mgt
+        WHERE
+            main_novel_seqno = #{main_novel_seqno} 
+        ORDER BY
+            sub_novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
+    </select>
+
     <insert id="postNovel">
         INSERT INTO t_novel_mgt
         (
@@ -11,7 +44,8 @@
             genre_2,
             keyword_1,
             keyword_2,
-            keyword_3
+            keyword_3,
+            description
         )
         VALUES 
         (
@@ -23,6 +57,10 @@
             #{keyword_1},
             #{keyword_2},
             #{keyword_3}
+            #{description}
         )
     </insert>
+
+ 
+
 </mapper>

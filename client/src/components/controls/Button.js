@@ -1,9 +1,9 @@
-import styled from '@emotion/styled';
-import Button from '@mui/material/Button';
+// MUI Package Module
+import { Button, styled } from '@mui/material';
 
+// Constant
 import { CODE, COLOR } from 'common'; 
  
-
 // 기본 버튼
 const BasicBtn = styled(Button)({
     color: COLOR.BLACK,
@@ -24,17 +24,13 @@ const BorderBtn = styled(Button)({
 
 // 태그 버튼
 const TagBtn = styled(Button)({
-    height: 5,
+    height: 4,
     minWidth: 0,
     borderRadius: 6,
     color: COLOR.BLACK,
     padding: 7,
-    fontSize: 8,
-    marginLeft: 5,
-    ":first-child": {
-      marginLeft: 0
-    }
-  
+    fontSize: 5,
+    marginLeft: 5
 });
 
 const Buttons = (props) => {

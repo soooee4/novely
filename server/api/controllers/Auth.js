@@ -1,15 +1,17 @@
 const { Router } = require("express");
 const router = Router();
 
-const svc = require("../services/NovelService");
+const svc = require("../services/AuthService");
 
 // 로그인 함수
 const login = async (req, res, next) => {
-  console.log(req.body, 123456);
+  console.log(req.body,1444)
   try {
     const data = await svc.login({ ...req.body });
-    if (data === 1) {
-      res.send(true);
+    
+
+    if (data) {
+      res.send({ data: data })
     } else {
       res.send(false);
     }

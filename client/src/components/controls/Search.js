@@ -6,8 +6,9 @@ const Search = styled('div')({
   display:'flex',
   borderRadius: 10,
   backgroundColor: COLOR.LIGHT_GRAY,
-  width: '70%',
-  paddingRight: 15
+  width: '80%',
+  paddingRight: 15,
+  margin: '0 auto'
 });
 
 const SearchIconWrapper = styled('div')({

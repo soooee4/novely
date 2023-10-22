@@ -11,6 +11,8 @@ import TextField from "@mui/material/TextField";
 // Button Component
 import Buttons from "components/controls/Button";
 
+import { postData } from "common/communication";
+
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "99%",
@@ -84,28 +86,33 @@ const LoginPopup = (props) => {
 	// console.log(id, 11);
 
 	const onLogin = () => {
-		axios
-			.post("http://localhost:8080/api/auth/login", {
-				login_id: id,
-				login_pw: pw,
-			})
-			.then(function (res) {
-				// console.log(res.data);
-				if (res.data === true) {
-					alert("로그인 성공");
-					localStorage.setItem("id", id);
-					props.closeModal(); 
-					props.isLogin();
-					// 성공을 했으니 아까 내려받은 props.isLogin 함수를 실행하면 Main.js의 isLogin값이 true로 바뀌겠죠
-					// localStorage.clear();				
-				} else {
-					alert("로그인 실패");
-				} 
-			}) 
-			.catch(function (error) {
-				console.log(error);
-			})
-	}
+		// axios
+		// 	.post("http://localhost:8080/api/auth/login", {
+		// 		login_id: id,
+		// 		login_pw: pw,
+		// 	})
+		// 	.then(function (res) {
+		// 		// console.log(res.data);
+		// 		if (res.data === true) {
+		// 			alert("로그인 성공");
+		// 			localStorage.setItem("id", id);
+		// 			props.closeModal(); 
+		// 			props.isLogin();
+		// 			// 성공을 했으니 아까 내려받은 props.isLogin 함수를 실행하면 Main.js의 isLogin값이 true로 바뀌겠죠
+		// 			// localStorage.clear();				
+		// 		} else {
+		// 			alert("로그인 실패");
+		// 		} 
+		// 	}) 
+		// 	.catch(function (error) {
+		// 		console.log(error);
+		// 	})
+		postData('auth/login', {
+			login_id: id,
+			login_pw: pw,
+		})  
+	}; 
+  
 
 	return (
 		<>

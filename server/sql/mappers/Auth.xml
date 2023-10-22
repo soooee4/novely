@@ -11,4 +11,13 @@
             AND login_pw = #{login_pw}
     </select>
 
+    <select id="getUserInfo">
+        SELECT
+            user_nickname,
+            user_reg_dv
+        FROM
+            t_user_mgt
+        WHERE
+            login_id = #{login_id}
+    </select>
 </mapper>
