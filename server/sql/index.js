@@ -1,7 +1,11 @@
 const mybatis = require("mybatis-mapper");
 
 // mappers 안에 있는 xml 파일들 목록
-mybatis.createMapper(["sql/mappers/Auth.xml","sql/mappers/Novel.xml"]);
+mybatis.createMapper([
+  "sql/mappers/Auth.xml",
+  "sql/mappers/Novel.xml",
+  "sql/mappers/Common.xml"
+]);
 
 const makeSql = (sqlId, params, nolog) => {
   const sqlIds = sqlId.split(".");

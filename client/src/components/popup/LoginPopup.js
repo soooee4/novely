@@ -94,6 +94,7 @@ const LoginPopup = (props) => {
         // console.log(data)
       data.id = id;
       localStorage.setItem("profile", JSON.stringify(data));
+      // localStorage.setItem("profile", data);
   
       window.location.reload();
     })

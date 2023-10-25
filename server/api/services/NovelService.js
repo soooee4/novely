@@ -13,13 +13,11 @@ const getNovel = async () => {
   // keyword_3 = keyword_3 === undefined ? null : keyword_3;
 
 	try {
-		// 서비스 이후에 가장 먼저 실행되는 곳은 try 안 쪽 
 		// try문 안이 정상적으로 먼저 실행되고 있는지 확인
 		// console.log(11111)
 		const data = await client.query(
 			mapper.makeSql(sqlId));
 
-		// 항상 콘솔로 확인 후에 리턴하기
 		// console.log(data,8888);  
     //  => 지금 여기서 콘솔을 찍었는데 콘솔에 이게 안나온다? 그럼 위에거가 제대로 실행되는지(트라이 문 안에가 실행이 되고있는건지, 만약 아래 catch문이 실행되는 건지 콘솔에서 확인)
 		return data;
@@ -89,8 +87,6 @@ const postNovel = async ({
         description
 			})
 		);
-
-		// 항상 콘솔로 확인 후에 리턴하기
 		// console.log(data);
 		return data;
 	} catch (err) {

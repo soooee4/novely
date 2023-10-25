@@ -26,7 +26,14 @@ const ModalPopup = (props) => {
 
 > 
       <DialogTitle>
-        <CloseIcon onClick={props.onClose} />
+        {/* CloseIcon을 눌렀을 때 join팝업일 경우 로컬 스토리지에 profile이 있으면 새로고침을 한다. */}
+        <CloseIcon 
+          // onClick={props.onClose} 
+          onClick={() => {
+            props.onClose();
+            props.popupState === "join" && localStorage.getItem("profile") && window.location.reload();
+          }}
+        />
       </DialogTitle>
       <DialogContent 
         sx={{ 

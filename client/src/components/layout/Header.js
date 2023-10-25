@@ -23,10 +23,11 @@ const Whole = styled(Box)({
 
 // 최상단 로고 감싸는 영역
 const LogoBox = styled(Box)({
-	width: 140,
+	// width: 140,
 	height: "100%",
-	paddingLeft: 30,
+	paddingLeft: '8%',
 	display: "flex",
+  // border: '2px solid red',
 });
 
 // 로고
@@ -35,11 +36,14 @@ const Logo = styled(Typography)({
 	fontSize: 27,
 	fontWeight: "bolder",
 	alignSelf: "center",
+  // marginLeft: '30%',
+
 });
 
 const MenuBar = styled(Box)({
 	flexGrow: 1,
-	marginLeft: "auto",
+  marginRight: '5%',
+  justifyContent: "flex-end",
 	display: "flex",
   // border:"2px solid blue"
 });
@@ -51,11 +55,12 @@ const WelcomeMsg = styled(Typography)({
   marginLeft:'auto',
 	fontWeight: "bolder",
 	alignSelf: "center",
+  marginRight: 10
 
 });
 
 const MenuBtnBox = styled(Box)({
-	minWidth: 450,
+	// minWidth: 450,
 	// marginLeft: "auto",
 	marginRight: 50,
 	display: "flex",
@@ -88,12 +93,13 @@ const Header = (props) => {
 			);
 		} else if (popup === "join") {
 			return <JoinPopup changeState={() => setPopup("profile")} />;
-		} else if (popup === "profile") {
-			return <ProfileAddPopup />;
-		}
+		} 
+    // else if (popup === "profile") {
+		// 	return <ProfileAddPopup />;
+		// }
 	};
 
-  console.log(props.profile,3894797)
+  // console.log(props.profile);
 
 	return (
 		<Whole>
@@ -101,13 +107,9 @@ const Header = (props) => {
 				<Logo variant="h1">NOVELY</Logo>
 			</LogoBox>
 			<MenuBar>
-        {/* {props.profile.user_reg_dv === 'G'
-        ? 
-          <WelcomeMsg>예비작가 {props.profile.user_nickname}님👋</WelcomeMsg>
-        } */}
         {props.profile && 
           <WelcomeMsg>
-            {props.profile.user_reg_dv === 'G' ? '예비작가' : '작가'} 
+            {props.profile.user_reg_dv === 'G' ? '예비작가' : '작가'}&nbsp;
             {props.profile.user_nickname}님 👋
           </WelcomeMsg>
         }
@@ -121,7 +123,7 @@ const Header = (props) => {
               color={"white"}
               width={83}
               showModal={() => setModal(true)}
-              changeState={props.changeState}
+              changeState={()=> setPopup("login")}
               // openLogin={props.openLogin}
               // openProfile={props.openProfile}
           />
@@ -180,11 +182,6 @@ const Header = (props) => {
                 name={LABEL.BUTTONS.FAVORITE_NOVEL}
                 margin={10}
               />
-              {/* <Buttons
-                type={CODE.BUTTON.BASIC}
-                name={LABEL.BUTTONS.FAVORITE_AUTHOR}
-                margin={10}
-              /> */}
               <Buttons
                 type={CODE.BUTTON.BASIC}
                 name={LABEL.BUTTONS.MY_INFO}
@@ -206,61 +203,6 @@ const Header = (props) => {
             </>
           }
 
-          
-						{/* // <>
-						// 	<Buttons
-						// 		type={CODE.BUTTON.BASIC}
-						// 		name={LABEL.BUTTONS.ALL_NOVEL}
-						// 		margin={10}
-						// 	/>
-						// 	<Buttons
-						// 		type={CODE.BUTTON.BASIC}
-						// 		name={LABEL.BUTTONS.FAVORITE_NOVEL}
-						// 		margin={10}
-						// 	/>
-						// 	<Buttons
-						// 		type={CODE.BUTTON.BASIC}
-						// 		name={LABEL.BUTTONS.FAVORITE_AUTHOR}
-						// 		margin={10}
-						// 	/>
-						// 	<Buttons
-						// 		type={CODE.BUTTON.BASIC}
-						// 		name={LABEL.BUTTONS.MY_INFO}
-						// 		margin={"10px 25px 10px 10px"}
-						// 	/>
-						// 	<Buttons
-						// 		type={CODE.BUTTON.BORDER}
-						// 		name={LABEL.BUTTONS.LOGOUT}
-						// 		backgroundColor={"black"}
-						// 		color={"white"}
-						// 		width={83}
-						// 		showModal={props.showModal}
-						// 		closeModal={props.closeModal}
-						// 		changeState={props.changeState}
-						// 		logout={props.logout}
-						// 		// openLogin={props.openLogin}
-						// 		// openProfile={props.openProfile}
-						// 	/>
-						// </>
-					 : 
-						<>
-							<Buttons
-								type={CODE.BUTTON.BASIC}
-								name={LABEL.BUTTONS.ALL_NOVEL}
-								margin={10}
-							/>
-							<Buttons
-								type={CODE.BUTTON.BORDER}
-								name={LABEL.BUTTONS.LOGIN}
-								backgroundColor={"black"}
-								color={"white"}
-								width={83}
-								showModal={props.showModal}
-								changeState={props.changeState}
-								// openLogin={props.openLogin}
-								// openProfile={props.openProfile}
-							/>
-						</> */}
 				</MenuBtnBox>
 			</MenuBar>
       <ModalPopup
@@ -268,6 +210,7 @@ const Header = (props) => {
 				width={600}
 				height={400}
 				onClose={() => setModal(false)}
+        popupState={popup}
 			>
 				{popupChange()}
 			</ModalPopup>

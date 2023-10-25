@@ -26,7 +26,8 @@ export const LABEL = {
         LATEST: '최신순',
         POPULAR: '인기순',
         GOTOWRITE: '이어쓰기',
-        MY_NOVEL: '내 작품'
+        MY_NOVEL: '내 작품',
+        JOIN_BTN: '회원가입'
 
     },
 

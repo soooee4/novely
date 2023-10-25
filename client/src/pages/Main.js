@@ -48,10 +48,11 @@ const MainBox = styled(Box)({
 // 검색창 하단 장르 태그 박스
 const TagBox = styled(Box)({
 	width: "80%",
-	border: "1px solid green",
+	// border: "2px solid green",
 	height: 25,
 	margin: "0 auto",
-  marginBottom: 10
+  marginBottom: 8,
+  marginTop: 5
 });
 
 // const ScrollContainer = styled(Box)({
@@ -82,6 +83,7 @@ const Main = () => {
 	const [isLogin, setIsLogin] = useState(
 		localStorage.getItem("id") ? true : false
 	);
+  const [genre,setGenre] = useState([]);
 
 	const closeModal = () => {
 		setModal(false);
@@ -113,6 +115,23 @@ const Main = () => {
 				console.log(err);
 			});
 	}, []);
+
+  // 장르 태그 조회 함수
+	useEffect(() => {
+    getData("common/genre")
+    .then((data) => {
+      // console.log(data,111000)
+      setGenre(data);
+      // console.log(data,190238)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+	}, []);
+  
+  // console.log(genre[1].color,123798)
+
+
 
 	const navigate = useNavigate();
 
@@ -152,12 +171,28 @@ const Main = () => {
 				{popupChange()}
 			</ModalPopup>
 			<SearchBar />
-			<TagBox />
+			<TagBox>
+       {/* 장르를 가져오는 API 생성하여 state 안에 배열로 넣어 반복문 통해 태그 버튼 형식으로 뿌리기 */}
+       {genre.map((list, i) => {
+        // const color = {list};
+        // console.log(color,3478)
+
+          return (
+            <Buttons
+              key={i}
+              type={CODE.BUTTON.TAG}
+              name={list.code_name}
+              backgroundColor={`#${list.color}`}
+            />
+          )
+       })}
+      </TagBox>
 			{/* <ScrollContainer> */}
 				<NovelCardBox>
-					{novelData.map((list) => {
+					{novelData.map((list, i) => {
 						return (
 							<NovelCard
+                key={i}
 								title={list.title}
 								genre_1={list.genre_1}
 								genre_2={list.genre_2}

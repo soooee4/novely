@@ -11,6 +11,30 @@
             AND login_pw = #{login_pw}
     </select>
 
+    <select id="isUser">
+        SELECT
+            login_id
+        FROM
+            t_user_mgt
+        WHERE
+            login_id = #{login_id}
+    </select>
+
+    <insert id="join">
+        INSERT INTO t_user_mgt 
+        (
+            login_id,
+            login_pw,
+            user_nickname
+        )
+        VALUES 
+        (
+            #{login_id},
+            #{login_pw},
+            #{user_nickname}
+        )
+    </insert>
+
     <select id="getUserInfo">
         SELECT
             user_nickname,
@@ -20,4 +44,6 @@
         WHERE
             login_id = #{login_id}
     </select>
+
+
 </mapper>

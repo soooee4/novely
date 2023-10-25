@@ -24,12 +24,12 @@ const BorderBtn = styled(Button)({
 
 // 태그 버튼
 const TagBtn = styled(Button)({
-    height: 4,
-    minWidth: 0,
+    height: 5,
+    // minWidth: ,
     borderRadius: 6,
     color: COLOR.BLACK,
-    padding: 7,
-    fontSize: 5,
+    padding: '7px 8px',
+    fontSize: 6,
     marginLeft: 5
 });
 

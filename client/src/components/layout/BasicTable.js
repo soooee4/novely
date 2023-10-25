@@ -7,21 +7,6 @@ import {
   Paper
 } from '@mui/material'
 
-// const createData = (제목, 작성자, 추천수) => {
-//   return {제목, 작성자, 추천수 };
-// }
-
-// const rows = [
-//   { title: '고애옹', created_user: 'userID', liked: 34 },
-//   { title: '고애옹', created_user: 'userID', liked: 34 },
-//   { title: '고애옹', created_user: 'userID', liked: 34 },
-//   { title: '고애옹', created_user: 'userID', liked: 34 },
-//   { title: '고애옹', created_user: 'userID', liked: 34 },
-//   { title: '고애옹', created_user: 'userID', liked: 34 },
-//   { title: '고애옹', created_user: 'userID', liked: 34 },
-//   { title: '고애옹', created_user: 'userID', liked: 34 },
-// ];
-
 const BasicTable = (props) => {
   // console.log(props)
   return (

@@ -19,10 +19,6 @@ const _getAlertType = (type) => {
 	return severity;
 };
 
-// 네네
-// 여긴 어차피 그렇게 중요한거 아니라 제가 좀 다 완성을 할게요
-// 나중에 코드보고 연습해보시길 바랍니다 오ㅓㅏㅆ읍니다 
-
 const ToastPopup = (props) => {
 	const severity = _getAlertType(props.type);
 

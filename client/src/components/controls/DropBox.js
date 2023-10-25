@@ -84,9 +84,9 @@ const Dropbox = (props) => {
           input={<OutlinedInput label="Name" />}
           MenuProps={MenuProps}
         >
-          {genre.map((name) => (
+          {genre.map((name, i) => (
             <MenuItem
-              key={name}
+              key={i}
               value={name}
               style={getStyles(name, selectedGenre, theme)}
             >

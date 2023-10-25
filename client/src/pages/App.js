@@ -13,7 +13,7 @@ import 'styles/App.css';
 const App = () => {
   
   const [profile, setProfile] = useState(localStorage.getItem("profile"));
-  console.log(profile,123798)
+  // console.log(profile,123798)
   
   const logout = () => {
     localStorage.removeItem("profile");
@@ -21,10 +21,12 @@ const App = () => {
   };
 
 
+
   return (
   	<>
 		<Header 
-      profile={profile}
+      // profile={profile}
+      profile={JSON.parse(profile)}
       logout={logout}
     /> 
 		<Router> 
