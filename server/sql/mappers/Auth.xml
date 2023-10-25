@@ -45,5 +45,14 @@
             login_id = #{login_id}
     </select>
 
+    <update id="editProfile">
+        UPDATE  
+	          t_user_mgt
+        SET
+	          user_nickname = #{user_nickname},
+            login_pw = #{login_pw}
+        WHERE
+            login_id = #{login_id}
+    </update>
 
 </mapper>

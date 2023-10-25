@@ -12,7 +12,8 @@ import { useEffect, useState } from "react";
 import ModalPopup from "components/popup/ModalPopup";
 import LoginPopup from "components/popup/LoginPopup";
 import JoinPopup from "components/popup/JoinPopup";
-import ProfileAddPopup from "components/popup/ProfileAddPopup";
+import EditProfilePopup from "components/popup/EditProfilePopup";
+// import ProfileAddPopup from "components/popup/ProfileAddPopup";
 
 const Whole = styled(Box)({
 	// width: '1vw',
@@ -92,14 +93,18 @@ const Header = (props) => {
 				/>
 			);
 		} else if (popup === "join") {
-			return <JoinPopup changeState={() => setPopup("profile")} />;
-		} 
-    // else if (popup === "profile") {
-		// 	return <ProfileAddPopup />;
-		// }
+			return <JoinPopup  />;
+		} else if (popup === "editProfile") {
+			return <EditProfilePopup />;
+		}
 	};
 
   // console.log(props.profile);
+
+  // const profile = JSON.parse(localStorage.getItem("profile"));
+
+  const nickname = props.profile && props.profile.user_nickname;
+  // console.log(nickname,3333)
 
 	return (
 		<Whole>
@@ -110,7 +115,7 @@ const Header = (props) => {
         {props.profile && 
           <WelcomeMsg>
             {props.profile.user_reg_dv === 'G' ? '예비작가' : '작가'}&nbsp;
-            {props.profile.user_nickname}님 👋
+            {nickname}님 👋
           </WelcomeMsg>
         }
 				<MenuBtnBox>
@@ -150,6 +155,8 @@ const Header = (props) => {
 								type={CODE.BUTTON.BASIC}
 								name={LABEL.BUTTONS.MY_INFO}
 								margin={"10px 25px 10px 10px"}
+                showModal={() => setModal(true)}
+                changeState={()=> setPopup("editProfile")}
 							/>
 							<Buttons
 								type={CODE.BUTTON.BORDER}
@@ -186,6 +193,9 @@ const Header = (props) => {
                 type={CODE.BUTTON.BASIC}
                 name={LABEL.BUTTONS.MY_INFO}
                 margin={"10px 25px 10px 10px"}
+                showModal={props.showModal}
+                closeModal={props.closeModal}
+                changeState={props.changeState}
               />
               <Buttons
                 type={CODE.BUTTON.BORDER}
@@ -211,6 +221,7 @@ const Header = (props) => {
 				height={400}
 				onClose={() => setModal(false)}
         popupState={popup}
+        // profile={props.profile}
 			>
 				{popupChange()}
 			</ModalPopup>

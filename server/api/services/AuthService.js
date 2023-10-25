@@ -68,12 +68,12 @@ const join = async ({ login_id, login_pw }) => {
 
       // 회원 등록
       const regditUser = await client.query(
-        mapper.makeSql(sqlId, { login_id, login_pw, nickname }));
+        mapper.makeSql(sqlId, { login_id, login_pw, user_nickname: nickname }));
  
       // 회원 등록이 성공할 경우 회원 정보 조회 및 컨트롤러로 회원 정보 전송
       if (regditUser.rowCount === 1) {
-        // console.log(login_id);
-        return login_id;
+        // console.log(login_id, nickname);
+        return { login_id, nickname };
       }
     }
 
@@ -84,9 +84,43 @@ const join = async ({ login_id, login_pw }) => {
   }
 };
 
+// 프로필 수정 함수
+const editProfile = async ({ user_nickname, login_pw, login_id }) => {
+	const client = await pool.connect();
+	let sqlId = "Auth.editProfile";
+	try {
+		const data = await client.query(
+			mapper.makeSql(sqlId, {
+        user_nickname,
+        login_pw,
+        login_id
+			})
+		);
+		// console.log(data.rowCount, 9999);
+		// return data.rowCount;
+    let userInfo = null;
+
+    // 정보 수정 성공하여 잘 들어갔을 경우(유저 정보를 리턴하여 클라이언트로 전송)
+    if (data.rowCount === 1) {
+      sqlId = "Auth.getUserInfo";        
+      userInfo = await client.query(mapper.makeSql(sqlId, { login_id }));  
+      // return userInfo.rows;
+      console.log(userInfo.rows,4545)
+    // 존재하지 않을 경우(false로 처리)
+    } else {
+      return false;
+    }
+	} catch (err) {
+		console.log(err);
+	} finally {
+		if (client) client.release();
+	}
+};
+
 
 
 module.exports = {
   login,
-  join
+  join,
+  editProfile
 };

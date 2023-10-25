@@ -79,6 +79,9 @@ const JoinPopup = (props) => {
 	};
 
 
+
+
+
 	// console.log(id, 11);
 
 	const onJoin = () => {
@@ -89,7 +92,7 @@ const JoinPopup = (props) => {
 			login_pw: pw,
 		})
     .then((data) => {
-        console.log(data,8888)
+        console.log(data,5555)
 
         if (typeof(data) === 'string') {
           alert('이미 가입된 정보입니다.')
@@ -97,6 +100,7 @@ const JoinPopup = (props) => {
           localStorage.setItem("profile", JSON.stringify(data));
           alert("회원가입 완료!")
           window.location.reload();
+     
           // props.changeState();
         }
       // data.id = id;
@@ -109,6 +113,8 @@ const JoinPopup = (props) => {
       console.log(err);
     })
 	};
+
+
   
 
 	return (

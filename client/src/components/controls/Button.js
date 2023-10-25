@@ -37,7 +37,10 @@ const Buttons = (props) => {
     if (props.type === CODE.BUTTON.BASIC) {
         return (
             <BasicBtn 
-              onClick={props.onClick}
+              onClick= {() => {
+                props.showModal && props.showModal();
+                props.changeState && props.changeState();
+              }}
               style={{
                 width: props.width,
                 height: props.height,

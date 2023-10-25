@@ -23,7 +23,7 @@ import ToastPopup from "components/popup/ToastPopup";
 import ModalPopup from "components/popup/ModalPopup";
 import LoginPopup from "components/popup/LoginPopup";
 import JoinPopup from "components/popup/JoinPopup";
-import ProfileAddPopup from "components/popup/ProfileAddPopup";
+// import ProfileAddPopup from "components/popup/ProfileAddPopup";
 
 // Constant
 import { CODE, LABEL, COLOR } from "common";
@@ -101,8 +101,8 @@ const Main = () => {
 			);
 		} else if (popup === "join") {
 			return <JoinPopup changeState={() => setPopup("profile")} />;
-		} else if (popup === "profile") {
-			return <ProfileAddPopup />;
+		// } else if (popup === "profile") {
+		// 	return <ProfileAddPopup />;
 		}
 	};
 
