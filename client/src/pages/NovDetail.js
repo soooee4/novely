@@ -123,7 +123,7 @@ import { getData } from "common/communication";
     })
 
 // 소설 상세보기 컴포넌트
-const NovDetail = (props) => {
+const NovDetail = () => {
   
   // Modal 팝업 상태, 팝업 내용 변경 State
   const [modal, setModal] = useState(false); 

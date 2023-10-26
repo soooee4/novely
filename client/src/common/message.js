@@ -9,6 +9,9 @@ export const MESSAGE = {
   // 에러 메세지
   ERROR: {
     EMAIL_INVALIDATION: '이메일을 확인해주세요.',
-    PW_INVALIDATION: '비밀번호는 5자 이상으로 입력해주세요.'
+    PW_INVALIDATION: '비밀번호는 5자 이상으로 입력해주세요.',
+    NICKNAME_INVALIDATION: '닉네임은 12자 이내로 설정해주세요.',
+    CONFIRM_NEW_PW: '비밀번호가 일치하지 않아요.'
+
   }
 }

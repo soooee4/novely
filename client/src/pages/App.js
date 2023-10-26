@@ -8,12 +8,13 @@ import pages from 'pages';
 import Header from 'components/layout/Header';
 
 import 'styles/App.css';
+import Test from "./Test";
 
 
 const App = () => {
   
   const [profile, setProfile] = useState(localStorage.getItem("profile"));
-  // console.log(profile,123798)
+  console.log(profile,123798)
   
   const logout = () => {
     localStorage.removeItem("profile");
@@ -21,12 +22,12 @@ const App = () => {
   };
 
 
-
   return (
   	<>
 		<Header 
       // profile={profile}
       profile={JSON.parse(profile)}
+      setProfile={setProfile}
       logout={logout}
     /> 
 		<Router> 

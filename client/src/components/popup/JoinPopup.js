@@ -38,36 +38,9 @@ const Text = styled(TextField)({
 
 
 const JoinPopup = (props) => {
-	const [id, setId] = useState("");
-	const [pw, setPw] = useState("");
-	const [idRegMsg, setIdRegMsg] = useState("");
-	const [pwRegMsg, setPwRegMsg] = useState("");
 
-	// const navigate = useNavigate();
-
-	//이메일 유효성 검사
-	const idValidation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-	//비밀번호 유효성검사 (5자 이상 필수)
-	const pwValidation = /^.{5,}$/;
-
-	// 유효성 검사 함수
-
-	const idValidate = () => {
-		if (!idValidation.test(id)) {
-			setIdRegMsg(MESSAGE.ERROR.EMAIL_INVALIDATION);
-		} else {
-			setIdRegMsg("");
-		}
-	};
-
-	const pwValidate = () => {
-		if (!pwValidation.test(pw)) {
-			setPwRegMsg(MESSAGE.ERROR.PW_INVALIDATION);
-		} else {
-			setPwRegMsg("");
-		}
-	};
+  console.log(props)
+  const { id, idRegMsg, idValidate, profile, pw, pwRegMsg, pwValidate, setId, setIdRegMsg, setProfile, setPw, setPwRegMsg  } = props;
 
 	// input값 입력
 	const inputId = (e) => {
@@ -78,11 +51,6 @@ const JoinPopup = (props) => {
 		setPw(e.target.value);
 	};
 
-
-
-
-
-	// console.log(id, 11);
 
 	const onJoin = () => {
 
@@ -97,25 +65,16 @@ const JoinPopup = (props) => {
         if (typeof(data) === 'string') {
           alert('이미 가입된 정보입니다.')
         } else if (typeof(data) === 'object') {
+          console.log(data,22)
           localStorage.setItem("profile", JSON.stringify(data));
           alert("회원가입 완료!")
           window.location.reload();
-     
-          // props.changeState();
         }
-      // data.id = id;
-      // localStorage.setItem("profile", JSON.stringify(data));
-      // localStorage.setItem("profile", data);
-  
-      // window.location.reload();
     })
     .catch((err) => {
       console.log(err);
     })
 	};
-
-
-  
 
 	return (
 		<>
@@ -127,7 +86,6 @@ const JoinPopup = (props) => {
 						id="fullWidth"
 						variant="standard"
 						placeholder="ID"
-						// 함수 호출할 때 파라미터 있을 경우에 화살표 함수 형태
 						onChange={inputId}
 						onBlur={idValidate}
 						value={id}

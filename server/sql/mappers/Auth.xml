@@ -38,7 +38,9 @@
     <select id="getUserInfo">
         SELECT
             user_nickname,
-            user_reg_dv
+            user_reg_dv,
+            login_pw,
+            login_id
         FROM
             t_user_mgt
         WHERE

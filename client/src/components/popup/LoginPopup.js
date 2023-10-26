@@ -42,37 +42,12 @@ const SighUpText = styled(Typography)({
 	marginLeft: 2,
 });
 
+
+//LoginPopup 컴포넌트 -----
 const LoginPopup = (props) => {
-	const [id, setId] = useState("");
-	const [pw, setPw] = useState("");
-	const [idRegMsg, setIdRegMsg] = useState("");
-	const [pwRegMsg, setPwRegMsg] = useState("");
+  // console.log(props);
+  const { changeState, closeModal, id, idRegMsg, idValidate, isLogin, pw, pwRegMsg, pwValidate, setId, setIdRegMsg, setPw, setPwRegMsg  } = props;
 
-	// const navigate = useNavigate();
-
-	//이메일 유효성 검사
-	const idValidation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-	//비밀번호 유효성검사 (5자 이상 필수)
-	const pwValidation = /^.{5,}$/;
-
-	// 유효성 검사 함수
-
-	const idValidate = () => {
-		if (!idValidation.test(id)) {
-			setIdRegMsg(MESSAGE.ERROR.EMAIL_INVALIDATION);
-		} else {
-			setIdRegMsg("");
-		}
-	};
-
-	const pwValidate = () => {
-		if (!pwValidation.test(pw)) {
-			setPwRegMsg(MESSAGE.ERROR.PW_INVALIDATION);
-		} else {
-			setPwRegMsg("");
-		}
-	};
 
 	// input값 입력
 	const inputId = (e) => {
@@ -86,29 +61,37 @@ const LoginPopup = (props) => {
 	// console.log(id, 11);
 
 	const onLogin = () => {
-		postData('auth/login', {
+		// console.log(props,33)
+
+		postData("auth/login", {
 			login_id: id,
 			login_pw: pw,
 		})
-    .then((data) => {
-        // console.log(data)
-      data.id = id;
-      localStorage.setItem("profile", JSON.stringify(data));
-      // localStorage.setItem("profile", data);
-  
-      window.location.reload();
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+			.then((data) => {
+				// console.log(data,999)
+				// data.id = id;
+				localStorage.setItem(
+					"profile",
+					JSON.stringify({
+						user_nickname: data.user_nickname,
+						user_reg_dv: data.user_reg_dv,
+            login_id: data.login_id
+					})
+				);
+				// console.log(data,10004);
+				// localStorage.setItem("profile", data);
+
+				window.location.reload();
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
-  
 
 	return (
 		<>
 			<Wrapper>
 				<LoginBox>
-         
 					<Text
 						fullWidth
 						id="fullWidth"
@@ -116,7 +99,8 @@ const LoginPopup = (props) => {
 						placeholder="ID"
 						// 함수 호출할 때 파라미터 있을 경우에 화살표 함수 형태
 						onChange={inputId}
-						onBlur={idValidate}
+						// onBlur={idValidate}
+            onBlur={idValidate}
 						value={id}
 						helperText={idRegMsg !== "" ? idRegMsg : ""}
 					/>
@@ -128,11 +112,11 @@ const LoginPopup = (props) => {
 						onChange={inputPw}
 						onBlur={pwValidate}
 						value={pw}
+            helperText={pwRegMsg !== "" ? pwRegMsg : ""}
 						type="password"
 						sx={{
 							marginBottom: 5,
 						}}
-						helperText={pwRegMsg !== "" ? pwRegMsg : ""}
 					/>
 					<Buttons
 						type={CODE.BUTTON.BORDER}
@@ -144,7 +128,6 @@ const LoginPopup = (props) => {
 						padding="3px"
 						fontSize="20px"
 						onSubmit={onLogin}
-    
 					/>
 					<Box
 						sx={{
@@ -159,7 +142,7 @@ const LoginPopup = (props) => {
 							color={COLOR.BLACK}
 							fontSize="8px"
 							fontWeight="bolder"
-							onClick={props.changeState}
+							changeState={changeState}
 							margin="5px 0 0 0"
 						/>
 					</Box>

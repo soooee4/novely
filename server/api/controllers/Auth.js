@@ -30,7 +30,7 @@ const join = async (req, res, next) => {
 
     // 아래 if문은 조건에 따라 서버로 값을 보내는 로직
     if (data) {
-      console.log(data,2222)
+      // console.log(data,2222)
       // res.send({ id: data });
       res.send(data);
     } else {
@@ -49,12 +49,9 @@ const editProfile = async (req, res, next) => {
 	try {
     // console.log(req.body,111);
 		const data = await svc.editProfile({ ...req.body });
-    console.log(data,222);
-		if (data) {
-  
-      // console.log(true,52)
-			res.send(data);
-		} 
+    // console.log(data,222);
+    res.send(data);
+    console.log(data,54)
 	} catch (err) {
 		console.log(err);
 	}
