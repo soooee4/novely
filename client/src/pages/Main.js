@@ -105,8 +105,11 @@ const Main = () => {
 		// 	return <ProfileAddPopup />;
 		}
 	};
-
+  
 	useEffect(() => {
+
+    console.log(getData("novel/getNovel"))
+
 		getData("novel/getNovel")
 			.then((data) => {
 				setNovelData(data);

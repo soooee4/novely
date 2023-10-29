@@ -11,6 +11,7 @@ const getNovel = async (req, res, next) => {
     // console.log(data,8888);
     if (data.rowCount !== 0) {
       res.send(data.rows);
+      // console.log(data.rows[3].genre_1, 14)
     } 
   } catch (err) {
     console.log(err);

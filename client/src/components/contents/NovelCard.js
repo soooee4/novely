@@ -1,10 +1,16 @@
 import { Box,  styled, Typography } from "@mui/material";
 
+import { useEffect, useState } from "react";
+
+
 import Buttons from "components/controls/Button";
 
 import Icons from "components/controls/IconRef";
 
 import { CODE, LABEL, COLOR } from "common";
+
+import { getData } from "common/communication";
+
 
 const Whole = styled(Box)({
 	width: 211,
@@ -90,6 +96,37 @@ const TagBox = styled(Box)({
 
 
 const NovelCard = (props) => {
+
+  // 장르 태그 조회 함수
+	useEffect(() => {
+    getData("novel/getNovel")
+    .then((data) => {
+    // console.log(typeof(data))
+
+    const tagData = data.map((list) => {
+      return {
+      genre_1: list.genre_1,
+      genre_2: list.genre_2,
+      keyword_1: list.keyword_1,
+      keyword_2: list.keyword_2,
+      keyword_3: list.keyword_3
+    }});
+    // console.log(tagData,29929)
+      // setGenre(data);
+      // console.log(data,190238)
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  });
+	
+
+
+
+
+
+
+  
 	return (
 		<Whole onClick={props.onClick}>
 			<Cover></Cover>
@@ -136,18 +173,6 @@ const NovelCard = (props) => {
 						backgroundColor={"coral"}
 					/>}
 				</TagBox>
-				{/* <InfoItemBox>
-        <Icons
-            type={CODE.ICON.SEARCH}
-          />
-          <Buttons
-            type={CODE.BUTTON.BASIC}
-            name={LABEL.BUTTONS.VIEWNOVEL}
-            height={10}
-            margin={'5px 0 0 -12px'}
-          / >
-     
-        </InfoItemBox> */}
 			</InfoBox>
 		</Whole>
 	);

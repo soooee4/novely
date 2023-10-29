@@ -6,6 +6,7 @@ export const getData = async (url, params) => {
     .get(`http://localhost:8080/api/${url}`, {
       params: params,
     })
+    console.log(response)
 
     if (response.data) {
       return response.data;

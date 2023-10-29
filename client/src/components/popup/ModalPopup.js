@@ -22,30 +22,30 @@ const ModalPopup = (props) => {
   });
   return ( 
     <ThemeProvider theme={theme}>
-    <Dialog 
-      open={open} 
-      PaperProps={{style:{maxWidth:'100%'}}}
+      <Dialog 
+        open={open} 
+        PaperProps={{style:{maxWidth:'100%'}}}
 
-> 
-      <DialogTitle>
-        {/* CloseIcon을 눌렀을 때 join팝업일 경우 로컬 스토리지에 profile이 있으면 새로고침을 한다. */}
-        <CloseIcon 
-          // onClick={onClose} 
-          onClick={() => {
-            onClose();
-            popupState === "join" && localStorage.getItem("profile") && window.location.reload();
+  > 
+        <DialogTitle>
+          {/* CloseIcon을 눌렀을 때 join팝업일 경우 로컬 스토리지에 profile이 있으면 새로고침을 한다. */}
+          <CloseIcon 
+            // onClick={onClose} 
+            onClick={() => {
+              onClose();
+              popupState === "join" && localStorage.getItem("profile") && window.location.reload();
+            }}
+          />
+        </DialogTitle>
+        <DialogContent 
+          sx={{ 
+            width: width, 
+            height: height 
           }}
-        />
-      </DialogTitle>
-      <DialogContent 
-        sx={{ 
-          width: width, 
-          height: height 
-        }}
-      >
-        {children}
-      </DialogContent>
-    </Dialog>
+        >
+          {children}
+        </DialogContent>
+      </Dialog>
     </ThemeProvider>
   )
 };

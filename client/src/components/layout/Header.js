@@ -80,7 +80,7 @@ const Header = (props) => {
 	const [modal, setModal] = useState(false);
 	const [popup, setPopup] = useState("login");
 	const [isLogin, setIsLogin] = useState(
-		localStorage.getItem("id") ? true : false
+		localStorage.getItem("profile") ? true : false
 	);
 
 	// 아이디, 비밀번호 유효성 검사 -----

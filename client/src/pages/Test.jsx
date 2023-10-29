@@ -26,3 +26,16 @@
 
 // // 상태업데이트 setState => 비동기 동작이므로
 // // 하나의 동작에서 일어나는 상태변화를 모아놨다가 일괄처리를 함
+
+// useEffect(()=>{
+//   console.log('async/await')
+//   async function get() {
+//     try{
+//     const data = await getData("novel/getNovel");
+//     setNovelData(data)
+//     } catch (err){
+//       console.log(err)
+//     }
+//   }
+//   get()
+// },[])
