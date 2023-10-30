@@ -129,13 +129,17 @@ const editProfile = async ({ user_nickname, current_pw, new_pw, login_id }) => {
 			);
 			// console.log(data,33434)
       
-			// 프로필 수정 성공 시 수정된 사용자 정보 재조회 후 리턴
+			// 프로필 수정 성공 시 사용자가 입력한 닉네임 리턴
+      // 프로필 수정 실패 경우와 타입으로 비교하기 위해 객체 형태로 전송
 			if (data.rowCount === 1) {
-				sqlId = "Auth.getUserInfo";
-				userInfo = await client.query(mapper.makeSql(sqlId, { login_id }));
+        return { user_nickname : user_nickname }; 
+				// sqlId = "Auth.getUserInfo";
+				// userInfo = await client.query(mapper.makeSql(sqlId, { login_id }));
 				// console.log(userInfo.rows[0].user_nickname,8989);
-				return userInfo.rows[0].user_nickname;
-			}
+				// return userInfo.rows[0].user_nickname;
+			} else if (data.rowCount === 0) {
+        return '프로필 수정 실패 :('
+      }
 		}
 	} catch (err) {
 		console.log(err);

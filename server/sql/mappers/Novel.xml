@@ -3,19 +3,44 @@
 <mapper namespace="Novel">
     <select id="getNovel">
         SELECT
-            novel_seqno,
-            title,
-            content,
-            like_count,
-            created_user,
-            genre_1,
-            genre_2,
-            keyword_1,
-            keyword_2,
-            keyword_3,
+            tnm.novel_seqno,
+            tnm.title,
+            tnm.content,
+            tnm.like_count,
+            tnm.created_user,
+            tcm.code_name as genre_1,
+            tcm2.code_name as genre_2,
+            tcm3.code_name as keyword_1,
+            tcm4.code_name as keyword_2,
+            tcm5.code_name as keyword_3,
+            tcm6.color as genre_1_color,
+            tcm7.color as genre_2_color,
+            tcm8.color as keyword_1_color,
+            tcm9.color as keyword_2_color,
+            tcm10.color as keyword_3_color,
             description
         FROM
-            t_novel_mgt
+            t_novel_mgt tnm 
+        LEFT JOIN t_code_mgt tcm
+          ON tnm.genre_1 = tcm.code
+        LEFT JOIN t_code_mgt tcm2
+          ON tnm.genre_2 = tcm2.code
+        LEFT JOIN t_code_mgt tcm3
+          ON tnm.keyword_1 = tcm3.code
+        LEFT JOIN t_code_mgt tcm4
+          ON tnm.keyword_2 = tcm4.code
+        LEFT JOIN t_code_mgt tcm5
+          ON tnm.keyword_3 = tcm5.code
+        LEFT JOIN t_code_mgt tcm6
+          ON tnm.genre_1 = tcm6.code
+        LEFT JOIN t_code_mgt tcm7
+          ON tnm.genre_2 = tcm7.code
+        LEFT JOIN t_code_mgt tcm8
+          ON tnm.keyword_1 = tcm8.code
+        LEFT JOIN t_code_mgt tcm9
+          ON tnm.keyword_2 = tcm9.code
+        LEFT JOIN t_code_mgt tcm10
+          ON tnm.keyword_3 = tcm10.code
         ORDER BY
             novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
     </select>

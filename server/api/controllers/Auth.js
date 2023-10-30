@@ -2,6 +2,7 @@ const { Router } = require("express");
 const router = Router();
 
 const svc = require("../services/AuthService");
+const { parsingFormData } = require("../../common/util");
 
 // 로그인 함수
 const login = async (req, res, next) => {
@@ -44,25 +45,24 @@ const join = async (req, res, next) => {
 
 // 프로필 수정 함수
 const editProfile = async (req, res, next) => {
-	// 클라이언트에서 데이터 요청 잘 들어오는지 먼저 확인 후 try문 실행
-	// console.log(req.body,333);
 	try {
-    // console.log(req.body,111);
-		const data = await svc.editProfile({ ...req.body });
-    // console.log(data,222);
-    res.send(data);
-    console.log(data,54)
+    console.log(req.body)
+
+		// const data = await svc.editProfile({ ...req.body });
+    // res.send(data);
+
 	} catch (err) {
-		console.log(err);
+		console.log(err); 
 	}
 };
 
-
-
-
+// 로그인
 router.post("/login", login);
-router.post("/join", join);
-router.patch("/editProfile", editProfile);
 
+// 회원가입
+router.post("/join", join); 
+
+// 회원 정보 수정
+router.patch("/editProfile", parsingFormData, editProfile);
 
 module.exports = router;

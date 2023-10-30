@@ -202,6 +202,11 @@ const Main = () => {
 								keyword_1={list.keyword_1}
 								keyword_2={list.keyword_2}
 								keyword_3={list.keyword_3}
+                genre_1_color={list.genre_1_color}
+								genre_2_color={list.genre_2_color}
+								keyword_1_color={list.keyword_1_color}
+								keyword_2_color={list.keyword_2_color}
+								keyword_3_color={list.keyword_3_color}
 								description={list.description}
 								like_count={list.like_count}
 								onClick={() => goToDetail(list)}

@@ -101,16 +101,20 @@ const NovelCard = (props) => {
 	useEffect(() => {
     getData("novel/getNovel")
     .then((data) => {
-    // console.log(typeof(data))
 
-    const tagData = data.map((list) => {
-      return {
-      genre_1: list.genre_1,
-      genre_2: list.genre_2,
-      keyword_1: list.keyword_1,
-      keyword_2: list.keyword_2,
-      keyword_3: list.keyword_3
-    }});
+    // const tagData = data.map((list) => {
+    //   return {
+    //   genre_1: list.genre_1,
+    //   genre_2: list.genre_2,
+    //   keyword_1: list.keyword_1,
+    //   keyword_2: list.keyword_2,
+    //   keyword_3: list.keyword_3,
+    //   genre_1_color: list.genre_1_color,
+    //   genre_2_color: list.genre_2_color,
+    //   keyword_1_color: list.keyword_1_color,
+    //   keyword_2_color: list.keyword_2_color,
+    //   keyword_3_color: list.keyword_3_color
+    // }});
     // console.log(tagData,29929)
       // setGenre(data);
       // console.log(data,190238)
@@ -147,30 +151,30 @@ const NovelCard = (props) => {
 					<Buttons
 						type={CODE.BUTTON.TAG}
 						name={props.genre_1}
-						backgroundColor={"orange"}
+						backgroundColor={`#${props.genre_1_color}`}
 					/>
           {props.genre_2 && 
 					<Buttons
 						type={CODE.BUTTON.TAG}
 						name={props.genre_2}
-						backgroundColor={"skyBlue"}
+						backgroundColor={`#${props.genre_2_color}`}
 					/>}
 					<Buttons
 						type={CODE.BUTTON.TAG}
 						name={props.keyword_1}
-						backgroundColor={"yellow"}
+						backgroundColor={`#${props.keyword_1_color}`}
 					/>
           {props.keyword_2 && 
 					<Buttons
 						type={CODE.BUTTON.TAG}
 						name={props.keyword_2}
-						backgroundColor={"grey"}
+						backgroundColor={`#${props.keyword_2_color}`}
 					/>}
           {props.keyword_3 && 
 					<Buttons
 						type={CODE.BUTTON.TAG}
 						name={props.keyword_3}
-						backgroundColor={"coral"}
+						backgroundColor={`#${props.keyword_3_color}`}
 					/>}
 				</TagBox>
 			</InfoBox>

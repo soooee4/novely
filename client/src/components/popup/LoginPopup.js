@@ -13,6 +13,8 @@ import Buttons from "components/controls/Button";
 
 import { postData } from "common/communication";
 
+import { idValidation, pwValidation } from "common/util";
+
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "99%",
@@ -46,7 +48,13 @@ const SighUpText = styled(Typography)({
 //LoginPopup 컴포넌트 -----
 const LoginPopup = (props) => {
   // console.log(props);
-  const { changeState, closeModal, id, idRegMsg, idValidate, isLogin, pw, pwRegMsg, pwValidate, setId, setIdRegMsg, setPw, setPwRegMsg  } = props;
+  const { changeState, closeModal, idValidate, isLogin, pwValidate } = props;
+
+  // 아이디, 비밀번호 유효성 검사
+  const [id, setId] = useState("");
+	const [pw, setPw] = useState("");
+	const [idRegMsg, setIdRegMsg] = useState("");
+	const [pwRegMsg, setPwRegMsg] = useState("");
 
 
 	// input값 입력
@@ -58,7 +66,13 @@ const LoginPopup = (props) => {
 		setPw(e.target.value);
 	};
 
-	// console.log(id, 11);
+  const validation = (type) => {
+     if (type === "id") {
+      setIdRegMsg(idValidation(id));
+    } else if (type === "pw") {
+      setPwRegMsg(pwValidation(pw));
+    }
+  };
 
 	const onLogin = () => {
 		// console.log(props,33)
@@ -100,9 +114,9 @@ const LoginPopup = (props) => {
 						// 함수 호출할 때 파라미터 있을 경우에 화살표 함수 형태
 						onChange={inputId}
 						// onBlur={idValidate}
-            onBlur={idValidate}
+            onBlur={() => validation('id')}
 						value={id}
-						helperText={idRegMsg !== "" ? idRegMsg : ""}
+						helperText={idRegMsg}
 					/>
 					<Text
 						fullWidth
@@ -110,9 +124,9 @@ const LoginPopup = (props) => {
 						variant="standard"
 						placeholder="PW"
 						onChange={inputPw}
-						onBlur={pwValidate}
+						onBlur={() => validation('pw')}
 						value={pw}
-            helperText={pwRegMsg !== "" ? pwRegMsg : ""}
+            helperText={pwRegMsg}
 						type="password"
 						sx={{
 							marginBottom: 5,
