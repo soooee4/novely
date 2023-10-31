@@ -23,6 +23,7 @@ import { CODE, LABEL, COLOR, MESSAGE } from "common";
 import ModalPopup from "components/popup/ModalPopup";
 import ViewNovPopup from "components/popup/ViewNovPopup";
 import WriteNovPopup from "components/popup/WriteNovPopup";
+import AuthorDetailPopup from "components/popup/AuthorDetailPopup";
 
 import { getData } from "common/communication";
 
@@ -134,6 +135,8 @@ const NovDetail = () => {
 			return <ViewNovPopup changeState={() => setPopup("writeNov")} />;
 		} else if (popup === "writeNov") {
 			return <WriteNovPopup />;
+		} else if (popup === "authorDetail") {
+			return <AuthorDetailPopup  />;
 		}
 	};
 
@@ -205,11 +208,14 @@ const NovDetail = () => {
 				description={novel.description}
 				like_count={novel.like_count}
 				showModal={showModal}
+        setPopup={() => setPopup("authorDetail")}
 				main_author_id={novel.main_author_id}
 				sub_author_id={novel.sub_author_id}
 				sub_novel_data={mainNovelData}
 				main_novel_data={mainNovelData}
         complete_seqno={novel.complete_seqno}
+        // changeState={() => setPopup("AuthorDetail")}
+        // changeState={changeState()}
 				//!닉네임으로 변경 필요
 			/>
 			<NovDetailBox>
@@ -263,8 +269,8 @@ const NovDetail = () => {
 			{/* 모달 팝업 영역 */}
 			<ModalPopup
 				open={modal}
-				width={"85vw"}
-				height={"90vw"}
+				width={600}
+				height={400}
 				onClose={() => setModal(false)}
 			>
 				{popupChange()}

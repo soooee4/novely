@@ -23,7 +23,7 @@ import ToastPopup from "components/popup/ToastPopup";
 import ModalPopup from "components/popup/ModalPopup";
 import LoginPopup from "components/popup/LoginPopup";
 import JoinPopup from "components/popup/JoinPopup";
-import AuthorDetailPopup from "components/popup/AuthorDetailPopup";
+
 // import ProfileAddPopup from "components/popup/ProfileAddPopup";
 
 // Constant
@@ -102,15 +102,11 @@ const Main = () => {
 			);
 		} else if (popup === "join") {
 			return <JoinPopup changeState={() => setPopup("profile")} />;
-		} else if (popup === "AuthorDetail") {
-			return <AuthorDetailPopup changeState={() => setPopup("AuthorDetail")} />;
-		}
+		} 
 	};
   
+
 	useEffect(() => {
-
-    // console.log(getData("novel/getNovel"))
-
 		getData("novel/getNovel")
 			.then((data) => {
 				setNovelData(data);

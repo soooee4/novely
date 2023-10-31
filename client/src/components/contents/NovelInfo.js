@@ -1,4 +1,4 @@
-import { Box,  styled, Typography } from "@mui/material";
+import { Box,  Button,  styled, Typography } from "@mui/material";
 
 import Buttons from "components/controls/Button";
 
@@ -61,7 +61,7 @@ const Title = styled(Typography)({
 });
 
 // 작가 이름 텍스트
-const Author = styled(Typography)({
+const Author = styled(Button)({
 	fontSize: 14,
 });
 
@@ -88,8 +88,8 @@ const NovelViewBox = styled(Box)({
 });
 
 const NovelInfo = (props) => {
-  // console.log(props.complete_seqno,9191);
-
+ console.log(props,91919191)
+  
 
   return (
     <Whole>
@@ -98,7 +98,19 @@ const NovelInfo = (props) => {
           <Title>{props.title}</Title>
         </TitleBox>
         <AuthorBox>
-          <Author>By.{props.main_author_id}</Author>
+          <Author 
+            // changeState={props.changeState}
+            // onClick= {() => {
+            //   props.showModal();
+            //   props.changeState();
+            // }}
+            onClick={props.showModal}
+            setPopup={props.setPopup}
+            type={CODE.BUTTON.BASIC}
+            name='고애옹작가'
+            margin={10}
+          />
+
           <Author>By.{props.sub_author_id}</Author>
         </AuthorBox>
         <DescriptionBox>
