@@ -4,7 +4,8 @@ import Buttons from "components/controls/Button";
 
 import Icons from "components/controls/IconRef";
 
-import { CODE, LABEL, COLOR } from "common";
+import { CODE, LABEL, COLOR, MESSAGE } from "common";
+import { useState } from "react";
 
 // 전체 영역
 const Whole = styled(Box)({
@@ -18,7 +19,7 @@ const Whole = styled(Box)({
 
 // 좌측 소개글 및 이미지 영역
 const InfoBox = styled(Box)({
-	width: '65%',
+	width: '70%',
 	height: '100%',
 	display: "flex",
 	flexDirection: "column",
@@ -30,12 +31,14 @@ const DateBox = styled(Box)({
 	height: '100%',
 	display: "flex",
 	flexDirection: "column",
+  
 });
 
 // 소설 제목 영역
 const TitleBox = styled(Box)({
   width: '100%',
   minHeight: 30,
+  marginBottom: 5
 })
 
 // 작가 이름 영역
@@ -47,23 +50,24 @@ const AuthorBox = styled(Box)({
 // 소설 소개 영역
 const DescriptionBox = styled(Box)({
 	flexGrow: 1,
-  marginTop: 10
+  marginTop: 12,
+  marginBottom: 15
 })
 
 // 제목 텍스트
 const Title = styled(Typography)({
-	fontSize: 18,
+	fontSize: 23,
   fontWeight: 800
 });
 
 // 작가 이름 텍스트
 const Author = styled(Typography)({
-	fontSize: 12,
+	fontSize: 14,
 });
 
-// 작가 소개 텍스트
+// 소설 소개 텍스트
 const Description = styled(Typography)({
-	fontSize: 10,
+	fontSize: 13,
 	color: COLOR.GRAY,
 });
 
@@ -81,14 +85,12 @@ const NovelViewBox = styled(Box)({
 	display: "flex",
   width: 70,
   marginLeft: 'auto',
-  // border: `2px solid red`,
-  
 });
 
-
 const NovelInfo = (props) => {
-  // console.log(props.description,123)
-  // console.log(props)
+  // console.log(props.complete_seqno,9191);
+
+
   return (
     <Whole>
       <InfoBox>
@@ -96,14 +98,22 @@ const NovelInfo = (props) => {
           <Title>{props.title}</Title>
         </TitleBox>
         <AuthorBox>
-          <Author>By.고애옹 작가 추후 변경</Author>
+          <Author>By.{props.main_author_id}</Author>
+          <Author>By.{props.sub_author_id}</Author>
         </AuthorBox>
         <DescriptionBox>
           <Description>{props.description}</Description>
         </DescriptionBox>
       </InfoBox>
+      
       <DateBox>
-        <DateInfo>마감이 7일 남았어요!</DateInfo>
+        {        
+          props.complete_seqno ?
+          <DateInfo>{MESSAGE.DDAY_COMPLETE}</DateInfo>
+          :
+          // !추후 실제 날짜 계산해서 넣어놓기
+          <DateInfo>마감이 3일 남았어요</DateInfo>
+        }
         <NovelViewBox
           onClick={props.showModal}        
         >

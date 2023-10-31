@@ -15,23 +15,17 @@ import JoinPopup from "components/popup/JoinPopup";
 import EditProfilePopup from "components/popup/EditProfilePopup";
 // import ProfileAddPopup from "components/popup/ProfileAddPopup";
 
-
-// 스타일링 -----
-
+// 전체 영역
 const Whole = styled(Box)({
-	// width: '1vw',
 	height: 70,
-	// border: '2px solid red',
 	display: "flex",
 });
 
 // 최상단 로고 감싸는 영역
 const LogoBox = styled(Box)({
-	// width: 140,
 	height: "100%",
 	paddingLeft: "8%",
 	display: "flex",
-	// border: '2px solid red',
 });
 
 // 로고
@@ -40,40 +34,37 @@ const Logo = styled(Typography)({
 	fontSize: 27,
 	fontWeight: "bolder",
 	alignSelf: "center",
-	// marginLeft: '30%',
 });
 
+// 로고 제외 전체 영역
 const MenuBar = styled(Box)({
 	flexGrow: 1,
 	marginRight: "5%",
 	justifyContent: "flex-end",
 	display: "flex",
-	// border:"2px solid blue"
 });
 
+// 닉네임 포함 환영문구 영역
 const WelcomeMsg = styled(Typography)({
 	color: "black",
 	fontSize: 15,
-	// border:"2px solid blue",
 	marginLeft: "auto",
 	fontWeight: "bolder",
 	alignSelf: "center",
-	marginRight: 10,
+	marginRight: 10
 });
 
+// 메뉴 버튼 영역
 const MenuBtnBox = styled(Box)({
-	// minWidth: 450,
-	// marginLeft: "auto",
 	marginRight: 50,
 	display: "flex",
 	justifyContent: "flex-end",
 	alignItems: "center",
-	// border:"2px solid red"
+	border:"2px solid red"
 });
 
 
 const Header = (props) => {
-	// console.log(props);
 	// 구조 분해 할당 이용하여 props 분해
 	const { profile, logout, setProfile } = props;
 
@@ -82,37 +73,38 @@ const Header = (props) => {
 	const [isLogin, setIsLogin] = useState(
 		localStorage.getItem("profile") ? true : false
 	);
+  const nickname = profile && profile.user_nickname;
 
-	// 아이디, 비밀번호 유효성 검사 -----
-	const [id, setId] = useState("");
-	const [pw, setPw] = useState("");
-	const [idRegMsg, setIdRegMsg] = useState("");
-	const [pwRegMsg, setPwRegMsg] = useState("");
+	// // 아이디, 비밀번호 유효성 검사
+	// const [id, setId] = useState("");
+	// const [pw, setPw] = useState("");
+	// const [idRegMsg, setIdRegMsg] = useState("");
+	// const [pwRegMsg, setPwRegMsg] = useState("");
 
-	// const navigate = useNavigate();
+	// // const navigate = useNavigate();
 
-	//이메일 유효성 검사
-	const idValidation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+	// //이메일 유효성 검사
+	// const idValidation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-	//비밀번호 유효성검사 (5자 이상 필수)
-	const pwValidation = /^.{5,}$/;
+	// //비밀번호 유효성검사 (5자 이상 필수)
+	// const pwValidation = /^.{5,}$/;
 
-	// 아이디 유효성 검사 함수
-	const idValidate = () => {
-		if (!idValidation.test(id)) {
-			setIdRegMsg(MESSAGE.ERROR.EMAIL_INVALIDATION);
-		} else {
-			setIdRegMsg("");
-		}
-	};
-	// 비밀번호 유효성 검사 함수
-	const pwValidate = (e) => {
-		if (!pwValidation.test(e.target.value)) {
-			setPwRegMsg(MESSAGE.ERROR.PW_INVALIDATION);
-		} else {
-			setPwRegMsg("");
-		}
-	};
+	// // 아이디 유효성 검사 함수
+	// const idValidate = () => {
+	// 	if (!idValidation.test(id)) {
+	// 		setIdRegMsg(MESSAGE.ERROR.EMAIL_INVALIDATION);
+	// 	} else {
+	// 		setIdRegMsg("");
+	// 	}
+	// };
+	// // 비밀번호 유효성 검사 함수
+	// const pwValidate = (e) => {
+	// 	if (!pwValidation.test(e.target.value)) {
+	// 		setPwRegMsg(MESSAGE.ERROR.PW_INVALIDATION);
+	// 	} else {
+	// 		setPwRegMsg("");
+	// 	}
+	// };
 
 	// 모달창 닫는 함수 -----
 	const closeModal = () => {
@@ -127,16 +119,6 @@ const Header = (props) => {
 					changeState={() => setPopup("join")}
 					closeModal={closeModal}
 					isLogin={() => setIsLogin(true)}
-					idRegMsg={idRegMsg}
-					setIdRegMsg={setIdRegMsg}
-					pwRegMsg={pwRegMsg}
-					setPwRegMsg={setPwRegMsg}
-					idValidate={idValidate}
-					pwValidate={pwValidate}
-          id={id}
-          setId={setId}
-          pw={pw}
-          setPw={setPw}
 				/>
 			);
 		} else if (popup === "join") {
@@ -144,16 +126,6 @@ const Header = (props) => {
       <JoinPopup 
         profile={profile}
         setProfile={setProfile}
-        idRegMsg={idRegMsg}
-        setIdRegMsg={setIdRegMsg}
-        pwRegMsg={pwRegMsg}
-        setPwRegMsg={setPwRegMsg}
-        idValidate={idValidate}
-        pwValidate={pwValidate}
-        id={id}
-        setId={setId}
-        pw={pw}
-        setPw={setPw}
       />
       );
 		} else if (popup === "editProfile") {
@@ -162,27 +134,11 @@ const Header = (props) => {
 					profile={profile}
 					setProfile={setProfile}
 					closeModal={closeModal}
-          idRegMsg={idRegMsg}
-					setIdRegMsg={setIdRegMsg}
-					pwRegMsg={pwRegMsg}
-					setPwRegMsg={setPwRegMsg}
-					idValidate={idValidate}
-					pwValidate={pwValidate}
-          id={id}
-          setId={setId}
-          pw={pw}
-          setPw={setPw}
 				/>
 			);
 		}
 	};
 
-	// console.log(profile);
-
-	// const profile = JSON.parse(localStorage.getItem("profile"));
-
-	const nickname = profile && profile.user_nickname;
-	// console.log(nickname,3333)
 
 	return (
 		<Whole>

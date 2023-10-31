@@ -10,10 +10,12 @@ const login = async (req, res, next) => {
     const data = await svc.login({ ...req.body });
 
     if (data) {
+      console.log(data,1010)
       res.send(data[0]);
 
     } else {
-      res.send(false);
+
+      res.send('로그인 정보가 일치하지 않습니다.');
     }
   } catch (err) {
     console.log(err);

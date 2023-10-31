@@ -47,7 +47,7 @@ const SighUpText = styled(Typography)({
 
 //LoginPopup 컴포넌트 -----
 const LoginPopup = (props) => {
-  // console.log(props);
+  
   const { changeState, closeModal, idValidate, isLogin, pwValidate } = props;
 
   // 아이디, 비밀번호 유효성 검사
@@ -75,27 +75,24 @@ const LoginPopup = (props) => {
   };
 
 	const onLogin = () => {
-		// console.log(props,33)
 
 		postData("auth/login", {
 			login_id: id,
 			login_pw: pw,
 		})
 			.then((data) => {
-				// console.log(data,999)
-				// data.id = id;
-				localStorage.setItem(
+        if(typeof(data) === 'object') {
+          localStorage.setItem(
 					"profile",
 					JSON.stringify({
 						user_nickname: data.user_nickname,
 						user_reg_dv: data.user_reg_dv,
             login_id: data.login_id
-					})
-				);
-				// console.log(data,10004);
-				// localStorage.setItem("profile", data);
-
-				window.location.reload();
+          }))
+          window.location.reload();
+        } else if (typeof(data) === 'string') {
+          alert(data);
+        }
 			})
 			.catch((err) => {
 				console.log(err);

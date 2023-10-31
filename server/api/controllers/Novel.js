@@ -3,7 +3,7 @@ const router = Router();
 
 const svc = require("../services/NovelService");
 
-// 소설 조회 함수
+// 완성 소설 조회 함수
 const getNovel = async (req, res, next) => {
   // console.log(req.query, 123456);
   try {
@@ -17,6 +17,22 @@ const getNovel = async (req, res, next) => {
     console.log(err);
   }
 };
+
+// 메인 소설 조회 함수
+const getMainNovel = async (req, res, next) => {
+  // console.log(req.query, 123456);
+  try {
+    const data = await svc.getMainNovel({ ...req.query });
+    // console.log(data,8888);
+    if (data.rowCount !== 0) {
+      res.send(data.rows);
+      // console.log(data.rows[3].genre_1, 14)
+    } 
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 
 // 서브 소설 조회 함수
 const getSubNovel = async (req, res, next) => {
@@ -48,9 +64,15 @@ const postNovel = async (req, res, next) => {
 };
 
 /**
- * 소설 조회
+ * 완성 소설 조회
  */
 router.get("/getNovel", getNovel);
+
+/**
+ * 메인 소설 조회
+ */
+router.get("/getMainNovel", getMainNovel);
+
 
 /**
  * 서브 소설 조회

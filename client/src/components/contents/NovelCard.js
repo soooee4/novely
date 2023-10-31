@@ -7,15 +7,15 @@ import Buttons from "components/controls/Button";
 
 import Icons from "components/controls/IconRef";
 
-import { CODE, LABEL, COLOR } from "common";
+import { CODE, COLOR } from "common";
 
 import { getData } from "common/communication";
 
-
+// 카드 컴포넌트 전체 영역
 const Whole = styled(Box)({
 	width: 211,
 	borderRadius: 15,
-	// border: "2px solid blue",
+
 	display: "flex",
 	flexDirection: "column",
   marginRight: 20,
@@ -27,48 +27,54 @@ const Whole = styled(Box)({
   }
 });
 
-
+// 소설 커버 이미지 영역
 const Cover = styled(Box)({
 	width: "100%",
 	minHeight: 290,
 	borderRadius: 15,
 	backgroundColor: COLOR.PURPLE,
-  marginBottom: 9
+  marginBottom: 9,
+
 });
 
+// 소설 설명 영역 (제목, 한줄소개, 태그, 좋아요)
 const InfoBox = styled(Box)({
 	flex: "1",
-	// border: "2px solid red",
 	display: "flex",
 	flexDirection: "column",
+
 });
 
+// 제목, 한줄소개, 좋아요 영역
 const InfoItemBox = styled(Box)({
 	flex: "1",
-	// border: "1px solid red",
 	display: "flex",
 	paddingLeft: 5,
+
 });
 
+// 제목 영역
 const TitleBox = styled(Box)({
-	// border: "1px solid green",
 	width: "80%",
+
 });
 
+// 좋아요 영역
 const LikedBox = styled(Box)({
-	// border: "1px solid blue",
 	flex: "1",
 	display: "flex",
 });
 
+// 소설 제목
 const Title = styled(Typography)({
 	fontSize: 15,
 	paddingTop: 2,
   whiteSpace: 'noWrap',
   overflow: 'hidden',
-  textOverflow: 'ellipsis'
+  textOverflow: 'ellipsis',
 });
 
+// 좋아요 수
 const CountLike = styled(Typography)({
 	fontSize: 11,
 	display: 'flex',
@@ -76,68 +82,42 @@ const CountLike = styled(Typography)({
   marginRight: 2
 });
 
+// 소설 한줄소개
 const Description = styled(Typography)({
 	fontSize: 11,
 	color: COLOR.GRAY,
   whiteSpace: 'noWrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
-  // border: '1px solid black',
   height: 15
 });
 
+// 태그 영역
 const TagBox = styled(Box)({
-  // border: '1px solid black',
   marginTop: 3,
-  // backgroundColor: "grey"
   minHeight: 60
 })
-
 
 
 const NovelCard = (props) => {
 
   // 장르 태그 조회 함수
-	useEffect(() => {
-    getData("novel/getNovel")
-    .then((data) => {
-
-    // const tagData = data.map((list) => {
-    //   return {
-    //   genre_1: list.genre_1,
-    //   genre_2: list.genre_2,
-    //   keyword_1: list.keyword_1,
-    //   keyword_2: list.keyword_2,
-    //   keyword_3: list.keyword_3,
-    //   genre_1_color: list.genre_1_color,
-    //   genre_2_color: list.genre_2_color,
-    //   keyword_1_color: list.keyword_1_color,
-    //   keyword_2_color: list.keyword_2_color,
-    //   keyword_3_color: list.keyword_3_color
-    // }});
-    // console.log(tagData,29929)
-      // setGenre(data);
-      // console.log(data,190238)
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  });
+	// useEffect(() => {
+  //   getData("novel/getNovel")
+  //   .then((data) => {
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   })
+  // });
 	
-
-
-
-
-
-
-  
 	return (
 		<Whole onClick={props.onClick}>
 			<Cover></Cover>
 			<InfoBox>
 				<InfoItemBox>
 					<TitleBox>           
-						<Title>{props.title}</Title>
+						<Title>{props.complete_novel_title}</Title>
 					</TitleBox>
 					<LikedBox>
 						<CountLike>{props.like_count}</CountLike>

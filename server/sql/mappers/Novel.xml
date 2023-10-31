@@ -3,11 +3,15 @@
 <mapper namespace="Novel">
     <select id="getNovel">
         SELECT
-            tnm.novel_seqno,
-            tnm.title,
-            tnm.content,
-            tnm.like_count,
-            tnm.created_user,
+            tcnm.complete_seqno,
+            tcnm.complete_novel_title,
+            tcnm.complete_novel_content,
+            tcnm.like_count,
+            tcnm.main_seqno,
+            tcnm.sub_seqno,
+            tcnm.main_author_id,
+            tcnm.sub_author_id,
+            tcnm.created_date,
             tcm.code_name as genre_1,
             tcm2.code_name as genre_2,
             tcm3.code_name as keyword_1,
@@ -18,31 +22,31 @@
             tcm8.color as keyword_1_color,
             tcm9.color as keyword_2_color,
             tcm10.color as keyword_3_color,
-            description
+            tcnm.description 
         FROM
-            t_novel_mgt tnm 
+          t_complete_novel_mgt tcnm
         LEFT JOIN t_code_mgt tcm
-          ON tnm.genre_1 = tcm.code
+          ON tcnm.genre_1 = tcm.code
         LEFT JOIN t_code_mgt tcm2
-          ON tnm.genre_2 = tcm2.code
+          ON tcnm.genre_2 = tcm2.code
         LEFT JOIN t_code_mgt tcm3
-          ON tnm.keyword_1 = tcm3.code
+          ON tcnm.keyword_1 = tcm3.code
         LEFT JOIN t_code_mgt tcm4
-          ON tnm.keyword_2 = tcm4.code
+          ON tcnm.keyword_2 = tcm4.code
         LEFT JOIN t_code_mgt tcm5
-          ON tnm.keyword_3 = tcm5.code
+          ON tcnm.keyword_3 = tcm5.code
         LEFT JOIN t_code_mgt tcm6
-          ON tnm.genre_1 = tcm6.code
+          ON tcnm.genre_1 = tcm6.code
         LEFT JOIN t_code_mgt tcm7
-          ON tnm.genre_2 = tcm7.code
+          ON tcnm.genre_2 = tcm7.code
         LEFT JOIN t_code_mgt tcm8
-          ON tnm.keyword_1 = tcm8.code
+          ON tcnm.keyword_1 = tcm8.code
         LEFT JOIN t_code_mgt tcm9
-          ON tnm.keyword_2 = tcm9.code
+          ON tcnm.keyword_2 = tcm9.code
         LEFT JOIN t_code_mgt tcm10
-          ON tnm.keyword_3 = tcm10.code
+          ON tcnm.keyword_3 = tcm10.code
         ORDER BY
-            novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
+            complete_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
     </select>
 
     <select id="getSubNovel">
@@ -50,13 +54,29 @@
             sub_novel_seqno,
             sub_title,
             sub_content,
-            sub_like_count
+            sub_like_count,
+            main_novel_seqno
         FROM
             t_sub_novel_mgt
         WHERE
             main_novel_seqno = #{main_novel_seqno} 
         ORDER BY
             sub_novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
+    </select>
+
+    <select id="getMainNovel">
+        SELECT
+            title,
+            content,
+            created_user,
+            created_date,
+            main_description,
+            novel_seqno,
+            complete_yn
+        FROM
+            t_novel_mgt
+        ORDER BY
+            novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
     </select>
 
     <insert id="postNovel">

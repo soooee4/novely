@@ -23,7 +23,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     padding: theme.spacing(1, 2, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(1)})`,
   },
-    flexGrow: 1,
+  flexGrow: 1,
 }));
 
 const SearchBar = (props) => {

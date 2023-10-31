@@ -5,14 +5,14 @@ import { LABEL } from 'common';
 
 const Inputs = (props) => {
   return (
-      <TextField 
-        id={props.id}
-        label={props.label} 
-        variant= {LABEL.INPUT.STANDARD}
-        helperText={props.helperText}
-        defaultValue={props.defaultValue}
-        inputProps={props.InputProps}
-        />
+    <TextField 
+      id={props.id}
+      label={props.label} 
+      variant= {LABEL.INPUT.STANDARD}
+      helperText={props.helperText}
+      defaultValue={props.defaultValue}
+      inputProps={props.InputProps}
+    />
   );
 }
 

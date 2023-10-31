@@ -18,7 +18,7 @@ const login = async ({ login_id, login_pw }) => {
 
 		// user 정보를 담을 변수
 		let userInfo = null;
-
+    
 		// 로그인 시 입력했던 id, pw가 db상에 존재할 경우(유저 정보를 리턴하여 클라이언트로 전송)
 		if (isLogin.rowCount === 1) {
 			sqlId = "Auth.getUserInfo";

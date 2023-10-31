@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTheme, OutlinedInput, InputLabel, MenuItem, FormControl, Select } from '@mui/material';
 
-import { COLOR, LABEL, MESSAGE } from 'common';
+import { LABEL } from 'common';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -14,19 +14,6 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
-
 const getStyles = (name, personName, theme) => {
   return {
     fontWeight:
@@ -36,19 +23,11 @@ const getStyles = (name, personName, theme) => {
   };
 }
 
-
-
-const Dropbox = (props) => {
+const Dropbox = () => {
   const propsGenreList = [
     { label: '판타지', value: 'fantasy' },
     { label: '호러', value: 'horror' }
   ];
-
-  // useEffect(() => {
-    
-  // }, []);
-
-  
 
   const theme = useTheme();
   const [genre, setGenre] = useState([]);

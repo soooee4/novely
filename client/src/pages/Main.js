@@ -23,6 +23,7 @@ import ToastPopup from "components/popup/ToastPopup";
 import ModalPopup from "components/popup/ModalPopup";
 import LoginPopup from "components/popup/LoginPopup";
 import JoinPopup from "components/popup/JoinPopup";
+import AuthorDetailPopup from "components/popup/AuthorDetailPopup";
 // import ProfileAddPopup from "components/popup/ProfileAddPopup";
 
 // Constant
@@ -101,14 +102,14 @@ const Main = () => {
 			);
 		} else if (popup === "join") {
 			return <JoinPopup changeState={() => setPopup("profile")} />;
-		// } else if (popup === "profile") {
-		// 	return <ProfileAddPopup />;
+		} else if (popup === "AuthorDetail") {
+			return <AuthorDetailPopup changeState={() => setPopup("AuthorDetail")} />;
 		}
 	};
   
 	useEffect(() => {
 
-    console.log(getData("novel/getNovel"))
+    // console.log(getData("novel/getNovel"))
 
 		getData("novel/getNovel")
 			.then((data) => {
@@ -132,7 +133,7 @@ const Main = () => {
     });
 	}, []);
   
-  // console.log(genre[1].color,123798)
+  console.log(novelData,135135)
 
 
 
@@ -144,7 +145,11 @@ const Main = () => {
 			setModal(true);
 		} else {
 			// 로그인 상태
+      // 소설 상세 페이지에 props 넘겨줌
+      // react-router-dom 라이브러리의 navigate 사용하여 페이지 이동 시 props를 넘겨주는 방법
+      // navigate(url, { state: { props: 넘길데이터 } }
 			navigate("/novel-detail", { state: { props: novel } });
+      
 		}
 	};
 
@@ -192,11 +197,11 @@ const Main = () => {
       </TagBox>
 			{/* <ScrollContainer> */}
 				<NovelCardBox>
-					{novelData.map((list, i) => {
+					{novelData.map((list) => {
 						return (
 							<NovelCard
-                key={i}
-								title={list.title}
+                key={list.complete_seqno}
+								complete_novel_title={list.complete_novel_title}
 								genre_1={list.genre_1}
 								genre_2={list.genre_2}
 								keyword_1={list.keyword_1}
@@ -209,10 +214,8 @@ const Main = () => {
 								keyword_3_color={list.keyword_3_color}
 								description={list.description}
 								like_count={list.like_count}
+                created_date={list.created_date}
 								onClick={() => goToDetail(list)}
-								// onClick={() =>
-								// 	navigate("/novel-detail", { state: { props: list } })
-								// }
 							/>
 						);
 					})}

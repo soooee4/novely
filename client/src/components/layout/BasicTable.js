@@ -8,7 +8,6 @@ import {
 } from '@mui/material'
 
 const BasicTable = (props) => {
-  // console.log(props)
   return (
     <TableContainer 
       component={Paper} 
