@@ -7,19 +7,15 @@ const Wrapper = styled(Box)({
 	display: "flex",
 	justifyContent: "center",
 	alignItems: "center",
-  backgroundColor: "syeBlue"
+	backgroundColor: "syeBlue",
 });
 
-
 const AuthorDetailPopup = () => {
-
-  return (
-    <>
-      <Wrapper>
-        
-      </Wrapper>
-    </>
-  )
-}
+	return (
+		<>
+			<Wrapper></Wrapper>
+		</>
+	);
+};
 
 export default AuthorDetailPopup;

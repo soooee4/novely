@@ -136,12 +136,12 @@ const NovDetail = () => {
 		} else if (popup === "writeNov") {
 			return <WriteNovPopup />;
 		} else if (popup === "authorDetail") {
-			return <AuthorDetailPopup  />;
+			return <AuthorDetailPopup />;
 		}
 	};
 
 	// 메인 페이지에서 넘겨받은 클릭한 소설의 상세 정보
-  // navigate 메서드로 넘긴 props를 받는 방법
+	// navigate 메서드로 넘긴 props를 받는 방법
 	const location = useLocation();
 	const novel = location.state.props;
 
@@ -174,23 +174,23 @@ const NovDetail = () => {
 	// }, []);
 
 	// console.log(mainNovelData,179179)
-//   useEffect(() => {
-// 	const dDay = () => {
-// 		const subSeqno = [];
-// 		const mainSeqno = [];
-// 		subNovelData.map((list) => {
-// 			subSeqno.push(list.main_novel_seqno);
-// 		});
-// 		mainNovelData.map((list) => {
-// 			mainSeqno.push(list.novel_seqno);
-// 		});
+	//   useEffect(() => {
+	// 	const dDay = () => {
+	// 		const subSeqno = [];
+	// 		const mainSeqno = [];
+	// 		subNovelData.map((list) => {
+	// 			subSeqno.push(list.main_novel_seqno);
+	// 		});
+	// 		mainNovelData.map((list) => {
+	// 			mainSeqno.push(list.novel_seqno);
+	// 		});
 
-//     if(subSeqno === mainSeqno) {
-//       console.log('일치하는 소설')
-//     }
-// 	}
-//   dDay();
-// }, []);
+	//     if(subSeqno === mainSeqno) {
+	//       console.log('일치하는 소설')
+	//     }
+	// 	}
+	//   dDay();
+	// }, []);
 
 	return (
 		<Wrapper>
@@ -208,14 +208,14 @@ const NovDetail = () => {
 				description={novel.description}
 				like_count={novel.like_count}
 				showModal={showModal}
-        setPopup={() => setPopup("authorDetail")}
+				setPopup={() => setPopup("authorDetail")}
 				main_author_id={novel.main_author_id}
 				sub_author_id={novel.sub_author_id}
 				sub_novel_data={mainNovelData}
 				main_novel_data={mainNovelData}
-        complete_seqno={novel.complete_seqno}
-        // changeState={() => setPopup("AuthorDetail")}
-        // changeState={changeState()}
+				complete_seqno={novel.complete_seqno}
+				// changeState={() => setPopup("AuthorDetail")}
+				// changeState={changeState()}
 				//!닉네임으로 변경 필요
 			/>
 			<NovDetailBox>
