@@ -1,6 +1,8 @@
 import { Box, styled, Typography } from "@mui/material";
 
 import { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
+
 
 import Buttons from "components/controls/Button";
 
@@ -9,6 +11,7 @@ import Icons from "components/controls/IconRef";
 import { CODE, COLOR } from "common";
 
 import { getData } from "common/communication";
+import ButtonSkeleton from "components/controls/ButtonSkeleton";
 
 // 카드 컴포넌트 전체 영역
 const Whole = styled(Box)({
@@ -33,6 +36,7 @@ const Cover = styled(Box)({
 	borderRadius: 15,
 	backgroundColor: COLOR.PURPLE,
 	marginBottom: 9,
+  overflow:"hidden"
 });
 
 // 소설 설명 영역 (제목, 한줄소개, 태그, 좋아요)
@@ -93,66 +97,33 @@ const TagBox = styled(Box)({
 	minHeight: 60,
 });
 
-const NovelCard = (props) => {
+const NovelCardSkeleton = (props) => {
 
 	return (
-		<Whole onClick={props.onClick}>
-			<Cover></Cover>
+		<Whole >
+			<Cover>
+        <Skeleton height={"100%"} style={{display:'block'}}/>
+      </Cover>
 			<InfoBox>
 				<InfoItemBox>
 					<TitleBox>
-						<Title>{props.title}</Title>
+						<Title style={{width:"200px"}}>
+              <Skeleton width={200}/>
+            </Title>
 					</TitleBox>
-					{props.like_count && (
-						<LikedBox>
-							<CountLike>{props.like_count}</CountLike>
-							<Icons type={CODE.ICON.FILLHEART} />
-						</LikedBox>
-					)}
+						
 				</InfoItemBox>
 				<InfoItemBox>
-					<Description>{props.description}</Description>
+					<Description>
+            <Skeleton width={200}/>
+          </Description>
 				</InfoItemBox>
-				{props.genre_1 && (
 					<TagBox>
-						<Buttons
-							type={CODE.BUTTON.TAG}
-							name={props.genre_1}
-							backgroundColor={`#${props.genre_1_color}`}
-						/>
-						{props.genre_2 && (
-							<Buttons
-								type={CODE.BUTTON.TAG}
-								name={props.genre_2}
-								backgroundColor={`#${props.genre_2_color}`}
-							/>
-						)}
-						<Buttons
-							type={CODE.BUTTON.TAG}
-							name={props.keyword_1}
-							backgroundColor={`#${props.keyword_1_color}`}
-						/>
-						{props.keyword_2 && (
-							<Buttons
-								type={CODE.BUTTON.TAG}
-								name={props.keyword_2}
-								backgroundColor={`#${props.keyword_2_color}`}
-							/>
-						)}
-						{props.keyword_3 && (
-							<Buttons
-								type={CODE.BUTTON.TAG}
-								name={props.keyword_3}
-								backgroundColor={`#${props.keyword_3_color}`}
-							>
-                
-              </Buttons>
-						)}
+          <ButtonSkeleton type={CODE.BUTTON.TAG} />
 					</TagBox>
-				)}
 			</InfoBox>
 		</Whole>
 	);
 };
 
-export default NovelCard;
+export default NovelCardSkeleton;

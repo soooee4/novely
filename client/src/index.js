@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import pages from "pages";
 
 import 'styles/index.css';
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

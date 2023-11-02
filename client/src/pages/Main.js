@@ -34,6 +34,7 @@ import axios from "axios";
 import { getData } from "common/communication";
 
 import NovDetail from "./NovDetail";
+import NovelCardSkeleton from "components/contents/NovelCardSkeleton";
 
 // 헤더 제외 영역
 const MainBox = styled(Box)({
@@ -80,6 +81,7 @@ const Main = () => {
 		localStorage.getItem("id") ? true : false
 	);
 	const [genre, setGenre] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
 	const closeModal = () => {
 		setModal(false);
@@ -103,6 +105,9 @@ const Main = () => {
 		getData("novel/getNovel")
 			.then((data) => {
 				setNovelData(data);
+        setTimeout(()=>{
+          setIsLoading(true)
+        },1000)
 			})
 			.catch((err) => {
 				console.log(err);
@@ -114,6 +119,10 @@ const Main = () => {
 		getData("common/genre")
 			.then((data) => {
 				setGenre(data);
+        setTimeout(()=>{
+          setIsLoading(true)
+        },1000)
+
 			})
 			.catch((err) => {
 				console.log(err);
@@ -163,7 +172,9 @@ const Main = () => {
 			</TagBox>
 			{/* <ScrollContainer> */}
 			<NovelCardBox>
-				{novelData &&
+        <>
+        {isLoading ? <><NovelCardSkeleton/><NovelCardSkeleton/><NovelCardSkeleton/></> :
+				novelData &&
         novelData.map((list) => {
 					return (
 						<NovelCard
@@ -186,6 +197,7 @@ const Main = () => {
 						/>
 					);
 				})}
+        </>
 			</NovelCardBox>
 			{/* </ScrollContainer> */}
 			<ModalPopup
