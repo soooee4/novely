@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Box, styled } from "@mui/material";
 
@@ -36,7 +37,7 @@ const AuthorDetailPopup = (props) => {
 	useEffect(() => {
 		getData("novel/getAuthorNovel", { created_user: props.authorId })
 			.then(function (data) {
-        // console.log(data,3939)
+
 				setAuthorNovelData(data);
 			})
 			.catch((err) => {
@@ -44,6 +45,13 @@ const AuthorDetailPopup = (props) => {
 			});
 	}, []);
 
+  // console.log(props.authorId,4444488888)
+
+	const navigate = useNavigate();
+
+	const goToDetail = (novel) => {
+			navigate("/novel-detail", { state: { props: novel } });
+		};
 
 	return (
 		<>
@@ -58,9 +66,10 @@ const AuthorDetailPopup = (props) => {
 							<NovelCard
 								key={list.novel_seqno}
 								title={list.title}
-								description={list.main_description}
+								description={list.description}
 								created_date={list.created_date}
 								created_user={list.created_user}
+                onClick={() => goToDetail(list)}
 							/>
 						);
 					})}
@@ -68,6 +77,6 @@ const AuthorDetailPopup = (props) => {
 			</Wrapper>
 		</>
 	);
-};
+}
 
 export default AuthorDetailPopup;

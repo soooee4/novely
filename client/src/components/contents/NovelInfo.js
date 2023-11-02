@@ -92,6 +92,8 @@ const NovelViewBox = styled(Box)({
 
 // 소설 축약 정보(소설 상세보기 컴포넌트의 헤더)
 const NovelInfo = (props) => {
+  
+  // console.log(props.main_author_nickname,180180)
 
 	return (
 		<Whole>
@@ -100,27 +102,41 @@ const NovelInfo = (props) => {
 					<Title>{props.title}</Title>
 				</TitleBox>
 				<AuthorBox>
-					<Author
-						onClick={() => {
-							props.showModal();
-							props.novelInfoState("authorDetail");
-							props.setAuthorId(props.main_author_id);
-							props.setAuthorNickName(props.main_author_nickname);
-
-						}}
-					>
-						By.{props.main_author_nickname}
-					</Author>
-					<Author
-						onClick={() => {
-							props.showModal();
-							props.novelInfoState("authorDetail");
-              props.setAuthorId(props.sub_author_id);
-							props.setAuthorNickName(props.sub_author_nickname);
-						}}
-					>
-						By.{props.sub_author_nickname}
-					</Author>
+          {props.main_author_id ?
+          <> 
+            <Author
+              onClick={() => {
+                props.showModal();
+                props.novelInfoState("authorDetail");
+                props.setAuthorId(props.main_author_id);
+                props.setAuthorNickName(props.main_author_nickname);
+              }}
+            >
+              By.{props.main_author_nickname}
+            </Author>
+            <Author
+              onClick={() => {
+                props.showModal();
+                props.novelInfoState("authorDetail");
+                props.setAuthorId(props.sub_author_id);
+                props.setAuthorNickName(props.sub_author_nickname);
+              }}
+            >
+              By.{props.sub_author_nickname}
+            </Author>
+          </>
+          :
+          <Author
+            onClick={() => {
+              props.showModal();
+              props.novelInfoState("authorDetail");
+              props.setAuthorId(props.created_user)
+              props.setAuthorNickName(props.author_nickname);
+          }}
+        >
+          By.{props.created_user}
+        </Author>
+        }
 				</AuthorBox>
 				<DescriptionBox>
 					<Description>{props.description}</Description>

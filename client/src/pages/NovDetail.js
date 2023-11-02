@@ -177,20 +177,29 @@ const NovDetail = () => {
 		}
 	};
 
+console.log(authorId,1989898)
+
 	return (
 		<Wrapper>
 			{/* 소설 정보 헤더 영역 */}
 			<NovelInfo
+        // 소설 공통 프로퍼티
+        description={novel.description}
+        // 완성 소설 프로퍼티
 				complete_seqno={novel.complete_seqno}
-				title={novel.complete_novel_title}
+        title={novel.complete_novel_title ? novel.complete_novel_title : novel.title}
+				// title={novel.complete_novel_title}
 				main_author_id={novel.main_author_id}
 				sub_author_id={novel.sub_author_id}
 				main_author_nickname={novel.main_author_nickname}
 				sub_author_nickname={novel.sub_author_nickname}
-				description={novel.description}
 				like_count={novel.like_count}
+        // 미완성 소설 프로퍼티
+        created_date={novel.created_date}
+        created_user={novel.created_user}
 				showModal={showModal}
 				novelInfoState={novelInfoState}
+				// setAuthorId={(id) => setAuthorId(id)}
 				setAuthorId={(id) => setAuthorId(id)}
 				setAuthorNickName={(nickName) => setAuthorNickName(nickName)}
 			/>

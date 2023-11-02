@@ -79,7 +79,7 @@
           tnm.content,
           tnm.created_user,
           tnm.created_date,
-          tnm.main_description,
+          tnm.description,
           tnm.novel_seqno,
           tnm.complete_yn,
           tum.user_nickname
@@ -108,7 +108,7 @@
           tnm.content,
           tnm.created_user,
           tnm.created_date,
-          tnm.main_description,
+          tnm.description,
           tnm.novel_seqno,
           tnm.complete_yn,
           tum.user_nickname
