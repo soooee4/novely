@@ -120,35 +120,16 @@ const FilterBox = styled(Box)({
 
 // 소설 상세보기 컴포넌트
 const NovDetail = () => {
-	// Modal 팝업 상태, 팝업 내용 변경 State
+	/** STATE 정의
+	 * modal: Modal 팝업 상태
+	 * popup:  팝업 내용 변경
+	 * author: 소설 정보 헤더에서 클릭한 작가 구분 Flag(메인 / 서브 / 미완성 소설 작성자)
+	 */
 	const [modal, setModal] = useState(false);
 	const [popup, setPopup] = useState("viewNov");
-
-	// Modal OPEN/CLOSE
-	const showModal = () => {
-		setModal(true);
-	};
-
-	// 팝업 상태값 변경
-	const popupChange = () => {
-		if (popup === "viewNov") {
-			return <ViewNovPopup changeState={() => setPopup("writeNov")} />;
-		} else if (popup === "writeNov") {
-			return <WriteNovPopup />;
-		} else if (popup === "authorDetail") {
-			return <AuthorDetailPopup />;
-		}
-	};
-
-	// 메인 페이지에서 넘겨받은 클릭한 소설의 상세 정보
-	// navigate 메서드로 넘긴 props를 받는 방법
-	const location = useLocation();
-	const novel = location.state.props;
-
-	// 서브 소설 가져오기
-
+	const [authorId, setAuthorId] = useState("");
+	const [authorNickName, setAuthorNickName] = useState("");
 	const [subNovelData, setSubNovelData] = useState([]);
-	const [mainNovelData, setMainNovelData] = useState([]);
 
 	// 서브 소설 가져오기
 	useEffect(() => {
@@ -161,63 +142,60 @@ const NovDetail = () => {
 			});
 	}, []);
 
-	// 메인 소설 가져오기
-	// useEffect(() => {
-	// 	getData("novel/getMainNovel")
-	// 		.then(function (data) {
-	// 			// console.log(data, 158158);
-	// 			setMainNovelData(data);
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err);
-	// 		});
-	// }, []);
+  // console.log(subNovelData,145145)
 
-	// console.log(mainNovelData,179179)
-	//   useEffect(() => {
-	// 	const dDay = () => {
-	// 		const subSeqno = [];
-	// 		const mainSeqno = [];
-	// 		subNovelData.map((list) => {
-	// 			subSeqno.push(list.main_novel_seqno);
-	// 		});
-	// 		mainNovelData.map((list) => {
-	// 			mainSeqno.push(list.novel_seqno);
-	// 		});
+	// 함수 설명 꼭 써넣어주세요
+	const novelInfoState = (type) => {
+		setPopup(type);
+	};
 
-	//     if(subSeqno === mainSeqno) {
-	//       console.log('일치하는 소설')
-	//     }
-	// 	}
-	//   dDay();
-	// }, []);
+	// 메인 페이지에서 넘겨받은 클릭한 소설의 상세 정보
+	// navigate 메서드로 넘긴 props를 받는 방법
+	const location = useLocation();
+	const novel = location.state.props;
+
+	// Modal OPEN/CLOSE
+	const showModal = () => {
+		setModal(true);
+	};
+	// 팝업 상태값 변경
+	const popupChange = () => {
+		if (popup === "viewNov") {
+			return <ViewNovPopup 
+        changeState={() => setPopup("writeNov")}
+        complete_seqno={novel.complete_seqno}
+      />;
+		} else if (popup === "writeNov") {
+			return <WriteNovPopup />;
+		} else if (popup === "authorDetail") {
+			return (
+				<AuthorDetailPopup
+					authorId={authorId}
+					authorNickName={authorNickName}
+				/>
+			);
+		}
+	};
 
 	return (
 		<Wrapper>
-			{/* <Header
-				showModal={showModal}
-				changeState={() => setPopup("login")}
-				logout={logout}
-				isLogin={isLogin}
-				// 함수를 만들지 않고 넘길 때 형태
-				// openLogin={() => setLogin(true)}
-				// openProfile={() => setProfile(true)}
-			/> */}
+			{/* 소설 정보 헤더 영역 */}
 			<NovelInfo
+				complete_seqno={novel.complete_seqno}
 				title={novel.complete_novel_title}
+				main_author_id={novel.main_author_id}
+				sub_author_id={novel.sub_author_id}
+				main_author_nickname={novel.main_author_nickname}
+				sub_author_nickname={novel.sub_author_nickname}
 				description={novel.description}
 				like_count={novel.like_count}
 				showModal={showModal}
-				setPopup={() => setPopup("authorDetail")}
-				main_author_id={novel.main_author_id}
-				sub_author_id={novel.sub_author_id}
-				sub_novel_data={mainNovelData}
-				main_novel_data={mainNovelData}
-				complete_seqno={novel.complete_seqno}
-				// changeState={() => setPopup("AuthorDetail")}
-				// changeState={changeState()}
-				//!닉네임으로 변경 필요
+				novelInfoState={novelInfoState}
+				setAuthorId={(id) => setAuthorId(id)}
+				setAuthorNickName={(nickName) => setAuthorNickName(nickName)}
 			/>
+
+			{/* 소설 이미지 및 서브 소설 정보 영역 */}
 			<NovDetailBox>
 				<NovCoverBox>
 					<LikeBox>
@@ -236,9 +214,6 @@ const NovDetail = () => {
 						) : (
 							<NovelCount>첫 결말의 주인공이 되어보세요!</NovelCount>
 						)}
-						{/* <NovelCount>
-              {subNovelData.length}{MESSAGE.BOARD_COUNT}
-            </NovelCount> */}
 						<FilterBox>
 							<Buttons
 								type={CODE.BUTTON.BASIC}
@@ -252,25 +227,19 @@ const NovDetail = () => {
 							/>
 						</FilterBox>
 					</NovBoardInfoBox>
-					<BasicTable subNovelData={subNovelData} />
+					<BasicTable 
+            subNovelData={subNovelData}
+          
+          />
 				</NovBoardBox>
 			</NovDetailBox>
-			{/* <button 
-        type="button"
-        // onClick={showModal}
-        onClick={() => {
-          showModal();
-          setPopup('viewNov');
-        }}
-      >
-        다음
-      </button> */}
 
 			{/* 모달 팝업 영역 */}
 			<ModalPopup
+        fullWidth
 				open={modal}
-				width={600}
-				height={400}
+				width={popup === "viewNov" ? '80%' : 1000}
+				height={popup === "viewNov" ? 800 : 380}
 				onClose={() => setModal(false)}
 			>
 				{popupChange()}

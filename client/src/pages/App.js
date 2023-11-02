@@ -14,7 +14,6 @@ import Test from "./Test";
 const App = () => {
   
   const [profile, setProfile] = useState(localStorage.getItem("profile"));
-  console.log(profile,123798)
   
   const logout = () => {
     localStorage.removeItem("profile");

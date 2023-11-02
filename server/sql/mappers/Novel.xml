@@ -3,26 +3,28 @@
 <mapper namespace="Novel">
     <select id="getNovel">
         SELECT
-            tcnm.complete_seqno,
-            tcnm.complete_novel_title,
-            tcnm.complete_novel_content,
-            tcnm.like_count,
-            tcnm.main_seqno,
-            tcnm.sub_seqno,
-            tcnm.main_author_id,
-            tcnm.sub_author_id,
-            tcnm.created_date,
-            tcm.code_name as genre_1,
-            tcm2.code_name as genre_2,
-            tcm3.code_name as keyword_1,
-            tcm4.code_name as keyword_2,
-            tcm5.code_name as keyword_3,
-            tcm6.color as genre_1_color,
-            tcm7.color as genre_2_color,
-            tcm8.color as keyword_1_color,
-            tcm9.color as keyword_2_color,
-            tcm10.color as keyword_3_color,
-            tcnm.description 
+          tcnm.complete_seqno,
+          tcnm.complete_novel_title,
+          tcnm.complete_novel_content,
+          tcnm.like_count,
+          tcnm.main_seqno,
+          tcnm.sub_seqno,
+          tcnm.main_author_id,
+          tcnm.sub_author_id,
+          tcnm.created_date,
+          tcm.code_name as genre_1,                 -- as 는 'as 컬럼명' 으로 as 뒤에 오는 명으로 컬럼명을 뽑겠다는 뜻
+          tcm2.code_name as genre_2,
+          tcm3.code_name as keyword_1,
+          tcm4.code_name as keyword_2,
+          tcm5.code_name as keyword_3,
+          tcm6.color as genre_1_color,
+          tcm7.color as genre_2_color,
+          tcm8.color as keyword_1_color,
+          tcm9.color as keyword_2_color,
+          tcm10.color as keyword_3_color,
+          tcnm.description,
+          tum1.user_nickname as main_author_nickname,
+          tum2.user_nickname as sub_author_nickname  
         FROM
           t_complete_novel_mgt tcnm
         LEFT JOIN t_code_mgt tcm
@@ -45,36 +47,78 @@
           ON tcnm.keyword_2 = tcm9.code
         LEFT JOIN t_code_mgt tcm10
           ON tcnm.keyword_3 = tcm10.code
+        LEFT JOIN t_user_mgt tum1
+          ON tcnm.main_author_id = tum1.login_id
+        LEFT JOIN t_user_mgt tum2
+          ON tcnm.sub_author_id = tum2.login_id
         ORDER BY
-            complete_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
+            complete_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순    정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
     </select>
 
     <select id="getSubNovel">
-        SELECT
-            sub_novel_seqno,
-            sub_title,
-            sub_content,
-            sub_like_count,
-            main_novel_seqno
+        SELECT    
+            tsnm.sub_novel_seqno,
+            tsnm.sub_title,
+            tsnm.sub_content,
+            tsnm.sub_like_count,
+            tsnm.main_novel_seqno,
+            tum.user_nickname
         FROM
-            t_sub_novel_mgt
+            t_sub_novel_mgt tsnm
+        LEFT JOIN t_user_mgt tum
+          ON tsnm.created_user = tum.login_id
         WHERE
-            main_novel_seqno = #{main_novel_seqno} 
+            main_novel_seqno = #{main_novel_seqno}
         ORDER BY
             sub_novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
     </select>
 
     <select id="getMainNovel">
         SELECT
-            title,
-            content,
-            created_user,
-            created_date,
-            main_description,
-            novel_seqno,
-            complete_yn
+          tnm.title,
+          tnm.content,
+          tnm.created_user,
+          tnm.created_date,
+          tnm.main_description,
+          tnm.novel_seqno,
+          tnm.complete_yn,
+          tum.user_nickname
         FROM
-            t_novel_mgt
+          t_novel_mgt tnm
+        LEFT JOIN t_user_mgt tum
+          ON tnm.created_user = tum.login_id
+        ORDER BY
+          novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
+    </select>
+
+    <!-- 완성된 소설 가져오기 -->
+    <select id="getCompleteNovel">
+        SELECT
+          complete_novel_title,
+          complete_novel_content
+        FROM
+          t_complete_novel_mgt
+        WHERE
+          complete_seqno = #{complete_seqno}
+    </select>
+
+    <select id="getAuthorNovel">
+        SELECT
+          tnm.title,
+          tnm.content,
+          tnm.created_user,
+          tnm.created_date,
+          tnm.main_description,
+          tnm.novel_seqno,
+          tnm.complete_yn,
+          tum.user_nickname
+        FROM
+          t_novel_mgt tnm
+        LEFT JOIN t_user_mgt tum
+          ON tnm.created_user = tum.login_id
+        WHERE
+          tnm.created_user = #{created_user}
+          AND complete_yn = 'N'
         ORDER BY
             novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
     </select>
@@ -105,7 +149,4 @@
             #{description}
         )
     </insert>
-
- 
-
 </mapper>

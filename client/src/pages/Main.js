@@ -37,23 +37,18 @@ import NovDetail from "./NovDetail";
 
 // 헤더 제외 영역
 const MainBox = styled(Box)({
-	// border: "2px solid red",
-  
-	// height: "100vh",
 	width: "99wh",
 	display: "flex",
-	flexDirection: "column",
-  // marginTop: 10
+	flexDirection: "column"
 });
 
 // 검색창 하단 장르 태그 박스
 const TagBox = styled(Box)({
 	width: "80%",
-	// border: "2px solid green",
 	height: 25,
 	margin: "0 auto",
-  marginBottom: 8,
-  marginTop: 5
+	marginBottom: 8,
+	marginTop: 5,
 });
 
 // const ScrollContainer = styled(Box)({
@@ -84,7 +79,7 @@ const Main = () => {
 	const [isLogin, setIsLogin] = useState(
 		localStorage.getItem("id") ? true : false
 	);
-  const [genre,setGenre] = useState([]);
+	const [genre, setGenre] = useState([]);
 
 	const closeModal = () => {
 		setModal(false);
@@ -96,15 +91,13 @@ const Main = () => {
 				<LoginPopup
 					changeState={() => setPopup("join")}
 					closeModal={closeModal}
-					// logout={logout}
 					isLogin={() => setIsLogin(true)}
 				/>
 			);
 		} else if (popup === "join") {
 			return <JoinPopup changeState={() => setPopup("profile")} />;
-		} 
+		}
 	};
-  
 
 	useEffect(() => {
 		getData("novel/getNovel")
@@ -116,22 +109,18 @@ const Main = () => {
 			});
 	}, []);
 
-  // 장르 태그 조회 함수
+	// 장르 태그 조회 함수
 	useEffect(() => {
-    getData("common/genre")
-    .then((data) => {
-      // console.log(data,111000)
-      setGenre(data);
-      // console.log(data,190238)
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+		getData("common/genre")
+			.then((data) => {
+				setGenre(data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}, []);
-  
-  console.log(novelData,135135)
 
-
+	console.log(novelData, 135135);
 
 	const navigate = useNavigate();
 
@@ -141,81 +130,63 @@ const Main = () => {
 			setModal(true);
 		} else {
 			// 로그인 상태
-      // 소설 상세 페이지에 props 넘겨줌
-      // react-router-dom 라이브러리의 navigate 사용하여 페이지 이동 시 props를 넘겨주는 방법
-      // navigate(url, { state: { props: 넘길데이터 } }
+			// 소설 상세 페이지에 props 넘겨줌
+			// react-router-dom 라이브러리의 navigate 사용하여 페이지 이동 시 props를 넘겨주는 방법
+			// navigate(url, { state: { props: 넘길데이터 } }
 			navigate("/novel-detail", { state: { props: novel } });
-      
 		}
 	};
 
 	return (
 		<MainBox>
-			{/* <Header
-				showModal={showModal}
-				changeState={() => setPopup("login")}
-				logout={logout}
-				isLogin={isLogin}
-				// 함수를 만들지 않고 넘길 때 형태
-				// openLogin={() => setLogin(true)}
-				// openProfile={() => setProfile(true)}
-			/> */}
 			<ModalPopup
 				open={modal}
 				width={600}
 				height={400}
 				onClose={() => setModal(false)}
 			>
-				{/* login 상태가 true일 때만 로그인 팝업 띄워지도록 조건처리 */}
-				{/* {login === false ? 
-                <JoinPopup /> 
-                : 
-                <LoginPopup closeLogin={closeLogin} /> }
-              {profile && <ProfileAddPopup /> } */}
 				{popupChange()}
 			</ModalPopup>
 			<SearchBar />
 			<TagBox>
-       {/* 장르를 가져오는 API 생성하여 state 안에 배열로 넣어 반복문 통해 태그 버튼 형식으로 뿌리기 */}
-       {genre.map((list, i) => {
-        // const color = {list};
-        // console.log(color,3478)
-
-          return (
-            <Buttons
-              key={i}
-              type={CODE.BUTTON.TAG}
-              name={list.code_name}
-              backgroundColor={`#${list.color}`}
-            />
-          )
-       })}
-      </TagBox>
+				{/* 장르를 가져오는 API 생성하여 state 안에 배열로 넣어 반복문 통해 태그 버튼 형식으로 뿌리기 */}
+				{genre.map((list, i) => {
+					return (
+						<Buttons
+							key={i}
+							type={CODE.BUTTON.TAG}
+							name={list.code_name}
+							backgroundColor={`#${list.color}`}
+						/>
+					);
+				})}
+			</TagBox>
 			{/* <ScrollContainer> */}
-				<NovelCardBox>
-					{novelData.map((list) => {
-						return (
-							<NovelCard
-                key={list.complete_seqno}
-								complete_novel_title={list.complete_novel_title}
-								genre_1={list.genre_1}
-								genre_2={list.genre_2}
-								keyword_1={list.keyword_1}
-								keyword_2={list.keyword_2}
-								keyword_3={list.keyword_3}
-                genre_1_color={list.genre_1_color}
-								genre_2_color={list.genre_2_color}
-								keyword_1_color={list.keyword_1_color}
-								keyword_2_color={list.keyword_2_color}
-								keyword_3_color={list.keyword_3_color}
-								description={list.description}
-								like_count={list.like_count}
-                created_date={list.created_date}
-								onClick={() => goToDetail(list)}
-							/>
-						);
-					})}
-				</NovelCardBox>
+			<NovelCardBox>
+				{novelData &&
+        novelData.map((list) => {
+					return (
+						<NovelCard
+							key={list.complete_seqno}
+							title={list.complete_novel_title}
+							genre_1={list.genre_1}
+							genre_2={list.genre_2}
+							keyword_1={list.keyword_1}
+							keyword_2={list.keyword_2}
+							keyword_3={list.keyword_3}
+							genre_1_color={list.genre_1_color}
+							genre_2_color={list.genre_2_color}
+							keyword_1_color={list.keyword_1_color}
+							keyword_2_color={list.keyword_2_color}
+							keyword_3_color={list.keyword_3_color}
+							description={list.description}
+							like_count={list.like_count}
+							created_date={list.created_date}
+							onClick={() => goToDetail(list)}
+						/>
+					);
+				})}
+			</NovelCardBox>
 			{/* </ScrollContainer> */}
 			<ModalPopup
 				open={modal}

@@ -10,7 +10,6 @@ const login = async (req, res, next) => {
     const data = await svc.login({ ...req.body });
 
     if (data) {
-      console.log(data,1010)
       res.send(data[0]);
 
     } else {

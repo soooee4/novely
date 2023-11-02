@@ -60,8 +60,12 @@ const Title = styled(Typography)({
 });
 
 // 작가 이름 텍스트
-const Author = styled(Button)({
-	fontSize: 14,
+const Author = styled(Typography)({
+	fontSize: 15,
+	"&:hover": {
+		cursor: "pointer",
+		fontWeight: 900,
+	},
 });
 
 // 소설 소개 텍스트
@@ -86,8 +90,8 @@ const NovelViewBox = styled(Box)({
 	marginLeft: "auto",
 });
 
+// 소설 축약 정보(소설 상세보기 컴포넌트의 헤더)
 const NovelInfo = (props) => {
-	console.log(props, 91919191);
 
 	return (
 		<Whole>
@@ -97,19 +101,26 @@ const NovelInfo = (props) => {
 				</TitleBox>
 				<AuthorBox>
 					<Author
-						// changeState={props.changeState}
-						// onClick= {() => {
-						//   props.showModal();
-						//   props.changeState();
-						// }}
-						onClick={props.showModal}
-						setPopup={props.setPopup}
-						type={CODE.BUTTON.BASIC}
-						name="고애옹작가"
-						margin={10}
-					/>
+						onClick={() => {
+							props.showModal();
+							props.novelInfoState("authorDetail");
+							props.setAuthorId(props.main_author_id);
+							props.setAuthorNickName(props.main_author_nickname);
 
-					<Author>By.{props.sub_author_id}</Author>
+						}}
+					>
+						By.{props.main_author_nickname}
+					</Author>
+					<Author
+						onClick={() => {
+							props.showModal();
+							props.novelInfoState("authorDetail");
+              props.setAuthorId(props.sub_author_id);
+							props.setAuthorNickName(props.sub_author_nickname);
+						}}
+					>
+						By.{props.sub_author_nickname}
+					</Author>
 				</AuthorBox>
 				<DescriptionBox>
 					<Description>{props.description}</Description>
@@ -123,7 +134,13 @@ const NovelInfo = (props) => {
 					// !추후 실제 날짜 계산해서 넣어놓기
 					<DateInfo>마감이 3일 남았어요</DateInfo>
 				)}
-				<NovelViewBox onClick={props.showModal}>
+				<NovelViewBox
+					// onClick={props.showModal}
+					onClick={() => {
+						props.showModal();
+						props.novelInfoState("viewNov");
+					}}
+				>
 					<Icons type={CODE.ICON.SEARCH} />
 					<Buttons
 						type={CODE.BUTTON.BASIC}

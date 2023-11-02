@@ -33,7 +33,7 @@ const Dropbox = () => {
   const [genre, setGenre] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState([]);
 
-  const test = propsGenreList.map((item) => {
+  const test = propsGenreList((item) => {
     return (item.value)
   });
 

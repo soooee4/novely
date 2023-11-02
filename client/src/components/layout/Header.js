@@ -51,7 +51,7 @@ const WelcomeMsg = styled(Typography)({
 	marginLeft: "auto",
 	fontWeight: "bolder",
 	alignSelf: "center",
-	marginRight: 10
+	marginRight: 10,
 });
 
 // 메뉴 버튼 영역
@@ -60,9 +60,8 @@ const MenuBtnBox = styled(Box)({
 	display: "flex",
 	justifyContent: "flex-end",
 	alignItems: "center",
-	border:"2px solid red"
+	border: "2px solid red",
 });
-
 
 const Header = (props) => {
 	// 구조 분해 할당 이용하여 props 분해
@@ -70,41 +69,8 @@ const Header = (props) => {
 
 	const [modal, setModal] = useState(false);
 	const [popup, setPopup] = useState("login");
-	const [isLogin, setIsLogin] = useState(
-		localStorage.getItem("profile") ? true : false
-	);
-  const nickname = profile && profile.user_nickname;
-
-	// // 아이디, 비밀번호 유효성 검사
-	// const [id, setId] = useState("");
-	// const [pw, setPw] = useState("");
-	// const [idRegMsg, setIdRegMsg] = useState("");
-	// const [pwRegMsg, setPwRegMsg] = useState("");
-
-	// // const navigate = useNavigate();
-
-	// //이메일 유효성 검사
-	// const idValidation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-	// //비밀번호 유효성검사 (5자 이상 필수)
-	// const pwValidation = /^.{5,}$/;
-
-	// // 아이디 유효성 검사 함수
-	// const idValidate = () => {
-	// 	if (!idValidation.test(id)) {
-	// 		setIdRegMsg(MESSAGE.ERROR.EMAIL_INVALIDATION);
-	// 	} else {
-	// 		setIdRegMsg("");
-	// 	}
-	// };
-	// // 비밀번호 유효성 검사 함수
-	// const pwValidate = (e) => {
-	// 	if (!pwValidation.test(e.target.value)) {
-	// 		setPwRegMsg(MESSAGE.ERROR.PW_INVALIDATION);
-	// 	} else {
-	// 		setPwRegMsg("");
-	// 	}
-	// };
+	const [isLogin, setIsLogin] = useState(localStorage.getItem("profile") ? true : false);
+	const nickname = profile && profile.user_nickname;
 
 	// 모달창 닫는 함수 -----
 	const closeModal = () => {
@@ -122,12 +88,7 @@ const Header = (props) => {
 				/>
 			);
 		} else if (popup === "join") {
-			return (
-      <JoinPopup 
-        profile={profile}
-        setProfile={setProfile}
-      />
-      );
+			return <JoinPopup profile={profile} setProfile={setProfile} />;
 		} else if (popup === "editProfile") {
 			return (
 				<EditProfilePopup
@@ -138,7 +99,6 @@ const Header = (props) => {
 			);
 		}
 	};
-
 
 	return (
 		<Whole>

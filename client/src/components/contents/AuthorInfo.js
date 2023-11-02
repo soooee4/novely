@@ -19,8 +19,8 @@ const AuthorMessage = styled(Typography)({
   marginBottom: 15
 })
 
-const AuthorInfo = () => {
-  
+const AuthorInfo = (props) => {
+    // console.log(props,232323)
   return (
     <Box
       sx={{
@@ -41,7 +41,8 @@ const AuthorInfo = () => {
           marginBottom: 2
         }}
        />
-      <AuthorName>작가이름</AuthorName>
+      {/* !닉네임으로 변경 */}
+      <AuthorName>{props.authorNickName}</AuthorName>
       <AuthorMessage>작가 소갯말 웅앵옹앵웅앵옹앵웅앵옹앵웅앵옹앵웅앵옹앵웅앵옹앵웅앵옹앵웅앵옹앵웅앵옹앵웅앵옹앵웅앵옹앵웅앵옹앵웅앵옹앵</AuthorMessage>
       <Box 
         sx={{
@@ -49,13 +50,7 @@ const AuthorInfo = () => {
           justifyContent: 'center',
         }}
         >
-        <Buttons
-          type={CODE.BUTTON.BORDER}
-          name={LABEL.BUTTONS.FOLLOW}
-          backgroundColor={'Black'}
-          color={'White'}
-          width={160}
-          />
+
       </Box>
     </Box>
   );

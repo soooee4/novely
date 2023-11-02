@@ -24,4 +24,13 @@ const pwValidation = (pw) => {
   }
 };
 
+// 모달창 크기 조절 함수
+// const modalWidth = (type) => {
+//   if (type === "viewNov") {
+//     return 800;
+//   } else if (type === "authorDetail") {
+//     return 600;
+//   }
+// }
+
 export { idValidation, pwValidation };

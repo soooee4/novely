@@ -41,8 +41,9 @@ const BasicTable = (props) => {
               <TableCell  
                 sx={{
                   width: '25%'
-                }}align="center">사용자 아이디</TableCell>
-              <TableCell align="center">{novel.sub_like_count}</TableCell>
+                }}align="center">By.{novel.user_nickname}</TableCell>
+              <TableCell align="center">
+              {novel.sub_like_count}</TableCell>
             </TableRow>
           ))}
         </TableBody>

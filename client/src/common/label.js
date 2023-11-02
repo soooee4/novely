@@ -27,7 +27,8 @@ export const LABEL = {
         POPULAR: '인기순',
         GOTOWRITE: '이어쓰기',
         MY_NOVEL: '내 작품',
-        JOIN_BTN: '회원가입'
+        JOIN_BTN: '회원가입',
+        TOP: 'Top'
 
     },
 
