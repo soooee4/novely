@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 // import Box from '@mui/material/Box';   // material 폴더안의 Box만 사용 가능
 import { Box, styled, Typography, useScrollTrigger } from "@mui/material"; // 이렇게 쓰면 material 폴더 안의 js 모든 파일 사용 가능
 
@@ -5,7 +8,6 @@ import Buttons from "components/controls/Button";
 
 // Constant
 import { CODE, LABEL, MESSAGE } from "common";
-import { useEffect, useState } from "react";
 
 // Popup Component
 // import ToastPopup from "components/popup/ToastPopup";
@@ -63,14 +65,20 @@ const MenuBtnBox = styled(Box)({
 	border: "2px solid red",
 });
 
-const Header = (props) => {
+const Header = () => {
 	// 구조 분해 할당 이용하여 props 분해
-	const { profile, logout, setProfile } = props;
+	// const { profile, logout, setProfile } = props;
 
 	const [modal, setModal] = useState(false);
 	const [popup, setPopup] = useState("login");
 	const [isLogin, setIsLogin] = useState(localStorage.getItem("profile") ? true : false);
+  const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile")));
 	const nickname = profile && profile.user_nickname;
+  
+  const logout = () => {
+    localStorage.removeItem("profile");
+    window.location.reload();
+  };
 
 	// 모달창 닫는 함수 -----
 	const closeModal = () => {
@@ -100,10 +108,12 @@ const Header = (props) => {
 		}
 	};
 
+  const navigate = useNavigate();
+
 	return (
 		<Whole>
 			<LogoBox>
-				<Logo variant="h1">NOVELY</Logo>
+				<Logo variant="h1" onClick={() => navigate('/')}>NOVELY</Logo>
 			</LogoBox>
 			<MenuBar>
 				{profile && (
@@ -133,6 +143,7 @@ const Header = (props) => {
 								type={CODE.BUTTON.BASIC}
 								name={LABEL.BUTTONS.ALL_NOVEL}
 								margin={10}
+                navigate={() => navigate('/')}
 							/>
 							<Buttons
 								type={CODE.BUTTON.BASIC}

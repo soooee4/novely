@@ -52,8 +52,9 @@ const getAuthorNovel = async (req, res, next) => {
 const getSubNovel = async (req, res, next) => {
   // console.log(req.query, 123456);
   try {
+    console.log(req.query,5656);
+    
     const data = await svc.getSubNovel({ ...req.query });
-    // console.log(data,111);
     if (data.rowCount !== 0) {
       res.send(data.rows);
       // console.log(data.rows,5959)

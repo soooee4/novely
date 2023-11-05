@@ -40,7 +40,7 @@ const Text = styled(TextField)({
 
 
 const JoinPopup = (props) => {
-  const {  idValidate, profile, pwValidate, setProfile } = props;
+  const { idValidate, profile, pwValidate } = props;
 
   const [id, setId] = useState("");
 	const [pw, setPw] = useState("");

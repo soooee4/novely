@@ -120,8 +120,6 @@ const Main = () => {
 			});
 	}, []);
 
-	console.log(novelData, 135135);
-
 	const navigate = useNavigate();
 
 	const goToDetail = (novel) => {

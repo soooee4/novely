@@ -131,6 +131,11 @@ const NovDetail = () => {
 	const [authorNickName, setAuthorNickName] = useState("");
 	const [subNovelData, setSubNovelData] = useState([]);
 
+  // 메인 페이지에서 넘겨받은 클릭한 소설의 상세 정보
+	// navigate 메서드로 넘긴 props를 받는 방법
+	const location = useLocation();
+	const novel = location.state.props;
+
 	// 서브 소설 가져오기
 	useEffect(() => {
 		getData("novel/getSubNovel", { main_novel_seqno: novel.main_seqno })
@@ -140,26 +145,29 @@ const NovDetail = () => {
 			.catch((err) => {
 				console.log(err);
 			});
-	}, []);
+	}, [novel.main_seqno]);
 
-  // console.log(subNovelData,145145)
+
+
 
 	// 함수 설명 꼭 써넣어주세요
 	const novelInfoState = (type) => {
 		setPopup(type);
 	};
 
-	// 메인 페이지에서 넘겨받은 클릭한 소설의 상세 정보
-	// navigate 메서드로 넘긴 props를 받는 방법
-	const location = useLocation();
-	const novel = location.state.props;
+	
 
 	// Modal OPEN/CLOSE
 	const showModal = () => {
 		setModal(true);
 	};
+
+  const closeModal = () => {
+    setModal(false)
+  }
+
 	// 팝업 상태값 변경
-	const popupChange = () => {
+	const popupChange = (closeModal) => {
 		if (popup === "viewNov") {
 			return <ViewNovPopup 
         changeState={() => setPopup("writeNov")}
@@ -172,12 +180,13 @@ const NovDetail = () => {
 				<AuthorDetailPopup
 					authorId={authorId}
 					authorNickName={authorNickName}
+          onCloseHandler={closeModal}
 				/>
 			);
 		}
 	};
 
-console.log(authorId,1989898)
+// console.log(authorId,1989898)
 
 	return (
 		<Wrapper>
@@ -197,6 +206,7 @@ console.log(authorId,1989898)
         // 미완성 소설 프로퍼티
         created_date={novel.created_date}
         created_user={novel.created_user}
+        user_nickname={novel.user_nickname}
 				showModal={showModal}
 				novelInfoState={novelInfoState}
 				// setAuthorId={(id) => setAuthorId(id)}
@@ -238,6 +248,7 @@ console.log(authorId,1989898)
 					</NovBoardInfoBox>
 					<BasicTable 
             subNovelData={subNovelData}
+            
           
           />
 				</NovBoardBox>
@@ -249,9 +260,9 @@ console.log(authorId,1989898)
 				open={modal}
 				width={popup === "viewNov" ? '80%' : 1000}
 				height={popup === "viewNov" ? 800 : 380}
-				onClose={() => setModal(false)}
+				onClose={closeModal}
 			>
-				{popupChange()}
+				{popupChange(closeModal)}
 			</ModalPopup>
 		</Wrapper>
 	);

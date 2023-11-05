@@ -12,19 +12,19 @@
           tcnm.main_author_id,
           tcnm.sub_author_id,
           tcnm.created_date,
-          tcm.code_name as genre_1,                 -- as 는 'as 컬럼명' 으로 as 뒤에 오는 명으로 컬럼명을 뽑겠다는 뜻
-          tcm2.code_name as genre_2,
-          tcm3.code_name as keyword_1,
-          tcm4.code_name as keyword_2,
-          tcm5.code_name as keyword_3,
-          tcm6.color as genre_1_color,
-          tcm7.color as genre_2_color,
-          tcm8.color as keyword_1_color,
-          tcm9.color as keyword_2_color,
-          tcm10.color as keyword_3_color,
+          tcm.code_name AS genre_1,                 -- AS 는 'AS 컬럼명' 으로 AS 뒤에 오는 명으로 컬럼명을 뽑겠다는 뜻
+          tcm2.code_name AS genre_2,
+          tcm3.code_name AS keyword_1,
+          tcm4.code_name AS keyword_2,
+          tcm5.code_name AS keyword_3,
+          tcm6.color AS genre_1_color,
+          tcm7.color AS genre_2_color,
+          tcm8.color AS keyword_1_color,
+          tcm9.color AS keyword_2_color,
+          tcm10.color AS keyword_3_color,
           tcnm.description,
-          tum1.user_nickname as main_author_nickname,
-          tum2.user_nickname as sub_author_nickname  
+          tum1.user_nickname AS main_author_nickname,
+          tum2.user_nickname AS sub_author_nickname  
         FROM
           t_complete_novel_mgt tcnm
         LEFT JOIN t_code_mgt tcm
@@ -69,6 +69,7 @@
           ON tsnm.created_user = tum.login_id
         WHERE
             main_novel_seqno = #{main_novel_seqno}
+            AND tsnm.complete_yn = 'N'
         ORDER BY
             sub_novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
     </select>
@@ -80,7 +81,7 @@
           tnm.created_user,
           tnm.created_date,
           tnm.description,
-          tnm.novel_seqno,
+          tnm.novel_seqno AS main_seqno,
           tnm.complete_yn,
           tum.user_nickname
         FROM
@@ -109,7 +110,7 @@
           tnm.created_user,
           tnm.created_date,
           tnm.description,
-          tnm.novel_seqno,
+          tnm.novel_seqno AS main_seqno,
           tnm.complete_yn,
           tum.user_nickname
         FROM

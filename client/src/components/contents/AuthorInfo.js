@@ -50,7 +50,6 @@ const AuthorInfo = (props) => {
           justifyContent: 'center',
         }}
         >
-
       </Box>
     </Box>
   );

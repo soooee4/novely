@@ -21,13 +21,11 @@ const ModalPopup = (props) => {
     },
   });
   return ( 
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} >
       <Dialog 
         open={open} 
         fullWidth={fullWidth}
-        PaperProps={{style:{maxWidth:'100%'}}}
-
-  > 
+        PaperProps={{style:{maxWidth:'100%'}}}> 
         <DialogTitle>
           {/* CloseIcon을 눌렀을 때 join팝업일 경우 로컬 스토리지에 profile이 있으면 새로고침을 한다. */}
           <CloseIcon 

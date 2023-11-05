@@ -29,15 +29,17 @@ const NovelCardBox = styled(Box)({
 	// justifyContent: "space-between",
 });
 
+
 const AuthorDetailPopup = (props) => {
 	const [authorNovelData, setAuthorNovelData] = useState([]);
 
+  console.log(authorNovelData,3636)
     
 	// 작가에 따른 미완 소설 가져오기
 	useEffect(() => {
 		getData("novel/getAuthorNovel", { created_user: props.authorId })
 			.then(function (data) {
-
+        console.log(data,4242)
 				setAuthorNovelData(data);
 			})
 			.catch((err) => {
@@ -53,6 +55,8 @@ const AuthorDetailPopup = (props) => {
 			navigate("/novel-detail", { state: { props: novel } });
 		};
 
+
+
 	return (
 		<>
 			<Wrapper>
@@ -64,12 +68,15 @@ const AuthorDetailPopup = (props) => {
 						// console.log(list,3)
 						return (
 							<NovelCard
-								key={list.novel_seqno}
+								key={list.main_seqno}
 								title={list.title}
 								description={list.description}
 								created_date={list.created_date}
 								created_user={list.created_user}
-                onClick={() => goToDetail(list)}
+                onClick={() => {
+                  goToDetail(list)
+                  props.onCloseHandler()
+                }}
 							/>
 						);
 					})}

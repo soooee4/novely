@@ -95,6 +95,7 @@ const NovelInfo = (props) => {
   
   // console.log(props.main_author_nickname,180180)
 
+
 	return (
 		<Whole>
 			<InfoBox>
@@ -131,10 +132,10 @@ const NovelInfo = (props) => {
               props.showModal();
               props.novelInfoState("authorDetail");
               props.setAuthorId(props.created_user)
-              props.setAuthorNickName(props.author_nickname);
+              props.setAuthorNickName(props.user_nickname);
           }}
         >
-          By.{props.created_user}
+          By.{props.user_nickname}
         </Author>
         }
 				</AuthorBox>

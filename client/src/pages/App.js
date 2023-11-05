@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route, useBeforeUnload } from 'react-r
 // Pages
 import pages from 'pages';
 
+import Page from "components/container/Page";
 import Header from 'components/layout/Header';
 
 import 'styles/App.css';
@@ -13,26 +14,37 @@ import Test from "./Test";
 
 const App = () => {
   
-  const [profile, setProfile] = useState(localStorage.getItem("profile"));
+  // const [profile, setProfile] = useState(localStorage.getItem("profile"));
   
-  const logout = () => {
-    localStorage.removeItem("profile");
-    window.location.reload();
-  };
+  // const logout = () => {
+  //   localStorage.removeItem("profile");
+  //   window.location.reload();
+  // };
 
 
   return (
   	<>
-		<Header 
+		{/* <Header 
       // profile={profile}
       profile={JSON.parse(profile)}
       setProfile={setProfile}
       logout={logout}
-    /> 
+    /> */}
 		<Router> 
 			<Routes>
-				<Route path="/*" element={<pages.MainPage />} />     {/* 메인 페이지 */}
-				<Route path="/novel-detail" element={<pages.NovDetailPage />} />       {/* 소설 상세 정보 페이지 */}
+				<Route 
+          path="/*" 
+          element={
+            <Page
+              // profile={JSON.parse(profile)}
+              // setProfile={setProfile}
+              // logout={logout}
+            >
+              <pages.MainPage />
+            </Page>
+          } 
+        />     {/* 메인 페이지 */}
+				<Route path="/novel-detail" element={<Page><pages.NovDetailPage /></Page>} />       {/* 소설 상세 정보 페이지 */}
 			</Routes>
 		</Router>
 	</>

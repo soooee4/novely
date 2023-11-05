@@ -35,6 +35,7 @@ const Buttons = (props) => {
         onClick= {() => {
           props.showModal && props.showModal();
           props.changeState && props.changeState();
+          props.navigate && props.navigate();
         }}
         style={{
           width: props.width,
