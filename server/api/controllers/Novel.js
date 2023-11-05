@@ -20,7 +20,7 @@ const getNovel = async (req, res, next) => {
 
 // 메인 소설 조회 함수
 const getMainNovel = async (req, res, next) => {
-  // console.log(req.query, 123456);
+  console.log(req.query, 123456);
   try {
     const data = await svc.getMainNovel({ ...req.query });
     // console.log(data,8888);
@@ -52,7 +52,6 @@ const getAuthorNovel = async (req, res, next) => {
 const getSubNovel = async (req, res, next) => {
   // console.log(req.query, 123456);
   try {
-    console.log(req.query,5656);
     
     const data = await svc.getSubNovel({ ...req.query });
     if (data.rowCount !== 0) {

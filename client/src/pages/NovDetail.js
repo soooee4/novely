@@ -21,7 +21,8 @@ import { CODE, LABEL, COLOR, MESSAGE } from "common";
 
 // Popup Component
 import ModalPopup from "components/popup/ModalPopup";
-import ViewNovPopup from "components/popup/ViewNovPopup";
+import ViewCompleteNovPopup from "components/popup/ViewCompleteNovPopup";
+import ViewIncompleteNovPopup from "components/popup/ViewIncompleteNovPopup";
 import WriteNovPopup from "components/popup/WriteNovPopup";
 import AuthorDetailPopup from "components/popup/AuthorDetailPopup";
 
@@ -120,21 +121,22 @@ const FilterBox = styled(Box)({
 
 // 소설 상세보기 컴포넌트
 const NovDetail = () => {
-	/** STATE 정의
-	 * modal: Modal 팝업 상태
-	 * popup:  팝업 내용 변경
-	 * author: 소설 정보 헤더에서 클릭한 작가 구분 Flag(메인 / 서브 / 미완성 소설 작성자)
-	 */
-	const [modal, setModal] = useState(false);
-	const [popup, setPopup] = useState("viewNov");
+  // 메인 페이지에서 넘겨받은 클릭한 소설의 상세 정보
+  // navigate 메서드로 넘긴 props를 받는 방법
+  const location = useLocation();
+  const novel = location.state.props;
+
+  /** STATE 정의
+   * modal: Modal 팝업 상태
+   * popup:  팝업 내용 변경
+   * author: 소설 정보 헤더에서 클릭한 작가 구분 Flag(메인 / 서브 / 미완성 소설 작성자)
+  */
+  const [modal, setModal] = useState(false);
+	const [popup, setPopup] = useState("viewComNov");
 	const [authorId, setAuthorId] = useState("");
 	const [authorNickName, setAuthorNickName] = useState("");
 	const [subNovelData, setSubNovelData] = useState([]);
-
-  // 메인 페이지에서 넘겨받은 클릭한 소설의 상세 정보
-	// navigate 메서드로 넘긴 props를 받는 방법
-	const location = useLocation();
-	const novel = location.state.props;
+  const [completeYn, setCompleteYn] = useState(novel.complete_seqno ? "Y" : "N");
 
 	// 서브 소설 가져오기
 	useEffect(() => {
@@ -146,8 +148,6 @@ const NovDetail = () => {
 				console.log(err);
 			});
 	}, [novel.main_seqno]);
-
-
 
 
 	// 함수 설명 꼭 써넣어주세요
@@ -168,12 +168,20 @@ const NovDetail = () => {
 
 	// 팝업 상태값 변경
 	const popupChange = (closeModal) => {
-		if (popup === "viewNov") {
-			return <ViewNovPopup 
-        changeState={() => setPopup("writeNov")}
+		if (popup === "viewComNov") {
+			return <ViewCompleteNovPopup
+        // changeState={() => setPopup("writeNov")}
         complete_seqno={novel.complete_seqno}
       />;
-		} else if (popup === "writeNov") {
+		} else if (popup === "viewIncomNov") {
+			return <ViewIncompleteNovPopup 
+                changeState={() => setPopup("writeNov")}
+                main_seqno={novel.main_seqno}
+                completeYn={completeYn}
+                
+      />;
+    }
+      else if (popup === "writeNov") {
 			return <WriteNovPopup />;
 		} else if (popup === "authorDetail") {
 			return (
@@ -186,7 +194,7 @@ const NovDetail = () => {
 		}
 	};
 
-// console.log(authorId,1989898)
+
 
 	return (
 		<Wrapper>
@@ -212,6 +220,7 @@ const NovDetail = () => {
 				// setAuthorId={(id) => setAuthorId(id)}
 				setAuthorId={(id) => setAuthorId(id)}
 				setAuthorNickName={(nickName) => setAuthorNickName(nickName)}
+        completeYn={completeYn}
 			/>
 
 			{/* 소설 이미지 및 서브 소설 정보 영역 */}
@@ -258,8 +267,8 @@ const NovDetail = () => {
 			<ModalPopup
         fullWidth
 				open={modal}
-				width={popup === "viewNov" ? '80%' : 1000}
-				height={popup === "viewNov" ? 800 : 380}
+				width={popup === "viewComNov" || popup === "viewIncomNov" ? '80%' : 1000}
+				height={popup === "viewComNov" || popup === "viewIncomNov"? 800 : 380}
 				onClose={closeModal}
 			>
 				{popupChange(closeModal)}

@@ -9,35 +9,6 @@ import { CODE, LABEL, COLOR } from "common";
 
 import { getData } from "common/communication";
 
-const ViewNovPopup = (props) => {
-	const [completeNovel, setCompleteNovel] = useState({});
-
-	// 완성 소설 보기
-	useEffect(() => {
-		console.log(props.complete_seqno, 1818);
-		getData("novel/getCompleteNovel", { complete_seqno: props.complete_seqno })
-			.then(function (data) {
-				setCompleteNovel(data);
-				// console.log(completeNovel,393939)
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	}, []);
-
-  	// !미완성 소설 보기
-	// useEffect(() => {
-	// 	console.log(props.complete_seqno, 1818);
-	// 	getData("novel/getCompleteNovel", { complete_seqno: props.complete_seqno })
-	// 		.then(function (data) {
-	// 			setCompleteNovel(data);
-	// 			// console.log(completeNovel,393939)
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err);
-	// 		});
-	// }, []);
-
 	// 레이아웃
 	const Wrapper = styled(Box)({
 		width: "100%",
@@ -65,6 +36,38 @@ const ViewNovPopup = (props) => {
 	// 		behavior: "smooth",
 	// 	});
 	// };
+
+
+const ViewCompleteNovPopup = (props) => {
+
+	const [completeNovel, setCompleteNovel] = useState({});
+
+	// 완성 소설 보기
+	useEffect(() => {
+		getData("novel/getCompleteNovel", { complete_seqno: props.complete_seqno })
+			.then(function (data) {
+				setCompleteNovel(data);
+				console.log(completeNovel,393939)
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
+
+  	// !미완성 소설 보기
+	// useEffect(() => {
+	// 	console.log(props.complete_seqno, 1818);
+	// 	getData("novel/getCompleteNovel", { complete_seqno: props.complete_seqno })
+	// 		.then(function (data) {
+	// 			setCompleteNovel(data);
+	// 			// console.log(completeNovel,393939)
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err);
+	// 		});
+	// }, []);
+
+
 
 	return (
 		<Wrapper>
@@ -95,4 +98,4 @@ const ViewNovPopup = (props) => {
 	);
 };
 
-export default ViewNovPopup;
+export default ViewCompleteNovPopup;

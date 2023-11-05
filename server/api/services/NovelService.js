@@ -30,13 +30,13 @@ const getNovel = async () => {
 };
 
 // 메인 소설 조회 함수
-const getMainNovel = async () => {
+const getMainNovel = async ({ novel_seqno }) => {
 	const client = await pool.connect();
 
 	const sqlId = "Novel.getMainNovel";
 
 	try {
-		const data = await client.query(mapper.makeSql(sqlId));
+		const data = await client.query(mapper.makeSql(sqlId, { novel_seqno: novel_seqno }));
 		return data;
 	} catch (err) {
 		console.log(err);
@@ -85,7 +85,7 @@ const getSubNovel = async ({ main_novel_seqno }) => {
 };
 
 // 완성 소설 보기 함수
-const getCompleteNovel = async ( {complete_seqno}) => {
+const getCompleteNovel = async ({complete_seqno}) => {
 	const client = await pool.connect();
 
 	const sqlId = "Novel.getCompleteNovel";

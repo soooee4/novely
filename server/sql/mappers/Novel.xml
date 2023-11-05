@@ -88,6 +88,8 @@
           t_novel_mgt tnm
         LEFT JOIN t_user_mgt tum
           ON tnm.created_user = tum.login_id
+        WHERE
+          tnm.novel_seqno = #{novel_seqno}
         ORDER BY
           novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
     </select>

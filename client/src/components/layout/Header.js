@@ -61,8 +61,7 @@ const MenuBtnBox = styled(Box)({
 	marginRight: 50,
 	display: "flex",
 	justifyContent: "flex-end",
-	alignItems: "center",
-	border: "2px solid red",
+	alignItems: "center"
 });
 
 const Header = () => {

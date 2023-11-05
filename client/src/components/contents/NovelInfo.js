@@ -92,8 +92,6 @@ const NovelViewBox = styled(Box)({
 
 // 소설 축약 정보(소설 상세보기 컴포넌트의 헤더)
 const NovelInfo = (props) => {
-  
-  // console.log(props.main_author_nickname,180180)
 
 
 	return (
@@ -155,7 +153,7 @@ const NovelInfo = (props) => {
 					// onClick={props.showModal}
 					onClick={() => {
 						props.showModal();
-						props.novelInfoState("viewNov");
+            props.completeYn === "Y" ? props.novelInfoState("viewComNov") : props.novelInfoState("viewIncomNov")            
 					}}
 				>
 					<Icons type={CODE.ICON.SEARCH} />
