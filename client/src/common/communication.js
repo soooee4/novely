@@ -6,12 +6,10 @@ export const getData = async (url, params) => {
       .get(`http://localhost:8080/api/${url}`, {
        params: params,
       });
-
     if (response.data) {
       // console.log(response.data,1212)
       return response.data;
     }
-
   } catch(err) {
     console.log(err);
   }

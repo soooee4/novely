@@ -152,4 +152,33 @@
             #{description}
         )
     </insert>
+
+        <insert id="postSubNovel">
+        INSERT INTO t_sub_novel_mgt
+        (
+            sub_title,
+            sub_content,
+            main_novel_seqno,
+            created_user,
+            genre_1,
+            genre_2,
+            keyword_1,
+            keyword_2,
+            keyword_3,
+            sub_description
+        )
+        VALUES 
+        (
+            #{sub_title},
+            #{sub_content},
+            #{main_novel_seqno},
+            #{created_user},
+            #{genre_1},
+            #{genre_2},
+            #{keyword_1},
+            #{keyword_2},
+            #{keyword_3},
+            #{sub_description}
+        )
+    </insert>
 </mapper>

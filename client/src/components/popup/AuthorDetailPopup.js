@@ -32,14 +32,11 @@ const NovelCardBox = styled(Box)({
 
 const AuthorDetailPopup = (props) => {
 	const [authorNovelData, setAuthorNovelData] = useState([]);
-
-  console.log(authorNovelData,3636)
     
 	// 작가에 따른 미완 소설 가져오기
 	useEffect(() => {
 		getData("novel/getAuthorNovel", { created_user: props.authorId })
 			.then(function (data) {
-        console.log(data,4242)
 				setAuthorNovelData(data);
 			})
 			.catch((err) => {
@@ -75,7 +72,7 @@ const AuthorDetailPopup = (props) => {
 								created_user={list.created_user}
                 onClick={() => {
                   goToDetail(list)
-                  props.onCloseHandler()
+                  props.closeModal();
                 }}
 							/>
 						);

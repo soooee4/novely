@@ -93,7 +93,6 @@ const NovelViewBox = styled(Box)({
 // 소설 축약 정보(소설 상세보기 컴포넌트의 헤더)
 const NovelInfo = (props) => {
 
-
 	return (
 		<Whole>
 			<InfoBox>
@@ -106,7 +105,7 @@ const NovelInfo = (props) => {
             <Author
               onClick={() => {
                 props.showModal();
-                props.novelInfoState("authorDetail");
+                props.setPopup("authorDetail");
                 props.setAuthorId(props.main_author_id);
                 props.setAuthorNickName(props.main_author_nickname);
               }}
@@ -116,7 +115,7 @@ const NovelInfo = (props) => {
             <Author
               onClick={() => {
                 props.showModal();
-                props.novelInfoState("authorDetail");
+                props.setPopup("authorDetail");
                 props.setAuthorId(props.sub_author_id);
                 props.setAuthorNickName(props.sub_author_nickname);
               }}
@@ -128,7 +127,7 @@ const NovelInfo = (props) => {
           <Author
             onClick={() => {
               props.showModal();
-              props.novelInfoState("authorDetail");
+              props.setPopup("authorDetail");
               props.setAuthorId(props.created_user)
               props.setAuthorNickName(props.user_nickname);
           }}
@@ -153,7 +152,7 @@ const NovelInfo = (props) => {
 					// onClick={props.showModal}
 					onClick={() => {
 						props.showModal();
-            props.completeYn === "Y" ? props.novelInfoState("viewComNov") : props.novelInfoState("viewIncomNov")            
+            props.complete_seqno !== undefined ? props.setPopup("viewComNov") : props.setPopup("viewIncomNov")            
 					}}
 				>
 					<Icons type={CODE.ICON.SEARCH} />

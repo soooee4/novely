@@ -147,11 +147,58 @@ const postNovel = async ({
 	}
 };
 
+// 서브 소설 등록 함수
+const postSubNovel = async ({
+  sub_title,
+  sub_content,
+  main_novel_seqno,
+  created_user,
+  genre_1,
+  genre_2,
+  keyword_1,
+  keyword_2,
+  keyword_3,
+  sub_description
+}) => {
+	const client = await pool.connect();
+
+	const sqlId = "Novel.postSubNovel";
+	// console.log(user_id, 1111);
+
+	genre_2 = genre_2 === undefined ? null : genre_2;
+	keyword_2 = keyword_2 === undefined ? null : keyword_2;
+	keyword_3 = keyword_3 === undefined ? null : keyword_3;
+
+	try {
+		const data = await client.query(
+			mapper.makeSql(sqlId, {
+        sub_title,
+        sub_content,
+        main_novel_seqno,
+        created_user,
+        genre_1,
+        genre_2,
+        keyword_1,
+        keyword_2,
+        keyword_3,
+        sub_description
+			})
+		);
+		// console.log(data);
+		return data;
+	} catch (err) {
+		console.log(err);
+	} finally {
+		if (client) client.release();
+	}
+};
+
 module.exports = {
 	getNovel,
 	getSubNovel,
 	postNovel,
 	getMainNovel,
   getCompleteNovel,
-  getAuthorNovel
+  getAuthorNovel,
+  postSubNovel
 };

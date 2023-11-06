@@ -28,7 +28,8 @@ export const LABEL = {
         GOTOWRITE: '이어쓰기',
         MY_NOVEL: '내 작품',
         JOIN_BTN: '회원가입',
-        TOP: 'Top'
+        TOP: 'Top',
+        GOTONEXT: '저장 후 다음'
 
     },
 

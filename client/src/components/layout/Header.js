@@ -66,6 +66,7 @@ const MenuBtnBox = styled(Box)({
 
 const Header = () => {
 	// 구조 분해 할당 이용하여 props 분해
+  
 	// const { profile, logout, setProfile } = props;
 
 	const [modal, setModal] = useState(false);
@@ -74,8 +75,13 @@ const Header = () => {
   const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile")));
 	const nickname = profile && profile.user_nickname;
   
+  const goToPage = (url) => {
+    navigate(url);
+  }
+
   const logout = () => {
     localStorage.removeItem("profile");
+    goToPage('/main');
     window.location.reload();
   };
 

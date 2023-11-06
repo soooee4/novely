@@ -132,11 +132,11 @@ const NovDetail = () => {
    * author: 소설 정보 헤더에서 클릭한 작가 구분 Flag(메인 / 서브 / 미완성 소설 작성자)
   */
   const [modal, setModal] = useState(false);
-	const [popup, setPopup] = useState("viewComNov");
+	const [popup, setPopup] = useState("");
 	const [authorId, setAuthorId] = useState("");
 	const [authorNickName, setAuthorNickName] = useState("");
 	const [subNovelData, setSubNovelData] = useState([]);
-  const [completeYn, setCompleteYn] = useState(novel.complete_seqno ? "Y" : "N");
+  const [mainNovel, setMainNovel] = useState({});
 
 	// 서브 소설 가져오기
 	useEffect(() => {
@@ -149,14 +149,6 @@ const NovDetail = () => {
 			});
 	}, [novel.main_seqno]);
 
-
-	// 함수 설명 꼭 써넣어주세요
-	const novelInfoState = (type) => {
-		setPopup(type);
-	};
-
-	
-
 	// Modal OPEN/CLOSE
 	const showModal = () => {
 		setModal(true);
@@ -167,60 +159,55 @@ const NovDetail = () => {
   }
 
 	// 팝업 상태값 변경
-	const popupChange = (closeModal) => {
+	const popupChange = () => {
 		if (popup === "viewComNov") {
-			return <ViewCompleteNovPopup
-        // changeState={() => setPopup("writeNov")}
-        complete_seqno={novel.complete_seqno}
-      />;
+			return <ViewCompleteNovPopup complete_seqno={novel.complete_seqno} />;
 		} else if (popup === "viewIncomNov") {
-			return <ViewIncompleteNovPopup 
-                changeState={() => setPopup("writeNov")}
-                main_seqno={novel.main_seqno}
-                completeYn={completeYn}
-                
+			return (
+				<ViewIncompleteNovPopup
+					changeState={() => setPopup("writeNov")}
+					main_seqno={novel.main_seqno}
+          setMainNovel={(novel) => setMainNovel(novel)}
+				/>
+			);
+		} else if (popup === "writeNov") {
+			return <WriteNovPopup 
+        mainNovel={mainNovel}
       />;
-    }
-      else if (popup === "writeNov") {
-			return <WriteNovPopup />;
 		} else if (popup === "authorDetail") {
 			return (
 				<AuthorDetailPopup
 					authorId={authorId}
 					authorNickName={authorNickName}
-          onCloseHandler={closeModal}
+					closeModal={closeModal}
 				/>
 			);
-		}
+		} 
 	};
-
-
 
 	return (
 		<Wrapper>
 			{/* 소설 정보 헤더 영역 */}
 			<NovelInfo
-        // 소설 공통 프로퍼티
-        description={novel.description}
-        // 완성 소설 프로퍼티
+				// 소설 정보
+				title={
+					novel.complete_novel_title ? novel.complete_novel_title : novel.title
+				}
 				complete_seqno={novel.complete_seqno}
-        title={novel.complete_novel_title ? novel.complete_novel_title : novel.title}
-				// title={novel.complete_novel_title}
+				description={novel.description}
 				main_author_id={novel.main_author_id}
 				sub_author_id={novel.sub_author_id}
 				main_author_nickname={novel.main_author_nickname}
 				sub_author_nickname={novel.sub_author_nickname}
 				like_count={novel.like_count}
-        // 미완성 소설 프로퍼티
-        created_date={novel.created_date}
-        created_user={novel.created_user}
-        user_nickname={novel.user_nickname}
+				created_date={novel.created_date}
+				created_user={novel.created_user}
+				user_nickname={novel.user_nickname}
+				// 페이지 및 팝업 상태 변경
 				showModal={showModal}
-				novelInfoState={novelInfoState}
-				// setAuthorId={(id) => setAuthorId(id)}
+				setPopup={(state) => setPopup(state)}
 				setAuthorId={(id) => setAuthorId(id)}
 				setAuthorNickName={(nickName) => setAuthorNickName(nickName)}
-        completeYn={completeYn}
 			/>
 
 			{/* 소설 이미지 및 서브 소설 정보 영역 */}
@@ -255,23 +242,21 @@ const NovDetail = () => {
 							/>
 						</FilterBox>
 					</NovBoardInfoBox>
-					<BasicTable 
-            subNovelData={subNovelData}
-            
-          
-          />
+					<BasicTable subNovelData={subNovelData} />
 				</NovBoardBox>
 			</NovDetailBox>
 
 			{/* 모달 팝업 영역 */}
 			<ModalPopup
-        fullWidth
+				fullWidth
 				open={modal}
-				width={popup === "viewComNov" || popup === "viewIncomNov" ? '80%' : 1000}
-				height={popup === "viewComNov" || popup === "viewIncomNov"? 800 : 380}
+				width={
+					popup === "viewComNov" || popup === "viewIncomNov" || popup === "writeNov" ? "80%" : 1000
+				}
+				height={popup === "viewComNov" || popup === "viewIncomNov" || popup === "writeNov" ? 800 : 380}
 				onClose={closeModal}
 			>
-				{popupChange(closeModal)}
+				{popupChange()}
 			</ModalPopup>
 		</Wrapper>
 	);
