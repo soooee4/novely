@@ -36,6 +36,9 @@ const Buttons = (props) => {
           props.showModal && props.showModal();
           props.changeState && props.changeState();
           props.navigate && props.navigate();
+          props.subNovelHandler && props.subNovelHandler();
+          // props.vilidateTags && props.vilidateTags();
+          props.nextBtnHandler && props.nextBtnHandler();
         }}
         style={{
           width: props.width,
@@ -52,7 +55,10 @@ const Buttons = (props) => {
   } else if (props.type === CODE.BUTTON.TAG) {
     return (
       <TagBtn
-        onClick={props.onClick}
+        onClick={() => {
+          props.onSelectTags && props.onSelectTags();
+          props.onClick && props.onClick();
+        }}
         style={{
             backgroundColor: props.backgroundColor,
             margin: props.margin,

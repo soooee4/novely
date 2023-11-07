@@ -54,6 +54,7 @@ const Content = styled(Typography)({
 
 const ViewIncompleteNovPopup = (props) => {
 	const [mainNovel, setMainNovel] = useState({});
+  
 
   console.log(props,58)
 
@@ -85,7 +86,7 @@ const ViewIncompleteNovPopup = (props) => {
           name={LABEL.BUTTONS.GOTOWRITE}
           width={100}
           margin={"0px 0px 0px auto"}
-          changeState={props.changeState()}
+          changeState={props.changeState}
         /> 
       </HeaderBox>
 			<Content>

@@ -24,13 +24,38 @@ const pwValidation = (pw) => {
   }
 };
 
-// 모달창 크기 조절 함수
 // const modalWidth = (type) => {
-//   if (type === "viewNov") {
-//     return 800;
-//   } else if (type === "authorDetail") {
-//     return 600;
-//   }
-// }
+  //   if (type === "viewNov") {
+    //     return 800;
+    //   } else if (type === "authorDetail") {
+      //     return 600;
+      //   } 
+      // }
+      
+// 모달창 크기 조절 함수
+const modalWidth = (popup) => {
+  let width;
+  switch (popup) {
+    case "selectTag":
+      width = 600;
+      break;
+    default:
+      width = "90%";
+  }
+  return width;
+};
 
-export { idValidation, pwValidation };
+const modalHeight = (popup) => {
+  let height;
+  switch (popup) {
+    case "selectTag":
+      height = "auto";
+      break;
+    default:
+      height = "90vh";
+  }
+  return height;
+};
+
+
+export { idValidation, pwValidation, modalWidth, modalHeight };

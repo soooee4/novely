@@ -19,6 +19,26 @@ const getGenre = async () => {
 	}
 };
 
+// 태그 전체 조회 함수
+const getTag = async () => {
+	const client = await pool.connect();
+	const sqlId = "Common.getTag";
+	
+	try {
+		// console.log(11111)
+		const data = await client.query(
+			mapper.makeSql(sqlId, {}));
+		  // console.log(data,123);  
+		  return data;
+	} catch (err) {
+		console.log(err);
+	} finally {
+		if (client) client.release();
+	}
+};
+
+
 module.exports = {
-  getGenre
+  getGenre,
+  getTag
 };

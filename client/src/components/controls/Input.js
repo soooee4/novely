@@ -5,7 +5,6 @@ import { LABEL } from 'common';
 
 const Inputs = (props) => {
   const test = props.defaultValue;
-  console.log(typeof props.defaultValue);
 
   return (
     <TextField
@@ -16,7 +15,7 @@ const Inputs = (props) => {
       helperText={props.helperText}
       // defaultValue={props.defaultValue}
       defaultValue={test}
-
+      onChange={props.onChange}
       // inputProps={props.InputProps}
     />
   );

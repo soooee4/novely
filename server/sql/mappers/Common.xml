@@ -12,3 +12,15 @@
             group_code = 'GENRE'
     </select>
 </mapper>
+
+<mapper namespace="Common">
+    <select id="getTag">
+        SELECT
+          code,
+          code_name,
+          color,
+          group_code
+        FROM
+            t_code_mgt
+    </select>
+</mapper>

@@ -25,8 +25,11 @@ import ViewCompleteNovPopup from "components/popup/ViewCompleteNovPopup";
 import ViewIncompleteNovPopup from "components/popup/ViewIncompleteNovPopup";
 import WriteNovPopup from "components/popup/WriteNovPopup";
 import AuthorDetailPopup from "components/popup/AuthorDetailPopup";
+import SelectTagPopup from "components/popup/SelectTagPopup";
+import WriteNovIntroPopup from "components/popup/WriteNovIntroPopup";
 
 import { getData } from "common/communication";
+import { modalWidth, modalHeight } from "common/util";
 
 /** 영역 STYLE 정의 */
 // 전체 영역
@@ -121,22 +124,37 @@ const FilterBox = styled(Box)({
 
 // 소설 상세보기 컴포넌트
 const NovDetail = () => {
-  // 메인 페이지에서 넘겨받은 클릭한 소설의 상세 정보
-  // navigate 메서드로 넘긴 props를 받는 방법
-  const location = useLocation();
-  const novel = location.state.props;
+	// 메인 페이지에서 넘겨받은 클릭한 소설의 상세 정보
+	// navigate 메서드로 넘긴 props를 받는 방법
+	const location = useLocation();
+	const novel = location.state.props;
 
-  /** STATE 정의
-   * modal: Modal 팝업 상태
-   * popup:  팝업 내용 변경
-   * author: 소설 정보 헤더에서 클릭한 작가 구분 Flag(메인 / 서브 / 미완성 소설 작성자)
-  */
-  const [modal, setModal] = useState(false);
+	/** STATE 정의
+	 * modal: Modal 팝업 상태
+	 * popup:  팝업 내용 변경
+	 * authorId: 소설 정보 헤더에서 클릭한 작가 ID
+	 * authorNickName: 소설 정보 헤더에서 클릭한 작가 Nickname
+	 * subNovelData: 메인 소설에 연결된 서브 소설들 데이터(BasicTable에 넘김)
+	 * mainNovel: 이어쓰기 팝업에서 띄워져야 할 메인 소설의 데이터(title, content, seqno가 담겨있음)
+	 * regditNovData: 이어쓰기 팝업에서 입력한 서브소설 데이터(t_sub_novel_mgt 테이블에 들어갈 데이터)
+	 */
+	const [modal, setModal] = useState(false);
 	const [popup, setPopup] = useState("");
 	const [authorId, setAuthorId] = useState("");
 	const [authorNickName, setAuthorNickName] = useState("");
 	const [subNovelData, setSubNovelData] = useState([]);
-  const [mainNovel, setMainNovel] = useState({});
+	const [mainNovel, setMainNovel] = useState({});
+
+	// 아래 subNovel로 지은 state 아래와 같이 변경(서브 소설 데이터를 보내는거니 subNovel도 맞지만 위에 mainNovel로 인해 혼란이 옮) =>
+	const [regditNovData, setRegditNovData] = useState({
+		main_novel_seqno: null,
+		title: null,
+		content: null,
+		genre: null,
+		keyword: null,
+	});
+
+
 
 	// 서브 소설 가져오기
 	useEffect(() => {
@@ -154,9 +172,19 @@ const NovDetail = () => {
 		setModal(true);
 	};
 
-  const closeModal = () => {
-    setModal(false)
-  }
+	const closeModal = () => {
+		setModal(false);
+	};
+
+	// WriteNovPopup 입력하여 받아온 title, content 세팅 함수
+	const setTitleContent = (data) => {
+
+		const { title, content } = data;
+		setRegditNovData({
+			title: title,
+			content: content
+		}) 
+	};
 
 	// 팝업 상태값 변경
 	const popupChange = () => {
@@ -167,13 +195,19 @@ const NovDetail = () => {
 				<ViewIncompleteNovPopup
 					changeState={() => setPopup("writeNov")}
 					main_seqno={novel.main_seqno}
-          setMainNovel={(novel) => setMainNovel(novel)}
+					setMainNovel={(novel) => setMainNovel(novel)}
 				/>
 			);
 		} else if (popup === "writeNov") {
-			return <WriteNovPopup 
-        mainNovel={mainNovel}
-      />;
+			return (
+				<WriteNovPopup
+					mainNovel={mainNovel}
+					// setSubNovel={(novel) => setSubNovel(novel)}
+					changeState={() => setPopup("selectTag")}
+					setTitleContent={(data) => setTitleContent(data)}
+
+				/> 
+			);
 		} else if (popup === "authorDetail") {
 			return (
 				<AuthorDetailPopup
@@ -182,7 +216,16 @@ const NovDetail = () => {
 					closeModal={closeModal}
 				/>
 			);
-		} 
+		} else if (popup === "selectTag") {
+			return (
+				<SelectTagPopup
+					closeModal={closeModal}
+					changeState={() => setPopup("novIntro")}
+				/>
+			);
+		} else if (popup === "novIntro") {
+			return <WriteNovIntroPopup closeModal={closeModal} />;
+		}
 	};
 
 	return (
@@ -250,11 +293,14 @@ const NovDetail = () => {
 			<ModalPopup
 				fullWidth
 				open={modal}
-				width={
-					popup === "viewComNov" || popup === "viewIncomNov" || popup === "writeNov" ? "80%" : 1000
-				}
-				height={popup === "viewComNov" || popup === "viewIncomNov" || popup === "writeNov" ? 800 : 380}
+				// width={
+				// 	popup === "viewComNov" && popup === "viewIncomNov" && popup === "writeNov" ? "80%" : 500
+				// }
+				width={modalWidth(popup)}
+				// width={500}
+				// height={popup === "viewComNov" || popup === "viewIncomNov" || popup === "writeNov" ? 800 : 380}
 				onClose={closeModal}
+				height={modalHeight(popup)}
 			>
 				{popupChange()}
 			</ModalPopup>
