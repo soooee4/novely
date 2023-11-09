@@ -30,7 +30,7 @@ const ModalPopup = (props) => {
         {/* <DialogTitle sx={{border: "1px solid red", height: "10px"}}> */}
           {/* CloseIcon을 눌렀을 때 join팝업일 경우 로컬 스토리지에 profile이 있으면 새로고침을 한다. */}
           <CloseIcon 
-            sx={{ padding: "5px 10px 0px 0px", marginLeft: "auto"}}
+            sx={{ padding: "11px 13px 0px 0px", marginLeft: "auto"}}
             // onClick={onClose} 
               onClick={() => {
               onClose();

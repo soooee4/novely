@@ -39,7 +39,7 @@ const Title = styled(Typography)({
 });
 
 const Content = styled(Typography)({
-  fontSize: 17,
+  fontSize: 15,
   // border:'3px solid orange'
   // wordBreak: 'break-all',
 });
@@ -54,9 +54,6 @@ const Content = styled(Typography)({
 
 const ViewIncompleteNovPopup = (props) => {
 	const [mainNovel, setMainNovel] = useState({});
-  
-
-  console.log(props,58)
 
   // 미완성 소설 보기
 	useEffect(() => {
@@ -84,8 +81,9 @@ const ViewIncompleteNovPopup = (props) => {
           backgroundColor={COLOR.WHITE}
           color={COLOR.BLACK}
           name={LABEL.BUTTONS.GOTOWRITE}
-          width={100}
-          margin={"0px 0px 0px auto"}
+          // width={100}
+          margin={"-30px 0px 0px auto"}
+          padding={0}
           changeState={props.changeState}
         /> 
       </HeaderBox>

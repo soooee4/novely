@@ -29,7 +29,9 @@ export const LABEL = {
         MY_NOVEL: '내 작품',
         JOIN_BTN: '회원가입',
         TOP: 'Top',
-        GOTONEXT: '저장 후 다음'
+        GOTONEXT: '다음',
+        SUBMIT: '제출',
+        LIKE_BTN: '이 소설에 투표하기👍'
 
     },
 

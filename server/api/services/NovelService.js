@@ -53,7 +53,6 @@ const getAuthorNovel = async ({ created_user }) => {
 
 	try {
 		const data = await client.query(mapper.makeSql(sqlId, { created_user }));
-    // console.log(data,5858)
 		return data;
 	} catch (err) {
 		console.log(err);

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Box, styled } from "@mui/material";
+// Constant
+import { Box, styled, Typography } from "@mui/material";
+import { CODE, LABEL, COLOR } from "common";
 
 import AuthorInfo from "components/contents/AuthorInfo";
 import NovelCard from "components/contents/NovelCard";
+
 
 import { getData } from "common/communication";
 
@@ -14,8 +17,10 @@ const Wrapper = styled(Box)({
 	height: "99%",
 	// border: '2px solid orange',
 	display: "flex",
-  gap: 20
+  gap: 20,
+  paddingTop: 5
 });
+
 // 소설 컴포넌트 카드 영역
 const NovelCardBox = styled(Box)({
 	flexGrow: 1,
@@ -23,12 +28,11 @@ const NovelCardBox = styled(Box)({
 	margin: "0 auto",
 	display: "flex",
 	flexWrap: "wrap",
-  border: "2px solid red"
-	// gap: 30
-	// overflowY: "scroll",
-	// justifyContent: "space-between",
 });
 
+const IsDataInfo = styled(Typography)({
+	fontSize: 17,
+});
 
 const AuthorDetailPopup = (props) => {
 	const [authorNovelData, setAuthorNovelData] = useState([]);
@@ -44,15 +48,11 @@ const AuthorDetailPopup = (props) => {
 			});
 	}, []);
 
-  // console.log(props.authorId,4444488888)
-
 	const navigate = useNavigate();
 
 	const goToDetail = (novel) => {
 			navigate("/novel-detail", { state: { props: novel } });
 		};
-
-
 
 	return (
 		<>
@@ -61,8 +61,7 @@ const AuthorDetailPopup = (props) => {
           authorNickName={props.authorNickName}
         />
 				<NovelCardBox>
-					{authorNovelData.map((list) => {
-						// console.log(list,3)
+					{ authorNovelData.length !== 0 ? authorNovelData.map((list) => {
 						return (
 							<NovelCard
 								key={list.main_seqno}
@@ -76,7 +75,8 @@ const AuthorDetailPopup = (props) => {
                 }}
 							/>
 						);
-					})}
+					})
+        : <IsDataInfo>해당 작가님의 미완결 작품이 없어요 :)</IsDataInfo>}
 				</NovelCardBox>
 			</Wrapper>
 		</>

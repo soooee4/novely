@@ -7,7 +7,6 @@ export const getData = async (url, params) => {
        params: params,
       });
     if (response.data) {
-      // console.log(response.data,1212)
       return response.data;
     }
   } catch(err) {

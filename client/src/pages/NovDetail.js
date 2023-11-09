@@ -23,10 +23,14 @@ import { CODE, LABEL, COLOR, MESSAGE } from "common";
 import ModalPopup from "components/popup/ModalPopup";
 import ViewCompleteNovPopup from "components/popup/ViewCompleteNovPopup";
 import ViewIncompleteNovPopup from "components/popup/ViewIncompleteNovPopup";
-import WriteNovPopup from "components/popup/WriteNovPopup";
+import WriteSubNovPopup from "components/popup/WriteSubNovPopup";
 import AuthorDetailPopup from "components/popup/AuthorDetailPopup";
 import SelectTagPopup from "components/popup/SelectTagPopup";
 import WriteNovIntroPopup from "components/popup/WriteNovIntroPopup";
+import SetNovCoverPopup from "components/popup/SetNovCoverPopup";
+import ViewSubNovPopup from "components/popup/ViewSubNovPopup";
+
+
 
 import { getData } from "common/communication";
 import { modalWidth, modalHeight } from "common/util";
@@ -144,8 +148,9 @@ const NovDetail = () => {
 	const [authorNickName, setAuthorNickName] = useState("");
 	const [subNovelData, setSubNovelData] = useState([]);
 	const [mainNovel, setMainNovel] = useState({});
-
-	// 아래 subNovel로 지은 state 아래와 같이 변경(서브 소설 데이터를 보내는거니 subNovel도 맞지만 위에 mainNovel로 인해 혼란이 옮) =>
+  const [novelIdx, setNovelIdx] = useState(0);
+  
+	// 기존 subNovel로 지은 state 아래와 같이 변경(서브 소설 데이터를 보내는거니 subNovel도 맞지만 위에 mainNovel로 인해 혼란이 옮)
 	const [regditNovData, setRegditNovData] = useState({
 		main_novel_seqno: null,
 		title: null,
@@ -154,9 +159,7 @@ const NovDetail = () => {
 		keyword: null,
 	});
 
-
-
-	// 서브 소설 가져오기
+	// 소설에 딸린 서브 소설 가져오기
 	useEffect(() => {
 		getData("novel/getSubNovel", { main_novel_seqno: novel.main_seqno })
 			.then(function (data) {
@@ -176,15 +179,38 @@ const NovDetail = () => {
 		setModal(false);
 	};
 
-	// WriteNovPopup 입력하여 받아온 title, content 세팅 함수
-	const setTitleContent = (data) => {
+	// !regditNovData에 데이터를 추가하는 아래 함수를 호출할 때마다 새로 갱신되기 때문에 데이터가 쌓이지 않음. 해결하기 위해 prevState(함수형 업데이트)를 사용하여 현재 상태 복사 후 새로운 값 추가
+	// *WriteSubNovPopup 입력하여 받아온 title, content 세팅 함수
 
-		const { title, content } = data;
-		setRegditNovData({
-			title: title,
-			content: content
-		}) 
+	const setTitleContent = (data) => {
+		// 구조 분해 할당 사용
+		// const { title, content } = data;
+		setRegditNovData((prevState) => ({
+      ...prevState,
+			title: data.title,
+			content: data.content,
+      main_novel_seqno: data.main_novel_seqno
+		}));
 	};
+
+	// *SelectTagPopup에서 받아온 genre, keyword 세팅 함수
+	const setTags = (data) => {
+		setRegditNovData((prevState) => ({
+      ...prevState,
+			genre: data.genre,
+			keyword: data.keyword,
+		}));
+	};
+
+  	// *WriteNovIntroPopup 받아온 description 세팅 함수
+	const setDescription = (data) => {
+		setRegditNovData((prevState) => ({
+      ...prevState,
+      description: data.description
+		}));
+	};
+
+  // console.log(regditNovData,"regditNovData")
 
 	// 팝업 상태값 변경
 	const popupChange = () => {
@@ -200,13 +226,13 @@ const NovDetail = () => {
 			);
 		} else if (popup === "writeNov") {
 			return (
-				<WriteNovPopup
+				<WriteSubNovPopup
 					mainNovel={mainNovel}
 					// setSubNovel={(novel) => setSubNovel(novel)}
 					changeState={() => setPopup("selectTag")}
 					setTitleContent={(data) => setTitleContent(data)}
-
-				/> 
+					// 현재 data의 형태는 WriteSubNovPopup에서 받은 { title: title, content: content }
+				/>
 			);
 		} else if (popup === "authorDetail") {
 			return (
@@ -221,12 +247,29 @@ const NovDetail = () => {
 				<SelectTagPopup
 					closeModal={closeModal}
 					changeState={() => setPopup("novIntro")}
+					setTags={(data) => setTags(data)}
 				/>
 			);
 		} else if (popup === "novIntro") {
-			return <WriteNovIntroPopup closeModal={closeModal} />;
+			return <WriteNovIntroPopup 
+        closeModal={closeModal} 
+        setDescription={setDescription}
+        changeState={() => setPopup("novCover")}
+      />;
+		} else if (popup === "novCover") {
+			return <SetNovCoverPopup 
+        closeModal={closeModal}
+      />;
+		} else if (popup === "viewSubNov") {
+			return <ViewSubNovPopup 
+        closeModal={closeModal}
+        // 컴포넌트로 넘겨줄 때 서브 소설 전체가 아닌 클릭한 소설의 고유 index 상태값을 넣어 인덱싱 하여 넘김
+        subNovelData={subNovelData[novelIdx]}
+        mainNovel={novel}
+      />;
 		}
 	};
+
 
 	return (
 		<Wrapper>
@@ -285,7 +328,14 @@ const NovDetail = () => {
 							/>
 						</FilterBox>
 					</NovBoardInfoBox>
-					<BasicTable subNovelData={subNovelData} />
+					<BasicTable 
+            subNovelData={subNovelData}
+            changeState={() => setPopup("viewSubNov")}
+            showModal={showModal}
+            // table 안의 index를 고유 키 값으로 사용하기 위해 props로 전달
+            setNovelIdx={setNovelIdx}
+
+          />
 				</NovBoardBox>
 			</NovDetailBox>
 
@@ -293,12 +343,7 @@ const NovDetail = () => {
 			<ModalPopup
 				fullWidth
 				open={modal}
-				// width={
-				// 	popup === "viewComNov" && popup === "viewIncomNov" && popup === "writeNov" ? "80%" : 500
-				// }
 				width={modalWidth(popup)}
-				// width={500}
-				// height={popup === "viewComNov" || popup === "viewIncomNov" || popup === "writeNov" ? 800 : 380}
 				onClose={closeModal}
 				height={modalHeight(popup)}
 			>

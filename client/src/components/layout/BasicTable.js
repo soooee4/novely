@@ -8,6 +8,7 @@ import {
 } from '@mui/material'
 
 const BasicTable = (props) => {
+
   return (
     <TableContainer 
       component={Paper} 
@@ -25,19 +26,29 @@ const BasicTable = (props) => {
         <TableBody>
           {props.subNovelData && props.subNovelData.map((novel, i) => (
             <TableRow
+              // map 메서드 사용 시 key값으로 각 항목을 식별 (id, index 등)
               key={i}
               sx={{ 
                 '&:last-child td, &:last-child th': { border: 0 },
               }}
             >
-              <TableCell 
+              <TableCell
+                onClick={() => {
+                  // 클릭 이벤트에 NovDetail에서 받은 index 상태값에 파라미터로 넘겨받는 index를 넣어줌
+                  props.setNovelIdx(i)
+                  props.changeState();
+                  props.showModal();
+                }}
                 align="center"
                 size= "small"
                 sx={{
                   width: '65%',
                   textAlign: 'left',
+                  cursor:"pointer"
                 }}
-                >{novel.sub_title}</TableCell>
+              >
+                <div >{novel.sub_title}</div>
+              </TableCell>
               <TableCell  
                 sx={{
                   width: '25%'

@@ -14,7 +14,8 @@ import { getData } from "common/communication";
 const Whole = styled(Box)({
 	width: 211,
 	borderRadius: 15,
-
+  // boxSizing:"border-box",
+  // border: "3px solid black",
 	display: "flex",
 	flexDirection: "column",
 	marginRight: 20,

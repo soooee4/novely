@@ -36,6 +36,7 @@ const Logo = styled(Typography)({
 	fontSize: 27,
 	fontWeight: "bolder",
 	alignSelf: "center",
+  cursor: "pointer"
 });
 
 // 로고 제외 전체 영역
@@ -144,12 +145,12 @@ const Header = () => {
 					) : (
 						// 일반 유저 로그인 상태
 						<>
-							<Buttons
+							{/* <Buttons
 								type={CODE.BUTTON.BASIC}
 								name={LABEL.BUTTONS.ALL_NOVEL}
 								margin={10}
                 navigate={() => navigate('/')}
-							/>
+							/> */}
 							<Buttons
 								type={CODE.BUTTON.BASIC}
 								name={LABEL.BUTTONS.FAVORITE_NOVEL}
@@ -158,11 +159,11 @@ const Header = () => {
 							{/* 권한에 따라 내 정보, 내 작품 메뉴 변경 */}
 							{profile.user_reg_dv === "W" && (
 								<>
-									<Buttons
+									{/* <Buttons
 										type={CODE.BUTTON.BASIC}
 										name={LABEL.BUTTONS.MY_INFO}
 										margin={"10px 25px 10px 10px"}
-									/>
+									/> */}
 									<Buttons
 										type={CODE.BUTTON.BASIC}
 										name={LABEL.BUTTONS.MY_NOVEL}

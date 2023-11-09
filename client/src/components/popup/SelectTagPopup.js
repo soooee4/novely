@@ -30,19 +30,22 @@ const WholeBox = styled(Box)({
 	height: "100%",
 	display: "flex",
 	flexDirection: "column",
-	gap: 20,
+	gap: 10,
 	marginTop: 20,
 	boxSizing: "border-box",
 });
 
+// 전체 태그 영역
 const TagBox = styled(Box)({
-	// border: "5px solid red",
 	flex: 1,
 	height: "100%",
-	padding: 10,
+	// padding: 10,
 	boxSizing: "border-box",
+	// border: "5px solid red",
+
 });
 
+// 선택된 태그 표시 영역
 const SelectedTagBox = styled(Box)({
 	// border: "5px solid coral",
 	flex: 1,
@@ -51,23 +54,33 @@ const SelectedTagBox = styled(Box)({
 	boxSizing: "border-box",
 });
 
+// 장르 태그 영역
 const GenreBox = styled(Box)({
 	// border: "2px solid orange",
 	padding: 10,
 	boxSizing: "border-box",
+	width: "100%",
 });
 
+// 키워드 태그 영역
 const KeywordBox = styled(Box)({
 	// border: "2px solid blue",
 	padding: 10,
 	boxSizing: "border-box",
 });
 
+// 상단 안내 메세지 영역
 const IntroMsg = styled(Typography)({
-	fontSize: 20,
+	fontSize: 18,
 	fontWeight: "bolder",
+  textAlign: "center",
+  // border: "2px solid blue",
+  marginBottom: -5,
+
+  
 });
 
+// 장르, 키워드 구분 텍스트
 const DivTag = styled(Typography)({
 	fontSize: 14,
 	marginBottom: 10,
@@ -110,17 +123,19 @@ const SelectTagPopup = (props) => {
 			}
 		}
 	};
+
 	// 저장 후 다음 버튼 클릭 시 실행할 기능들 함수
 	const nextBtnHandler = () => {
 		if (genre.length === 0 || keyword.length === 0) {
 			alert("장르, 키워드는 최소 1개씩 선택해주세요");
 		} else {
 			props.changeState();
+			props.setTags({
+				genre: genre,
+				keyword: keyword,
+			});
 		}
 	};
-
-	console.log(genre, 1212);
-
 
 	return (
 		<Wrapper>
@@ -129,17 +144,15 @@ const SelectTagPopup = (props) => {
 				backgroundColor={COLOR.WHITE}
 				color={COLOR.BLACK}
 				name={LABEL.BUTTONS.GOTONEXT}
-				width={100}
-				margin={"0px 0px 0px auto"}
+				// width={100}
+				margin={"-10px 0px 5px auto"}
 				nextBtnHandler={nextBtnHandler}
-				// subNovelHandler={subNovelHandler}
 				// changeState={props.changeState}
-				// vilidateTags={() =>
-				// 	(genre.length === 0 || keyword.length === 0) &&
-				// 	alert("장르, 키워드는 최소 1개씩 선택해주세요")
-				// }
 			/>
-			<IntroMsg>소설이 돋보일 수 있게 태그를 설정해보세요 :)</IntroMsg>
+			<IntroMsg>
+				어떤 느낌의 이야기로 완성하셨나요? <br />
+				적절한 태그를 설정해보세요 :)
+			</IntroMsg>
 			<WholeBox>
 				<TagBox>
 					<GenreBox>
@@ -159,7 +172,7 @@ const SelectTagPopup = (props) => {
 							})}
 					</GenreBox>
 					<KeywordBox>
-						<DivTag>태그</DivTag>
+						<DivTag>키워드</DivTag>
 						{tag
 							.filter((list) => list.group_code === "KEYWORD")
 							.map((list, i) => {
