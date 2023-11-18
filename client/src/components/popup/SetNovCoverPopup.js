@@ -51,19 +51,18 @@ const ImgDescription = styled(Typography)({
 const IntroMsg = styled(Typography)({
 	fontSize: 18,
 	fontWeight: "bolder",
-  textAlign: "center",
-  marginBottom: 30
+	textAlign: "center",
+	marginBottom: 30,
 });
 
 const SetNovCoverPopup = (props) => {
-
-  // *제출 버튼 클릭 시 실행할 기능들 함수
-  // submitBtnHandler = () => {
-    // NovDetail에 데이터 전송, changeState
-    // 이미지 선택하지 않았을 시 기본 이미지 넣어주기
-    // '제출 후 수정 불가' alert 띄워주기
-    // 해당 main_novel_seqno에 해당하는 소설 상세 페이지로 이동 (새로고침)
-  // }
+	// *제출 버튼 클릭 시 실행할 기능들 함수
+	// submitBtnHandler = () => {
+	// NovDetail에 데이터 전송, changeState
+	// 이미지 선택하지 않았을 시 기본 이미지 넣어주기
+	// '제출 후 수정 불가' alert 띄워주기
+	// 해당 main_novel_seqno에 해당하는 소설 상세 페이지로 이동 (새로고침)
+	// }
 
 	return (
 		<Wrapper>

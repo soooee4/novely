@@ -181,4 +181,21 @@
             #{sub_description}
         )
     </insert>
+
+        <insert id="postMainNovel">
+        INSERT INTO t_novel_mgt
+        (
+            title,
+            content,
+            created_user,
+            description
+        )
+        VALUES 
+        (
+            #{title},
+            #{content},
+            #{created_user},
+            #{description}
+        )
+    </insert>
 </mapper>

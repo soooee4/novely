@@ -37,18 +37,19 @@ import NovDetail from "./NovDetail";
 
 // 헤더 제외 영역
 const MainBox = styled(Box)({
-	width: "99wh",
+	width: "80%",
 	display: "flex",
-	flexDirection: "column"
+	flexDirection: "column",
+	margin: "0 auto",
 });
 
 // 검색창 하단 장르 태그 박스
 const TagBox = styled(Box)({
-	width: "80%",
+	width: "100%",
 	height: 25,
 	margin: "0 auto",
-	marginBottom: 8,
-	marginTop: 5,
+	marginBottom: 12,
+	marginTop: 8,
 });
 
 // const ScrollContainer = styled(Box)({
@@ -61,7 +62,7 @@ const TagBox = styled(Box)({
 const NovelCardBox = styled(Box)({
 	flexGrow: 1,
 	// border: "2px solid pink",
-	width: "80%",
+	width: "100%",
 	margin: "0 auto",
 	display: "flex",
 	flexWrap: "wrap",
@@ -108,6 +109,12 @@ const Main = () => {
 				console.log(err);
 			});
 	}, []);
+
+	// *전체 소설 데이터에서 특정 아이디가 작성한 메인소설을 뽑을 때 (작가권한 내 작품 페이지에 넘겨줄 데이터)
+	// console.log(novelData.map((li)=>{
+	//   if (li.main_author_id === 'soo@novely.com') {
+	//     return li
+	//   }}),'allCompleteNovelData')
 
 	// 장르 태그 조회 함수
 	useEffect(() => {
@@ -162,28 +169,28 @@ const Main = () => {
 			{/* <ScrollContainer> */}
 			<NovelCardBox>
 				{novelData &&
-        novelData.map((list) => {
-					return (
-						<NovelCard
-							key={list.complete_seqno}
-							title={list.complete_novel_title}
-							genre_1={list.genre_1}
-							genre_2={list.genre_2}
-							keyword_1={list.keyword_1}
-							keyword_2={list.keyword_2}
-							keyword_3={list.keyword_3}
-							genre_1_color={list.genre_1_color}
-							genre_2_color={list.genre_2_color}
-							keyword_1_color={list.keyword_1_color}
-							keyword_2_color={list.keyword_2_color}
-							keyword_3_color={list.keyword_3_color}
-							description={list.description}
-							like_count={list.like_count}
-							created_date={list.created_date}
-							onClick={() => goToDetail(list)}
-						/>
-					);
-				})}
+					novelData.map((list) => {
+						return (
+							<NovelCard
+								key={list.complete_seqno}
+								title={list.complete_novel_title}
+								genre_1={list.genre_1}
+								genre_2={list.genre_2}
+								keyword_1={list.keyword_1}
+								keyword_2={list.keyword_2}
+								keyword_3={list.keyword_3}
+								genre_1_color={list.genre_1_color}
+								genre_2_color={list.genre_2_color}
+								keyword_1_color={list.keyword_1_color}
+								keyword_2_color={list.keyword_2_color}
+								keyword_3_color={list.keyword_3_color}
+								description={list.description}
+								like_count={list.like_count}
+								created_date={list.created_date}
+								onClick={() => goToDetail(list)}
+							/>
+						);
+					})}
 			</NovelCardBox>
 			{/* </ScrollContainer> */}
 			<ModalPopup

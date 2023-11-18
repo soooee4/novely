@@ -36,7 +36,7 @@ const Logo = styled(Typography)({
 	fontSize: 27,
 	fontWeight: "bolder",
 	alignSelf: "center",
-  cursor: "pointer"
+	cursor: "pointer",
 });
 
 // 로고 제외 전체 영역
@@ -62,29 +62,33 @@ const MenuBtnBox = styled(Box)({
 	marginRight: 50,
 	display: "flex",
 	justifyContent: "flex-end",
-	alignItems: "center"
+	alignItems: "center",
 });
 
 const Header = () => {
 	// 구조 분해 할당 이용하여 props 분해
-  
+
 	// const { profile, logout, setProfile } = props;
 
 	const [modal, setModal] = useState(false);
 	const [popup, setPopup] = useState("login");
-	const [isLogin, setIsLogin] = useState(localStorage.getItem("profile") ? true : false);
-  const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile")));
+	const [isLogin, setIsLogin] = useState(
+		localStorage.getItem("profile") ? true : false
+	);
+	const [profile, setProfile] = useState(
+		JSON.parse(localStorage.getItem("profile"))
+	);
 	const nickname = profile && profile.user_nickname;
-  
-  const goToPage = (url) => {
-    navigate(url);
-  }
 
-  const logout = () => {
-    localStorage.removeItem("profile");
-    goToPage('/main');
-    window.location.reload();
-  };
+	const goToPage = (url) => {
+		navigate(url);
+	};
+
+	const logout = () => {
+		localStorage.removeItem("profile");
+		goToPage("/main");
+		window.location.reload();
+	};
 
 	// 모달창 닫는 함수 -----
 	const closeModal = () => {
@@ -114,12 +118,14 @@ const Header = () => {
 		}
 	};
 
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	return (
 		<Whole>
 			<LogoBox>
-				<Logo variant="h1" onClick={() => navigate('/')}>NOVELY</Logo>
+				<Logo variant="h1" onClick={() => navigate("/")}>
+					NOVELY
+				</Logo>
 			</LogoBox>
 			<MenuBar>
 				{profile && (
@@ -165,6 +171,7 @@ const Header = () => {
 										margin={"10px 25px 10px 10px"}
 									/> */}
 									<Buttons
+										navigate={() => navigate("/author-myNovel")}
 										type={CODE.BUTTON.BASIC}
 										name={LABEL.BUTTONS.MY_NOVEL}
 										margin={10}

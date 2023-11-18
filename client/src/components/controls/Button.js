@@ -10,16 +10,23 @@ const BasicBtn = styled(Button)({
 	borderRadius: 5,
 	"&:hover": {
 		backgroundColor: "transparent",
+		fontWeight: "bolder",
+		fontSize: 15,
 	},
 });
 
-// 팔로우 버튼
+// 로그인, 로그아웃 버튼
 const BorderBtn = styled(Button)({
 	height: 10,
 	fontWeight: 700,
 	border: `1px solid ${COLOR.BLACK}`,
 	borderRadius: 7,
 	padding: 15,
+	"&:hover": {
+		fontWeight: "bolder",
+		fontSize: 15,
+		padding: "15px 0",
+	},
 });
 
 // 태그 버튼
@@ -44,6 +51,14 @@ const Buttons = (props) => {
 					// props.vilidateTags && props.vilidateTags();
 					props.nextBtnHandler && props.nextBtnHandler();
 					props.subDescHandler && props.subDescHandler();
+					props.isComplete && props.isComplete();
+					props.goToWrite && props.goToWrite();
+					props.AuthorNovelHandler && props.AuthorNovelHandler();
+					props.setMainNovelData && props.setMainNovelData();
+					props.postMainNovel && props.postMainNovel();
+					props.isPost && props.isPost();
+					props.sortPopular && props.sortPopular();
+					props.sortLatest && props.sortLatest();
 				}}
 				style={{
 					width: props.width,

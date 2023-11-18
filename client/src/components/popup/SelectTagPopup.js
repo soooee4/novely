@@ -42,7 +42,6 @@ const TagBox = styled(Box)({
 	// padding: 10,
 	boxSizing: "border-box",
 	// border: "5px solid red",
-
 });
 
 // 선택된 태그 표시 영역
@@ -73,11 +72,9 @@ const KeywordBox = styled(Box)({
 const IntroMsg = styled(Typography)({
 	fontSize: 18,
 	fontWeight: "bolder",
-  textAlign: "center",
-  // border: "2px solid blue",
-  marginBottom: -5,
-
-  
+	textAlign: "center",
+	// border: "2px solid blue",
+	marginBottom: -5,
 });
 
 // 장르, 키워드 구분 텍스트

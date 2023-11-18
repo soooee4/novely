@@ -34,6 +34,9 @@ const modalWidth = (popup) => {
 		case "novIntro":
 			width = 400;
 			break;
+		case "authorWriteIntro":
+			width = 400;
+			break;
 		case "novCover":
 			width = 400;
 			break;
@@ -53,6 +56,9 @@ const modalHeight = (popup) => {
 			height = 390;
 			break;
 		case "novIntro":
+			height = 500;
+			break;
+		case "authorWriteIntro":
 			height = 500;
 			break;
 		case "novCover":

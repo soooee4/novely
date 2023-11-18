@@ -30,8 +30,6 @@ import WriteNovIntroPopup from "components/popup/WriteNovIntroPopup";
 import SetNovCoverPopup from "components/popup/SetNovCoverPopup";
 import ViewSubNovPopup from "components/popup/ViewSubNovPopup";
 
-
-
 import { getData } from "common/communication";
 import { modalWidth, modalHeight } from "common/util";
 
@@ -131,8 +129,14 @@ const NovDetail = () => {
 	// 메인 페이지에서 넘겨받은 클릭한 소설의 상세 정보
 	// navigate 메서드로 넘긴 props를 받는 방법
 	const location = useLocation();
-	const novel = location.state.props;
 
+	// ! 메인 소설 등록 post 요청 전 임시 처리
+	const novel =
+		// location.state && location.state.props ? location.state.props : {};
+		location.state.props;
+
+	//?
+	// console.log(novel, "test");
 	/** STATE 정의
 	 * modal: Modal 팝업 상태
 	 * popup:  팝업 내용 변경
@@ -140,6 +144,7 @@ const NovDetail = () => {
 	 * authorNickName: 소설 정보 헤더에서 클릭한 작가 Nickname
 	 * subNovelData: 메인 소설에 연결된 서브 소설들 데이터(BasicTable에 넘김)
 	 * mainNovel: 이어쓰기 팝업에서 띄워져야 할 메인 소설의 데이터(title, content, seqno가 담겨있음)
+	 * isPopular: 서브 소설을 담은 table에 인기순인지 최신순인지 알려주기 위한 상태
 	 * regditNovData: 이어쓰기 팝업에서 입력한 서브소설 데이터(t_sub_novel_mgt 테이블에 들어갈 데이터)
 	 */
 	const [modal, setModal] = useState(false);
@@ -148,8 +153,9 @@ const NovDetail = () => {
 	const [authorNickName, setAuthorNickName] = useState("");
 	const [subNovelData, setSubNovelData] = useState([]);
 	const [mainNovel, setMainNovel] = useState({});
-  const [novelIdx, setNovelIdx] = useState(0);
-  
+	const [novelIdx, setNovelIdx] = useState(0);
+	const [isPopular, setIsPopular] = useState(false);
+
 	// 기존 subNovel로 지은 state 아래와 같이 변경(서브 소설 데이터를 보내는거니 subNovel도 맞지만 위에 mainNovel로 인해 혼란이 옮)
 	const [regditNovData, setRegditNovData] = useState({
 		main_novel_seqno: null,
@@ -159,7 +165,23 @@ const NovDetail = () => {
 		keyword: null,
 	});
 
-	// 소설에 딸린 서브 소설 가져오기
+	// * 인기순 정렬
+	// 인기순 (like_count가 많은 순으로 정렬할 서브노벨 배열)
+	const [popularOrder, setPopularOrder] = useState([]);
+
+	// 위 popularOrder 배열 초깃값으로 subNovelData를 넣었더니 반영되지 않는 문제 발생하여 useEffect로 처리
+	useEffect(() => {
+		setPopularOrder([...subNovelData]);
+	}, [subNovelData]);
+
+	// NovDetail에서 인기순 버튼 클릭 시 실행할 함수
+	const sortPopular = () => {
+		console.log("is working");
+		setIsPopular(true);
+		popularOrder.sort((a, b) => b.sub_like_count - a.sub_like_count);
+	};
+
+	// * 소설에 딸린 서브 소설 가져오기
 	useEffect(() => {
 		getData("novel/getSubNovel", { main_novel_seqno: novel.main_seqno })
 			.then(function (data) {
@@ -186,31 +208,31 @@ const NovDetail = () => {
 		// 구조 분해 할당 사용
 		// const { title, content } = data;
 		setRegditNovData((prevState) => ({
-      ...prevState,
+			...prevState,
 			title: data.title,
 			content: data.content,
-      main_novel_seqno: data.main_novel_seqno
+			main_novel_seqno: data.main_novel_seqno,
 		}));
 	};
 
 	// *SelectTagPopup에서 받아온 genre, keyword 세팅 함수
 	const setTags = (data) => {
 		setRegditNovData((prevState) => ({
-      ...prevState,
+			...prevState,
 			genre: data.genre,
 			keyword: data.keyword,
 		}));
 	};
 
-  	// *WriteNovIntroPopup 받아온 description 세팅 함수
+	// *WriteNovIntroPopup 받아온 description 세팅 함수
 	const setDescription = (data) => {
 		setRegditNovData((prevState) => ({
-      ...prevState,
-      description: data.description
+			...prevState,
+			description: data.description,
 		}));
 	};
 
-  // console.log(regditNovData,"regditNovData")
+	// console.log(regditNovData,"regditNovData")
 
 	// 팝업 상태값 변경
 	const popupChange = () => {
@@ -251,25 +273,26 @@ const NovDetail = () => {
 				/>
 			);
 		} else if (popup === "novIntro") {
-			return <WriteNovIntroPopup 
-        closeModal={closeModal} 
-        setDescription={setDescription}
-        changeState={() => setPopup("novCover")}
-      />;
+			return (
+				<WriteNovIntroPopup
+					closeModal={closeModal}
+					setDescription={setDescription}
+					changeState={() => setPopup("novCover")}
+				/>
+			);
 		} else if (popup === "novCover") {
-			return <SetNovCoverPopup 
-        closeModal={closeModal}
-      />;
+			return <SetNovCoverPopup closeModal={closeModal} />;
 		} else if (popup === "viewSubNov") {
-			return <ViewSubNovPopup 
-        closeModal={closeModal}
-        // 컴포넌트로 넘겨줄 때 서브 소설 전체가 아닌 클릭한 소설의 고유 index 상태값을 넣어 인덱싱 하여 넘김
-        subNovelData={subNovelData[novelIdx]}
-        mainNovel={novel}
-      />;
+			return (
+				<ViewSubNovPopup
+					closeModal={closeModal}
+					// 컴포넌트로 넘겨줄 때 서브 소설 전체가 아닌 클릭한 소설의 고유 index 상태값을 넣어 인덱싱 하여 넘김
+					subNovelData={subNovelData[novelIdx]}
+					mainNovel={novel}
+				/>
+			);
 		}
 	};
-
 
 	return (
 		<Wrapper>
@@ -320,22 +343,25 @@ const NovDetail = () => {
 								type={CODE.BUTTON.BASIC}
 								name={LABEL.BUTTONS.LATEST}
 								height={10}
+								sortLatest={() => setIsPopular(false)}
 							/>
 							<Buttons
 								type={CODE.BUTTON.BASIC}
 								name={LABEL.BUTTONS.POPULAR}
 								height={10}
+								sortPopular={sortPopular}
 							/>
 						</FilterBox>
 					</NovBoardInfoBox>
-					<BasicTable 
-            subNovelData={subNovelData}
-            changeState={() => setPopup("viewSubNov")}
-            showModal={showModal}
-            // table 안의 index를 고유 키 값으로 사용하기 위해 props로 전달
-            setNovelIdx={setNovelIdx}
-
-          />
+					<BasicTable
+						subNovelData={subNovelData}
+						changeState={() => setPopup("viewSubNov")}
+						showModal={showModal}
+						// table 안의 index를 고유 키 값으로 사용하기 위해 props로 전달
+						setNovelIdx={setNovelIdx}
+						popularOrder={popularOrder}
+						isPopular={isPopular}
+					/>
 				</NovBoardBox>
 			</NovDetailBox>
 

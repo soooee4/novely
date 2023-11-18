@@ -36,7 +36,9 @@ const getMainNovel = async ({ novel_seqno }) => {
 	const sqlId = "Novel.getMainNovel";
 
 	try {
-		const data = await client.query(mapper.makeSql(sqlId, { novel_seqno: novel_seqno }));
+		const data = await client.query(
+			mapper.makeSql(sqlId, { novel_seqno: novel_seqno })
+		);
 		return data;
 	} catch (err) {
 		console.log(err);
@@ -84,17 +86,19 @@ const getSubNovel = async ({ main_novel_seqno }) => {
 };
 
 // 완성 소설 보기 함수
-const getCompleteNovel = async ({complete_seqno}) => {
+const getCompleteNovel = async ({ complete_seqno }) => {
 	const client = await pool.connect();
 
 	const sqlId = "Novel.getCompleteNovel";
 
 	try {
-		const data = await client.query(mapper.makeSql(sqlId, {
-      complete_seqno
-    }));
+		const data = await client.query(
+			mapper.makeSql(sqlId, {
+				complete_seqno,
+			})
+		);
 		return data;
-    // console.log(data,989898)
+		// console.log(data,989898)
 	} catch (err) {
 		console.log(err);
 	} finally {
@@ -148,16 +152,16 @@ const postNovel = async ({
 
 // 서브 소설 등록 함수
 const postSubNovel = async ({
-  sub_title,
-  sub_content,
-  main_novel_seqno,
-  created_user,
-  genre_1,
-  genre_2,
-  keyword_1,
-  keyword_2,
-  keyword_3,
-  sub_description
+	sub_title,
+	sub_content,
+	main_novel_seqno,
+	created_user,
+	genre_1,
+	genre_2,
+	keyword_1,
+	keyword_2,
+	keyword_3,
+	sub_description,
 }) => {
 	const client = await pool.connect();
 
@@ -171,16 +175,41 @@ const postSubNovel = async ({
 	try {
 		const data = await client.query(
 			mapper.makeSql(sqlId, {
-        sub_title,
-        sub_content,
-        main_novel_seqno,
-        created_user,
-        genre_1,
-        genre_2,
-        keyword_1,
-        keyword_2,
-        keyword_3,
-        sub_description
+				sub_title,
+				sub_content,
+				main_novel_seqno,
+				created_user,
+				genre_1,
+				genre_2,
+				keyword_1,
+				keyword_2,
+				keyword_3,
+				sub_description,
+			})
+		);
+		// console.log(data);
+		return data;
+	} catch (err) {
+		console.log(err);
+	} finally {
+		if (client) client.release();
+	}
+};
+
+// 메인 소설 등록 함수
+const postMainNovel = async ({ title, content, created_user, description }) => {
+	const client = await pool.connect();
+
+	const sqlId = "Novel.postMainNovel";
+	// console.log(user_id, 1111);
+
+	try {
+		const data = await client.query(
+			mapper.makeSql(sqlId, {
+				title,
+				content,
+				created_user,
+				description,
 			})
 		);
 		// console.log(data);
@@ -197,7 +226,8 @@ module.exports = {
 	getSubNovel,
 	postNovel,
 	getMainNovel,
-  getCompleteNovel,
-  getAuthorNovel,
-  postSubNovel
+	getCompleteNovel,
+	getAuthorNovel,
+	postSubNovel,
+	postMainNovel,
 };
