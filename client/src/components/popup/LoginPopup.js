@@ -45,7 +45,7 @@ const SighUpText = styled(Typography)({
 });
 
 
-//LoginPopup 컴포넌트 -----
+/** 로그인 팝업 컴포넌트 (헤더에서 로그인/로그아웃 버튼 클릭 시 해당 팝업 띄워줌) */
 const LoginPopup = (props) => {
   
   const { changeState, closeModal, idValidate, isLogin, pwValidate } = props;

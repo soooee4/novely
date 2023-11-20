@@ -1,8 +1,6 @@
 import { Box, styled, Typography } from "@mui/material";
 
-import Buttons from "components/controls/Button";
-
-import { CODE, LABEL, COLOR } from 'common'; 
+import { COLOR } from 'common'; 
 
 // 작가 이름 텍스트 영역
 const AuthorName = styled(Typography)({
@@ -19,6 +17,7 @@ const AuthorMessage = styled(Typography)({
   marginBottom: 15
 })
 
+/** 작가 상세정보 팝업에 들어가는 작가 소개 컴포넌트(작가 프로필 이미지, 닉네임, 소개글 포함) */
 const AuthorInfo = (props) => {
     // console.log(props,232323)
   return (

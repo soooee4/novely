@@ -7,7 +7,6 @@ import Icons from "components/controls/Icons";
 import { CODE, COLOR } from "common";
 
 import { deleteData, postData } from "common/communication";
-import { useEffect } from "react";
 
 // 카드 컴포넌트 전체 영역
 const Whole = styled(Box)({
@@ -56,7 +55,7 @@ const TitleBox = styled(Box)({
 
 // 좋아요 영역
 const LikedBox = styled(Box)({
-	flex: "1",
+	marginLeft: 'auto',
 	display: "flex",
 });
 
@@ -93,10 +92,10 @@ const TagBox = styled(Box)({
 	minHeight: 60,
 });
 
+/** 소설 정보를 담고있는 카드 형식 컴포넌트 (메인 화면, 작가 상세 정보 팝업에서 사용) */
 const NovelCard = (props) => {
 
   // 하트 아이콘 눌렀을 때 실행될 기능 함수
- 
   const pickNovel = () => {
     if (props.pick_yn === "N") {
       console.log('pickYn is N')
@@ -127,9 +126,6 @@ const NovelCard = (props) => {
     }
   }
 
-
-
-
 	return (
 		<Whole >
 			<Cover onClick={props.onClick} ></Cover>
@@ -140,7 +136,6 @@ const NovelCard = (props) => {
 					</TitleBox>
 					{props.like_count && (
 						<LikedBox>
-							<CountLike>{props.like_count}</CountLike>
 							{props.pick_yn === "Y" ? 
               <Icons 
                 type={CODE.ICON.FILLHEART}

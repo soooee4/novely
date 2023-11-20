@@ -3,21 +3,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // MUI Package Module
-import { Button, styled, Box, Typography } from "@mui/material";
+import {  styled, Box } from "@mui/material";
 
 // Content Component
 import NovelCard from "components/contents/NovelCard";
 // Control Component
 import Buttons from "components/controls/Button";
-import Icons from "components/controls/Icons";
-import Inputs from "components/controls/Input";
-import SearchBar from "components/controls/Search";
-import DropBox from "components/controls/DropBox";
 
 // Constant
 import { CODE, LABEL, COLOR } from "common";
-import { Alert, Stack } from "@mui/material";
-import axios from "axios";
 
 import { getData, postData } from "common/communication";
 import AuthorWriteNovPopup from "../components/popup/AuthorWirteNovPopup";
@@ -30,7 +24,6 @@ const MainBox = styled(Box)({
 	width: "80%",
 	display: "flex",
 	flexDirection: "column",
-	// border: "5px solid coral",
 	margin: "0 auto",
 });
 
@@ -43,7 +36,6 @@ const MainBox = styled(Box)({
 // 소설 컴포넌트 카드 영역
 const NovelCardBox = styled(Box)({
 	flexGrow: 1,
-	// border: "3px solid green",
 	width: "100%",
 	margin: "0 auto",
 	display: "flex",
@@ -53,13 +45,11 @@ const NovelCardBox = styled(Box)({
 
 // 소설 구분 버튼 박스
 const DivNovelBtn = styled(Box)({
-	// border: "3px solid orange",
 	display: "flex",
 	minHeight: 40,
-	// margin: "0px 0px 0px auto",
 });
 
-/** 내 작품 화면 Component */
+/** 작가 권한일 경우 헤더의 내 작품 클릭 시 나오는 페이지 */
 const AuthorMyNov = () => {
 	/** STATE 정의
 	 * completeNovData: 로그인한 작가의 완성 소설 데이터

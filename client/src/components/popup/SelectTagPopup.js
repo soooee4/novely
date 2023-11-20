@@ -7,11 +7,9 @@ import Buttons from "components/controls/Button";
 // Constant
 import { Box, styled, Typography } from "@mui/material";
 import { CODE, LABEL, COLOR } from "common";
-import Inputs from "components/controls/Input";
 
 import { getData } from "common/communication";
 
-// 레이아웃
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "100%",
@@ -39,14 +37,11 @@ const WholeBox = styled(Box)({
 const TagBox = styled(Box)({
 	flex: 1,
 	height: "100%",
-	// padding: 10,
 	boxSizing: "border-box",
-	// border: "5px solid red",
 });
 
 // 선택된 태그 표시 영역
 const SelectedTagBox = styled(Box)({
-	// border: "5px solid coral",
 	flex: 1,
 	height: "100%",
 	padding: 10,
@@ -55,7 +50,6 @@ const SelectedTagBox = styled(Box)({
 
 // 장르 태그 영역
 const GenreBox = styled(Box)({
-	// border: "2px solid orange",
 	padding: 10,
 	boxSizing: "border-box",
 	width: "100%",
@@ -63,7 +57,6 @@ const GenreBox = styled(Box)({
 
 // 키워드 태그 영역
 const KeywordBox = styled(Box)({
-	// border: "2px solid blue",
 	padding: 10,
 	boxSizing: "border-box",
 });
@@ -73,7 +66,6 @@ const IntroMsg = styled(Typography)({
 	fontSize: 18,
 	fontWeight: "bolder",
 	textAlign: "center",
-	// border: "2px solid blue",
 	marginBottom: -5,
 });
 
@@ -83,9 +75,10 @@ const DivTag = styled(Typography)({
 	marginBottom: 10,
 });
 
+/** 서브 소설 작성 후 태그 선택하는 팝업 */
 const SelectTagPopup = (props) => {
-	const [tag, setTag] = useState([]);
 
+const [tag, setTag] = useState([]);
 	// 선택된 태그 저장할 변수
 	const [genre, setGenre] = useState([]);
 	const [keyword, setKeyword] = useState([]);

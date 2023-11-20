@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 // Constant
 import { Box, styled, Typography } from "@mui/material";
-import { CODE, LABEL, COLOR } from "common";
 
 import AuthorInfo from "components/contents/AuthorInfo";
 import NovelCard from "components/contents/NovelCard";
@@ -33,6 +32,7 @@ const IsDataInfo = styled(Typography)({
 	fontSize: 17,
 });
 
+/** 작가 상세 정보를 보여주는 모달 (소설 상세 페이지에서 작가 닉네임 클릭시 해당 팝업 띄워짐) */
 const AuthorDetailPopup = (props) => {
 	const [authorNovelData, setAuthorNovelData] = useState([]);
 

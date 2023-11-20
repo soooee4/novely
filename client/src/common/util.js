@@ -1,3 +1,5 @@
+/** 공통 코드 모음  */
+
 import { MESSAGE } from "common";
 
 // 아이디 유효성 검사

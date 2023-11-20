@@ -124,7 +124,7 @@ const FilterBox = styled(Box)({
 	marginRight: 10,
 });
 
-// 소설 상세보기 컴포넌트
+/** 작품 상세 페이지 (NovelCard 컴포넌트 클릭 시 해당 페이지로 이동) */
 const NovDetail = () => {
 	// 메인 페이지에서 넘겨받은 클릭한 소설의 상세 정보
 	// navigate 메서드로 넘긴 props를 받는 방법
@@ -185,7 +185,6 @@ const NovDetail = () => {
 		popularOrder.sort((a, b) => b.sub_like_count - a.sub_like_count);
 	};
 
-console.log(subNovelData,187)
 
 	// * 소설에 딸린 서브 소설 가져오기
 	useEffect(() => {
@@ -239,8 +238,6 @@ console.log(subNovelData,187)
 			description: data.description,
 		}));
 	};
-
-	// console.log(regditNovData,"regditNovData")
 
 	// 팝업 상태값 변경
 	const popupChange = () => {
@@ -333,7 +330,6 @@ console.log(subNovelData,187)
 			<NovDetailBox>
 				<NovCoverBox>
 					<LikeBox>
-						<LikeCount>{novel.like_count}</LikeCount>
 						<Icons type={CODE.ICON.HEART} color={COLOR.HEART_PINK} />
 					</LikeBox>
 					<NovelCover />

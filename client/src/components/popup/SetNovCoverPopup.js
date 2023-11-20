@@ -9,7 +9,6 @@ import { CODE, LABEL, COLOR } from "common";
 
 import { getData } from "common/communication";
 
-// 레이아웃
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "100%",
@@ -24,7 +23,6 @@ const ImgBox = styled(Box)({
 	width: "100%",
 	height: 500,
 	boxSizing: "border-box",
-	// border: "3px solid orange",
 	marginBottom: 5,
 	display: "flex",
 	flexDirection: "column",
@@ -55,6 +53,7 @@ const IntroMsg = styled(Typography)({
 	marginBottom: 30,
 });
 
+/** 서브 소설 작성 후 소설 커버 이미지 업로드 하는 팝업 */
 const SetNovCoverPopup = (props) => {
 	// *제출 버튼 클릭 시 실행할 기능들 함수
 	// submitBtnHandler = () => {

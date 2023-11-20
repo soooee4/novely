@@ -9,8 +9,6 @@ import { CODE, LABEL, COLOR } from "common";
 
 import { getData } from "common/communication";
 
-// 레이아웃
-
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "100%",
@@ -52,6 +50,7 @@ const Content = styled(Typography)({
 // 	});
 // };mainNovel
 
+/** 미완성 작품 (메인 소설) 읽기 컴포넌트 (작품 상세 페이지에서 view 버튼 클릭 시 미완성작일 경우 해당 팝업 띄워줌) */
 const ViewIncompleteNovPopup = (props) => {
 	const [mainNovel, setMainNovel] = useState({});
 

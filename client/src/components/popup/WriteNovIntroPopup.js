@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // Control Component
 import Buttons from "components/controls/Button";
@@ -7,9 +7,6 @@ import Buttons from "components/controls/Button";
 import { Box, styled, Typography } from "@mui/material";
 import { CODE, LABEL, COLOR } from "common";
 
-import { getData } from "common/communication";
-
-// 레이아웃
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "100%",
@@ -18,7 +15,6 @@ const Wrapper = styled(Box)({
 	flexDirection: "column",
 	padding: "0 3%",
 	boxSizing: "border-box",
-	// border: "3px solid blue",
 	marinTop: "-30px",
 });
 
@@ -42,7 +38,9 @@ const IntroMsg = styled(Typography)({
 	marginBottom: 30,
 });
 
+/** 서브 소설 작성 후 소설 설명을 작성하는 컴포넌트 */
 const WriteNovIntroPopup = (props) => {
+
 	const [description, setDescription] = useState("");
 
 	const inputDescription = (e) => {
@@ -63,7 +61,6 @@ const WriteNovIntroPopup = (props) => {
 				backgroundColor={COLOR.WHITE}
 				color={COLOR.BLACK}
 				name={LABEL.BUTTONS.GOTONEXT}
-				// width={100}
 				margin={"-10px -5px 0px auto"}
 				subDescHandler={subDescHandler}
 				changeState={props.changeState}

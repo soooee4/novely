@@ -7,7 +7,7 @@ import { Box, styled, Typography, useScrollTrigger } from "@mui/material"; // �
 import Buttons from "components/controls/Button";
 
 // Constant
-import { CODE, LABEL, MESSAGE } from "common";
+import { CODE, LABEL } from "common";
 
 // Popup Component
 // import ToastPopup from "components/popup/ToastPopup";
@@ -65,9 +65,10 @@ const MenuBtnBox = styled(Box)({
 	alignItems: "center",
 });
 
+/** 모든 페이지에 고정적으로 위치하는 헤더 (메뉴 버튼 포함) */
 const Header = () => {
+  
 	// 구조 분해 할당 이용하여 props 분해
-
 	// const { profile, logout, setProfile } = props;
 
 	const [modal, setModal] = useState(false);

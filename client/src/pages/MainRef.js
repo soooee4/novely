@@ -29,7 +29,7 @@ import ModalPopup from "components/popup/ModalPopup";
 import { CODE, LABEL, COLOR } from "common";
 import { Alert, Stack } from "@mui/material";
 
-/** 메인화면 Component */
+/** 버튼, 아이콘 등 asset 참고용 */
 const Main = () => {
 	// Modal open/close, Popup State정의
 	const [modal, setModal] = useState(false);

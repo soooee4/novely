@@ -83,6 +83,7 @@ const ContentBox = styled(Box)({
 // 	});
 // };mainNovel
 
+/** 미완성 작품 (메인 소설)에 달린 서브 소설 읽기 컴포넌트 (작품 상세 페이지 하단 테이블의 소설 제목 클릭 시 해당 팝업 띄워줌) */
 const ViewSubNovPopup = (props) => {
 	console.log(props.subNovelData.like_yn,'props');
 

@@ -5,7 +5,6 @@ import Buttons from "components/controls/Button";
 import Icons from "components/controls/IconRef";
 
 import { CODE, LABEL, COLOR, MESSAGE } from "common";
-import { useState } from "react";
 
 // 전체 영역
 const Whole = styled(Box)({
@@ -90,7 +89,7 @@ const NovelViewBox = styled(Box)({
 	marginLeft: "auto",
 });
 
-// 소설 축약 정보(소설 상세보기 컴포넌트의 헤더)
+/** 소설 축약 정보 컴포넌트(소설 상세보기 페이지의 헤더) */
 const NovelInfo = (props) => {
 
 	return (

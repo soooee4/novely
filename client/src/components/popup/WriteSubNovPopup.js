@@ -8,7 +8,6 @@ import { Box, styled, Typography } from "@mui/material";
 import { CODE, LABEL, COLOR } from "common";
 import Inputs from "components/controls/Input";
 
-// 레이아웃
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "100%",
@@ -17,12 +16,10 @@ const Wrapper = styled(Box)({
 	flexDirection: "column",
 	padding: "0 3%",
 	boxSizing: "border-box",
-	// border:'3px solid blue',
 	marinTop: "-30px",
 });
 
 const WholeBox = styled(Box)({
-	// border: "2px solid yellow",
 	width: "100%",
 	height: "100%",
 	display: "flex",
@@ -32,7 +29,6 @@ const WholeBox = styled(Box)({
 });
 
 const ViewBox = styled(Box)({
-	// border: "2px solid grey",
 	flex: 1,
 	height: "100%",
 	border: `1px solid ${COLOR.GRAY}`,
@@ -42,7 +38,6 @@ const ViewBox = styled(Box)({
 });
 
 const WriteBox = styled(Box)({
-	// border: "2px solid orange",
 	flex: 1,
 	height: "100%",
 	boxSizing: "border-box",
@@ -53,7 +48,6 @@ const HeaderBox = styled(Box)({
 	width: "100%",
 	display: "flex",
 	boxSizing: "border-box",
-	// border:'3px solid pink',
 });
 
 const Content = styled(Typography)({
@@ -72,6 +66,7 @@ const writeNovText = {
 	boxSizing: "border-box",
 };
 
+/** 서브 소설 title, content 작성 컴포넌트 (미완성 소설 보는 팝업에서 이어쓰기 버튼 클릭 시 해당 팝업 띄워줌) */
 const WriteSubNovPopup = (props) => {
 	// console.log(props,79)
 	// const [subNovel, setSubNovel] = useState({});

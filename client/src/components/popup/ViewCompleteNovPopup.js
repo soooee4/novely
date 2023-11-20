@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 
-// Control Component
-import Buttons from "components/controls/Button";
-
 // Constant
 import { Box, styled, Typography } from "@mui/material";
-import { CODE, LABEL, COLOR } from "common";
 
 import { getData } from "common/communication";
 
@@ -37,7 +33,7 @@ import { getData } from "common/communication";
 	// 	});
 	// };
 
-
+/** 완성 작품 읽기 컴포넌트 (작품 상세 페이지에서 view 버튼 클릭 시 완성작일 경우 해당 팝업 띄워줌) */
 const ViewCompleteNovPopup = (props) => {
 
 	const [completeNovel, setCompleteNovel] = useState({});

@@ -9,7 +9,6 @@ import { CODE, LABEL, COLOR } from "common";
 import Inputs from "components/controls/Input";
 import ModalPopup from "components/popup/ModalPopup";
 
-// 레이아웃
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "100%",
@@ -73,11 +72,10 @@ const writeNovText = {
 	boxSizing: "border-box",
 };
 
+/** 작가 권한일 시 메인 소설을 쓰는 컴포넌트 (내 작품 페이지에서 새 소설 쓰기 버튼 클릭 시 해당 팝업 띄워줌) */
 const AuthorWriteNovPopup = (props) => {
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
-
-	console.log(props, 7979);
 
 	// 저장 후 다음 버튼 눌렀을 때 AuthorMyNov 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
 	const authorNovelHandler = () => {

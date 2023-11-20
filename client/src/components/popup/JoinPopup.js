@@ -38,15 +38,15 @@ const Text = styled(TextField)({
 	},
 });
 
-
+/** 회원가입 팝업 컴포넌트 (로그인 컴포넌트 내 회원가입 버튼 클릭 시 해당 팝업 띄워줌) */
 const JoinPopup = (props) => {
-  const { idValidate, profile, pwValidate } = props;
+	const { idValidate, profile, pwValidate } = props;
 
-  const [id, setId] = useState("");
+	const [id, setId] = useState("");
 	const [pw, setPw] = useState("");
 	const [idRegMsg, setIdRegMsg] = useState("");
 	const [pwRegMsg, setPwRegMsg] = useState("");
-  
+
 	// input값 입력
 	const inputId = (e) => {
 		setId(e.target.value);
@@ -56,33 +56,32 @@ const JoinPopup = (props) => {
 		setPw(e.target.value);
 	};
 
-  const validation = (type) => {
-    if (type === "id") {
-      setIdRegMsg(idValidation(id));
-    } else if (type === "pw") {
-      setPwRegMsg(pwValidation(pw));
-    }
-  };
-
+	const validation = (type) => {
+		if (type === "id") {
+			setIdRegMsg(idValidation(id));
+		} else if (type === "pw") {
+			setPwRegMsg(pwValidation(pw));
+		}
+	};
 
 	const onJoin = () => {
-		postData('auth/join', {
+		postData("auth/join", {
 			login_id: id,
 			login_pw: pw,
 		})
-    .then((data) => {
-      if (typeof(data) === 'string') {
-        alert('이미 가입된 정보입니다.')
-      } else if (typeof(data) === 'object') {
-        console.log(data,22)
-        localStorage.setItem("profile", JSON.stringify(data));
-        alert("회원가입 완료!")
-        window.location.reload();
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+			.then((data) => {
+				if (typeof data === "string") {
+					alert("이미 가입된 정보입니다.");
+				} else if (typeof data === "object") {
+					console.log(data, 22);
+					localStorage.setItem("profile", JSON.stringify(data));
+					alert("회원가입 완료!");
+					window.location.reload();
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 
 	return (
@@ -95,10 +94,9 @@ const JoinPopup = (props) => {
 						variant="standard"
 						placeholder="ID"
 						onChange={inputId}
-						onBlur={() => validation('id')}
+						onBlur={() => validation("id")}
 						value={id}
 						helperText={idRegMsg}
-
 					/>
 					<Text
 						fullWidth
@@ -106,7 +104,7 @@ const JoinPopup = (props) => {
 						variant="standard"
 						placeholder="PW"
 						onChange={inputPw}
-						onBlur={() => validation('pw')}
+						onBlur={() => validation("pw")}
 						value={pw}
 						type="password"
 						sx={{
@@ -129,8 +127,7 @@ const JoinPopup = (props) => {
 						sx={{
 							display: "flex",
 						}}
-					>
-					</Box>
+					></Box>
 				</LoginBox>
 			</Wrapper>
 		</>

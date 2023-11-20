@@ -34,6 +34,7 @@ const AuthorInfo = styled(Typography)({
   marginRight: 30
 })
 
+/** 작가 팔로우 페이지에 사용되는 리스트 컴포넌트 (현재는 팔로우 기능 X, 리팩토링 과정에서 추가 예정) */
 const FollowList = () => {
 
   return (

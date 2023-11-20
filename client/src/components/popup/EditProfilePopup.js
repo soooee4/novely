@@ -1,15 +1,10 @@
 import { useState } from "react";
-import axios from "axios";
-// import { useNavigate } from "react-router-dom";
 
-import { Box, Typography, styled } from "@mui/material";
-import { COLOR, LABEL, CODE, MESSAGE } from "../../common";
+import { Box, styled } from "@mui/material";
+import { MESSAGE } from "../../common";
 
 // TextField Component
 import TextField from "@mui/material/TextField";
-
-// Button Component
-import Buttons from "components/controls/Button";
 
 import { patchData } from "common/communication";
 
@@ -33,10 +28,10 @@ const Text = styled(TextField)({
   },
 });
 
+/** 내 정보 수정 컴포넌트 (헤더의 내 정보 버튼 클릭 시 해당 팝업 띄워줌)*/
 const EditProfile = (props) => {
   // 구조 분해 할당 이용하여 props 분해
   const { closeModal, id, idValidate, profile, pwValidate, setProfile } = props;
-
   const [newPw, setNewPw] = useState("");
   const [curPw, setCurPw] = useState("");
   const [nickname, setNickname] = useState("");

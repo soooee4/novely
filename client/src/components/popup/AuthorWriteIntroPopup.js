@@ -7,7 +7,6 @@ import Buttons from "components/controls/Button";
 import { Box, styled, Typography } from "@mui/material";
 import { CODE, LABEL, COLOR } from "common";
 
-// 레이아웃
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "100%",
@@ -40,8 +39,9 @@ const IntroMsg = styled(Typography)({
 	marginBottom: 30,
 });
 
+/** 작가 권한일 시 메인 소설 작성 후 소설 소개를 쓰는 컴포넌트 (내 작품 페이지에서 새 소설 쓰기 버튼, 작성 후 다음 버튼 클릭 시 해당 팝업 띄워줌) */
 const AuthorWriteIntroPopup = (props) => {
-	console.log(props);
+
 	const [description, setDescription] = useState("");
 
 	// console.log(allMainNovel[0]);

@@ -9,11 +9,8 @@ import {
 import { CODE } from "common";
 import Icons from "components/controls/Icons";
 
+/** 서브소설 목록을 보여주는 테이블 컴포넌트 (소설 상세보기 페이지에서 사용) */
 const BasicTable = (props) => {
-
-
-
-
 
 	return (
 		<TableContainer
