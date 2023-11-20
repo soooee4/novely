@@ -1,14 +1,13 @@
 import { Box, styled, Typography } from "@mui/material";
 
-import { useEffect, useState } from "react";
-
 import Buttons from "components/controls/Button";
 
-import Icons from "components/controls/IconRef";
+import Icons from "components/controls/Icons";
 
 import { CODE, COLOR } from "common";
 
-import { getData } from "common/communication";
+import { deleteData, postData } from "common/communication";
+import { useEffect } from "react";
 
 // 카드 컴포넌트 전체 영역
 const Whole = styled(Box)({
@@ -20,11 +19,7 @@ const Whole = styled(Box)({
 	flexDirection: "column",
 	marginRight: 20,
 	marginBottom: 15,
-	"&:hover": {
-		backgroundColor: "white",
-		opacity: 0.7,
-		cursor: "pointer",
-	},
+
 });
 
 // 소설 커버 이미지 영역
@@ -34,6 +29,10 @@ const Cover = styled(Box)({
 	borderRadius: 15,
 	backgroundColor: COLOR.PURPLE,
 	marginBottom: 9,
+  "&:hover": {
+		opacity: 0.7,
+		cursor: "pointer",
+	},
 });
 
 // 소설 설명 영역 (제목, 한줄소개, 태그, 좋아요)
@@ -96,9 +95,44 @@ const TagBox = styled(Box)({
 
 const NovelCard = (props) => {
 
+  // 하트 아이콘 눌렀을 때 실행될 기능 함수
+ 
+  const pickNovel = () => {
+    if (props.pick_yn === "N") {
+      console.log('pickYn is N')
+      postData('novel/postPickNovel', {
+        main_novel_seqno: props.main_seqno,
+        user_id: props.user_id,
+      })
+      .then((data) => {
+        alert(data)
+        props.setIsPick(true)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    } else if (props.pick_yn === "Y") {
+      console.log('pickYn is Y')
+      deleteData('novel/deletePickNovel', {
+        main_novel_seqno: props.main_seqno,
+        user_id: props.user_id,
+      })
+      .then((data) => {
+        alert(data)
+        props.setIsPick(false)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
+  }
+
+
+
+
 	return (
-		<Whole onClick={props.onClick}>
-			<Cover></Cover>
+		<Whole >
+			<Cover onClick={props.onClick} ></Cover>
 			<InfoBox>
 				<InfoItemBox>
 					<TitleBox>
@@ -107,7 +141,19 @@ const NovelCard = (props) => {
 					{props.like_count && (
 						<LikedBox>
 							<CountLike>{props.like_count}</CountLike>
-							<Icons type={CODE.ICON.FILLHEART} />
+							{props.pick_yn === "Y" ? 
+              <Icons 
+                type={CODE.ICON.FILLHEART}
+                // 하트 아이콘 눌렀을 때 실행될 기능
+                pickNovel={pickNovel}
+              />
+              :
+              <Icons 
+              type={CODE.ICON.HEART}
+              // 하트 아이콘 눌렀을 때 실행될 기능
+              pickNovel={pickNovel}
+            />
+          }
 						</LikedBox>
 					)}
 				</InfoItemBox>

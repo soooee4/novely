@@ -24,7 +24,14 @@
           tcm10.color AS keyword_3_color,
           tcnm.description,
           tum1.user_nickname AS main_author_nickname,
-          tum2.user_nickname AS sub_author_nickname  
+          tum2.user_nickname AS sub_author_nickname,
+          (
+            SELECT 
+              CASE WHEN (COUNT(*) = 1) THEN 'Y' ELSE 'N' END
+            FROM t_novel_pick_mgt tnpm
+            WHERE tnpm.user_id = #{user_id}
+            AND tnpm.main_novel_seqno = tcnm.main_seqno 
+          ) AS pick_yn  
         FROM
           t_complete_novel_mgt tcnm
         LEFT JOIN t_code_mgt tcm
@@ -62,7 +69,14 @@
             tsnm.sub_content,
             tsnm.sub_like_count,
             tsnm.main_novel_seqno,
-            tum.user_nickname
+            tum.user_nickname,
+            (
+              SELECT 
+                CASE WHEN (COUNT(*) = 1) THEN 'Y' ELSE 'N' END
+              FROM t_novel_like_mgt tnlm
+              WHERE tnlm.user_id = #{user_id}
+              AND tnlm.sub_novel_seqno = tsnm.sub_novel_seqno
+            ) AS like_yn
         FROM
             t_sub_novel_mgt tsnm
         LEFT JOIN t_user_mgt tum
@@ -198,4 +212,50 @@
             #{description}
         )
     </insert>
+
+    <!-- 소설 찜 기능 -->
+    <insert id="postPickNovel">
+        INSERT INTO t_novel_pick_mgt
+        (
+            main_novel_seqno,
+            user_id
+        )
+        VALUES 
+        (
+            #{main_novel_seqno},
+            #{user_id}
+        )
+    </insert>
+
+    <!-- 소설 찜 해제 기능 -->
+    <delete id="deletePickNovel">
+        DELETE FROM
+            t_novel_pick_mgt
+        WHERE
+            main_novel_seqno = #{main_novel_seqno}
+            AND user_id = #{user_id}
+    </delete>
+
+        <!-- 서브소설 좋아요 기능 -->
+    <insert id="postLikeSubNovel">
+        INSERT INTO t_novel_like_mgt
+        (
+            sub_novel_seqno,
+            user_id
+        )
+        VALUES 
+        (
+            #{sub_novel_seqno},
+            #{user_id}
+        )
+    </insert>
+
+    <!-- 서브소설 좋아요 해제 기능 -->
+    <delete id="deleteLikeSubNovel">
+        DELETE FROM
+            t_novel_like_mgt
+        WHERE
+            sub_novel_seqno = #{sub_novel_seqno}
+            AND user_id = #{user_id}
+    </delete>
 </mapper>

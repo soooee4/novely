@@ -6,9 +6,15 @@ import {
 	TableRow,
 	Paper,
 } from "@mui/material";
-import { useState } from "react";
+import { CODE } from "common";
+import Icons from "components/controls/Icons";
 
 const BasicTable = (props) => {
+
+
+
+
+
 	return (
 		<TableContainer
 			component={Paper}
@@ -61,6 +67,9 @@ const BasicTable = (props) => {
 										By.{novel.user_nickname}
 									</TableCell>
 									<TableCell align="center">{novel.sub_like_count}</TableCell>
+                  <TableCell align="center">
+                    <Icons type={CODE.ICON.LIKE} />
+                  </TableCell>
 								</TableRow>
 						  ))
 						: // isPopular가 true일 경우 popularOrder 데이터를 뿌려줌
@@ -98,6 +107,9 @@ const BasicTable = (props) => {
 										By.{novel.user_nickname}
 									</TableCell>
 									<TableCell align="center">{novel.sub_like_count}</TableCell>
+                  <TableCell align="center">
+                    <Icons type={CODE.ICON.LIKE} />
+                  </TableCell>
 								</TableRow>
 						  ))}
 				</TableBody>

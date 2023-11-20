@@ -59,6 +59,7 @@ const Buttons = (props) => {
 					props.isPost && props.isPost();
 					props.sortPopular && props.sortPopular();
 					props.sortLatest && props.sortLatest();
+          props.likeSubNovel && props.likeSubNovel();
 				}}
 				style={{
 					width: props.width,

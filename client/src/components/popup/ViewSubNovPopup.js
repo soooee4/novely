@@ -8,7 +8,7 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { Box, styled, Typography } from "@mui/material";
 import { CODE, LABEL, COLOR } from "common";
 
-import { getData } from "common/communication";
+import { postData, deleteData } from "common/communication";
 
 // 레이아웃
 
@@ -84,7 +84,39 @@ const ContentBox = styled(Box)({
 // };mainNovel
 
 const ViewSubNovPopup = (props) => {
-	console.log(props.subNovelData, "mainData");
+	console.log(props.subNovelData.like_yn,'props');
+
+    // 투표하기 버튼 눌렀을 때 실행될 기능 함수
+
+    const likeSubNovel = () => {
+      if (props.subNovelData.like_yn === "N") {
+        console.log(props.subNovelData.like_yn)
+        postData('novel/postLikeSubNovel', {
+          sub_novel_seqno: props.subNovelData.sub_novel_seqno,
+          user_id: props.user_id,
+        })
+        .then((data) => {
+          alert(data)
+          props.setIsLike(true)
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      } else if (props.subNovelData.like_yn === "Y") {
+        console.log(props.subNovelData.like_yn)
+        deleteData('novel/deleteLikeSubNovel', {
+          sub_novel_seqno: props.subNovelData.sub_novel_seqno,
+          user_id: props.user_id,
+        })
+        .then((data) => {
+          alert(data)
+          props.setIsLike(false)
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      }
+    }
 
 	return (
 		<Wrapper>
@@ -107,8 +139,9 @@ const ViewSubNovPopup = (props) => {
 					backgroundColor={COLOR.WHITE}
 					color={COLOR.BLACK}
 					name={LABEL.BUTTONS.LIKE_BTN}
-          fontSize={13}
+          fontSize={15}
 					margin={"0px -5px 0px auto"}
+          likeSubNovel={likeSubNovel}
 				/>
 
 			{/* 추후 top 기능 구현하기 */}

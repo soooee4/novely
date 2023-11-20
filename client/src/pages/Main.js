@@ -81,6 +81,11 @@ const Main = () => {
 		localStorage.getItem("id") ? true : false
 	);
 	const [genre, setGenre] = useState([]);
+  const [profile, setProfile] = useState(
+		JSON.parse(localStorage.getItem("profile"))
+	);
+  // 노벨카드에서 소설 찜 상태 변경 여부 공유받기 위한 상태
+  const [isPick, setIsPick] = useState(false)
 
 	const closeModal = () => {
 		setModal(false);
@@ -101,14 +106,14 @@ const Main = () => {
 	};
 
 	useEffect(() => {
-		getData("novel/getNovel")
+		getData("novel/getNovel", { user_id: profile.login_id })
 			.then((data) => {
 				setNovelData(data);
 			})
 			.catch((err) => {
 				console.log(err);
 			});
-	}, []);
+	}, [isPick]);
 
 	// *전체 소설 데이터에서 특정 아이디가 작성한 메인소설을 뽑을 때 (작가권한 내 작품 페이지에 넘겨줄 데이터)
 	// console.log(novelData.map((li)=>{
@@ -126,6 +131,9 @@ const Main = () => {
 				console.log(err);
 			});
 	}, []);
+
+
+  console.log(novelData,133)
 
 	const navigate = useNavigate();
 
@@ -173,6 +181,7 @@ const Main = () => {
 						return (
 							<NovelCard
 								key={list.complete_seqno}
+                main_seqno={list.main_seqno}
 								title={list.complete_novel_title}
 								genre_1={list.genre_1}
 								genre_2={list.genre_2}
@@ -187,7 +196,10 @@ const Main = () => {
 								description={list.description}
 								like_count={list.like_count}
 								created_date={list.created_date}
+                pick_yn={list.pick_yn}
+                user_id={profile.login_id}
 								onClick={() => goToDetail(list)}
+                setIsPick={setIsPick}
 							/>
 						);
 					})}

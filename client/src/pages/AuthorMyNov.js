@@ -107,7 +107,7 @@ const AuthorMyNov = () => {
 
 	// 완성 소설 중 로그인한 계정이 main author인 작품만 가져오기
 	useEffect(() => {
-		getData("novel/getNovel")
+		getData("novel/getNovel", { user_id: profile.login_id })
 			.then((data) => {
 				setCompleteNovData(
 					data.filter((novel) => novel.main_author_id === profile.login_id)
