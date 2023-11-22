@@ -45,6 +45,15 @@ const modalWidth = (popup) => {
 		case "authorDetail":
 			width = "85%";
 			break;
+		case "editProfile":
+			width = 400;
+			break;
+		case "login":
+			width = 600;
+			break;
+		case "join":
+			width = 600;
+			break;
 		default:
 			width = "90%";
 	}
@@ -68,6 +77,15 @@ const modalHeight = (popup) => {
 			break;
 		case "authorDetail":
 			height = 355;
+			break;
+		case "editProfile":
+			height = 600;
+			break;
+		case "login":
+			height = 370;
+			break;
+		case "join":
+			height = 370;
 			break;
 		default:
 			height = "90vh";

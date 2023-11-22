@@ -81,11 +81,11 @@ const Main = () => {
 		localStorage.getItem("id") ? true : false
 	);
 	const [genre, setGenre] = useState([]);
-  const [profile, setProfile] = useState(
+	const [profile, setProfile] = useState(
 		JSON.parse(localStorage.getItem("profile"))
 	);
-  // 노벨카드에서 소설 찜 상태 변경 여부 공유받기 위한 상태
-  const [isPick, setIsPick] = useState(false)
+	// 노벨카드에서 소설 찜 상태 변경 여부 공유받기 위한 상태
+	// const [isPick, setIsPick] = useState(false);
 
 	const closeModal = () => {
 		setModal(false);
@@ -105,15 +105,24 @@ const Main = () => {
 		}
 	};
 
-	useEffect(() => {
-		getData("novel/getNovel", { user_id: profile.login_id })
+	//////////////////////////////////////////////////////////////////// 수정 부분 확인 후 이 주석은 삭제 //////////////////////////////////////////////////////////////////////////// 
+	// 소설 데이터 조회(완성 소설) => 찜 / 찜해제 시에도 사용
+	const getNovelData = () => {
+    // 로그인 상태라면 login_id 넘어가고 아니라면 null값 넘어가도록 처리
+		getData("novel/getNovel", { user_id: profile?.login_id})
 			.then((data) => {
 				setNovelData(data);
 			})
 			.catch((err) => {
 				console.log(err);
 			});
-	}, [isPick]);
+	};
+
+	// 메인 화면 렌더링 시 소설 데이터 조회
+	useEffect(() => {
+		getNovelData();
+	}, []);
+	//////////////////////////////////////////////////////////////////// 수정 부분 확인 후 이 주석은 삭제 ////////////////////////////////////////////////////////////////////////////  
 
 	// *전체 소설 데이터에서 특정 아이디가 작성한 메인소설을 뽑을 때 (작가권한 내 작품 페이지에 넘겨줄 데이터)
 	// console.log(novelData.map((li)=>{
@@ -133,7 +142,7 @@ const Main = () => {
 	}, []);
 
 
-  console.log(novelData,133)
+	// console.log(novelData,133)
 
 	const navigate = useNavigate();
 
@@ -181,7 +190,7 @@ const Main = () => {
 						return (
 							<NovelCard
 								key={list.complete_seqno}
-                main_seqno={list.main_seqno}
+								main_seqno={list.main_seqno}
 								title={list.complete_novel_title}
 								genre_1={list.genre_1}
 								genre_2={list.genre_2}
@@ -196,10 +205,13 @@ const Main = () => {
 								description={list.description}
 								like_count={list.like_count}
 								created_date={list.created_date}
-                pick_yn={list.pick_yn}
-                user_id={profile.login_id}
+								pick_yn={list.pick_yn}
+								user_id={profile?.login_id}
 								onClick={() => goToDetail(list)}
-                setIsPick={setIsPick}
+								//////////////////////////////////////////////////////////////////// 수정 부분 확인 후 이 주석은 삭제 ////////////////////////////////////////////////////////////////////////////
+								// setIsPick={(data) => setIsPick(data)}
+								getNovelData={getNovelData}
+								//////////////////////////////////////////////////////////////////// 수정 부분 확인 후 이 주석은 삭제 ////////////////////////////////////////////////////////////////////////////
 							/>
 						);
 					})}

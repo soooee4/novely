@@ -153,12 +153,12 @@ const NovDetail = () => {
 	const [mainNovel, setMainNovel] = useState({});
 	const [novelIdx, setNovelIdx] = useState(0);
 	const [isPopular, setIsPopular] = useState(false);
-  const [profile, setProfile] = useState(
+	const [profile, setProfile] = useState(
 		JSON.parse(localStorage.getItem("profile"))
 	);
-
-  // 노벨카드에서 소설 찜 상태 변경 여부 공유받기 위한 상태
-  const [isLike, setIsLike] = useState(false);
+console.log(subNovelData,159)
+	// 노벨카드에서 소설 찜 상태 변경 여부 공유받기 위한 상태
+	const [isLike, setIsLike] = useState(false);
 
 	// 기존 subNovel로 지은 state 아래와 같이 변경(서브 소설 데이터를 보내는거니 subNovel도 맞지만 위에 mainNovel로 인해 혼란이 옮)
 	const [regditNovData, setRegditNovData] = useState({
@@ -185,18 +185,24 @@ const NovDetail = () => {
 		popularOrder.sort((a, b) => b.sub_like_count - a.sub_like_count);
 	};
 
-
 	// * 소설에 딸린 서브 소설 가져오기
-	useEffect(() => {
-		getData("novel/getSubNovel", { main_novel_seqno: novel.main_seqno, user_id: profile.login_id })
+	const getSubNovelData = () => {
+		getData("novel/getSubNovel", {
+			main_novel_seqno: novel.main_seqno,
+			user_id: profile.login_id,
+		})
 			.then(function (data) {
 				setSubNovelData(data);
 			})
 			.catch((err) => {
 				console.log(err);
 			});
-	}, [novel.main_seqno]);
-  //! 기존에 의존성 배열에 팝업에서 공유받은 isLike 상태값을 넣어 반영되도록 했는데 현재 main_seqno의 변화에 따르도록 되어있음 
+	};
+
+  // 서브소설 데이터 조회
+	useEffect(() => {
+    getSubNovelData();
+  }, [novel.main_seqno]);
 
 	// Modal OPEN/CLOSE
 	const showModal = () => {
@@ -209,7 +215,7 @@ const NovDetail = () => {
 
 	// * regditNovData에 데이터를 추가하는 아래 함수를 호출할 때마다 새로 갱신되기 때문에 데이터가 쌓이지 않음. 해결하기 위해 prevState(함수형 업데이트)를 사용하여 현재 상태 복사 후 새로운 값 추가
 
-	// *WriteSubNovPopup 입력하여 받아온 title, content 세팅 함수
+	// WriteSubNovPopup 입력하여 받아온 title, content 세팅 함수
 
 	const setTitleContent = (data) => {
 		// 구조 분해 할당 사용
@@ -294,8 +300,9 @@ const NovDetail = () => {
 					// 컴포넌트로 넘겨줄 때 서브 소설 전체가 아닌 클릭한 소설의 고유 index 상태값을 넣어 인덱싱 하여 넘김
 					subNovelData={subNovelData[novelIdx]}
 					mainNovel={novel}
-          user_id={profile.login_id}
-          setIsLike={setIsLike}
+					user_id={profile.login_id}
+					setIsLike={setIsLike}
+          getSubNovelData={getSubNovelData}
 				/>
 			);
 		}
@@ -330,7 +337,7 @@ const NovDetail = () => {
 			<NovDetailBox>
 				<NovCoverBox>
 					<LikeBox>
-						<Icons type={CODE.ICON.HEART} color={COLOR.HEART_PINK} />
+						{/* <Icons type={CODE.ICON.HEART} color={COLOR.HEART_PINK} /> */}
 					</LikeBox>
 					<NovelCover />
 				</NovCoverBox>

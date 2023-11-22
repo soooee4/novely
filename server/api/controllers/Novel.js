@@ -55,7 +55,6 @@ const getSubNovel = async (req, res, next) => {
 };
 
 // 완성 소설 보기 함수
-
 const getCompleteNovel = async (req, res, next) => {
 	try {
 		const data = await svc.getCompleteNovel({ ...req.query });

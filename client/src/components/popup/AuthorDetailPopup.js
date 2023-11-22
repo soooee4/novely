@@ -35,17 +35,25 @@ const IsDataInfo = styled(Typography)({
 /** 작가 상세 정보를 보여주는 모달 (소설 상세 페이지에서 작가 닉네임 클릭시 해당 팝업 띄워짐) */
 const AuthorDetailPopup = (props) => {
 	const [authorNovelData, setAuthorNovelData] = useState([]);
+  const [profile, setProfile] = useState(
+		JSON.parse(localStorage.getItem("profile"))
+	);
+  
+  console.log(props.authorId,42)
 
 	// 작가에 따른 미완 소설 가져오기
 	useEffect(() => {
-		getData("novel/getAuthorNovel", { created_user: props.authorId })
+		getData("novel/getAuthorNovel", { created_user: props.authorId, login_id: null })
 			.then(function (data) {
+        console.log('xxx')
 				setAuthorNovelData(data);
 			})
 			.catch((err) => {
 				console.log(err);
 			});
 	}, []);
+
+  console.log(authorNovelData,5656)
 
 	const navigate = useNavigate();
 
@@ -67,6 +75,7 @@ const AuthorDetailPopup = (props) => {
 									description={list.description}
 									created_date={list.created_date}
 									created_user={list.created_user}
+                  pick_yn={list.pick_yn}
 									onClick={() => {
 										goToDetail(list);
 										props.closeModal();

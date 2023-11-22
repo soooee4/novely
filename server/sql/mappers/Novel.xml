@@ -24,6 +24,60 @@
           tcm10.color AS keyword_3_color,
           tcnm.description,
           tum1.user_nickname AS main_author_nickname,
+          tum2.user_nickname AS sub_author_nickname
+        FROM
+          t_complete_novel_mgt tcnm
+        LEFT JOIN t_code_mgt tcm
+          ON tcnm.genre_1 = tcm.code
+        LEFT JOIN t_code_mgt tcm2
+          ON tcnm.genre_2 = tcm2.code
+        LEFT JOIN t_code_mgt tcm3
+          ON tcnm.keyword_1 = tcm3.code
+        LEFT JOIN t_code_mgt tcm4
+          ON tcnm.keyword_2 = tcm4.code
+        LEFT JOIN t_code_mgt tcm5
+          ON tcnm.keyword_3 = tcm5.code
+        LEFT JOIN t_code_mgt tcm6
+          ON tcnm.genre_1 = tcm6.code
+        LEFT JOIN t_code_mgt tcm7
+          ON tcnm.genre_2 = tcm7.code
+        LEFT JOIN t_code_mgt tcm8
+          ON tcnm.keyword_1 = tcm8.code
+        LEFT JOIN t_code_mgt tcm9
+          ON tcnm.keyword_2 = tcm9.code
+        LEFT JOIN t_code_mgt tcm10
+          ON tcnm.keyword_3 = tcm10.code
+        LEFT JOIN t_user_mgt tum1
+          ON tcnm.main_author_id = tum1.login_id
+        LEFT JOIN t_user_mgt tum2
+          ON tcnm.sub_author_id = tum2.login_id
+        ORDER BY
+            complete_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순    정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
+    </select>
+
+     <select id="getNovelOnLogin">
+        SELECT
+          tcnm.complete_seqno,
+          tcnm.complete_novel_title,
+          tcnm.complete_novel_content,
+          tcnm.like_count,
+          tcnm.main_seqno,
+          tcnm.sub_seqno,
+          tcnm.main_author_id,
+          tcnm.sub_author_id,
+          tcnm.created_date,
+          tcm.code_name AS genre_1,                 -- AS 는 'AS 컬럼명' 으로 AS 뒤에 오는 명으로 컬럼명을 뽑겠다는 뜻
+          tcm2.code_name AS genre_2,
+          tcm3.code_name AS keyword_1,
+          tcm4.code_name AS keyword_2,
+          tcm5.code_name AS keyword_3,
+          tcm6.color AS genre_1_color,
+          tcm7.color AS genre_2_color,
+          tcm8.color AS keyword_1_color,
+          tcm9.color AS keyword_2_color,
+          tcm10.color AS keyword_3_color,
+          tcnm.description,
+          tum1.user_nickname AS main_author_nickname,
           tum2.user_nickname AS sub_author_nickname,
           (
             SELECT 
@@ -120,6 +174,36 @@
     </select>
 
     <select id="getAuthorNovel">
+        SELECT
+          tnm.title,
+          tnm.content,
+          tnm.created_user,
+          tnm.created_date,
+          tnm.description,
+          tnm.novel_seqno AS main_seqno,
+          tnm.complete_yn,
+          tum.user_nickname,
+          tum.login_id,
+          (
+            SELECT 
+              CASE WHEN (COUNT(*) = 1) THEN 'Y' ELSE 'N' END
+            FROM t_novel_pick_mgt tnpm
+            WHERE tnpm.user_id = #{login_id}
+            AND tnpm.main_novel_seqno = tnm.novel_seqno 
+          ) AS pick_yn
+        FROM
+          t_novel_mgt tnm
+        LEFT JOIN t_user_mgt tum
+          ON tnm.created_user = tum.login_id
+        WHERE
+          tnm.created_user = #{created_user}
+          <!-- AND tum.login_id = #{login_id} -->
+          AND tnm.complete_yn = 'N'
+        ORDER BY
+            novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
+    </select>
+
+     <select id="getAuthorMyNovel">
         SELECT
           tnm.title,
           tnm.content,

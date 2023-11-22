@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // Control Component
 import Buttons from "components/controls/Button";
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 
 // Constant
 import { Box, styled, Typography } from "@mui/material";
@@ -19,7 +19,7 @@ const Wrapper = styled(Box)({
 	flexDirection: "column",
 	padding: "0 3%",
 	boxSizing: "border-box",
-	border:'3px solid blue',
+	border: "3px solid blue",
 	marinTop: "-30px",
 	height: "100%",
 });
@@ -51,7 +51,7 @@ const SubNovBox = styled(Box)({
 
 const Title = styled(Typography)({
 	marginBottom: 15,
-  marginTop: -4,
+	marginTop: -4,
 	fontSize: 18,
 	fontWeight: "bold",
 	// border: "3px solid red",
@@ -63,7 +63,6 @@ const Content = styled(Typography)({
 	// wordBreak: 'break-all',
 });
 
-
 // 내용 표시되는 영역
 const ContentBox = styled(Box)({
 	border: "2px solid grey",
@@ -72,7 +71,7 @@ const ContentBox = styled(Box)({
 	borderRadius: 10,
 	padding: 10,
 	boxSizing: "border-box",
-  // marginBottom: 40
+	// marginBottom: 40
 });
 
 // Top 버튼 함수 (최상단으로 스크롤 이동)
@@ -85,43 +84,46 @@ const ContentBox = styled(Box)({
 
 /** 미완성 작품 (메인 소설)에 달린 서브 소설 읽기 컴포넌트 (작품 상세 페이지 하단 테이블의 소설 제목 클릭 시 해당 팝업 띄워줌) */
 const ViewSubNovPopup = (props) => {
-	console.log(props.subNovelData.like_yn,'props');
+	console.log(props.subNovelData.like_yn, "props");
 
-    // 투표하기 버튼 눌렀을 때 실행될 기능 함수
+	// 투표하기 버튼 눌렀을 때 실행될 기능 함수
 
-    const likeSubNovel = () => {
-      if (props.subNovelData.like_yn === "N") {
-        console.log(props.subNovelData.like_yn)
-        postData('novel/postLikeSubNovel', {
-          sub_novel_seqno: props.subNovelData.sub_novel_seqno,
-          user_id: props.user_id,
-        })
-        .then((data) => {
-          alert(data)
-          props.setIsLike(true)
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-      } else if (props.subNovelData.like_yn === "Y") {
-        console.log(props.subNovelData.like_yn)
-        deleteData('novel/deleteLikeSubNovel', {
-          sub_novel_seqno: props.subNovelData.sub_novel_seqno,
-          user_id: props.user_id,
-        })
-        .then((data) => {
-          alert(data)
-          props.setIsLike(false)
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-      }
-    }
+	const likeSubNovel = () => {
+		if (props.subNovelData.like_yn === "N") {
+			if (window.confirm("이 소설에 투표하시겠어요? 투표 후 취소할 수 없어요")) {
+				postData("novel/postLikeSubNovel", {
+					sub_novel_seqno: props.subNovelData.sub_novel_seqno,
+					user_id: props.user_id,
+				})
+					.then((data) => {
+						// props.setIsLike(true)
+						props.getSubNovelData();
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			}
+		} else if (props.subNovelData.like_yn === "Y") {
+			alert("이미 투표 완료");
+
+			// deleteData('novel/deleteLikeSubNovel', {
+			//   sub_novel_seqno: props.subNovelData.sub_novel_seqno,
+			//   user_id: props.user_id,
+			// })
+			// .then((data) => {
+			//   window.confirm('투표를 취소하시겠어요?')
+			//   // props.setIsLike(false)
+			//   props.getSubNovelData();
+			// })
+			// .catch((err) => {
+			//   console.log(err);
+			// })
+		}
+	};
 
 	return (
 		<Wrapper>
-      {/* 서브 소설의 제목만 표시 */}
+			{/* 서브 소설의 제목만 표시 */}
 			<Title>{props.subNovelData.sub_title}</Title>
 			<WholeBox>
 				<MainNovBox>
@@ -135,15 +137,15 @@ const ViewSubNovPopup = (props) => {
 					</ContentBox>
 				</SubNovBox>
 			</WholeBox>
-      <Buttons
-					type={CODE.BUTTON.BASIC}
-					backgroundColor={COLOR.WHITE}
-					color={COLOR.BLACK}
-					name={LABEL.BUTTONS.LIKE_BTN}
-          fontSize={15}
-					margin={"0px -5px 0px auto"}
-          likeSubNovel={likeSubNovel}
-				/>
+			<Buttons
+				type={CODE.BUTTON.BASIC}
+				backgroundColor={COLOR.WHITE}
+				color={COLOR.BLACK}
+				name={LABEL.BUTTONS.LIKE_BTN}
+				fontSize={15}
+				margin={"0px -5px 0px auto"}
+				likeSubNovel={likeSubNovel}
+			/>
 
 			{/* 추후 top 기능 구현하기 */}
 			{/* <Buttons

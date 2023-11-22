@@ -15,7 +15,8 @@ import ModalPopup from "components/popup/ModalPopup";
 import LoginPopup from "components/popup/LoginPopup";
 import JoinPopup from "components/popup/JoinPopup";
 import EditProfilePopup from "components/popup/EditProfilePopup";
-// import ProfileAddPopup from "components/popup/ProfileAddPopup";
+
+import { modalWidth, modalHeight } from "common/util";
 
 // 전체 영역
 const Whole = styled(Box)({
@@ -202,8 +203,8 @@ const Header = () => {
 			</MenuBar>
 			<ModalPopup
 				open={modal}
-				width={600}
-				height={400}
+				width={modalWidth(popup)}
+				height={modalHeight(popup)}
 				onClose={() => setModal(false)}
 				popupState={popup}
 			>

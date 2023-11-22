@@ -41,7 +41,7 @@ export const patchData = async (url, params) => {
 };
 
 export const deleteData = async (url, params) => {
-console.log(params,44)
+
   try {
     const response = await axios.delete(
 			`http://localhost:8080/api/${url}`,

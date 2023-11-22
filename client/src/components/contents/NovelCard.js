@@ -95,36 +95,43 @@ const TagBox = styled(Box)({
 /** 소설 정보를 담고있는 카드 형식 컴포넌트 (메인 화면, 작가 상세 정보 팝업에서 사용) */
 const NovelCard = (props) => {
 
+  console.log(props,'노벨카드 프롭스')
+
   // 하트 아이콘 눌렀을 때 실행될 기능 함수
   const pickNovel = () => {
     if (props.pick_yn === "N") {
-      console.log('pickYn is N')
       postData('novel/postPickNovel', {
         main_novel_seqno: props.main_seqno,
         user_id: props.user_id,
       })
-      .then((data) => {
-        alert(data)
-        props.setIsPick(true)
+      .then(() => {
+        //////////////////////////////////////////////////////////////////// 수정 부분 확인 후 이 주석은 삭제 ////////////////////////////////////////////////////////////////////////////
+        // alert(data)
+        // props.setIsPick(true)
+        props.getNovelData();
+        //////////////////////////////////////////////////////////////////// 수정 부분 확인 후 이 주석은 삭제 ////////////////////////////////////////////////////////////////////////////
       })
       .catch((err) => {
         console.log(err);
       })
     } else if (props.pick_yn === "Y") {
-      console.log('pickYn is Y')
       deleteData('novel/deletePickNovel', {
         main_novel_seqno: props.main_seqno,
         user_id: props.user_id,
       })
-      .then((data) => {
-        alert(data)
-        props.setIsPick(false)
+      .then(() => {
+        //////////////////////////////////////////////////////////////////// 수정 부분 확인 후 이 주석은 삭제 ////////////////////////////////////////////////////////////////////////////
+        // alert(data)
+        // props.setIsPick(false)
+        props.getNovelData();
+        //////////////////////////////////////////////////////////////////// 수정 부분 확인 후 이 주석은 삭제 ////////////////////////////////////////////////////////////////////////////
       })
       .catch((err) => {
         console.log(err);
       })
     }
   }
+console.log(props.pick_yn,134)
 
 	return (
 		<Whole >
@@ -134,9 +141,10 @@ const NovelCard = (props) => {
 					<TitleBox>
 						<Title>{props.title}</Title>
 					</TitleBox>
-					{props.like_count && (
+					{/* {props.like_count && ( */}
 						<LikedBox>
-							{props.pick_yn === "Y" ? 
+              {props.pick_yn && 
+							(props.pick_yn === "Y" ? 
               <Icons 
                 type={CODE.ICON.FILLHEART}
                 // 하트 아이콘 눌렀을 때 실행될 기능
@@ -148,9 +156,9 @@ const NovelCard = (props) => {
               // 하트 아이콘 눌렀을 때 실행될 기능
               pickNovel={pickNovel}
             />
-          }
+          )}
 						</LikedBox>
-					)}
+					{/* )} */}
 				</InfoItemBox>
 				<InfoItemBox>
 					<Description>{props.description}</Description>
