@@ -1,7 +1,7 @@
 /** Label용 상수 데이터 정의 */
 
 export const LABEL = {
-	// 버튼용
+	// BUTTONS
 	BUTTONS: {
 		POST_NOVEL: "작품 등록",
 		ALL_NOVEL: "전체 작품",
@@ -36,7 +36,7 @@ export const LABEL = {
 		WRITE_NOVEL: "새 소설 쓰기",
 	},
 
-	// input용
+	// INPUT 
 	INPUT: {
 		VALIDATION: "필수 입력사항이에요.",
 		ID: "아이디",
@@ -48,15 +48,22 @@ export const LABEL = {
 		NEW_PW_CONFIRM: "새 비밀번호 확인",
 		SEARCH: "좋아하는 작가, 작품을 검색해보세요!",
 		STANDARD: "standard",
+    
+    // INPUT PLACE HOLDER
+    PLACE_HOLDER: {
+      CURRENT_PW: '현재 비밀번호(필수값)',
+      NEW_PW: '새 비밀번호',
+      NEW_PW_REPEAT: '새 비밀번호 확인'
+    }
 	},
 
-	// 구분용
+	// SELECT BOX
 	SELECT: {
 		GENRE: "장르",
 		KEY_WORD: "키워드",
 	},
 
-	// alert용
+	// ALERT(경고창)
 	ALERT: {
 		ERROR: "error",
 		SUCCESS: "success",

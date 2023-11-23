@@ -25,13 +25,15 @@
         (
             login_id,
             login_pw,
-            user_nickname
+            user_nickname,
+            image
         )
         VALUES 
         (
             #{login_id},
             #{login_pw},
-            #{user_nickname}
+            #{user_nickname},
+            #{image}
         )
     </insert>
 
@@ -40,7 +42,8 @@
             user_nickname,
             user_reg_dv,
             login_pw,
-            login_id
+            login_id,
+            image
         FROM
             t_user_mgt
         WHERE
@@ -52,9 +55,18 @@
 	          t_user_mgt
         SET
 	          user_nickname = #{user_nickname},
-            login_pw = #{login_pw}
+            login_pw = #{login_pw},
+            image = #{image}
         WHERE
             login_id = #{login_id}
     </update>
 
+    <select id="getUserImg">
+      SELECT 
+        image
+      FROM
+       t_user_mgt
+      WHERE
+        login_id = #{user_id}
+    </select>
 </mapper>

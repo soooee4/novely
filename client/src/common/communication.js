@@ -2,8 +2,8 @@
 
 import axios from "axios";
 
+/** GET */
 export const getData = async (url, params) => {
-  console.log(params,66)
 	try {
 		const response = await axios.get(`http://localhost:8080/api/${url}`, {
 			params: params,
@@ -16,6 +16,7 @@ export const getData = async (url, params) => {
 	}
 };
 
+/** POST */
 export const postData = async (url, params) => {
 	try {
 		const response = await axios.post(
@@ -28,6 +29,7 @@ export const postData = async (url, params) => {
 	}
 };
 
+/** PATCH */
 export const patchData = async (url, params) => {
 	try {
 		const response = await axios.patch(
@@ -40,6 +42,7 @@ export const patchData = async (url, params) => {
 	}
 };
 
+/** DELETE */
 export const deleteData = async (url, params) => {
 
   try {

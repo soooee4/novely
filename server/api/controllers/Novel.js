@@ -5,14 +5,13 @@ const svc = require("../services/NovelService");
 
 // 완성 소설 조회 함수
 const getNovel = async (req, res, next) => {
-	// console.log(req.query, 123456);
+
 	try {
 		const data = await svc.getNovel({ ...req.query });
-		// console.log(data,8888);
 		if (data.rowCount !== 0) {
 			res.send(data.rows);
-			// console.log(data.rows[3].genre_1, 14)
 		}
+
 	} catch (err) {
 		console.log(err);
 	}
@@ -20,9 +19,20 @@ const getNovel = async (req, res, next) => {
 
 // 메인 소설 조회 함수
 const getMainNovel = async (req, res, next) => {
-	console.log(req.query, 123456);
 	try {
 		const data = await svc.getMainNovel({ ...req.query });
+		if (data.rowCount !== 0) {
+			res.send(data.rows);
+		}
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+// !찜한 미완성 소설 조회 함수
+const getPickMainNovel = async (req, res, next) => {
+	try {
+		const data = await svc.getPickMainNovel({ ...req.query });
 		if (data.rowCount !== 0) {
 			res.send(data.rows);
 		}
@@ -35,10 +45,8 @@ const getMainNovel = async (req, res, next) => {
 const getAuthorNovel = async (req, res, next) => {
 	try {
 		const data = await svc.getAuthorNovel({ ...req.query });
-
-		if (data.rowCount !== 0) {
-			res.send(data.rows);
-		}
+    res.send(data);
+    
 	} catch (err) {
 		console.log(err);
 	}
@@ -58,11 +66,10 @@ const getSubNovel = async (req, res, next) => {
 const getCompleteNovel = async (req, res, next) => {
 	try {
 		const data = await svc.getCompleteNovel({ ...req.query });
-		// console.log(data,111);
 		if (data.rowCount !== 0) {
 			res.send(data.rows);
-			// console.log(data.rows,75)
 		}
+    
 	} catch (err) {
 		console.log(err);
 	}
@@ -87,7 +94,6 @@ const postSubNovel = async (req, res, next) => {
 	try {
 		const data = await svc.postSubNovel({ ...req.body });
 		if (data.rowCount === 1) {
-			// console.log(true);
 			res.send(true);
 		} else if (data.rowCount === 0) {
 			res.send(false);
@@ -99,15 +105,15 @@ const postSubNovel = async (req, res, next) => {
 
 // 메인 소설 등록 함수
 const postMainNovel = async (req, res, next) => {
-	console.log(req.body, 103);
 	try {
 		const data = await svc.postMainNovel({ ...req.body });
+
 		if (data.rowCount === 1) {
-			// console.log(true);
 			res.send(true);
 		} else if (data.rowCount === 0) {
 			res.send(false);
 		}
+
 	} catch (err) {
 		console.log(err);
 	}
@@ -212,6 +218,11 @@ router.post("/postSubNovel", postSubNovel);
  * 메인 소설 등록
  */
 router.post("/postMainNovel", postMainNovel);
+
+/**
+ * 찜한 미완성 소설 가져오기
+ */
+router.get("/getPickMainNovel", getPickMainNovel);
 
 /**
  * 소설 찜 기능

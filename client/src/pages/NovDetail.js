@@ -156,7 +156,6 @@ const NovDetail = () => {
 	const [profile, setProfile] = useState(
 		JSON.parse(localStorage.getItem("profile"))
 	);
-console.log(subNovelData,159)
 	// 노벨카드에서 소설 찜 상태 변경 여부 공유받기 위한 상태
 	const [isLike, setIsLike] = useState(false);
 

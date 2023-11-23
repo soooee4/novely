@@ -87,7 +87,8 @@ const LoginPopup = (props) => {
 					JSON.stringify({
 						user_nickname: data.user_nickname,
 						user_reg_dv: data.user_reg_dv,
-            login_id: data.login_id
+            login_id: data.login_id,
+            image: data.image
           }))
           window.location.reload();
         } else if (typeof(data) === 'string') {
@@ -100,67 +101,61 @@ const LoginPopup = (props) => {
 	};
 
 	return (
-		<>
-			<Wrapper>
-				<LoginBox>
-					<Text
-						fullWidth
-						id="fullWidth"
-						variant="standard"
-						placeholder="ID"
-						// 함수 호출할 때 파라미터 있을 경우에 화살표 함수 형태
-						onChange={inputId}
-						// onBlur={idValidate}
-            onBlur={() => validation('id')}
-						value={id}
-						helperText={idRegMsg}
-					/>
-					<Text
-						fullWidth
-						id="fullWidth"
-						variant="standard"
-						placeholder="PW"
-						onChange={inputPw}
-						onBlur={() => validation('pw')}
-						value={pw}
-            helperText={pwRegMsg}
-						type="password"
-						sx={{
-							marginBottom: 5,
-						}}
-					/>
-					<Buttons
-						type={CODE.BUTTON.BORDER}
-						name={LABEL.BUTTONS.LOGIN}
-						backgroundColor={COLOR.WHITE}
-						color={COLOR.BLACK}
-						width="100%"
-						height="40px"
-						padding="3px"
-						fontSize="20px"
-						onSubmit={onLogin}
-					/>
-					<Box
-						sx={{
-							display: "flex",
-						}}
-					>
-						<SighUpText>{MESSAGE.ASK_ACCOUNT}</SighUpText>
-						<Buttons
-							type={CODE.BUTTON.BASIC}
-							name={LABEL.BUTTONS.GOTOSIGNUP}
-							backgroundColor={COLOR.WHITE}
-							color={COLOR.BLACK}
-							fontSize="8px"
-							fontWeight="bolder"
-							changeState={changeState}
-							margin="5px 0 0 0"
-						/>
-					</Box>
-				</LoginBox>
-			</Wrapper>
-		</>
-	);
+    <Wrapper>
+      <LoginBox>
+        <Text
+          fullWidth
+          id="fullWidth"
+          variant="standard"
+          placeholder="ID"
+          // 함수 호출할 때 파라미터 있을 경우에 화살표 함수 형태
+          onChange={inputId}
+          // onBlur={idValidate}
+          onBlur={() => validation("id")}
+          value={id}
+          helperText={idRegMsg}
+        />
+        <Text
+          fullWidth
+          id="fullWidth"
+          variant="standard"
+          placeholder="PW"
+          onChange={inputPw}
+          onBlur={() => validation("pw")}
+          value={pw}
+          helperText={pwRegMsg}
+          type="password"
+          sx={{
+            marginBottom: 5,
+          }}
+        />
+        <Buttons
+          type={CODE.BUTTON.BORDER}
+          name={LABEL.BUTTONS.LOGIN}
+          backgroundColor={COLOR.WHITE}
+          color={COLOR.BLACK}
+          width="100%"
+          height="40px"
+          padding="3px"
+          fontSize="20px"
+          onSubmit={onLogin}
+        />
+        <Box sx={{ display: "flex" }}>
+          <SighUpText>{MESSAGE.ASK_ACCOUNT}</SighUpText>
+          <Buttons
+            type={CODE.BUTTON.BASIC}
+            name={LABEL.BUTTONS.GOTOSIGNUP}
+            backgroundColor={COLOR.WHITE}
+            color={COLOR.BLACK}
+            fontSize="8px"
+            fontWeight="bolder"
+            changeState={changeState}
+            margin="5px 0 0 0"
+          />
+        </Box>
+      </LoginBox>
+    </Wrapper>
+  );
 };
 
 export default LoginPopup;

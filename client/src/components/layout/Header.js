@@ -68,18 +68,12 @@ const MenuBtnBox = styled(Box)({
 
 /** 모든 페이지에 고정적으로 위치하는 헤더 (메뉴 버튼 포함) */
 const Header = () => {
-  
-	// 구조 분해 할당 이용하여 props 분해
-	// const { profile, logout, setProfile } = props;
 
 	const [modal, setModal] = useState(false);
 	const [popup, setPopup] = useState("login");
-	const [isLogin, setIsLogin] = useState(
-		localStorage.getItem("profile") ? true : false
-	);
-	const [profile, setProfile] = useState(
-		JSON.parse(localStorage.getItem("profile"))
-	);
+	const [isLogin, setIsLogin] = useState(localStorage.getItem("profile") ? true : false);
+	const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile")));
+
 	const nickname = profile && profile.user_nickname;
 
 	const goToPage = (url) => {
@@ -88,7 +82,7 @@ const Header = () => {
 
 	const logout = () => {
 		localStorage.removeItem("profile");
-		goToPage("/main");
+		goToPage("/");
 		window.location.reload();
 	};
 
@@ -99,7 +93,8 @@ const Header = () => {
 
 	// 모달창 바꿔주는 함수 조건식 -----
 	const popupChange = () => {
-		if (popup === "login") {
+		// 로그인
+    if (popup === "login") {
 			return (
 				<LoginPopup
 					changeState={() => setPopup("join")}
@@ -107,8 +102,12 @@ const Header = () => {
 					isLogin={() => setIsLogin(true)}
 				/>
 			);
+      
+    // 회원가입
 		} else if (popup === "join") {
 			return <JoinPopup profile={profile} setProfile={setProfile} />;
+      
+    // 프로필 수정
 		} else if (popup === "editProfile") {
 			return (
 				<EditProfilePopup
@@ -160,6 +159,7 @@ const Header = () => {
                 navigate={() => navigate('/')}
 							/> */}
 							<Buttons
+              	navigate={() => navigate("/favorite-novel")}
 								type={CODE.BUTTON.BASIC}
 								name={LABEL.BUTTONS.FAVORITE_NOVEL}
 								margin={10}

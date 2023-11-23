@@ -8,6 +8,7 @@ import AuthorInfo from "components/contents/AuthorInfo";
 import NovelCard from "components/contents/NovelCard";
 
 import { getData } from "common/communication";
+import { MESSAGE } from "common";
 
 // 전체 영역
 const Wrapper = styled(Box)({
@@ -35,25 +36,43 @@ const IsDataInfo = styled(Typography)({
 /** 작가 상세 정보를 보여주는 모달 (소설 상세 페이지에서 작가 닉네임 클릭시 해당 팝업 띄워짐) */
 const AuthorDetailPopup = (props) => {
 	const [authorNovelData, setAuthorNovelData] = useState([]);
-  const [profile, setProfile] = useState(
+	const [userImg, setUserImg] = useState("");
+	const [profile, setProfile] = useState(
 		JSON.parse(localStorage.getItem("profile"))
 	);
-  
-  console.log(props.authorId,42)
 
-	// 작가에 따른 미완 소설 가져오기
-	useEffect(() => {
-		getData("novel/getAuthorNovel", { created_user: props.authorId, login_id: null })
+	// 작가에 따른 미완 소설 가져오기(작가 프로필 이미지도 가져옴)
+	// useEffect(() => {
+	// 	getData("novel/getAuthorNovel", {
+	//     created_user: props.authorId,
+	//     login_id: profile.login_id
+	//   })
+	// 		.then(function (data) {
+	// 			setAuthorNovelData(data.novel_data);
+	//       setUserImg(data.user_image);
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err);
+	// 		});
+	// }, []);
+
+	const getNovelData = () => {
+		getData("novel/getAuthorNovel", {
+			created_user: props.authorId,
+			login_id: profile.login_id,
+		})
 			.then(function (data) {
-        console.log('xxx')
-				setAuthorNovelData(data);
+				setAuthorNovelData(data.novel_data);
+				setUserImg(data.user_image);
 			})
 			.catch((err) => {
 				console.log(err);
 			});
-	}, []);
+	};
 
-  console.log(authorNovelData,5656)
+	useEffect(() => {
+		getNovelData();
+	}, []);
 
 	const navigate = useNavigate();
 
@@ -62,33 +81,38 @@ const AuthorDetailPopup = (props) => {
 	};
 
 	return (
-		<>
-			<Wrapper>
-				<AuthorInfo authorNickName={props.authorNickName} />
-				<NovelCardBox>
-					{authorNovelData.length !== 0 ? (
-						authorNovelData.map((list) => {
-							return (
-								<NovelCard
-									key={list.main_seqno}
-									title={list.title}
-									description={list.description}
-									created_date={list.created_date}
-									created_user={list.created_user}
-                  pick_yn={list.pick_yn}
-									onClick={() => {
-										goToDetail(list);
-										props.closeModal();
-									}}
-								/>
-							);
-						})
-					) : (
-						<IsDataInfo>해당 작가님의 미완결 작품이 없어요 :)</IsDataInfo>
-					)}
-				</NovelCardBox>
-			</Wrapper>
-		</>
+		<Wrapper>
+			<AuthorInfo
+				authorNickName={props.authorNickName}
+				authorId={props.authorId}
+				user_image={userImg}
+			/>
+			<NovelCardBox>
+				{authorNovelData.length !== 0 ? (
+					authorNovelData.map((list) => {
+						return (
+							<NovelCard
+								key={list.main_seqno}
+								main_seqno={list.main_seqno}
+								title={list.title}
+								description={list.description}
+								created_date={list.created_date}
+								created_user={list.created_user}
+								user_id={profile.login_id} // 여기서 넘어가는 user_id는 해당 소설 찜 여부를 위한 값
+								pick_yn={list.pick_yn}
+                getNovelData={getNovelData}
+								onClick={() => {
+									goToDetail(list);
+									props.closeModal();
+								}}
+							/>
+						);
+					})
+				) : (
+					<IsDataInfo>{MESSAGE.NO_INCOMPLETE_NOV}</IsDataInfo>
+				)}
+			</NovelCardBox>
+		</Wrapper>
 	);
 };
 
