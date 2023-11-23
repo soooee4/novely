@@ -10,6 +10,12 @@ const fs = require('fs');
  */
 const fileUpload = async (req, res, next) => {
   try {
+    // 첨부된 파일이 없는 경우 다음 과정 진행
+    if (!req.file) {
+      next();
+      return; 
+    }
+
     // 저장 경로 설정(프로젝트 폴더 파일 경로)
     const documentDir = path.join(__dirname, `../../image/profile`);
 

@@ -17,7 +17,6 @@ const getNovel = async ({ user_id }) => {
 			data = await client.query(mapper.makeSql(sqlId));
 			// 로그인 상태 시 소설 데이터 조회
 		} else {
-      console.log('getNovelOlLogin')
 
 			sqlId = "Novel.getNovelOnLogin";
 			data = await client.query(mapper.makeSql(sqlId, { user_id: user_id }));

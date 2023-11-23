@@ -65,15 +65,15 @@ const FavoriteNov = () => {
 	const [isComplete, setIsComplete] = useState(true);
 
 	// 완성 소설 중 pick_yn이 Y인(찜한) 작품만 가져오기
-	// useEffect(() => {
-	// 	getData("novel/getNovel", { user_id: profile.login_id })
-	// 		.then((data) => {
-	// 			setCompleteNovData(data);
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err);
-	// 		});
-	// }, []);
+	useEffect(() => {
+		getData("novel/getNovel", { user_id: profile.login_id })
+			.then((data) => {
+				setCompleteNovData(data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
 
 	// !미완성 소설 중 pick_yn이 Y인(찜한) 작품만 가져오기
 	useEffect(() => {
@@ -98,7 +98,7 @@ const FavoriteNov = () => {
 	const goToDetail = (novel) => {
 		navigate("/novel-detail", { state: { props: novel } });
 	};
-
+console.log(inCompleteNovData,101)
 	return (
 		<>
 			<MainBox>
@@ -136,7 +136,7 @@ const FavoriteNov = () => {
 
 					{inCompleteNovData &&
 						isComplete === false &&
-						inCompleteNovData.novel_data.map((list) => {
+						inCompleteNovData.map((list) => {
 							return (
 								<NovelCard
 									key={list.main_seqno}

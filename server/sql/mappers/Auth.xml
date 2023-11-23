@@ -69,4 +69,17 @@
       WHERE
         login_id = #{user_id}
     </select>
+
+<!-- 작가 권한일 경우 프로필 수정 -->
+    <update id="AuthorEditProfile">
+      UPDATE  
+          t_user_mgt
+      SET
+          user_nickname = #{user_nickname},
+          login_pw = #{login_pw},
+          image = #{image},
+          author_info = #{author_info}
+      WHERE
+          login_id = #{login_id}
+    </update>
 </mapper>

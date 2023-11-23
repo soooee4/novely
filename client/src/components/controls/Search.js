@@ -27,11 +27,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const SearchBar = (props) => {
+	
+	// 검색어 입력 후 Enter키 눌렀을 경우
+	const enter = (e) => {
+		if (e.key === "Enter") {
+			props.onClick();
+		}
+	};
+
 	return (
 		<Search>
 			<StyledInputBase
 				placeholder={LABEL.INPUT.SEARCH}
 				inputProps={{ "aria-label": "search" }}
+				onChange={(e) => props.setSchWord(e.target.value.toLowerCase())}
+				onKeyDown={enter}
 			/>
 			<SearchIconWrapper>
 				<SearchIcon onClick={props.onClick} />
