@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
+// MUI Package Module
+import { Box, styled, Typography } from "@mui/material";
 
 // Control Component
 import Buttons from "components/controls/Button";
 
 // Constant
-import { Box, styled, Typography } from "@mui/material";
-import { CODE, LABEL, COLOR } from "common";
+import { CODE, LABEL, COLOR, MESSAGE } from "common";
 
-import { getData } from "common/communication";
-
+/** STYLE 정의 */
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "100%",
@@ -16,7 +15,6 @@ const Wrapper = styled(Box)({
 	display: "flex",
 	flexDirection: "column",
 	boxSizing: "border-box",
-	// border: "3px solid blue",
 });
 
 const ImgBox = styled(Box)({
@@ -34,7 +32,7 @@ const CoverImg = styled(Box)({
 	display: "flex",
 	flexDirection: "column",
 	boxSizing: "border-box",
-	backgroundColor: "skyblue",
+	backgroundColor: COLOR.GREEN_TEA,
 	margin: "8px auto",
 	borderRadius: 20,
 });
@@ -54,14 +52,7 @@ const IntroMsg = styled(Typography)({
 });
 
 /** 서브 소설 작성 후 소설 커버 이미지 업로드 하는 팝업 */
-const SetNovCoverPopup = (props) => {
-	// *제출 버튼 클릭 시 실행할 기능들 함수
-	// submitBtnHandler = () => {
-	// NovDetail에 데이터 전송, changeState
-	// 이미지 선택하지 않았을 시 기본 이미지 넣어주기
-	// '제출 후 수정 불가' alert 띄워주기
-	// 해당 main_novel_seqno에 해당하는 소설 상세 페이지로 이동 (새로고침)
-	// }
+const SetNovCoverPopup = () => {
 
 	return (
 		<Wrapper>
@@ -72,18 +63,11 @@ const SetNovCoverPopup = (props) => {
 				name={LABEL.BUTTONS.SUBMIT}
 				width={100}
 				margin={"-10px -5px 0px auto"}
-				// subDescHandler={subDescHandler}
-				// changeState={props.changeState}
 			/>
-			<IntroMsg>
-				마지막으로, <br />
-				이야기를 한눈에 보여줄 표지를 등록해보세요!
-			</IntroMsg>
+			<IntroMsg>{MESSAGE.SELECT_COVER_INTRO}</IntroMsg>
 			<ImgBox>
 				<CoverImg />
-				<ImgDescription>
-					표지가 없어도 걱정 마세요, 기본 이미지로 설정해드릴게요 :)
-				</ImgDescription>
+				<ImgDescription>{MESSAGE.BASIC_COVER_INTRO}</ImgDescription>
 			</ImgBox>
 		</Wrapper>
 	);

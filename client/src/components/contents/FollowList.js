@@ -14,7 +14,7 @@ const ListBox = styled(Box)({
   alignItems: 'center'
 })
 
-// 리스트 내부 작가 이름 텍스트 영역
+// 리스트 내부 작가 이름 텍스트
 const AuthorName = styled(Typography)({
   fontSize: 15,
   width: 200,
@@ -23,7 +23,7 @@ const AuthorName = styled(Typography)({
   textOverflow: 'ellipsis',
 })
 
-// 리스트 내부 작가 소개 텍스트 영역
+// 리스트 내부 작가 소개 텍스트
 const AuthorInfo = styled(Typography)({
   fontSize: 10,
   color: COLOR.GRAY,

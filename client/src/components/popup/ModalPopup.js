@@ -1,6 +1,5 @@
 // MUI Package Module
-import { Dialog, DialogTitle, DialogContent,} from "@mui/material";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Dialog, DialogContent, createTheme, ThemeProvider } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
 /** 모든 팝업 컴포넌트의 부모가 되는 기본 모달 컴포넌트 */
@@ -27,8 +26,7 @@ const ModalPopup = (props) => {
         open={open} 
         fullWidth={fullWidth}
         PaperProps={{style:{maxWidth:'100%', width: width}}}> 
-        {/* <DialogTitle sx={{border: "1px solid red", height: "10px"}}> */}
-          {/* CloseIcon을 눌렀을 때 join팝업일 경우 로컬 스토리지에 profile이 있으면 새로고침을 한다. */}
+          {/* CloseIcon을 눌렀을 때 join팝업일 경우 로컬 스토리지에 profile이 있으면 새로고침. */}
           <CloseIcon 
             sx={{ padding: "11px 13px 0px 0px", marginLeft: "auto"}}
             // onClick={onClose} 
@@ -38,10 +36,8 @@ const ModalPopup = (props) => {
              
             }}
           />
-        {/* </DialogTitle> */}
         <DialogContent 
           sx={{
-            // border: "3px solid green",
             boxSizing: 'border-box',
             width: fullWidth ? '100%' : width, 
             height: height,

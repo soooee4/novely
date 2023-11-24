@@ -131,6 +131,8 @@ const AuthorMyNov = () => {
     navigate("/novel-detail", { state: { props: novel } });
   };
 
+
+
   // Modal OPEN/CLOSE
   const showModal = () => {
     setModal(true);

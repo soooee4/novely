@@ -1,6 +1,8 @@
+// MUI Package Module
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 
+// Constant
 import { LABEL } from "common";
 
 const theme = createTheme({
@@ -28,10 +30,8 @@ const Inputs = (props) => {
 				label={props.label}
 				variant={LABEL.INPUT.STANDARD}
 				helperText={props.helperText}
-				// defaultValue={props.defaultValue}
 				defaultValue={test}
 				onChange={props.onChange}
-				// inputProps={props.InputProps}
 			/>
 		</ThemeProvider>
 	);

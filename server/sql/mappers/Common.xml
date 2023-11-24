@@ -11,9 +11,7 @@
         WHERE
             group_code = 'GENRE'
     </select>
-</mapper>
 
-<mapper namespace="Common">
     <select id="getTag">
         SELECT
           code,

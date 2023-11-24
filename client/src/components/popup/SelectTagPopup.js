@@ -1,15 +1,19 @@
-// export default SelectTagPopup;
+// React Package Module
 import { useEffect, useState } from "react";
+
+// MUI Package Module
+import { Box, styled, Typography } from "@mui/material";
 
 // Control Component
 import Buttons from "components/controls/Button";
 
 // Constant
-import { Box, styled, Typography } from "@mui/material";
-import { CODE, LABEL, COLOR } from "common";
+import { CODE, LABEL, COLOR, MESSAGE } from "common";
 
+// API
 import { getData } from "common/communication";
 
+/** STYLE 정의 */
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "100%",
@@ -18,12 +22,10 @@ const Wrapper = styled(Box)({
 	flexDirection: "column",
 	padding: "0 3%",
 	boxSizing: "border-box",
-	// border:'3px solid blue',
 	marinTop: "-30px",
 });
 
 const WholeBox = styled(Box)({
-	// border: "2px solid yellow",
 	width: "100%",
 	height: "100%",
 	display: "flex",
@@ -100,7 +102,7 @@ const [tag, setTag] = useState([]);
 				if (genre.findIndex((genre) => genre === tag) === -1)
 					setGenre([tag, ...genre]);
 			} else {
-				alert("장르는 2개까지 선택 가능해요");
+				alert(MESSAGE.OVER_SELECTED_GENRE);
 			}
 		}
 		// 키워드일 경우
@@ -109,7 +111,7 @@ const [tag, setTag] = useState([]);
 				if (keyword.findIndex((keyword) => keyword === tag) === -1)
 					setKeyword([tag, ...keyword]);
 			} else {
-				alert("키워드는 3개까지 선택 가능해요");
+				alert(MESSAGE.OVER_SELECTED_KEY_WORD);
 			}
 		}
 	};
@@ -117,7 +119,7 @@ const [tag, setTag] = useState([]);
 	// 저장 후 다음 버튼 클릭 시 실행할 기능들 함수
 	const nextBtnHandler = () => {
 		if (genre.length === 0 || keyword.length === 0) {
-			alert("장르, 키워드는 최소 1개씩 선택해주세요");
+			alert(MESSAGE.MIN_SELECT_TAG);
 		} else {
 			props.changeState();
 			props.setTags({
@@ -134,19 +136,14 @@ const [tag, setTag] = useState([]);
 				backgroundColor={COLOR.WHITE}
 				color={COLOR.BLACK}
 				name={LABEL.BUTTONS.GOTONEXT}
-				// width={100}
 				margin={"-10px 0px 5px auto"}
 				nextBtnHandler={nextBtnHandler}
-				// changeState={props.changeState}
 			/>
-			<IntroMsg>
-				어떤 느낌의 이야기로 완성하셨나요? <br />
-				적절한 태그를 설정해보세요 :)
-			</IntroMsg>
+			<IntroMsg>{MESSAGE.SELECT_TAG_INTRO}</IntroMsg>
 			<WholeBox>
 				<TagBox>
 					<GenreBox>
-						<DivTag>장르</DivTag>
+						<DivTag>{LABEL.SELECT.GENRE}</DivTag>
 						{tag
 							.filter((list) => list.group_code === "GENRE")
 							.map((list, i) => {
@@ -162,7 +159,7 @@ const [tag, setTag] = useState([]);
 							})}
 					</GenreBox>
 					<KeywordBox>
-						<DivTag>키워드</DivTag>
+						<DivTag>{LABEL.SELECT.KEY_WORD}</DivTag>
 						{tag
 							.filter((list) => list.group_code === "KEYWORD")
 							.map((list, i) => {

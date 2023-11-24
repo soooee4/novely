@@ -1,19 +1,21 @@
+// MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
 
+// Control Component
 import Buttons from "components/controls/Button";
-
 import Icons from "components/controls/Icons";
 
+// Constant
 import { CODE, COLOR } from "common";
 
+// API
 import { deleteData, postData } from "common/communication";
 
+/** STYLE 정의 */
 // 카드 컴포넌트 전체 영역
 const Whole = styled(Box)({
 	width: 211,
 	borderRadius: 15,
-  // boxSizing:"border-box",
-  // border: "3px solid black",
 	display: "flex",
 	flexDirection: "column",
 	marginRight: 20,
@@ -104,8 +106,6 @@ const NovelCard = (props) => {
         user_id: props.user_id,
       })
       .then(() => {
-        // alert(data)
-        // props.setIsPick(true)
         props.getNovelData();
 
       })
@@ -118,8 +118,6 @@ const NovelCard = (props) => {
         user_id: props.user_id,
       })
       .then(() => {
-        // alert(data)
-        // props.setIsPick(false)
         props.getNovelData();
       })
       .catch((err) => {
@@ -136,7 +134,6 @@ const NovelCard = (props) => {
 					<TitleBox>
 						<Title>{props.title}</Title>
 					</TitleBox>
-					{/* {props.like_count && ( */}
 						<LikedBox>
               {props.pick_yn && 
 							(props.pick_yn === "Y" ? 
@@ -153,7 +150,6 @@ const NovelCard = (props) => {
             />
           )}
 						</LikedBox>
-					{/* )} */}
 				</InfoItemBox>
 				<InfoItemBox>
 					<Description>{props.description}</Description>

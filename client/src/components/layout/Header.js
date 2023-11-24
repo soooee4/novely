@@ -1,23 +1,26 @@
-import { useEffect, useState } from "react";
+// React Package Module
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// import Box from '@mui/material/Box';   // material 폴더안의 Box만 사용 가능
-import { Box, styled, Typography, useScrollTrigger } from "@mui/material"; // 이렇게 쓰면 material 폴더 안의 js 모든 파일 사용 가능
+// MUI Package Module
+import { Box, styled, Typography, useScrollTrigger } from "@mui/material";
 
+// Control Component
 import Buttons from "components/controls/Button";
 
-// Constant
-import { CODE, LABEL } from "common";
-
 // Popup Component
-// import ToastPopup from "components/popup/ToastPopup";
 import ModalPopup from "components/popup/ModalPopup";
 import LoginPopup from "components/popup/LoginPopup";
 import JoinPopup from "components/popup/JoinPopup";
 import EditProfilePopup from "components/popup/EditProfilePopup";
 
+// Constant
+import { CODE, LABEL } from "common";
+
+// Util
 import { modalWidth, modalHeight } from "common/util";
 
+/** STYLE 정의 */
 // 전체 영역
 const Whole = styled(Box)({
 	height: 70,
@@ -86,12 +89,12 @@ const Header = () => {
 		window.location.reload();
 	};
 
-	// 모달창 닫는 함수 -----
+	// 모달창 닫는 함수
 	const closeModal = () => {
 		setModal(false);
 	};
 
-	// 모달창 바꿔주는 함수 조건식 -----
+	// 모달창 바꿔주는 함수
 	const popupChange = () => {
 		// 로그인
     if (popup === "login") {
@@ -146,18 +149,10 @@ const Header = () => {
 							width={83}
 							showModal={() => setModal(true)}
 							changeState={() => setPopup("login")}
-							// openLogin={openLogin}
-							// openProfile={openProfile}
 						/>
 					) : (
 						// 일반 유저 로그인 상태
 						<>
-							{/* <Buttons
-								type={CODE.BUTTON.BASIC}
-								name={LABEL.BUTTONS.ALL_NOVEL}
-								margin={10}
-                navigate={() => navigate('/')}
-							/> */}
 							<Buttons
               	navigate={() => navigate("/favorite-novel")}
 								type={CODE.BUTTON.BASIC}
@@ -167,11 +162,6 @@ const Header = () => {
 							{/* 권한에 따라 내 정보, 내 작품 메뉴 변경 */}
 							{profile.user_reg_dv === "W" && (
 								<>
-									{/* <Buttons
-										type={CODE.BUTTON.BASIC}
-										name={LABEL.BUTTONS.MY_INFO}
-										margin={"10px 25px 10px 10px"}
-									/> */}
 									<Buttons
 										navigate={() => navigate("/author-myNovel")}
 										type={CODE.BUTTON.BASIC}
@@ -194,8 +184,6 @@ const Header = () => {
 								color={"white"}
 								width={83}
 								logout={logout}
-								// openLogin={openLogin}
-								// openProfile={openProfile}
 							/>
 						</>
 					)}

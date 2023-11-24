@@ -1,20 +1,22 @@
+// React Package Module
 import { useState } from "react";
-import axios from "axios";
-// import { useNavigate } from "react-router-dom";
 
-import { Box, Typography, styled } from "@mui/material";
-import { COLOR, LABEL, CODE, MESSAGE } from "../../common";
+// MUI Package Module
+import { Box, Typography, styled, TextField } from "@mui/material";
 
-// TextField Component
-import TextField from "@mui/material/TextField";
-
-// Button Component
+// Control Component
 import Buttons from "components/controls/Button";
 
-import { postData } from "common/communication";
+// Constant
+import { COLOR, LABEL, CODE, MESSAGE } from "../../common";
 
+// util
 import { idValidation, pwValidation } from "common/util";
 
+// API
+import { postData } from "common/communication";
+
+/** STYLE 정의 */
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "99%",
@@ -44,18 +46,14 @@ const SighUpText = styled(Typography)({
 	marginLeft: 2,
 });
 
-
 /** 로그인 팝업 컴포넌트 (헤더에서 로그인/로그아웃 버튼 클릭 시 해당 팝업 띄워줌) */
 const LoginPopup = (props) => {
   
-  const { changeState, closeModal, idValidate, isLogin, pwValidate } = props;
-
-  // 아이디, 비밀번호 유효성 검사
+  // 아이디, 비밀번호 유효성 검사 담는 상태
   const [id, setId] = useState("");
 	const [pw, setPw] = useState("");
 	const [idRegMsg, setIdRegMsg] = useState("");
 	const [pwRegMsg, setPwRegMsg] = useState("");
-
 
 	// input값 입력
 	const inputId = (e) => {
@@ -108,9 +106,7 @@ const LoginPopup = (props) => {
           id="fullWidth"
           variant="standard"
           placeholder="ID"
-          // 함수 호출할 때 파라미터 있을 경우에 화살표 함수 형태
           onChange={inputId}
-          // onBlur={idValidate}
           onBlur={() => validation("id")}
           value={id}
           helperText={idRegMsg}
@@ -149,7 +145,7 @@ const LoginPopup = (props) => {
             color={COLOR.BLACK}
             fontSize="8px"
             fontWeight="bolder"
-            changeState={changeState}
+            changeState={props.changeState}
             margin="5px 0 0 0"
           />
         </Box>

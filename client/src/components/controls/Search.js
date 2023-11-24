@@ -1,5 +1,8 @@
+// MUI Package Module
 import { styled, InputBase } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+
+// Constant
 import { LABEL, COLOR } from "common";
 
 const Search = styled("div")({

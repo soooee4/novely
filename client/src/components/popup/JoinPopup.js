@@ -1,20 +1,22 @@
+// React Package Module
 import { useState } from "react";
-import axios from "axios";
-// import { useNavigate } from "react-router-dom";
 
-import { Box, Typography, styled } from "@mui/material";
-import { COLOR, LABEL, CODE, MESSAGE } from "common";
+// MUI Package Module
+import { Box, styled, TextField } from "@mui/material";
 
-// TextField Component
-import TextField from "@mui/material/TextField";
-
-// Button Component
+// Control Component
 import Buttons from "components/controls/Button";
 
-import { postData } from "common/communication";
+// Constant
+import { COLOR, LABEL, CODE, MESSAGE } from "common";
 
+// util
 import { idValidation, pwValidation } from "common/util";
 
+// API
+import { postData } from "common/communication";
+
+/** STYLE 정의 */
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "99%",
@@ -39,8 +41,7 @@ const Text = styled(TextField)({
 });
 
 /** 회원가입 팝업 컴포넌트 (로그인 컴포넌트 내 회원가입 버튼 클릭 시 해당 팝업 띄워줌) */
-const JoinPopup = (props) => {
-	const { idValidate, profile, pwValidate } = props;
+const JoinPopup = () => {
 
 	const [id, setId] = useState("");
 	const [pw, setPw] = useState("");
@@ -71,11 +72,10 @@ const JoinPopup = (props) => {
 		})
 			.then((data) => {
 				if (typeof data === "string") {
-					alert("이미 가입된 정보입니다.");
+					alert(MESSAGE.ERROR.EXIST_USER);
 				} else if (typeof data === "object") {
-					console.log(data, 22);
 					localStorage.setItem("profile", JSON.stringify(data));
-					alert("회원가입 완료!");
+					alert(MESSAGE.JOINED);
 					window.location.reload();
 				}
 			})

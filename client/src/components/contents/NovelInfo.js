@@ -1,11 +1,14 @@
-import { Box, Button, styled, Typography } from "@mui/material";
+// MUI Package Module
+import { Box, styled, Typography } from "@mui/material";
 
+// Control Component
 import Buttons from "components/controls/Button";
-
 import Icons from "components/controls/IconRef";
 
+// Constant
 import { CODE, LABEL, COLOR, MESSAGE } from "common";
 
+/** STYLE 정의 */
 // 전체 영역
 const Whole = styled(Box)({
 	width: "100%",
@@ -24,7 +27,7 @@ const InfoBox = styled(Box)({
 	flexDirection: "column",
 });
 
-// 우측 기한 표시 및 view 버튼 영역
+// 마감 기한 표시 및 view 버튼 영역
 const DateBox = styled(Box)({
 	flexGrow: 1,
 	height: "100%",
@@ -145,10 +148,9 @@ const NovelInfo = (props) => {
 					<DateInfo>{MESSAGE.DDAY_COMPLETE}</DateInfo>
 				) : (
 					// !추후 실제 날짜 계산해서 넣어놓기
-					<DateInfo>마감이 3일 남았어요</DateInfo>
+					<DateInfo>{MESSAGE.DDAY_COUNT}</DateInfo>
 				)}
 				<NovelViewBox
-					// onClick={props.showModal}
 					onClick={() => {
 						props.showModal();
             props.complete_seqno !== undefined ? props.setPopup("viewComNov") : props.setPopup("viewIncomNov")            

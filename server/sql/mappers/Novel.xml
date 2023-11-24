@@ -162,7 +162,6 @@
           novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
     </select>
 
-    <!-- !찜한 미완성 소설 가져오기 -->
     <select id="getPickMainNovel">
         SELECT
           tnm.title,
@@ -183,10 +182,9 @@
         FROM
           t_novel_mgt tnm
         LEFT JOIN t_user_mgt tum
-          ON tnm.created_user = tum.login_id
-          <!-- !pick_yn이 없다는 오류가 뜸. 서브 쿼리는 실제 컬럼이 아니라 뽑을 때 사용하는 가상의?개념인데 그걸 조건으로 걸어서 실제하지 않기 때문에 없다고 뜨는듯  -->
+          ON tnm.created_user = tum.login_id 
         WHERE
-          pick_yn = 'Y'
+          tnm.complete_yn = 'N'
         ORDER BY
           novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
     </select>

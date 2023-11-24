@@ -1,12 +1,14 @@
+// MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
 
-// 작가 이름 텍스트
+/** STYLE 정의 */
+// 작가 이름
 const AuthorName = styled(Typography)({
   fontSize: 18,
   textAlign: 'center',
 })
 
-// 작가 한줄 소개 텍스트
+// 작가 한줄 소개
 const AuthorMessage = styled(Typography)({
   fontSize: 10,
   paddingLeft: 25,
@@ -17,8 +19,6 @@ const AuthorMessage = styled(Typography)({
 
 /** 작가 상세정보 팝업에 들어가는 작가 소개 컴포넌트(작가 프로필 이미지, 닉네임, 소개글 포함) */
 const AuthorInfo = (props) => {
-
-  console.log(props,21)
 
   return (
     <Box

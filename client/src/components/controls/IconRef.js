@@ -1,6 +1,5 @@
+// MUI Package Module
 import styled from '@emotion/styled';
-
-
 import {
   Favorite,
   FavoriteBorder,
@@ -9,6 +8,7 @@ import {
   Search
 } from '@mui/icons-material'
 
+// Constant
 import { CODE, COLOR } from 'common'; 
 
 // 찜 눌렀을 때 하트 아이콘
@@ -38,8 +38,6 @@ const Cat = styled(Pets)({
 const View = styled(Search)({
     cursor: 'pointer',
 })
-
-
 
 const Icons = (props) => {
     if (props.type === CODE.ICON.FILLHEART) {

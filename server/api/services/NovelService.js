@@ -12,18 +12,17 @@ const getNovel = async ({ user_id }) => {
 
 		// 비로그인 상태 시 소설 데이터 조회
 		if (!user_id) {
-      console.log('getNovel')
+			console.log("getNovel");
 
 			data = await client.query(mapper.makeSql(sqlId));
+
 			// 로그인 상태 시 소설 데이터 조회
 		} else {
-
 			sqlId = "Novel.getNovelOnLogin";
 			data = await client.query(mapper.makeSql(sqlId, { user_id: user_id }));
 		}
 
 		return data;
-
 	} catch (err) {
 		console.log(err);
 	} finally {
@@ -42,7 +41,6 @@ const getMainNovel = async ({ novel_seqno }) => {
 			mapper.makeSql(sqlId, { novel_seqno: novel_seqno })
 		);
 		return data;
-
 	} catch (err) {
 		console.log(err);
 	} finally {
@@ -50,23 +48,23 @@ const getMainNovel = async ({ novel_seqno }) => {
 	}
 };
 
-// !찜한 미완성 소설 조회 함수
-const getPickMainNovel = async ({ user_id }) => {
-	const client = await pool.connect();
-	const sqlId = "Novel.getPickMainNovel";
+// ! 찜한 미완성 소설 조회 함수
+// const getPickMainNovel = async ({ user_id }) => {
+// 	const client = await pool.connect();
+// 	const sqlId = "Novel.getPickMainNovel";
 
-	try {
-		const data = await client.query(
-			mapper.makeSql(sqlId, { user_id: user_id })
-		);
-		return data;
+// 	try {
+// 		const data = await client.query(
+// 			mapper.makeSql(sqlId, { user_id: user_id })
+// 		);
+// 		return data;
 
-	} catch (err) {
-		console.log(err);
-	} finally {
-		if (client) client.release();
-	}
-};
+// 	} catch (err) {
+// 		console.log(err);
+// 	} finally {
+// 		if (client) client.release();
+// 	}
+// };
 
 // 작가에 따른 미완성 소설 조회 함수
 const getAuthorNovel = async ({ created_user, login_id }) => {
@@ -76,39 +74,38 @@ const getAuthorNovel = async ({ created_user, login_id }) => {
 	try {
 		// 미완성 소설 데이터와 작가 이미지를 담을 변수
 		let data = {
-      novel_data: null,
-      user_image: null
-    };
+			novel_data: null,
+			user_image: null,
+		};
 
-    sqlId = "Auth.getUserImg";
-    const user_image = await client.query(
-      mapper.makeSql(sqlId, {
-        user_id: created_user
-      })
-    );
+		sqlId = "Auth.getUserImg";
+		const user_image = await client.query(
+			mapper.makeSql(sqlId, {
+				user_id: created_user,
+			})
+		);
 
-    // 클라이언트로 보낼 데이터 중 작가 프로필 이미지 세팅
-    data.user_image = user_image.rows[0].image;
+		// 클라이언트로 보낼 데이터 중 작가 프로필 이미지 세팅
+		// data.user_image = user_image.rows[0].image;
 
 		// 작가 아이디와 유저 아이디가 동일하지 않을 경우
 		if (created_user !== login_id) {
 			sqlId = "Novel.getAuthorNovel";
 		} else {
-    // 작가 아이디와 유저 아이디가 동일할 경우
+			// 작가 아이디와 유저 아이디가 동일할 경우
 			sqlId = "Novel.getAuthorMyNovel";
 		}
 
-    const novel_data = await client.query(
-      mapper.makeSql(sqlId, {
-        created_user: created_user,
-        login_id: login_id,
-      })
-    );
-    // 클라이언트로 보낼 데이터 중 작가에 속한 소설 정보 세팅
-    data.novel_data = novel_data.rows;
-    
-		return data;
+		const novel_data = await client.query(
+			mapper.makeSql(sqlId, {
+				created_user: created_user,
+				login_id: login_id,
+			})
+		);
+		// 클라이언트로 보낼 데이터 중 작가에 속한 소설 정보 세팅
+		data.novel_data = novel_data.rows;
 
+		return data;
 	} catch (err) {
 		console.log(err);
 	} finally {
@@ -152,7 +149,6 @@ const getCompleteNovel = async ({ complete_seqno }) => {
 		);
 
 		return data;
-
 	} catch (err) {
 		console.log(err);
 	} finally {
@@ -196,7 +192,6 @@ const postNovel = async ({
 		);
 
 		return data;
-
 	} catch (err) {
 		console.log(err);
 	} finally {
@@ -242,7 +237,6 @@ const postSubNovel = async ({
 		);
 
 		return data;
-
 	} catch (err) {
 		console.log(err);
 	} finally {
@@ -266,7 +260,6 @@ const postMainNovel = async ({ title, content, created_user, description }) => {
 		);
 
 		return data;
-
 	} catch (err) {
 		console.log(err);
 	} finally {
@@ -289,7 +282,6 @@ const postPickNovel = async ({ main_novel_seqno, user_id }) => {
 		);
 
 		return data;
-
 	} catch (err) {
 		console.log(err);
 	} finally {
@@ -312,7 +304,6 @@ const deletePickNovel = async ({ main_novel_seqno, user_id }) => {
 		);
 
 		return data;
-
 	} catch (err) {
 		console.log(err);
 	} finally {
@@ -334,7 +325,6 @@ const postLikeSubNovel = async ({ sub_novel_seqno, user_id }) => {
 		);
 
 		return data;
-
 	} catch (err) {
 		console.log(err);
 	} finally {
@@ -354,8 +344,44 @@ const deleteLikeSubNovel = async ({ sub_novel_seqno, user_id }) => {
 				user_id,
 			})
 		);
-    
+
 		return data;
+	} catch (err) {
+		console.log(err);
+	} finally {
+		if (client) client.release();
+	}
+};
+
+// * 찜한 소설 조회 함수
+const getPickNovel = async ({ user_id }) => {
+	const client = await pool.connect();
+
+	/**완성 소설*/
+	let sqlId = "Novel.getNovelOnLogin";
+
+	// pick yn이 Y인 것을 담을 변수
+	let complete;
+	let inComplete;
+  
+
+	// 가공 전 데이터 임시로 담을 변수
+	let data = { complete: null, inComplete: null };
+
+	try {
+		// 완성 소설 조회하여 가공
+		const pickComplete = await client.query(mapper.makeSql(sqlId, { user_id: user_id }));  
+		data.complete = pickComplete.rows.filter((novel) => novel.pick_yn === "Y"); 
+ 
+		/** 미완성 소설*/
+		sqlId = "Novel.getPickMainNovel";
+		// 미완성 소설 조회하여 가공
+		const pickIncomplete = await client.query(mapper.makeSql(sqlId, { user_id: user_id }));   
+		data.inComplete = pickIncomplete.rows.filter((novel) => novel.pick_yn === "Y");
+
+
+    // 객체 형태로 두 배열 리턴
+    return data;
 
 	} catch (err) {
 		console.log(err);
@@ -377,5 +403,6 @@ module.exports = {
 	deletePickNovel,
 	postLikeSubNovel,
 	deleteLikeSubNovel,
-  getPickMainNovel
+	// getPickMainNovel,
+	getPickNovel,
 };

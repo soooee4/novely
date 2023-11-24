@@ -30,11 +30,24 @@ const getMainNovel = async (req, res, next) => {
 };
 
 // !찜한 미완성 소설 조회 함수
-const getPickMainNovel = async (req, res, next) => {
+// const getPickMainNovel = async (req, res, next) => {
+// 	try {
+// 		const data = await svc.getPickMainNovel({ ...req.query });
+// 		if (data.rowCount !== 0) {
+// 			res.send(data.rows);
+// 		}
+// 	} catch (err) {
+// 		console.log(err);
+// 	}
+// };
+
+// * 찜한 소설 조회 함수
+const getPickNovel = async (req, res, next) => {
 	try {
-		const data = await svc.getPickMainNovel({ ...req.query });
+		const data = await svc.getPickNovel({ ...req.query });
 		if (data.rowCount !== 0) {
-			res.send(data.rows);
+      // console.log(data,49)
+			res.send(data);
 		}
 	} catch (err) {
 		console.log(err);
@@ -220,9 +233,9 @@ router.post("/postSubNovel", postSubNovel);
 router.post("/postMainNovel", postMainNovel);
 
 /**
- * 찜한 미완성 소설 가져오기
+ * 찜한 소설 가져오기
  */
-router.get("/getPickMainNovel", getPickMainNovel);
+router.get("/getPickNovel", getPickNovel);
 
 /**
  * 소설 찜 기능

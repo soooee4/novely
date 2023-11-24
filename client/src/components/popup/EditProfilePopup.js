@@ -1,20 +1,24 @@
+// React Package Module
 import { useState } from "react";
 
-import { Box, styled } from "@mui/material";
-import { MESSAGE, COLOR, CODE, LABEL } from "../../common";
+// MUI Package Module
+import { Box, styled, TextField } from "@mui/material";
 
-// TextField Component
-import TextField from "@mui/material/TextField";
+// Control Component
+import Buttons from "components/controls/Button";
 
-import { patchData } from "common/communication";
+// Constant
+import { MESSAGE, LABEL, CODE } from "../../common";
 
+// util
 import { pwValidation } from "common/util";
 
+// API
+import { patchData } from "common/communication";
+
+/** STYLE 정의 */
 // 전체 영역
 const Wrapper = styled(Box)({
-	// width: "%",
-	// height: "100%",
-	// display: "flex",
 	justifyContent: "center",
 	alignItems: "center",
 });
@@ -29,8 +33,6 @@ const Text = styled(TextField)({
 
 /** 내 정보 수정 컴포넌트 (헤더의 내 정보 버튼 클릭 시 해당 팝업 띄워줌)*/
 const EditProfile = (props) => {
-	// 구조 분해 할당 이용하여 props 분해
-	const { closeModal, setProfile } = props;
 	const profile = JSON.parse(localStorage.getItem("profile"));
 
 	// Formdata 세팅 데이터 및 유효성 검사 메시지 STATE 정의
@@ -40,12 +42,10 @@ const EditProfile = (props) => {
 	const [img, setImg] = useState();
 	const [confirmNewPwRegMsg, setConfirmNewPwRegMsg] = useState("");
 	const [pwRegMsg, setPwRegMsg] = useState("");
-	// !작가 소개
 	const [info, setInfo] = useState("");
 	const [isAuthor, setIsAuthor] = useState(profile.user_reg_dv);
-	// console.log(typeof isAuthor,48)
 
-	// input값 입력
+	// input값 입력 
 	const inputNickname = (e) => {
 		setNickname(e.target.value);
 	};
@@ -58,7 +58,6 @@ const EditProfile = (props) => {
 		setNewPw(e.target.value);
 	};
 
-	// !작가 소개
 	const inputInfo = (e) => {
 		setInfo(e.target.value);
 	};
@@ -93,7 +92,7 @@ const EditProfile = (props) => {
 	const onEditProfile = () => {
 		// 현재 비밀번호 미입력 시
 		if (curPw === "") {
-			alert("현재 비밀번호를 입력해야 합니다");
+			alert(MESSAGE.WRITE_CUR_PW);
 			return;
 		}
 
@@ -108,7 +107,6 @@ const EditProfile = (props) => {
 			isAuthor: isAuthor,
 		};
 
-
 		// 폼 데이터 변수 선언
 		const formData = new FormData();
 
@@ -120,7 +118,7 @@ const EditProfile = (props) => {
 		patchData("auth/editProfile", formData).then((data) => {
 			// res.data가 false로 넘어올 경우 경고창 띄워줌
 			if (!data) {
-				alert("현재 비밀번호가 일치하지 않습니다.");
+				alert(MESSAGE.ERROR.INCORRECT_CUR_PW);
 			} else {
 				// data가 제대로 넘어올 경우
 				// 기존 로컬스토리지에 저장한 profile에 닉네임 추가하여 setProfile 함수를 이용하여 정보 업데이트 후 다시 로컬스토리지에 저장
@@ -133,17 +131,14 @@ const EditProfile = (props) => {
             user_info: data.author_info
 					});
 					localStorage.setItem("profile", newData);
-					// setProfile(newData);
-					alert("수정 완료 :)");
-					closeModal();
+					alert(MESSAGE.SAVED);
+					props.closeModal();
 				} else {
 					alert(data);
 				}
 			}
 		});
 	};
-
-  console.log(profile,146)
 
 	return (
 		<Wrapper>
@@ -208,14 +203,17 @@ const EditProfile = (props) => {
 					variant="standard"
 					defaultValue={profile.user_info}
 					onChange={inputInfo}
-					// onBlur={nickNameValidate}
-					// helperText={nickNameRegMsg !== "" ? nickNameRegMsg : ""}
 				/>
 			)}
-			<button type="submit" onClick={onEditProfile}>
+			<Buttons
+				type={CODE.BUTTON.BASIC}
+				name={LABEL.BUTTONS.DONE}
+				onEditProfile={onEditProfile}
+			/>
+			{/* <button type="submit" onClick={onEditProfile}>
 				{" "}
-				완료{" "}
-			</button>
+				{LABEL.BUTTONS.DONE}{" "}
+			</button> */}
 		</Wrapper>
 	);
 };
