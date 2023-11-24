@@ -42,9 +42,8 @@ const EditProfile = (props) => {
 	const [pwRegMsg, setPwRegMsg] = useState("");
 	// !작가 소개
 	const [info, setInfo] = useState("");
-	const [isAuthor, setIsAuthor] = useState(
-		profile.user_reg_dv === "A" ? true : false
-	);
+	const [isAuthor, setIsAuthor] = useState(profile.user_reg_dv);
+	// console.log(typeof isAuthor,48)
 
 	// input값 입력
 	const inputNickname = (e) => {
@@ -109,6 +108,7 @@ const EditProfile = (props) => {
 			isAuthor: isAuthor,
 		};
 
+
 		// 폼 데이터 변수 선언
 		const formData = new FormData();
 
@@ -126,9 +126,11 @@ const EditProfile = (props) => {
 				// 기존 로컬스토리지에 저장한 profile에 닉네임 추가하여 setProfile 함수를 이용하여 정보 업데이트 후 다시 로컬스토리지에 저장
 				// 스프레드 연산자 사용하여 profile 객체를 분해하여 복사하여 넣음 (데이터 복사, 추가 시 사용)
 				if (typeof data === "object") {
+          console.log(info,1238)
 					const newData = JSON.stringify({
 						...profile,
 						user_nickname: data.user_nickname,
+            user_info: data.author_info
 					});
 					localStorage.setItem("profile", newData);
 					// setProfile(newData);
@@ -140,6 +142,8 @@ const EditProfile = (props) => {
 			}
 		});
 	};
+
+  console.log(profile,146)
 
 	return (
 		<Wrapper>
@@ -198,14 +202,16 @@ const EditProfile = (props) => {
 				onBlur={confirmNewPassword}
 				helperText={confirmNewPwRegMsg !== "" ? confirmNewPwRegMsg : ""}
 			/>
-			<Text
-				id="standard-basic"
-				variant="standard"
-				// defaultValue={profile.user_nickname}
-				onChange={inputInfo}
-				// onBlur={nickNameValidate}
-				// helperText={nickNameRegMsg !== "" ? nickNameRegMsg : ""}
-			/>
+			{profile.user_reg_dv === "W" && (
+				<Text
+					id="standard-basic"
+					variant="standard"
+					defaultValue={profile.user_info}
+					onChange={inputInfo}
+					// onBlur={nickNameValidate}
+					// helperText={nickNameRegMsg !== "" ? nickNameRegMsg : ""}
+				/>
+			)}
 			<button type="submit" onClick={onEditProfile}>
 				{" "}
 				완료{" "}
