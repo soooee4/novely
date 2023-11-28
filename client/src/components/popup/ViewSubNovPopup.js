@@ -18,7 +18,6 @@ const Wrapper = styled(Box)({
 	flexDirection: "column",
 	padding: "0 3%",
 	boxSizing: "border-box",
-	border: "3px solid blue",
 	marinTop: "-30px",
 	height: "100%",
 });
@@ -29,7 +28,6 @@ const WholeBox = styled(Box)({
 	display: "flex",
 	gap: 20,
 	boxSizing: "border-box",
-	border: "3px solid green",
 });
 
 const MainNovBox = styled(Box)({

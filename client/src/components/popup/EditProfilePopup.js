@@ -1,24 +1,20 @@
-// React Package Module
 import { useState } from "react";
 
-// MUI Package Module
-import { Box, styled, TextField } from "@mui/material";
+import { Box, styled } from "@mui/material";
+import { MESSAGE, COLOR, CODE, LABEL } from "../../common";
 
-// Control Component
-import Buttons from "components/controls/Button";
+// TextField Component
+import TextField from "@mui/material/TextField";
 
-// Constant
-import { MESSAGE, LABEL, CODE } from "../../common";
-
-// util
-import { pwValidation } from "common/util";
-
-// API
 import { patchData } from "common/communication";
 
-/** STYLE 정의 */
+import { pwValidation } from "common/util";
+
 // 전체 영역
 const Wrapper = styled(Box)({
+	// width: "%",
+	// height: "100%",
+	// display: "flex",
 	justifyContent: "center",
 	alignItems: "center",
 });
@@ -33,6 +29,8 @@ const Text = styled(TextField)({
 
 /** 내 정보 수정 컴포넌트 (헤더의 내 정보 버튼 클릭 시 해당 팝업 띄워줌)*/
 const EditProfile = (props) => {
+	// 구조 분해 할당 이용하여 props 분해
+	const { closeModal, setProfile } = props;
 	const profile = JSON.parse(localStorage.getItem("profile"));
 
 	// Formdata 세팅 데이터 및 유효성 검사 메시지 STATE 정의
@@ -42,10 +40,13 @@ const EditProfile = (props) => {
 	const [img, setImg] = useState();
 	const [confirmNewPwRegMsg, setConfirmNewPwRegMsg] = useState("");
 	const [pwRegMsg, setPwRegMsg] = useState("");
+	// !작가 소개
 	const [info, setInfo] = useState("");
-	const [isAuthor, setIsAuthor] = useState(profile.user_reg_dv);
+	const [isAuthor, setIsAuthor] = useState(
+		profile.user_reg_dv === "A" ? true : false
+	);
 
-	// input값 입력 
+	// input값 입력
 	const inputNickname = (e) => {
 		setNickname(e.target.value);
 	};
@@ -58,6 +59,7 @@ const EditProfile = (props) => {
 		setNewPw(e.target.value);
 	};
 
+	// !작가 소개
 	const inputInfo = (e) => {
 		setInfo(e.target.value);
 	};
@@ -92,7 +94,7 @@ const EditProfile = (props) => {
 	const onEditProfile = () => {
 		// 현재 비밀번호 미입력 시
 		if (curPw === "") {
-			alert(MESSAGE.WRITE_CUR_PW);
+			alert("현재 비밀번호를 입력해야 합니다");
 			return;
 		}
 
@@ -105,6 +107,7 @@ const EditProfile = (props) => {
 			file: img,
 			author_info: info,
 			isAuthor: isAuthor,
+			old_img_name: profile.image,
 		};
 
 		// 폼 데이터 변수 선언
@@ -118,21 +121,21 @@ const EditProfile = (props) => {
 		patchData("auth/editProfile", formData).then((data) => {
 			// res.data가 false로 넘어올 경우 경고창 띄워줌
 			if (!data) {
-				alert(MESSAGE.ERROR.INCORRECT_CUR_PW);
+				alert("현재 비밀번호가 일치하지 않습니다.");
 			} else {
 				// data가 제대로 넘어올 경우
 				// 기존 로컬스토리지에 저장한 profile에 닉네임 추가하여 setProfile 함수를 이용하여 정보 업데이트 후 다시 로컬스토리지에 저장
 				// 스프레드 연산자 사용하여 profile 객체를 분해하여 복사하여 넣음 (데이터 복사, 추가 시 사용)
 				if (typeof data === "object") {
-          console.log(info,1238)
 					const newData = JSON.stringify({
 						...profile,
 						user_nickname: data.user_nickname,
-            user_info: data.author_info
+						image: data.image_file_name,
 					});
 					localStorage.setItem("profile", newData);
-					alert(MESSAGE.SAVED);
-					props.closeModal();
+					// setProfile(newData);
+					alert("수정 완료 :)");
+					closeModal();
 				} else {
 					alert(data);
 				}
@@ -150,7 +153,7 @@ const EditProfile = (props) => {
 					margin: "0 auto",
 					marginTop: 4,
 					marginBottom: 2,
-					backgroundImage: `url(http://172.30.1.35:8080/profile/${profile.image})`,
+					backgroundImage: `url(http://172.30.99.122:8080/profile/${profile.image})`,  // url 자리에 현재 로컬 ip주소 입력
 					backgroundSize: "cover",
 				}}
 			/>
@@ -197,23 +200,18 @@ const EditProfile = (props) => {
 				onBlur={confirmNewPassword}
 				helperText={confirmNewPwRegMsg !== "" ? confirmNewPwRegMsg : ""}
 			/>
-			{profile.user_reg_dv === "W" && (
-				<Text
-					id="standard-basic"
-					variant="standard"
-					defaultValue={profile.user_info}
-					onChange={inputInfo}
-				/>
-			)}
-			<Buttons
-				type={CODE.BUTTON.BASIC}
-				name={LABEL.BUTTONS.DONE}
-				onEditProfile={onEditProfile}
+			<Text
+				id="standard-basic"
+				variant="standard"
+				// defaultValue={profile.user_nickname}
+				onChange={inputInfo}
+				// onBlur={nickNameValidate}
+				// helperText={nickNameRegMsg !== "" ? nickNameRegMsg : ""}
 			/>
-			{/* <button type="submit" onClick={onEditProfile}>
+			<button type="submit" onClick={onEditProfile}>
 				{" "}
-				{LABEL.BUTTONS.DONE}{" "}
-			</button> */}
+				완료{" "}
+			</button>
 		</Wrapper>
 	);
 };

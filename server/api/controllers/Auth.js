@@ -44,14 +44,24 @@ const join = async (req, res, next) => {
 // 프로필 수정
 const editProfile = async (req, res, next) => {
 	try {
-		const data = await svc.editProfile({ ...req.body, image_file_name: req.file?.req.file.originalname });
+    const data = await svc.editProfile({ ...req.body });
     res.send(data);
 
 	} catch (err) {
 		console.log(err); 
 	}
 };
+ 
+// 작가 권한일 시 프로필 수정
+const AuthorEditProfile = async (req, res, next) => {
+	try {
+		const data = await svc.editProfile({ ...req.body });
+    res.send(data);
 
+	} catch (err) {
+		console.log(err); 
+	}
+};
 
 // 로그인
 router.post("/login", login);
@@ -62,5 +72,7 @@ router.post("/join", join);
 // 회원 정보 수정
 router.patch("/editProfile", parsingFormData, fileUpload, editProfile);
 
+// 작가회원 정보 수정
+router.patch("/AuthorEditProfile", parsingFormData, fileUpload, AuthorEditProfile);
 
 module.exports = router;

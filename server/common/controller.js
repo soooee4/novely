@@ -30,6 +30,19 @@ const fileUpload = async (req, res, next) => {
     // 경로 및 파일명 설정
     const newPath = path.join(documentDir, file_name);
 
+    // 이미 이미지가 존재할 경우 경로
+    const oldPath = path.join(documentDir, req.body.old_img_name);
+
+    req.body.image_file_name = file_name;
+
+    // 이미 id@novely.com으로 만들어진 이미지가 존재한다면 삭제
+    if (fs.existsSync(oldPath)) {
+      // fs.rmdir(oldPath, { recursive: true }), (error) => {
+      //   console.log(error);
+      // };
+      fs.rm(oldPath, { recursive: true }, error => console.log(error));
+    }
+    
     // 업로드 파일 저장
     fs.writeFile(newPath, req.file.buffer, (error) => {
       if (error) next(error);
