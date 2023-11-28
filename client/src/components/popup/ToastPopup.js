@@ -1,10 +1,8 @@
+// MUI Package Module
 import { Stack, Snackbar, Alert } from "@mui/material";
 
+// Constant
 import { LABEL } from "common";
-
-// const Alert = React.forwardRef(function Alert(props, ref) {
-// 	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-// });
 
 const _getAlertType = (type) => {
 	let severity;

@@ -11,15 +11,22 @@ import NovelCard from "components/contents/NovelCard";
 // Control Component
 import Buttons from "components/controls/Button";
 
-// Constant
-import { CODE, LABEL, COLOR } from "common";
-
-import { getData, postData } from "common/communication";
+// Popup Component
 import AuthorWriteNovPopup from "../components/popup/AuthorWirteNovPopup";
 import AuthorWriteIntroPopup from "../components/popup/AuthorWriteIntroPopup";
 import ModalPopup from "components/popup/ModalPopup";
+
+// Constant
+import { CODE, LABEL, COLOR } from "common";
+
+//util
 import { modalWidth, modalHeight } from "common/util";
 
+// API
+import { getData, postData } from "common/communication";
+
+
+/** STYLE 정의 */
 // 헤더 제외 영역
 const MainBox = styled(Box)({
   width: "80%",
@@ -27,12 +34,6 @@ const MainBox = styled(Box)({
   flexDirection: "column",
   margin: "0 auto",
 });
-
-// const ScrollContainer = styled(Box)({
-// 	height: "100%",
-// 	overflowY: "scroll",
-//   border: "3px solid red"
-// });
 
 // 소설 컴포넌트 카드 영역
 const NovelCardBox = styled(Box)({
@@ -67,9 +68,6 @@ const AuthorMyNov = () => {
   const [modal, setModal] = useState(false);
   const [popup, setPopup] = useState("");
 
-  // 작가 소설 쓰기 모달창에서 받아 서버로 post 요청을 보낼 소설 데이터
-  const [mainNovelData, setMainNovelData] = useState({});
-
   const [regditMainNovData, setRegditMainNovData] = useState({
     title: null,
     content: null,
@@ -77,9 +75,7 @@ const AuthorMyNov = () => {
     created_user: profile.login_id,
   });
 
-  // console.log(regditMainNovData, 80);
-
-  // *AuthorWriteNovPopup에서 받아온 title, content 세팅 함수
+  // AuthorWriteNovPopup에서 받아온 title, content 세팅 함수
   const setTitleContent = (data) => {
     setRegditMainNovData((prevState) => ({
       ...prevState,
@@ -88,7 +84,7 @@ const AuthorMyNov = () => {
     }));
   };
 
-  // *AuthorWriteIntroPopup에서 받아온 description 세팅 함수
+  // AuthorWriteIntroPopup에서 받아온 description 세팅 함수
   const setDescription = (data) => {
     setRegditMainNovData((prevState) => ({
       ...prevState,
@@ -130,8 +126,6 @@ const AuthorMyNov = () => {
   const goToDetail = (novel) => {
     navigate("/novel-detail", { state: { props: novel } });
   };
-
-
 
   // Modal OPEN/CLOSE
   const showModal = () => {
@@ -209,7 +203,6 @@ const AuthorMyNov = () => {
             name={LABEL.BUTTONS.IN_COMPLETE}
             isComplete={() => setIsComplete(false)}
             padding={0}
-            // padding={"0px 5px 0px 0px"}
           />
           <span
             style={{
@@ -234,8 +227,6 @@ const AuthorMyNov = () => {
         </DivNovelBtn>
 
         <NovelCardBox>
-          {/* <ScrollContainer> */}
-
           {inCompleteNovData &&
             isComplete === false &&
             inCompleteNovData.novel_data.map((list) => {
@@ -275,7 +266,6 @@ const AuthorMyNov = () => {
               );
             })}
         </NovelCardBox>
-        {/* </ScrollContainer> */}
       </MainBox>
       <ModalPopup
         fullWidth

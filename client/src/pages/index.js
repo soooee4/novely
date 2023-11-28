@@ -6,13 +6,6 @@ const NovDetailPage = lazy(() => import("pages/NovDetail"));
 const AuthorMyNov = lazy(() => import("pages/AuthorMyNov"));
 const FavoriteNov = lazy(() => import("pages/FavoriteNov"));
 
-//------------------------------------------------------------------------------------------
-// Login
-// const Login = lazy(() => import('pages/Login')); //
-
-//------------------------------------------------------------------------------------------
-//
-
 const pages = {
 	AppPage,
 

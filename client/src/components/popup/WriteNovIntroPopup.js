@@ -1,12 +1,16 @@
+// React Package Module
 import { useState } from "react";
+
+// MUI Package Module
+import { Box, styled, Typography } from "@mui/material";
 
 // Control Component
 import Buttons from "components/controls/Button";
 
 // Constant
-import { Box, styled, Typography } from "@mui/material";
-import { CODE, LABEL, COLOR } from "common";
+import { CODE, LABEL, COLOR, MESSAGE } from "common";
 
+/** STYLE 정의 */
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "100%",
@@ -65,9 +69,7 @@ const WriteNovIntroPopup = (props) => {
 				subDescHandler={subDescHandler}
 				changeState={props.changeState}
 			/>
-			<IntroMsg>
-				어떤 매력을 가진 이야기인가요? <br /> 간단하게 소개해주세요 :)
-			</IntroMsg>
+			<IntroMsg>{MESSAGE.WRITE_MAIN_NOVEL_INTRO}</IntroMsg>
 			<textarea style={writeNovText} onChange={inputDescription} />
 		</Wrapper>
 	);

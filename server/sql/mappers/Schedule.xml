@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Schedule">
+    <select id="checkIncompleteNov">
+        SELECT
+            novel_seqno,
+            created_user
+        FROM
+            t_novel_mgt tnm
+        WHERE
+            tnm.complete_yn = 'N' 
+            AND date_part('DAY', NOW() - tnm.created_date) <![CDATA[>]]> 30
+    </select>
+
+    <select id="getSubNovelSeqnos">
+        SELECT
+            sub_novel_seqno
+        FROM
+            t_sub_novel_mgt
+        WHERE
+            main_novel_seqno IN 
+            <foreach collection="main_seqno" item="seq" separator="," open="(" close=")">
+              #{seq}
+            </foreach>
+    </select>
+
+    <select id="getMostLikeWriter">
+        SELECT 
+          tsnm.sub_title,
+          tnm.content || ' ' || tsnm.sub_content AS content,    -- 메인, 서브 소설 테이블에 기록된 content를 합친 데이터
+          tsnm.sub_like_count,
+          tsnm.main_novel_seqno,
+          tsnm.sub_novel_seqno,
+          tsnm.genre_1,
+          tsnm.genre_2,
+          tsnm.keyword_1,
+          tsnm.keyword_2,
+          tsnm.keyword_3,
+          tsnm.sub_description,
+ 	        tsnm.created_user AS sub_author_id,                   -- 서브 소설 작성자 ID
+          tnm.created_user AS main_author_id                    -- 메인 소설 작성자 ID
+        FROM t_sub_novel_mgt tsnm
+        LEFT JOIN t_novel_mgt tnm 
+          ON tsnm.main_novel_seqno = tnm.novel_seqno
+        WHERE tsnm.sub_like_count =
+          (
+            SELECT 
+              MAX(tsnm2.sub_like_count)
+            FROM t_sub_novel_mgt tsnm2 
+            WHERE 
+              <foreach collection="main_seqno" item="seq" separator="," open="(" close=")"> 
+                tsnm2.main_novel_seqno = #{seq}
+              </foreach>
+          ) 
+    </select>
+
+    <insert id="postCompleteNovel">
+      INSERT INTO t_complete_novel_mgt
+      (
+        complete_novel_title,       -- 완성 소설 제목
+        complete_novel_content,     -- 완성 소설 내용
+        main_author_id,             -- 메인 소설 작성자 ID
+        sub_author_id,              -- 서브 소설 작성자 ID
+        genre_1,                    -- 첫번째 장르(필수)
+        genre_2,                    -- 두번째 장르
+        keyword_1,                  -- 첫번째 키워드(필수)
+        keyword_2,                  -- 두번째 키워드
+        keyword_3,                  -- 세번째 키워드
+        description,                -- 소설 한 줄 소개
+        like_count,                 -- 좋아요 수
+        main_seqno,                 -- 메인 소설 순번
+        sub_seqno                   -- 서브 소설 순번
+      )
+      VALUES
+      <foreach collection="mostLikeNov" item="nov" separator=",">
+      (
+        #{nov.sub_title},
+        #{nov.content},
+        #{nov.main_author_id},
+        #{nov.sub_author_id},
+        #{nov.genre_1},
+        #{nov.genre_2},
+        #{nov.keyword_1},
+        #{nov.keyword_2},
+        #{nov.keyword_3},
+        #{nov.sub_description},
+        #{nov.sub_like_count},
+        #{nov.main_novel_seqno},
+        #{nov.sub_novel_seqno}
+      )
+      </foreach>
+    </insert>
+
+    <update id="patchNovToComplete">
+      UPDATE
+        t_novel_mgt
+      SET
+        complete_yn = 'Y'
+      WHERE novel_seqno IN
+        <foreach collection="main_seqno" item="seq" separator="," open="(" close=")">
+          #{seq}::INTEGER
+        </foreach>
+    </update>
+
+    <update id="patchSubNovToComplete">
+      UPDATE
+        t_sub_novel_mgt
+      SET
+        complete_yn = 'Y'
+      WHERE sub_novel_seqno IN
+        <foreach collection="sub_seqno" item="seq" separator="," open="(" close=")">
+          #{seq}::INTEGER
+        </foreach>
+    </update>
+
+    <update id="patchToAuthor">
+      UPDATE
+        t_user_mgt
+      SET
+        user_reg_dv = 'W'
+      WHERE
+        <foreach collection="sub_created_user" item="id" separator="," open="(" close=")">
+          login_id = #{id}
+        </foreach>
+    </update>
+</mapper>

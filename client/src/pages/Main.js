@@ -8,7 +8,6 @@ import { styled, Box } from "@mui/material";
 // Content Component
 import NovelCard from "components/contents/NovelCard";
 
-
 // Control Component
 import Buttons from "components/controls/Button";
 import SearchBar from "components/controls/Search";
@@ -21,8 +20,12 @@ import JoinPopup from "components/popup/JoinPopup";
 // Constant
 import { CODE, MESSAGE } from "common";
 
+// util
+
+// API
 import { getData } from "common/communication";
 
+/** STYLE 정의 */
 // 헤더 제외 영역
 const MainBox = styled(Box)({
 	width: "80%",
@@ -40,23 +43,13 @@ const TagBox = styled(Box)({
 	marginTop: 8,
 });
 
-// const ScrollContainer = styled(Box)({
-// 	height: "100%",
-// 	overflowY: "scroll",
-//   border: "3px solid red"
-// });
-
 // 소설 컴포넌트 카드 영역
 const NovelCardBox = styled(Box)({
 	flexGrow: 1,
-	// border: "2px solid pink",
 	width: "100%",
 	margin: "0 auto",
 	display: "flex",
 	flexWrap: "wrap",
-	// gap: 30
-	// overflowY: "scroll",
-	// justifyContent: "space-between",
 });
 
 /** 메인화면 Component */
@@ -171,12 +164,8 @@ const Main = () => {
   useEffect(() => {
     setFilterNovData(searchD);
   }, [searchD]);
-	
-	// *전체 소설 데이터에서 특정 아이디가 작성한 메인소설을 뽑을 때 (작가권한 내 작품 페이지에 넘겨줄 데이터)
-	// console.log(novelData.map((li)=>{
-	//   if (li.main_author_id === 'soo@novely.com') {
-	//     return li
-	//   }}),'allCompleteNovelData')
+
+	// 전체 소설 데이터에서 특정 아이디가 작성한 메인소설을 뽑을 때 (작가권한 내 작품 페이지에 넘겨줄 데이터)
 
 	const navigate = useNavigate();
 
@@ -188,9 +177,6 @@ const Main = () => {
 
 		// 로그인 상태
 		} else {
-			// 소설 상세 페이지에 props 넘겨줌
-			// react-router-dom 라이브러리의 navigate 사용하여 페이지 이동 시 props를 넘겨주는 방법
-			// navigate(url, { state: { props: 넘길데이터 } }
 			navigate("/novel-detail", { state: { props: novel } });
 		}
 	};
@@ -207,7 +193,6 @@ const Main = () => {
 			</ModalPopup>
 			<SearchBar setSchWord={(word) => setSchWord(word)} onClick={search} />
 			<TagBox>
-				{/* 장르를 가져오는 API 생성하여 state 안에 배열로 넣어 반복문 통해 태그 버튼 형식으로 뿌리기 */}
 				{genre.map((list, i) => {
 					return (
 						<Buttons
@@ -220,7 +205,6 @@ const Main = () => {
 					);
 				})}
 			</TagBox>
-			{/* <ScrollContainer> */}
 			<NovelCardBox>
 				{novelData &&
 					filterNovData.map((list) => {
@@ -250,7 +234,6 @@ const Main = () => {
 						);
 					})}
 			</NovelCardBox>
-			{/* </ScrollContainer> */}
 			<ModalPopup
 				open={modal}
 				width={600}

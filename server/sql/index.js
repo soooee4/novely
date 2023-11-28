@@ -4,7 +4,8 @@ const mybatis = require("mybatis-mapper");
 mybatis.createMapper([
   "sql/mappers/Auth.xml",
   "sql/mappers/Novel.xml",
-  "sql/mappers/Common.xml"
+  "sql/mappers/Common.xml",
+  "sql/mappers/Schedule.xml"
 ]);
 
 const makeSql = (sqlId, params, nolog) => {

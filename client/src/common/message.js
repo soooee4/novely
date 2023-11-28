@@ -18,6 +18,11 @@ export const MESSAGE = {
   MIN_SELECT_TAG: '장르, 키워드는 최소 1개씩 선택해주세요.',
   SELECT_COVER_INTRO: '마지막으로 이야기를 한눈에 보여줄 표지를 등록해보세요!',
   BASIC_COVER_INTRO: '표지가 없어도 걱정 마세요, 기본 이미지로 설정해드릴게요 :)',
+  CONFIRM_VOTE: '이 소설에 투표하시겠어요? 투표 후 취소할 수 없어요',
+  VOTED: '투표 완료!',
+  WRITE_MAIN_NOVEL_INTRO: '어떤 매력을 가진 이야기인가요? 간단하게 소개해주세요 :)',
+  WRITE_FIRST_NOVEL: '첫 결말의 주인공이 되어보세요!',
+  ALREADY_VOTED: '이미 투표가 완료되었어요.',
 
   // 에러 메세지
   ERROR: {

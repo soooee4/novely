@@ -1,23 +1,18 @@
 // React Package Module
 import { useEffect, useState } from "react";
-// 페이지간 Props 공유 위한 라이브러리
 import { useLocation } from "react-router-dom";
 
 // MUI Package Module
 import { Box, Typography, styled } from "@mui/material";
 
-// Control Component
-import Icons from "components/controls/Icons";
-import Buttons from "components/controls/Button";
+// Content Component
+import NovelInfo from "components/contents/NovelInfo";
 
 // Layout Component
 import BasicTable from "components/layout/BasicTable";
 
-// Content Component
-import NovelInfo from "components/contents/NovelInfo";
-
-// Constant
-import { CODE, LABEL, COLOR, MESSAGE } from "common";
+// Control Component
+import Buttons from "components/controls/Button";
 
 // Popup Component
 import ModalPopup from "components/popup/ModalPopup";
@@ -30,28 +25,30 @@ import WriteNovIntroPopup from "components/popup/WriteNovIntroPopup";
 import SetNovCoverPopup from "components/popup/SetNovCoverPopup";
 import ViewSubNovPopup from "components/popup/ViewSubNovPopup";
 
-import { getData } from "common/communication";
+// Constant
+import { CODE, LABEL, MESSAGE } from "common";
+
+// util
 import { modalWidth, modalHeight } from "common/util";
+
+// API
+import { getData } from "common/communication";
 
 /** 영역 STYLE 정의 */
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "99vw",
 	height: "99vh",
-	// border: '2px solid green',
 	display: "flex",
 	flexDirection: "column",
 	padding: "0px 100px",
-	// margin, padding 값이 전체 요소에 포함되도록 설정
 	boxSizing: "border-box",
 });
 
 // 소설 커버 이미지, 소설 목록 게시판 영역
 const NovDetailBox = styled(Box)({
-	// border: '2px solid blue',
 	height: "100%",
 	display: "flex",
-	// paddingTop: 50,
 	flexWrap: "wrap",
 });
 
@@ -59,7 +56,6 @@ const NovDetailBox = styled(Box)({
 const NovCoverBox = styled(Box)({
 	width: 300,
 	height: "70%",
-	// border: '2px solid pink',
 	display: "flex",
 	flexDirection: "column",
 	flexShrink: 0,
@@ -72,29 +68,18 @@ const NovelCover = styled(Box)({
 	height: "100%",
 	marginTop: 5,
 	borderRadius: 15,
-	// marginBottom: 10,
 	backgroundColor: "pink",
 });
 
 // 좋아요 박스 영역
 const LikeBox = styled(Box)({
-	// backgroundColor: 'yellow',
 	flexGrow: 1,
 	display: "flex",
 	marginLeft: "auto",
 });
 
-// 좋아요 카운트 영역
-const LikeCount = styled(Typography)({
-	fontSize: 13,
-	marginRight: 10,
-	display: "flex",
-	alignItems: "center",
-});
-
 // 소설 게시판 영역
 const NovBoardBox = styled(Box)({
-	// border: '2px solid yellow',
 	height: "70%",
 	flexGrow: 1,
 	display: "flex",
@@ -104,7 +89,6 @@ const NovBoardBox = styled(Box)({
 
 // 소설 게시판 갯수 및 필터 버튼 영역
 const NovBoardInfoBox = styled(Box)({
-	// border: '2px solid red',
 	height: 20,
 	display: "flex",
 	marginBottom: 10,
@@ -112,7 +96,6 @@ const NovBoardInfoBox = styled(Box)({
 
 // 소설 게시판 갯수
 const NovelCount = styled(Typography)({
-	// fontsize: 5,
 	height: "5%",
 	marginRight: "auto",
 	marginLeft: 10,
@@ -120,7 +103,6 @@ const NovelCount = styled(Typography)({
 
 // 소설 게시판 필터 버튼 영역
 const FilterBox = styled(Box)({
-	// border: '1px solid green',
 	marginRight: 10,
 });
 
@@ -130,9 +112,7 @@ const NovDetail = () => {
 	// navigate 메서드로 넘긴 props를 받는 방법
 	const location = useLocation();
 
-	// ! 메인 소설 등록 post 요청 전 임시 처리
 	const novel =
-		// location.state && location.state.props ? location.state.props : {};
 		location.state.props;
 
 	/** STATE 정의
@@ -212,13 +192,9 @@ const NovDetail = () => {
 		setModal(false);
 	};
 
-	// * regditNovData에 데이터를 추가하는 아래 함수를 호출할 때마다 새로 갱신되기 때문에 데이터가 쌓이지 않음. 해결하기 위해 prevState(함수형 업데이트)를 사용하여 현재 상태 복사 후 새로운 값 추가
-
 	// WriteSubNovPopup 입력하여 받아온 title, content 세팅 함수
 
 	const setTitleContent = (data) => {
-		// 구조 분해 할당 사용
-		// const { title, content } = data;
 		setRegditNovData((prevState) => ({
 			...prevState,
 			title: data.title,
@@ -227,7 +203,7 @@ const NovDetail = () => {
 		}));
 	};
 
-	// *SelectTagPopup에서 받아온 genre, keyword 세팅 함수
+	// SelectTagPopup에서 받아온 genre, keyword 세팅 함수
 	const setTags = (data) => {
 		setRegditNovData((prevState) => ({
 			...prevState,
@@ -236,7 +212,7 @@ const NovDetail = () => {
 		}));
 	};
 
-	// *WriteNovIntroPopup 받아온 description 세팅 함수
+	// WriteNovIntroPopup 받아온 description 세팅 함수
 	const setDescription = (data) => {
 		setRegditNovData((prevState) => ({
 			...prevState,
@@ -260,7 +236,6 @@ const NovDetail = () => {
 			return (
 				<WriteSubNovPopup
 					mainNovel={mainNovel}
-					// setSubNovel={(novel) => setSubNovel(novel)}
 					changeState={() => setPopup("selectTag")}
 					setTitleContent={(data) => setTitleContent(data)}
 					// 현재 data의 형태는 WriteSubNovPopup에서 받은 { title: title, content: content }
@@ -335,9 +310,7 @@ const NovDetail = () => {
 			{/* 소설 이미지 및 서브 소설 정보 영역 */}
 			<NovDetailBox>
 				<NovCoverBox>
-					<LikeBox>
-						{/* <Icons type={CODE.ICON.HEART} color={COLOR.HEART_PINK} /> */}
-					</LikeBox>
+					<LikeBox></LikeBox>
 					<NovelCover />
 				</NovCoverBox>
 				<NovBoardBox>
@@ -348,7 +321,7 @@ const NovDetail = () => {
 								{MESSAGE.BOARD_COUNT}
 							</NovelCount>
 						) : (
-							<NovelCount>첫 결말의 주인공이 되어보세요!</NovelCount>
+							<NovelCount>{MESSAGE.WRITE_FIRST_NOVEL}</NovelCount>
 						)}
 						<FilterBox>
 							<Buttons

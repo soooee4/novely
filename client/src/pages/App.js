@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages
 import pages from "pages";
-
 import Page from "components/container/Page";
 
 // Styles

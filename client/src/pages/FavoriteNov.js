@@ -1,4 +1,3 @@
-// export default AuthorMyNov;
 // React Package Module
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,18 +7,17 @@ import { styled, Box } from "@mui/material";
 
 // Content Component
 import NovelCard from "components/contents/NovelCard";
+
 // Control Component
 import Buttons from "components/controls/Button";
 
 // Constant
 import { CODE, LABEL, COLOR } from "common";
 
-import { getData, postData } from "common/communication";
-import AuthorWriteNovPopup from "../components/popup/AuthorWirteNovPopup";
-import AuthorWriteIntroPopup from "../components/popup/AuthorWriteIntroPopup";
-import ModalPopup from "components/popup/ModalPopup";
-import { modalWidth, modalHeight } from "common/util";
+// API
+import { getData } from "common/communication";
 
+/** STYLE 정의 */
 // 헤더 제외 영역
 const MainBox = styled(Box)({
 	width: "80%",
@@ -27,12 +25,6 @@ const MainBox = styled(Box)({
 	flexDirection: "column",
 	margin: "0 auto",
 });
-
-// const ScrollContainer = styled(Box)({
-// 	height: "100%",
-// 	overflowY: "scroll",
-//   border: "3px solid red"
-// });
 
 // 소설 컴포넌트 카드 영역
 const NovelCardBox = styled(Box)({
@@ -62,10 +54,11 @@ const FavoriteNov = () => {
 	const [profile, setProfile] = useState(
 		JSON.parse(localStorage.getItem("profile"))
 	);
+  
   // 완성, 미완성 각 버튼 클릭 시 데이터 띄워주기 위한 상태 (기본값 complete 소설 표시)
 	const [isComplete, setIsComplete] = useState(true);
 
-	// !소설 중 pick_yn이 Y인(찜한) 작품만 가져오기
+	// 소설 중 pick_yn이 Y인(찜한) 작품만 가져오기
 	useEffect(() => {
 		getData("novel/getPickNovel", { user_id: profile.login_id })
 			.then((data) => {
@@ -76,23 +69,6 @@ const FavoriteNov = () => {
 				console.log(err);
 			});
 	}, []);
-
-	// !미완성 소설 중 pick_yn이 Y인(찜한) 작품만 가져오기
-	// useEffect(() => {
-	// 	getData("novel/getPickMainNovel", {
-	// 		user_id: profile.login_id,
-	// 	})
-    
-	// 		.then((data) => {
-  //       console.log(data.login_id,91)
-	// 			setInCompleteNovData(data);
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err);
-	// 		});
-	// }, []);
-console.log(completeNovData, inCompleteNovData,93)
-
 
 	// 상세정보 페이지로 클릭한 novel 정보 보내기
 	const navigate = useNavigate();
@@ -133,8 +109,6 @@ console.log(completeNovData, inCompleteNovData,93)
 					/>
 				</DivNovelBtn>
 				<NovelCardBox>
-					{/* <ScrollContainer> */}
-
 					{inCompleteNovData &&
 						isComplete === false &&
 						inCompleteNovData.map((list) => {
@@ -174,17 +148,7 @@ console.log(completeNovData, inCompleteNovData,93)
 							);
 						})}
 				</NovelCardBox>
-				{/* </ScrollContainer> */}
 			</MainBox>
-			{/* <ModalPopup
-        fullWidth
-        open={modal}
-        width={modalWidth(popup)}
-        onClose={closeModal}
-        height={modalHeight(popup)}
-      >
-        {popupChange()}
-      </ModalPopup> */}
 		</>
 	);
 };

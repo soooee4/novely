@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+// React Package Module
+import { useState } from "react";
 
 // Control Component
 import Buttons from "components/controls/Button";
-
-// Constant
-import { Box, styled, Typography } from "@mui/material";
-import { CODE, LABEL, COLOR } from "common";
 import Inputs from "components/controls/Input";
 
+// MUI Package Module
+import { Box, styled, Typography } from "@mui/material";
+
+// Constant
+import { CODE, LABEL, COLOR } from "common";
+
+/** STYLE 정의 */
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "100%",
@@ -68,31 +72,8 @@ const writeNovText = {
 
 /** 서브 소설 title, content 작성 컴포넌트 (미완성 소설 보는 팝업에서 이어쓰기 버튼 클릭 시 해당 팝업 띄워줌) */
 const WriteSubNovPopup = (props) => {
-	// console.log(props,79)
-	// const [subNovel, setSubNovel] = useState({});
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
-
-	//   postData("novel/postSubNovel", {
-	//     sub_title: ,
-	//     sub_content: ,
-	//     main_novel_seqno: props.mainNovel.main_seqno,
-	//     created_user: ,
-	//     genre_1: ,
-	//     genre_2: ,
-	//     keyword_1: ,
-	//     keyword_2: ,
-	//     keyword_3: ,
-	//     sub_description:
-	//   })
-	//     .then((data) => {
-	//      console.log('post 완료')
-	//         // window.location.reload();
-	//     })
-	//     .catch((err) => {
-	//       console.log(err);
-	//     });
-	// };
 
 	const inputTitle = (e) => {
 		setTitle(e.target.value);
@@ -125,7 +106,6 @@ const WriteSubNovPopup = (props) => {
 					backgroundColor={COLOR.WHITE}
 					color={COLOR.BLACK}
 					name={LABEL.BUTTONS.GOTONEXT}
-					// width={100}
 					margin={"-20px 0px 0px auto"}
 					subNovelHandler={subNovelHandler}
 					changeState={props.changeState}
@@ -139,17 +119,6 @@ const WriteSubNovPopup = (props) => {
 					<textarea style={writeNovText} onChange={inputContent} />
 				</WriteBox>
 			</WholeBox>
-
-			{/* 추후 top 기능 구현하기 */}
-			{/* <Buttons
-        sx={{
-          cursor: "pointer",
-        }}
-        type={CODE.BUTTON.BASIC}
-        name={LABEL.BUTTONS.TOP}
-        // onClick={scrollToTop}
-        margin={"0px 0px 0px 83%"}
-      /> */}
 		</Wrapper>
 	);
 };
