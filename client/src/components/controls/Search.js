@@ -29,6 +29,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 	flexGrow: 1,
 }));
 
+// 메인에 쓰인 검색창 Component
 const SearchBar = (props) => {
 	
 	// 검색어 입력 후 Enter키 눌렀을 경우

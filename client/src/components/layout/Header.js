@@ -15,7 +15,7 @@ import JoinPopup from "components/popup/JoinPopup";
 import EditProfilePopup from "components/popup/EditProfilePopup";
 
 // Constant
-import { CODE, LABEL } from "common";
+import { CODE, LABEL, MESSAGE } from "common";
 
 // Util
 import { modalWidth, modalHeight } from "common/util";
@@ -71,11 +71,11 @@ const MenuBtnBox = styled(Box)({
 
 /** 모든 페이지에 고정적으로 위치하는 헤더 (메뉴 버튼 포함) */
 const Header = () => {
-
-	const [modal, setModal] = useState(false);
-	const [popup, setPopup] = useState("login");
-	const [isLogin, setIsLogin] = useState(localStorage.getItem("profile") ? true : false);
-	const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile")));
+	const [modal, setModal] = useState(false);        // 모달 oepn 여부
+	const [popup, setPopup] = useState("login");       // popup 상태값
+	const [isLogin, setIsLogin] = useState(localStorage.getItem("profile") ? true : false);   // 로그인 여부
+	const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile")));   // 로컬스토리지에 저장된 사용자 정보
+	const [selectedTab, setSelectedTab] = useState("");   // 선택한 메뉴 탭
 
 	const nickname = profile && profile.user_nickname;
 
@@ -97,7 +97,7 @@ const Header = () => {
 	// 모달창 바꿔주는 함수
 	const popupChange = () => {
 		// 로그인
-    if (popup === "login") {
+		if (popup === "login") {
 			return (
 				<LoginPopup
 					changeState={() => setPopup("join")}
@@ -105,12 +105,12 @@ const Header = () => {
 					isLogin={() => setIsLogin(true)}
 				/>
 			);
-      
-    // 회원가입
+
+			// 회원가입
 		} else if (popup === "join") {
 			return <JoinPopup profile={profile} setProfile={setProfile} />;
-      
-    // 프로필 수정
+
+			// 프로필 수정
 		} else if (popup === "editProfile") {
 			return (
 				<EditProfilePopup
@@ -134,7 +134,7 @@ const Header = () => {
 			<MenuBar>
 				{profile && (
 					<WelcomeMsg>
-						{profile.user_reg_dv === "G" ? "예비작가" : "작가"}&nbsp;
+						{profile.user_reg_dv === "G" ? MESSAGE.PRE_WRITER : MESSAGE.WRITER}&nbsp;
 						{nickname}님 👋
 					</WelcomeMsg>
 				)}
@@ -154,21 +154,23 @@ const Header = () => {
 						// 일반 유저 로그인 상태
 						<>
 							<Buttons
-              	navigate={() => navigate("/favorite-novel")}
+								navigate={() => navigate("/favorite-novel")}
 								type={CODE.BUTTON.BASIC}
 								name={LABEL.BUTTONS.FAVORITE_NOVEL}
 								margin={10}
+								setSelectedTab={() => setSelectedTab("favorite")}
+								fontWeight={selectedTab === "favorite" && "bolder"}
 							/>
 							{/* 권한에 따라 내 정보, 내 작품 메뉴 변경 */}
 							{profile.user_reg_dv === "W" && (
-								<>
-									<Buttons
-										navigate={() => navigate("/author-myNovel")}
-										type={CODE.BUTTON.BASIC}
-										name={LABEL.BUTTONS.MY_NOVEL}
-										margin={10}
-									/>
-								</>
+								<Buttons
+									navigate={() => navigate("/author-myNovel")}
+									type={CODE.BUTTON.BASIC}
+									name={LABEL.BUTTONS.MY_NOVEL}
+									margin={10}
+									setSelectedTab={() => setSelectedTab("authorMyNov")}
+									fontWeight={selectedTab === "authorMyNov" && "bolder"}
+								/>
 							)}
 							<Buttons
 								type={CODE.BUTTON.BASIC}
@@ -182,7 +184,7 @@ const Header = () => {
 								name={LABEL.BUTTONS.LOGOUT}
 								backgroundColor={"black"}
 								color={"white"}
-								width={83}
+								width={90}
 								logout={logout}
 							/>
 						</>

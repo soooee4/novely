@@ -11,7 +11,6 @@ const BasicBtn = styled(Button)({
 	"&:hover": {
 		backgroundColor: "transparent",
 		fontWeight: "bolder",
-		fontSize: 15,
 	},
 });
 
@@ -22,11 +21,11 @@ const BorderBtn = styled(Button)({
 	border: `1px solid ${COLOR.BLACK}`,
 	borderRadius: 7,
 	padding: 15,
-	"&:hover": {
-		fontWeight: "bolder",
-		fontSize: 15,
-		padding: "15px 0",
-	},
+	// "&:hover": {
+	// 	fontWeight: "bolder",
+	// 	fontSize: 15,
+	// 	padding: "15px 0",
+	// },
 });
 
 // 태그 버튼
@@ -38,28 +37,31 @@ const TagBtn = styled(Button)({
 	marginLeft: 5,
 });
 
+// Button Component
 const Buttons = (props) => {
 	if (props.type === CODE.BUTTON.BASIC) {
 		return (
 			<BasicBtn
 				disableRipple
 				onClick={() => {
-					props.showModal && props.showModal();
-					props.changeState && props.changeState();
-					props.navigate && props.navigate();
-					props.subNovelHandler && props.subNovelHandler();
-					props.nextBtnHandler && props.nextBtnHandler();
-					props.subDescHandler && props.subDescHandler();
-					props.isComplete && props.isComplete();
-					props.goToWrite && props.goToWrite();
-					props.AuthorNovelHandler && props.AuthorNovelHandler();
-					props.setMainNovelData && props.setMainNovelData();
-					props.postMainNovel && props.postMainNovel();
-					props.isPost && props.isPost();
-					props.sortPopular && props.sortPopular();
-					props.sortLatest && props.sortLatest();
-          props.likeSubNovel && props.likeSubNovel();
-          props.onEditProfile && props.onEditProfile();
+					props.showModal && props.showModal();                     // 모달창 열기
+					props.changeState && props.changeState();                 // 팝업 내용 변경
+					props.navigate && props.navigate();                       // 페이지 이동
+					props.postSubNovel && props.postSubNovel();         	  // 서브 소설 데이터 서버 전송
+					props.onClickNextBtn && props.onClickNextBtn();           // 팝업 '다음' 버튼 클릭 시
+					props.postSubDesc && props.postSubDesc();           	  // Description 데이터 페이지에 세팅
+					props.isComplete && props.isComplete();                   // '내 작품' 페이지 완성/미완성 소설 탭 클릭
+					props.goToWrite && props.goToWrite();                     // '소설 상세 보기' 팝업 이어쓰기 버튼 클릭
+					props.postAuthorNovel && props.postAuthorNovel();         // 메인 소설 데이터 페이지로 전송
+					props.postMainNovel && props.postMainNovel();             // 메인 소설 데이터 서버 전송
+					props.sortPopular && props.sortPopular();                 // 서브 소설 인기순 정렬
+					props.sortLatest && props.sortLatest();                   // 서브 소설 최신순 정렬
+					props.likeSubNovel && props.likeSubNovel();               // 서브 소설 투표하기
+					props.onEditProfile && props.onEditProfile();             // 프로필 수정
+					props.setSelectedTab && props.setSelectedTab();           // 헤더나 필터 탭 클릭 시 클릭한 탭 색상 변경
+					props.postSubNovData && props.postSubNovData();           // 서브 소설 데이터 서버 전송
+					// props.setMainNovelData && props.setMainNovelData();
+					// props.isPost && props.isPost();                   
 				}}
 				style={{
 					width: props.width,
@@ -80,13 +82,14 @@ const Buttons = (props) => {
 				onClick={() => {
 					props.onSelectTags && props.onSelectTags();
 					props.onClick && props.onClick();
-          props.setSelectedTag && props.setSelectedTag(props.name);
+          			props.setSelectedTag && props.setSelectedTag(props.name);
 				}}
 				style={{
 					backgroundColor: props.backgroundColor,
 					margin: props.margin,
 					padding: props.padding,
 					fontSize: props.fontSize,
+          			color: props.color
 				}}
 			>
 				#{props.name}

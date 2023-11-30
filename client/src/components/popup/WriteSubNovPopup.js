@@ -72,8 +72,8 @@ const writeNovText = {
 
 /** 서브 소설 title, content 작성 컴포넌트 (미완성 소설 보는 팝업에서 이어쓰기 버튼 클릭 시 해당 팝업 띄워줌) */
 const WriteSubNovPopup = (props) => {
-	const [title, setTitle] = useState("");
-	const [content, setContent] = useState("");
+	const [title, setTitle] = useState("");           // 서브 소설 제목
+	const [content, setContent] = useState("");       // 서브 소설 내용
 
 	const inputTitle = (e) => {
 		setTitle(e.target.value);
@@ -84,7 +84,7 @@ const WriteSubNovPopup = (props) => {
 	};
 
   // 저장 후 다음 버튼 눌렀을 때 NovDetail 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
-	const subNovelHandler = () => {
+	const postSubNovel = () => {
 		props.setTitleContent({
 			title: title,      
 			content: content, 
@@ -107,7 +107,7 @@ const WriteSubNovPopup = (props) => {
 					color={COLOR.BLACK}
 					name={LABEL.BUTTONS.GOTONEXT}
 					margin={"-20px 0px 0px auto"}
-					subNovelHandler={subNovelHandler}
+					postSubNovel={postSubNovel}
 					changeState={props.changeState}
 				/>
 			</HeaderBox>

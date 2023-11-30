@@ -41,9 +41,9 @@ const IsDataInfo = styled(Typography)({
 
 /** 작가 상세 정보를 보여주는 모달 (소설 상세 페이지에서 작가 닉네임 클릭시 해당 팝업 띄워짐) */
 const AuthorDetailPopup = (props) => {
-	const [authorNovelData, setAuthorNovelData] = useState([]);
-	const [userImg, setUserImg] = useState("");
-	const [profile, setProfile] = useState(
+	const [authorNovelData, setAuthorNovelData] = useState([]);   // 작성한 메인 소설 데이터
+	const [userImg, setUserImg] = useState("");                   // 사용자 프로필 이미지
+	const [profile, setProfile] = useState(                       // 로컬스토리지에 저장된 사용자 정보
 		JSON.parse(localStorage.getItem("profile"))
 	);
 
@@ -71,6 +71,8 @@ const AuthorDetailPopup = (props) => {
 		navigate("/novel-detail", { state: { props: novel } });
 	};
 
+	console.log(authorNovelData, 777)
+
 	return (
 		<Wrapper>
 			<AuthorInfo
@@ -89,9 +91,9 @@ const AuthorDetailPopup = (props) => {
 								description={list.description}
 								created_date={list.created_date}
 								created_user={list.created_user}
-                // 여기서 넘어가는 user_id는 해당 소설 찜 여부를 위한 값
-								user_id={profile.login_id} 
+								user_id={profile.login_id}       // 여기서 넘어가는 user_id는 해당 소설 찜 여부를 위한 값
 								pick_yn={list.pick_yn}
+								cover_image={list.cover_image}
 								getNovelData={getNovelData}
 								onClick={() => {
 									goToDetail(list);

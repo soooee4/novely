@@ -31,14 +31,13 @@ import { getData } from "common/communication";
 /** 완성 작품 읽기 컴포넌트 (작품 상세 페이지에서 view 버튼 클릭 시 완성작일 경우 해당 팝업 띄워줌) */
 const ViewCompleteNovPopup = (props) => {
 
-	const [completeNovel, setCompleteNovel] = useState({});
+	const [completeNovel, setCompleteNovel] = useState({});   // 완성 소설 데이터
 
 	// 완성 소설 보기
 	useEffect(() => {
 		getData("novel/getCompleteNovel", { complete_seqno: props.complete_seqno })
 			.then(function (data) {
 				setCompleteNovel(data);
-				console.log(completeNovel,393939)
 			})
 			.catch((err) => {
 				console.log(err);

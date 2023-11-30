@@ -3,7 +3,7 @@ import { Box, styled, Typography } from "@mui/material";
 
 // Control Component
 import Buttons from "components/controls/Button";
-import Icons from "components/controls/IconRef";
+import Icons from "components/controls/Icons";
 
 // Constant
 import { CODE, LABEL, COLOR, MESSAGE } from "common";

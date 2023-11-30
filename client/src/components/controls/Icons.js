@@ -65,6 +65,7 @@ const _getIconComp = (type) => {
 	return Component;
 };
 
+// Icon Component
 const Icons = (props) => {
 	const Icon = _getIconComp(props.type);
 

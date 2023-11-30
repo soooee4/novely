@@ -60,11 +60,11 @@ const writeNovText = {
 
 /** 작가 권한일 시 메인 소설을 쓰는 컴포넌트 (내 작품 페이지에서 새 소설 쓰기 버튼 클릭 시 해당 팝업 띄워줌) */
 const AuthorWriteNovPopup = (props) => {
-	const [title, setTitle] = useState("");
-	const [content, setContent] = useState("");
+	const [title, setTitle] = useState("");           // 소설 제목
+	const [content, setContent] = useState("");       // 소설 내용
 
 	// 저장 후 다음 버튼 눌렀을 때 AuthorMyNov 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
-	const authorNovelHandler = () => {
+	const postAuthorNovel = () => {
 		props.setTitleContent({
 			title: title,
 			content: content,
@@ -93,7 +93,7 @@ const AuthorWriteNovPopup = (props) => {
 					color={COLOR.BLACK}
 					name={LABEL.BUTTONS.GOTONEXT}
 					margin={"-17px 0px 0px auto"}
-					AuthorNovelHandler={authorNovelHandler}
+					postAuthorNovel={postAuthorNovel}
 					changeState={props.changeState}
 				/>
 			</HeaderBox>

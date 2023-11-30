@@ -20,20 +20,26 @@ const ModalPopup = (props) => {
     },
   });
 
+  // Esc 버튼 누를 시 모달 창 닫기
+  const pressEsc = (e) => {
+    if (e.key === 'Escape') {
+      onClose();
+    }
+  };
+
   return ( 
     <ThemeProvider theme={theme} >
-      <Dialog 
+      <Dialog
+        onKeyDown={pressEsc} 
         open={open} 
         fullWidth={fullWidth}
         PaperProps={{style:{maxWidth:'100%', width: width}}}> 
           {/* CloseIcon을 눌렀을 때 join팝업일 경우 로컬 스토리지에 profile이 있으면 새로고침. */}
           <CloseIcon 
             sx={{ padding: "11px 13px 0px 0px", marginLeft: "auto"}}
-            // onClick={onClose} 
               onClick={() => {
               onClose();
               popupState === "join" && localStorage.getItem("profile") && window.location.reload();
-             
             }}
           />
         <DialogContent 
@@ -52,4 +58,3 @@ const ModalPopup = (props) => {
 };
 
 export default ModalPopup;
-

@@ -50,10 +50,10 @@ const SighUpText = styled(Typography)({
 const LoginPopup = (props) => {
   
   // 아이디, 비밀번호 유효성 검사 담는 상태
-  const [id, setId] = useState("");
-	const [pw, setPw] = useState("");
-	const [idRegMsg, setIdRegMsg] = useState("");
-	const [pwRegMsg, setPwRegMsg] = useState("");
+  const [id, setId] = useState("");                 // 입력한 아이디
+	const [pw, setPw] = useState("");                 // 입력한 비밀번호
+	const [idRegMsg, setIdRegMsg] = useState("");     // 아이디 유효성 검사 미통화 시 띄워주는 에러메세지
+	const [pwRegMsg, setPwRegMsg] = useState("");     // 비밀번호 유효성 검사 미통화 시 띄워주는 에러메세지
 
 	// input값 입력
 	const inputId = (e) => {

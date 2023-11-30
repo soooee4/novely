@@ -60,7 +60,7 @@ const join = async ({ login_id, login_pw, image }) => {
 					login_id,
 					login_pw,
 					user_nickname: nickname,
-					image: image ? image : "basic.jpg",
+					image: image ? image : "basic.jpeg",
 				})
 			);
 

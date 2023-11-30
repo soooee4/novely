@@ -19,6 +19,7 @@ const theme = createTheme({
 	},
 });
 
+// Input Component
 const Inputs = (props) => {
 	const test = props.defaultValue;
 

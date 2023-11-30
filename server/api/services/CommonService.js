@@ -25,10 +25,8 @@ const getTag = async () => {
 	const sqlId = "Common.getTag";
 	
 	try {
-		// console.log(11111)
 		const data = await client.query(
 			mapper.makeSql(sqlId, {}));
-		  // console.log(data,123);  
 		  return data;
 	} catch (err) {
 		console.log(err);

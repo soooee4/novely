@@ -2,23 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Common">
     <select id="getGenre">
-        SELECT
-          code,
-          code_name,
-          color
-        FROM
-            t_code_mgt
-        WHERE
-            group_code = 'GENRE'
+      SELECT
+        group_code,                 -- 그룹 코드
+        code,                       -- 코드
+        code_name,                  -- 코드명
+        color                       -- 장르, 키워드 색상 정의
+      FROM
+          t_code_mgt
+      WHERE
+          group_code = 'GENRE'      -- 그룹 코드
     </select>
 
     <select id="getTag">
-        SELECT
-          code,
-          code_name,
-          color,
-          group_code
-        FROM
-            t_code_mgt
+      SELECT
+        group_code,                 -- 그룹 코드
+        code,                       -- 코드
+        code_name,                  -- 코드명
+        color                       -- 장르, 키워드 색상 정의
+      FROM
+        t_code_mgt
     </select>
 </mapper>

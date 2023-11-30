@@ -58,22 +58,22 @@ const AuthorMyNov = () => {
    * inCompleteNovData: 로그인한 작가의 미완성 소설 데이터
    * profile: 로컬스토리지에 저장된 프로필
    */
-  const [completeNovData, setCompleteNovData] = useState([]);
-  const [inCompleteNovData, setInCompleteNovData] = useState([]);
-  const [profile, setProfile] = useState(
-    JSON.parse(localStorage.getItem("profile"))
-  );
-  const [isComplete, setIsComplete] = useState(true);
+  const [completeNovData, setCompleteNovData] = useState([]);           // 로그인한 작가의 완성 소설 데이터
+  const [inCompleteNovData, setInCompleteNovData] = useState([]);       // 로그인한 작가의 미완성 소설 데이터
+  const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile"))); // 로컬스토리지에 저장된 사용자 프로필
+  const [isComplete, setIsComplete] = useState(true);                   // 소설 완성 여부
+  const [selectedTab, setSelectedTab] = useState("complete");           // 선택된 메뉴
 
-  const [modal, setModal] = useState(false);
-  const [popup, setPopup] = useState("");
+  const [modal, setModal] = useState(false);                            // 모달 open 여부
+  const [popup, setPopup] = useState("");                               // popup 상태값
 
+  // 메인 소설 서버로 post하기 위한 데이터 세팅
   const [regditMainNovData, setRegditMainNovData] = useState({
     title: null,
     content: null,
     description: null,
     created_user: profile.login_id,
-  });
+  });  
 
   // AuthorWriteNovPopup에서 받아온 title, content 세팅 함수
   const setTitleContent = (data) => {
@@ -182,8 +182,10 @@ const AuthorMyNov = () => {
             type={CODE.BUTTON.BASIC}
             backgroundColor={COLOR.WHITE}
             color={COLOR.BLACK}
+            fontWeight={selectedTab === "complete" && "bolder"}
             name={LABEL.BUTTONS.COMPLETE}
             isComplete={() => setIsComplete(true)}
+            setSelectedTab={() => setSelectedTab("complete")}
             padding={0}
           />
           <span
@@ -200,8 +202,10 @@ const AuthorMyNov = () => {
             type={CODE.BUTTON.BASIC}
             backgroundColor={COLOR.WHITE}
             color={COLOR.BLACK}
+            fontWeight={selectedTab === "incomplete" && "bolder"}
             name={LABEL.BUTTONS.IN_COMPLETE}
             isComplete={() => setIsComplete(false)}
+            setSelectedTab={() => setSelectedTab("incomplete")}
             padding={0}
           />
           <span

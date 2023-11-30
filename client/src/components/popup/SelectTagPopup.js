@@ -80,14 +80,14 @@ const DivTag = styled(Typography)({
 /** 서브 소설 작성 후 태그 선택하는 팝업 */
 const SelectTagPopup = (props) => {
 
-const [tag, setTag] = useState([]);
-	// 선택된 태그 저장할 변수
-	const [genre, setGenre] = useState([]);
-	const [keyword, setKeyword] = useState([]);
+	const [tag, setTag] = useState([]);             // 전체 태그
+	const [genre, setGenre] = useState([]);         // 선택된 장르
+	const [keyword, setKeyword] = useState([]);     // 선택된 키워드
 
 	useEffect(() => {
 		getData("common/tag")
 			.then((data) => {
+				console.log(data)
 				setTag(data);
 			})
 			.catch((err) => {
@@ -117,7 +117,7 @@ const [tag, setTag] = useState([]);
 	};
 
 	// 저장 후 다음 버튼 클릭 시 실행할 기능들 함수
-	const nextBtnHandler = () => {
+	const onClickNextBtn = () => {
 		if (genre.length === 0 || keyword.length === 0) {
 			alert(MESSAGE.MIN_SELECT_TAG);
 		} else {
@@ -128,7 +128,7 @@ const [tag, setTag] = useState([]);
 			});
 		}
 	};
-
+	
 	return (
 		<Wrapper>
 			<Buttons
@@ -137,7 +137,7 @@ const [tag, setTag] = useState([]);
 				color={COLOR.BLACK}
 				name={LABEL.BUTTONS.GOTONEXT}
 				margin={"-10px 0px 5px auto"}
-				nextBtnHandler={nextBtnHandler}
+				onClickNextBtn={onClickNextBtn}
 			/>
 			<IntroMsg>{MESSAGE.SELECT_TAG_INTRO}</IntroMsg>
 			<WholeBox>

@@ -2,81 +2,81 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Auth">
     <select id="login">
-        SELECT
-            login_id
-        FROM
-            t_user_mgt
-        WHERE
-            login_id = #{login_id}
-            AND login_pw = #{login_pw}
+      SELECT
+        login_id                      -- 사용자 아이디
+      FROM
+        t_user_mgt
+      WHERE
+        login_id = #{login_id}        -- 사용자 아이디
+        AND login_pw = #{login_pw}    -- 사용자 비밀번호
     </select>
 
     <select id="isUser">
-        SELECT
-            login_id
-        FROM
-            t_user_mgt
-        WHERE
-            login_id = #{login_id}
+      SELECT
+        login_id                      -- 사용자 아이디
+      FROM
+        t_user_mgt
+      WHERE
+        login_id = #{login_id}        -- 사용자 아이디
     </select>
 
     <insert id="join">
-        INSERT INTO t_user_mgt 
-        (
-            login_id,
-            login_pw,
-            user_nickname,
-            image
-        )
-        VALUES 
-        (
-            #{login_id},
-            #{login_pw},
-            #{user_nickname},
-            #{image}
-        )
+      INSERT INTO t_user_mgt 
+      (
+        login_id,                     -- 사용자 아이디
+        login_pw,                     -- 사용자 비밀번호
+        user_nickname,                -- 사용자 닉네임
+        image                         -- 사용자 프로필 이미지 파일명
+      )
+      VALUES 
+      (
+        #{login_id},
+        #{login_pw},
+        #{user_nickname},
+        #{image}
+      )
     </insert>
 
     <select id="getUserInfo">
-        SELECT
-            user_nickname,
-            user_reg_dv,
-            login_pw,
-            login_id,
-            image
-        FROM
-            t_user_mgt
-        WHERE
-            login_id = #{login_id}
+      SELECT
+        user_nickname,                -- 사용자 닉네임
+        user_reg_dv,                  -- 사용자 구분(G-일반, W-작가)
+        login_pw,                     -- 사용자 비밀번호
+        login_id,                     -- 사용자 아이디
+        image                         -- 사용자 프로필 이미지 파일명
+      FROM
+        t_user_mgt
+      WHERE
+        login_id = #{login_id}        -- 사용자 아이디
     </select>
 
     <update id="editProfile">
-        UPDATE  
-	          t_user_mgt
-        SET
-	          user_nickname = #{user_nickname},
-            login_pw = #{login_pw}
-        WHERE
-            login_id = #{login_id}
+      UPDATE  
+        t_user_mgt
+      SET
+        user_nickname = #{user_nickname},     -- 사용자 닉네임
+        login_pw = #{login_pw}                -- 사용자 비밀번호
+      WHERE
+        login_id = #{login_id}                -- 사용자 아이디
     </update>
 
     <select id="getUserImg">
       SELECT 
-        image
+        image                                 -- 사용자 프로필 이미지 파일명
       FROM
        t_user_mgt
       WHERE
-        login_id = #{user_id}
+        login_id = #{user_id}                 -- 사용자 아ㅇ디
     </select>
 
     <update id="AuthorEditProfile">
       UPDATE  
-          t_user_mgt
+        t_user_mgt
       SET
-          user_nickname = #{user_nickname},
-          login_pw = #{login_pw},
-          author_info = #{author_info}
+        user_nickname = #{user_nickname},     -- 사용자 닉네임
+        login_pw = #{login_pw},               -- 사용자 비밀번호
+        author_info = #{author_info}          
       WHERE
-          login_id = #{login_id}
+        login_id = #{login_id}                -- 사용자 아이디
     </update>
 </mapper>

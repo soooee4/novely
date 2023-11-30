@@ -16,8 +16,8 @@ const fileUpload = async (req, res, next) => {
       return; 
     }
 
-    // 저장 경로 설정(프로젝트 폴더 파일 경로)
-    const documentDir = path.join(__dirname, `../../image/profile`);
+    // 저장 경로 설정(프로젝트 폴더 파일 경로): 커버 / 프로필 이미지 경로 구분
+    const documentDir = path.join(__dirname, `../../image/${req.body.title ? 'nov_cover' : 'profile'}`);
 
     // 경로 존재 확인. 경로가 존재하지 않는다면 생성.
     fs.existsSync(documentDir) || fs.mkdirSync(documentDir, { recursive: true });
@@ -25,28 +25,26 @@ const fileUpload = async (req, res, next) => {
     // 파일 정보 생성
     const originalname = Buffer.from(req.file.originalname, 'latin1').toString('utf8'); // latin1: 한글깨짐 방지
     const ext = originalname.slice(originalname.lastIndexOf('.') + 1);
-    const file_name = req.body.login_id + '.' + ext;
+    const file_name = req.body.title ? req.body.title + '.' + ext : req.body.login_id + '.' + ext;
 
     // 경로 및 파일명 설정
     const newPath = path.join(documentDir, file_name);
 
-    // 이미 이미지가 존재할 경우 경로
-    const oldPath = path.join(documentDir, req.body.old_img_name);
+    // 이미 이미지가 존재할 경우 경로(프로필 이미지인 경우)
+    let oldPath;
+    if (!req.body.title) oldPath = path.join(documentDir, req.body.old_img_name);
 
     req.body.image_file_name = file_name;
 
     // 이미 id@novely.com으로 만들어진 이미지가 존재한다면 삭제
-    if (fs.existsSync(oldPath)) {
-      // fs.rmdir(oldPath, { recursive: true }), (error) => {
-      //   console.log(error);
-      // };
+    if (oldPath && fs.existsSync(oldPath)) {
       fs.rm(oldPath, { recursive: true }, error => console.log(error));
     }
     
     // 업로드 파일 저장
     fs.writeFile(newPath, req.file.buffer, (error) => {
       if (error) next(error);
-      else console.log('profile image file created');
+      else console.log('image file created');
     });
 
     next();

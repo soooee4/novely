@@ -3,35 +3,36 @@
 <mapper namespace="Novel">
     <select id="getNovel">
         SELECT
-          tcnm.complete_seqno,
-          tcnm.complete_novel_title,
-          tcnm.complete_novel_content,
-          tcnm.like_count,
-          tcnm.main_seqno,
-          tcnm.sub_seqno,
-          tcnm.main_author_id,
-          tcnm.sub_author_id,
-          tcnm.created_date,
-          tcm.code_name AS genre_1,                 -- AS 는 'AS 컬럼명' 으로 AS 뒤에 오는 명으로 컬럼명을 뽑겠다는 뜻
-          tcm2.code_name AS genre_2,
-          tcm3.code_name AS keyword_1,
-          tcm4.code_name AS keyword_2,
-          tcm5.code_name AS keyword_3,
-          tcm6.color AS genre_1_color,
-          tcm7.color AS genre_2_color,
-          tcm8.color AS keyword_1_color,
-          tcm9.color AS keyword_2_color,
-          tcm10.color AS keyword_3_color,
-          tcnm.description,
-          tum1.user_nickname AS main_author_nickname,
-          tum2.user_nickname AS sub_author_nickname
+          tcnm.complete_seqno,                            -- 완성 소설 순번
+          tcnm.complete_novel_title,                      -- 완성 소설 제목
+          tcnm.complete_novel_content,                    -- 완성 소설 내용
+          tcnm.like_count,                                -- 소설 좋아요 수(서브 소설에 기록된 like_count 값)
+          tcnm.main_seqno,                                -- 메인 소설 순번
+          tcnm.sub_seqno,                                 -- 서브 소설 순번
+          tcnm.main_author_id,                            -- 완성 소설 메인 작가 아이디
+          tcnm.sub_author_id,                             -- 완성 소설 서브 작가 아이디
+          tcnm.created_date,                              -- 완성 소설 등록 일시
+          tcm.code_name AS genre_1,                       -- 완성 소설 첫번째 장르(필수)
+          tcm2.code_name AS genre_2,                      -- 완성 소설 두번째 장르(선택)
+          tcm3.code_name AS keyword_1,                    -- 완성 소설 첫번째 키워드(필수)
+          tcm4.code_name AS keyword_2,                    -- 완성 소설 두번째 키워드(선택)
+          tcm5.code_name AS keyword_3,                    -- 완성 소설 세번째 키워드(선택)
+          tcm6.color AS genre_1_color,                    -- 첫번째 장르 색깔
+          tcm7.color AS genre_2_color,                    -- 두번째 장르 색깔
+          tcm8.color AS keyword_1_color,                  -- 첫번째 키워드 색깔
+          tcm9.color AS keyword_2_color,                  -- 두번째 키워드 색깔
+          tcm10.color AS keyword_3_color,                 -- 세번째 키워드 색깔
+          tcnm.description,                               -- 완성 소설 한 줄 소개
+          tum1.user_nickname AS main_author_nickname,     -- 완성 소설 메인 작가 닉네임
+          tum2.user_nickname AS sub_author_nickname,      -- 완성 소설 서브 작가 닉네임
+          tcnm.cover_image                                -- 완성 소설 커버 이미지 파일명
         FROM
-          t_complete_novel_mgt tcnm
+          t_complete_novel_mgt tcnm 
         LEFT JOIN t_code_mgt tcm
-          ON tcnm.genre_1 = tcm.code
+          ON tcnm.genre_1 = tcm.code                      
         LEFT JOIN t_code_mgt tcm2
-          ON tcnm.genre_2 = tcm2.code
-        LEFT JOIN t_code_mgt tcm3
+          ON tcnm.genre_2 = tcm2.code                     
+        LEFT JOIN t_code_mgt tcm3 
           ON tcnm.keyword_1 = tcm3.code
         LEFT JOIN t_code_mgt tcm4
           ON tcnm.keyword_2 = tcm4.code
@@ -52,40 +53,41 @@
         LEFT JOIN t_user_mgt tum2
           ON tcnm.sub_author_id = tum2.login_id
         ORDER BY
-            complete_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순    정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
+          complete_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순    정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
     </select>
 
      <select id="getNovelOnLogin">
         SELECT
-          tcnm.complete_seqno,
-          tcnm.complete_novel_title,
-          tcnm.complete_novel_content,
-          tcnm.like_count,
-          tcnm.main_seqno,
-          tcnm.sub_seqno,
-          tcnm.main_author_id,
-          tcnm.sub_author_id,
-          tcnm.created_date,
-          tcm.code_name AS genre_1,                 -- AS 는 'AS 컬럼명' 으로 AS 뒤에 오는 명으로 컬럼명을 뽑겠다는 뜻
-          tcm2.code_name AS genre_2,
-          tcm3.code_name AS keyword_1,
-          tcm4.code_name AS keyword_2,
-          tcm5.code_name AS keyword_3,
-          tcm6.color AS genre_1_color,
-          tcm7.color AS genre_2_color,
-          tcm8.color AS keyword_1_color,
-          tcm9.color AS keyword_2_color,
-          tcm10.color AS keyword_3_color,
-          tcnm.description,
-          tum1.user_nickname AS main_author_nickname,
-          tum2.user_nickname AS sub_author_nickname,
+          tcnm.complete_seqno,                                  -- 완성 소설 순번
+          tcnm.complete_novel_title,                            -- 완성 소설 제목
+          tcnm.complete_novel_content,                          -- 완성 소설 내용
+          tcnm.like_count,                                      -- 소설 좋아요 수(서브 소설에 기록된 like_count 값)
+          tcnm.main_seqno,                                      -- 메인 소설 순번
+          tcnm.sub_seqno,                                       -- 서브 소설 순번
+          tcnm.main_author_id,                                  -- 완성 소설 메인 작가 아이디
+          tcnm.sub_author_id,                                   -- 완성 소설 서브 작가 아이디
+          tcnm.created_date,                                    -- 완성 소설 등록 일시
+          tcm.code_name AS genre_1,                             -- AS 는 'AS 컬럼명' 으로 AS 뒤에 오는 명으로 컬럼명을 뽑겠다는 뜻
+          tcm2.code_name AS genre_2,                            -- 완성 소설 두번째 장르(선택)
+          tcm3.code_name AS keyword_1,                          -- 완성 소설 첫번째 키워드(필수)
+          tcm4.code_name AS keyword_2,                          -- 완성 소설 두번째 키워드(선택)
+          tcm5.code_name AS keyword_3,                          -- 완성 소설 세번째 키워드(선택)
+          tcm6.color AS genre_1_color,                          -- 첫번째 장르 색깔
+          tcm7.color AS genre_2_color,                          -- 두번째 장르 색깔
+          tcm8.color AS keyword_1_color,                        -- 첫번째 키워드 색깔
+          tcm9.color AS keyword_2_color,                        -- 두번째 키워드 색깔
+          tcm10.color AS keyword_3_color,                       -- 세번째 키워드 색깔
+          tcnm.description,                                     -- 완성 소설 한 줄 소개
+          tum1.user_nickname AS main_author_nickname,           -- 완성 소설 메인 작가 닉네임
+          tum2.user_nickname AS sub_author_nickname,            -- 완성 소설 서브 작가 닉네임
           (
             SELECT 
               CASE WHEN (COUNT(*) = 1) THEN 'Y' ELSE 'N' END
             FROM t_novel_pick_mgt tnpm
             WHERE tnpm.user_id = #{user_id}
             AND tnpm.main_novel_seqno = tcnm.main_seqno 
-          ) AS pick_yn  
+          ) AS pick_yn,                                         -- 완성 소설 찜 여부
+          tcnm.cover_image                                      -- 완성 소설 커버 이미지 파일명
         FROM
           t_complete_novel_mgt tcnm
         LEFT JOIN t_code_mgt tcm
@@ -118,40 +120,41 @@
 
     <select id="getSubNovel">
         SELECT    
-            tsnm.sub_novel_seqno,
-            tsnm.sub_title,
-            tsnm.sub_content,
-            tsnm.sub_like_count,
-            tsnm.main_novel_seqno,
-            tum.user_nickname,
-            (
-              SELECT 
-                CASE WHEN (COUNT(*) = 1) THEN 'Y' ELSE 'N' END
-              FROM t_novel_like_mgt tnlm
-              WHERE tnlm.user_id = #{user_id}
-              AND tnlm.sub_novel_seqno = tsnm.sub_novel_seqno
-            ) AS like_yn
+          tsnm.sub_novel_seqno,                                 -- 서브 소설 순번
+          tsnm.sub_title,                                       -- 서브 소설 제목
+          tsnm.sub_content,                                     -- 서브 소설 내용
+          tsnm.sub_like_count,                                  -- 서브 소설 좋아요 수
+          tsnm.main_novel_seqno,                                -- 메인 소설 순번
+          tum.user_nickname,                                    -- 서브 소설 작가 닉네임
+          (
+            SELECT 
+              CASE WHEN (COUNT(*) = 1) THEN 'Y' ELSE 'N' END
+            FROM t_novel_like_mgt tnlm
+            WHERE tnlm.user_id = #{user_id}
+            AND tnlm.sub_novel_seqno = tsnm.sub_novel_seqno
+          ) AS like_yn,                                         -- 서브 소설 좋아요 여부
+          tsnm.cover_image                                      -- 서브 소설 커버 이미지 파일명
         FROM
-            t_sub_novel_mgt tsnm
+          t_sub_novel_mgt tsnm
         LEFT JOIN t_user_mgt tum
           ON tsnm.created_user = tum.login_id
         WHERE
-            main_novel_seqno = #{main_novel_seqno}
-            AND tsnm.complete_yn = 'N'
+          main_novel_seqno = #{main_novel_seqno}
+          AND tsnm.complete_yn = 'N'
         ORDER BY
-            sub_novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
+          sub_novel_seqno DESC           -- 오름차순 정렬:  ASC, 내림차순 정렬: DESC (최신글이 상단에 보이도록 하기 위해 내림차순 정렬)
     </select>
 
     <select id="getMainNovel">
         SELECT
-          tnm.title,
-          tnm.content,
-          tnm.created_user,
-          tnm.created_date,
-          tnm.description,
-          tnm.novel_seqno AS main_seqno,
-          tnm.complete_yn,
-          tum.user_nickname
+          tnm.novel_seqno AS main_seqno,      -- 메인 소설 순번
+          tnm.title,                          -- 메인 소설 제목
+          tnm.content,                        -- 메인 소설 내용
+          tnm.created_user,                   -- 메인 소설 작성자 아이디
+          tnm.created_date,                   -- 메인 소설 작성일자
+          tnm.description,                    -- 메인 소설 한 줄 설명
+          tnm.complete_yn,                    -- 메인 소설 완료 여부
+          tum.user_nickname                   -- 메인 소설 작성자 닉네임
         FROM
           t_novel_mgt tnm
         LEFT JOIN t_user_mgt tum
@@ -164,21 +167,21 @@
 
     <select id="getPickMainNovel">
         SELECT
-          tnm.title,
-          tnm.content,
-          tnm.created_user,
-          tnm.created_date,
-          tnm.description,
-          tnm.novel_seqno AS main_seqno,
-          tnm.complete_yn,
-          tum.user_nickname,
+          tnm.title,                                              -- 메인 소설 제목
+          tnm.content,                                            -- 메인 소설 내용
+          tnm.created_user,                                       -- 메인 소설 작성자 아이디
+          tnm.created_date,                                       -- 메인 소설 작성일자
+          tnm.description,                                        -- 메인 소설 한 줄 설명
+          tnm.novel_seqno AS main_seqno,                          -- 메인 소설 순번
+          tnm.complete_yn,                                        -- 메인 소설 완료 여부
+          tum.user_nickname,                                      -- 메인 소설 작성자 닉네임
             (
               SELECT 
                 CASE WHEN (COUNT(*) = 1) THEN 'Y' ELSE 'N' END
               FROM t_novel_pick_mgt tnpm
               WHERE tnpm.user_id = #{user_id}
               AND tnpm.main_novel_seqno = tnm.novel_seqno 
-            ) AS pick_yn
+            ) AS pick_yn                                          -- 메인 소설 찜 여부
         FROM
           t_novel_mgt tnm
         LEFT JOIN t_user_mgt tum
@@ -192,8 +195,8 @@
     <!-- 완성된 소설 가져오기 -->
     <select id="getCompleteNovel">
         SELECT
-          complete_novel_title,
-          complete_novel_content
+          complete_novel_title,       -- 완성 소설 제목
+          complete_novel_content      -- 완성 소설 내용
         FROM
           t_complete_novel_mgt
         WHERE
@@ -202,22 +205,23 @@
 
     <select id="getAuthorNovel">
         SELECT
-          tnm.title,
-          tnm.content,
-          tnm.created_user,
-          tnm.created_date,
-          tnm.description,
-          tnm.novel_seqno AS main_seqno,
-          tnm.complete_yn,
-          tum.user_nickname,
-          tum.login_id,
+          tnm.title,                                            -- 메인 소설 제목
+          tnm.content,                                          -- 메인 소설 내용
+          tnm.created_user,                                     -- 메인 소설 작성자 아이디
+          tnm.created_date,                                     -- 메인 소설 작성일자
+          tnm.description,                                      -- 메인 소설 한 줄 설명
+          tnm.novel_seqno AS main_seqno,                        -- 메인 소설 순번
+          tnm.complete_yn,                                      -- 메인 소설 완료 여부
+          tum.user_nickname,                                    -- 메인 소설 작성자 닉네임
+          tum.login_id,                                         -- 사용자 아이디
           (
             SELECT 
               CASE WHEN (COUNT(*) = 1) THEN 'Y' ELSE 'N' END
             FROM t_novel_pick_mgt tnpm
             WHERE tnpm.user_id = #{login_id}
             AND tnpm.main_novel_seqno = tnm.novel_seqno 
-          ) AS pick_yn
+          ) AS pick_yn,                                         -- 메인 소설 찜 여부
+          tnm.cover_image                                       -- 메인 소설 커버 이미지 파일명
         FROM
           t_novel_mgt tnm
         LEFT JOIN t_user_mgt tum
@@ -232,14 +236,14 @@
 
      <select id="getAuthorMyNovel">
         SELECT
-          tnm.title,
-          tnm.content,
-          tnm.created_user,
-          tnm.created_date,
-          tnm.description,
-          tnm.novel_seqno AS main_seqno,
-          tnm.complete_yn,
-          tum.user_nickname
+          tnm.title,                      -- 메인 소설 제목
+          tnm.content,                    -- 메인 소설 내용
+          tnm.created_user,               -- 메인 소설 작성자 아이디 
+          tnm.created_date,               -- 메인 소설 작성일자
+          tnm.description,                -- 메인 소설 한 줄 설명
+          tnm.novel_seqno AS main_seqno,  -- 메인 소설 순번
+          tnm.complete_yn,                -- 메인 소설 완료 여부
+          tum.user_nickname               -- 메인 소설 작성자 닉네임
         FROM
           t_novel_mgt tnm
         LEFT JOIN t_user_mgt tum
@@ -254,119 +258,121 @@
     <insert id="postNovel">
         INSERT INTO t_novel_mgt
         (
-            title,
-            content,
-            created_user,
-            genre_1,
-            genre_2,
-            keyword_1,
-            keyword_2,
-            keyword_3,
-            description
+          title,            -- 메인 소설 제목
+          content,          -- 메인 소설 내용
+          created_user,     -- 메인 소설 작성자 아이디
+          genre_1,          -- 메인 소설 첫번째 장르(필수)
+          genre_2,          -- 메인 소설 두번째 장르(선택)  
+          keyword_1,        -- 메인 소설 첫번째 키워드(필수)
+          keyword_2,        -- 메인 소설 두번째 키워드(선택)
+          keyword_3,        -- 메인 소설 세번째 키워드(선택)
+          description       -- 메인 소설 한 줄 설명
         )
         VALUES 
         (
-            #{title},
-            #{content},
-            #{created_user},
-            #{genre_1},
-            #{genre_2},
-            #{keyword_1},
-            #{keyword_2},
-            #{keyword_3}
-            #{description}
+          #{title},
+          #{content},
+          #{created_user},
+          #{genre_1},
+          #{genre_2},
+          #{keyword_1},
+          #{keyword_2},
+          #{keyword_3}
+          #{description}
         )
     </insert>
 
-        <insert id="postSubNovel">
-        INSERT INTO t_sub_novel_mgt
-        (
-            sub_title,
-            sub_content,
-            main_novel_seqno,
-            created_user,
-            genre_1,
-            genre_2,
-            keyword_1,
-            keyword_2,
-            keyword_3,
-            sub_description
-        )
-        VALUES 
-        (
-            #{sub_title},
-            #{sub_content},
-            #{main_novel_seqno},
-            #{created_user},
-            #{genre_1},
-            #{genre_2},
-            #{keyword_1},
-            #{keyword_2},
-            #{keyword_3},
-            #{sub_description}
-        )
+    <insert id="postSubNovel">
+      INSERT INTO t_sub_novel_mgt
+      (
+        sub_title,
+        sub_content,
+        main_novel_seqno,
+        genre_1,
+        genre_2,
+        keyword_1,
+        keyword_2,
+        keyword_3,
+        sub_description,
+        created_user,
+        cover_image
+      )
+      VALUES 
+      (
+        #{title},
+        #{content},
+        #{main_novel_seqno},
+        #{genre_1},
+        #{genre_2},
+        #{keyword_1},
+        #{keyword_2},
+        #{keyword_3},
+        #{description},
+        #{created_user},
+        #{image_file_name}
+      )
     </insert>
 
-        <insert id="postMainNovel">
-        INSERT INTO t_novel_mgt
-        (
-            title,
-            content,
-            created_user,
-            description
-        )
-        VALUES 
-        (
-            #{title},
-            #{content},
-            #{created_user},
-            #{description}
-        )
+    <insert id="postMainNovel">
+      INSERT INTO t_novel_mgt
+      (
+        title,          -- 메인 소설 제목
+        content,        -- 메인 소설 내용
+        created_user,   -- 메인 소설 작성자 아이디
+        description     -- 메인 소설 한 줄 설명
+      )
+      VALUES 
+      (
+        #{title},
+        #{content},
+        #{created_user},
+        #{description}
+      )
     </insert>
 
     <!-- 소설 찜 기능 -->
     <insert id="postPickNovel">
         INSERT INTO t_novel_pick_mgt
         (
-            main_novel_seqno,
-            user_id
+          main_novel_seqno,   -- 메인 소설 순번
+          user_id             -- 찜한 사용자 아이디
         )
         VALUES 
         (
-            #{main_novel_seqno},
-            #{user_id}
+          #{main_novel_seqno},
+          #{user_id}
         )
     </insert>
 
     <!-- 소설 찜 해제 기능 -->
     <delete id="deletePickNovel">
         DELETE FROM
-            t_novel_pick_mgt
+          t_novel_pick_mgt
         WHERE
-            main_novel_seqno = #{main_novel_seqno}
-            AND user_id = #{user_id}
+          main_novel_seqno = #{main_novel_seqno}
+          AND user_id = #{user_id}
     </delete>
 
         <!-- 서브소설 좋아요 기능 -->
     <insert id="postLikeSubNovel">
         INSERT INTO t_novel_like_mgt
         (
-            sub_novel_seqno,
-            user_id
+          sub_novel_seqno,    -- 서브 소설 순번
+          user_id             -- 찜한 사용자 아이디
         )
         VALUES 
         (
-            #{sub_novel_seqno},
-            #{user_id}
+          #{sub_novel_seqno},
+          #{user_id}
         )
     </insert>
 
     <!-- 서브소설 좋아요 해제 기능 -->
     <delete id="deleteLikeSubNovel">
         DELETE FROM
-            t_novel_like_mgt
+          t_novel_like_mgt
         WHERE
-            sub_novel_seqno = #{sub_novel_seqno}
-            AND user_id = #{user_id}
+          sub_novel_seqno = #{sub_novel_seqno}
+          AND user_id = #{user_id}
     </delete>
 </mapper>

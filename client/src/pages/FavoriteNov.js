@@ -49,21 +49,18 @@ const FavoriteNov = () => {
 	 * inCompleteNovData: 로그인한 작가의 미완성 소설 데이터
 	 * profile: 로컬스토리지에 저장된 프로필
 	 */
-	const [completeNovData, setCompleteNovData] = useState([]);
-	const [inCompleteNovData, setInCompleteNovData] = useState([]);
-	const [profile, setProfile] = useState(
-		JSON.parse(localStorage.getItem("profile"))
-	);
-  
-  // 완성, 미완성 각 버튼 클릭 시 데이터 띄워주기 위한 상태 (기본값 complete 소설 표시)
-	const [isComplete, setIsComplete] = useState(true);
+	const [completeNovData, setCompleteNovData] = useState([]);       // 로그인한 작가의 완성 소설 데이터
+	const [inCompleteNovData, setInCompleteNovData] = useState([]);   // 로그인한 작가의 미완성 소설 데이터
+	const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile"))); // 로컬스토리지에 저장된 사용자 프로필
+  	const [selectedTab, setSelectedTab] = useState("complete");     // 선택된 메뉴
+	const [isComplete, setIsComplete] = useState(true);               // 소설 완성 여부 (기본값 complete 소설 표시)
 
 	// 소설 중 pick_yn이 Y인(찜한) 작품만 가져오기
 	useEffect(() => {
 		getData("novel/getPickNovel", { user_id: profile.login_id })
 			.then((data) => {
 				setCompleteNovData(data.complete)
-        setInCompleteNovData(data.inComplete)
+        		setInCompleteNovData(data.inComplete)
 			})
 			.catch((err) => {
 				console.log(err);
@@ -85,8 +82,10 @@ const FavoriteNov = () => {
 						type={CODE.BUTTON.BASIC}
 						backgroundColor={COLOR.WHITE}
 						color={COLOR.BLACK}
+            			fontWeight={selectedTab === "complete" && "bolder"}
 						name={LABEL.BUTTONS.COMPLETE}
 						isComplete={() => setIsComplete(true)}
+						setSelectedTab={() => setSelectedTab("complete")}
 						padding={0}
 					/>
 					<span
@@ -103,8 +102,10 @@ const FavoriteNov = () => {
 						type={CODE.BUTTON.BASIC}
 						backgroundColor={COLOR.WHITE}
 						color={COLOR.BLACK}
+            			fontWeight={selectedTab === "incomplete" && "bolder"}
 						name={LABEL.BUTTONS.IN_COMPLETE}
 						isComplete={() => setIsComplete(false)}
+						setSelectedTab={() => setSelectedTab("incomplete")}
 						padding={0}
 					/>
 				</DivNovelBtn>

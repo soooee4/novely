@@ -4,6 +4,7 @@ const router = Router();
 const svc = require("../services/AuthService");
 const { parsingFormData } = require("../../common/util");
 const { fileUpload } = require("../../common/controller");
+const { MESSAGE } = require("../../common/message");
 
 
 // 로그인
@@ -14,7 +15,7 @@ const login = async (req, res, next) => {
     if (data) {
       res.send(data[0]);
     } else {
-      res.send('로그인 정보가 일치하지 않습니다.');
+      res.send(MESSAGE.UNMATCHED_LOGIN_INFO);
     }
   } catch (err) {
     console.log(err);
@@ -33,7 +34,7 @@ const join = async (req, res, next) => {
       res.send(data);
 
     } else {
-      res.send('이미 가입된 정보입니다.');
+      res.send(MESSAGE.ALREADY_JOINED);
     }
 
   } catch (err) {
