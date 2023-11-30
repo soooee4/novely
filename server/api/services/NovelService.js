@@ -547,15 +547,18 @@ const postSubNovel = async ({
 	keyword_3,
 	description,
 	created_user,
+	file,
   	image_file_name
 }) => {
 	const client = await pool.connect();
 	const sqlId = "Novel.postSubNovel";
 
-  // 필수값인 장르1, 키워드1 값을 제외한 나머지 값들이 빈 값일 경우 null 처리
-	genre_2 = genre_2 === 'undefined' ? null : genre_2;
-	keyword_2 = keyword_2 === 'undefined' ? null : keyword_2;
-	keyword_3 = keyword_3 === 'undefined' ? null : keyword_3;
+  	// 필수값인 장르1, 키워드1 값을 제외한 나머지 값들이 빈 값일 경우 null 처리
+	// 이미지는 첨부된 파일이 없을 경우 텍스트로 데이터 생성(cover_basic.jpeg)
+	genre_2 = genre_2 === undefined ? null : genre_2;
+	keyword_2 = keyword_2 === undefined ? null : keyword_2;
+	keyword_3 = keyword_3 === undefined ? null : keyword_3;
+	image_file_name = image_file_name === undefined ? file : image_file_name;	
 
 	try {
 		const data = await client.query(

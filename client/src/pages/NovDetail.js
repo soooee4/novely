@@ -523,7 +523,7 @@ const NovDetail = () => {
     keyword_2: null,
     keyword_3: null,
     description: null,
-    file: "basic.jpeg",
+    file: "cover_basic.jpeg",
     created_user: profile.login_id
   });
 
@@ -640,6 +640,7 @@ const NovDetail = () => {
           changeState={() => setPopup("writeNov")}
           main_seqno={novel.main_seqno}
           setMainNovel={(novel) => setMainNovel(novel)}
+          login_id={profile.login_id}
         />
       );
     } else if (popup === "writeNov") {

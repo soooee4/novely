@@ -70,17 +70,24 @@ const ViewIncompleteNovPopup = (props) => {
 		<Wrapper>
 			<HeaderBox>
 				<Title>{mainNovel && mainNovel.title}</Title>
-				<Buttons
-					type={CODE.BUTTON.BASIC}
-					backgroundColor={COLOR.WHITE}
-					color={COLOR.BLACK}
-					name={LABEL.BUTTONS.GOTOWRITE}
-					margin={"-30px 0px 0px auto"}
-					padding={0}
-					changeState={props.changeState}
-				/>
+				{mainNovel.created_user !== props.login_id &&
+					<Buttons
+						type={CODE.BUTTON.BASIC}
+						backgroundColor={COLOR.WHITE}
+						color={COLOR.BLACK}
+						name={LABEL.BUTTONS.GOTOWRITE}
+						margin={"-30px 0px 0px auto"}
+						padding={0}
+						changeState={props.changeState}
+					/>
+				}
 			</HeaderBox>
-			<Content>{mainNovel && mainNovel.content}</Content>
+			{/* <Content>{mainNovel && mainNovel.content}</Content> */}
+			<Content>{mainNovel && mainNovel.content.replace("\n","<br />")}</Content>
+
+  
+   
+
 		</Wrapper>
 	);
 };

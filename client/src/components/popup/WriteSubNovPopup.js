@@ -92,6 +92,8 @@ const WriteSubNovPopup = (props) => {
 		});
 	};
 
+
+
 	return (
 		<Wrapper>
 			<HeaderBox>
@@ -99,7 +101,7 @@ const WriteSubNovPopup = (props) => {
 					fullWidth
 					defaultValue={props.mainNovel.title}
 					onChange={inputTitle}
-          sx={{ width: '70%'}} 
+					sx={{ width: "70%" }}
 				/>
 				<Buttons
 					type={CODE.BUTTON.BASIC}
@@ -115,8 +117,10 @@ const WriteSubNovPopup = (props) => {
 				<ViewBox>
 					<Content>{props.mainNovel.content}</Content>
 				</ViewBox>
-				<WriteBox>
+				<WriteBox> 
+          <pre>
 					<textarea style={writeNovText} onChange={inputContent} />
+          </pre>
 				</WriteBox>
 			</WholeBox>
 		</Wrapper>
