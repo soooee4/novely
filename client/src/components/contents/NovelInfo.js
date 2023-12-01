@@ -78,7 +78,7 @@ const Description = styled(Typography)({
 
 // 기한 표시 텍스트
 const DateInfo = styled(Typography)({
-	fontSize: 18,
+	fontSize: 23,
 	marginTop: 30,
 	marginBottom: 10,
 	marginLeft: "auto",
@@ -147,8 +147,7 @@ const NovelInfo = (props) => {
 				{props.complete_seqno ? (
 					<DateInfo>{MESSAGE.DDAY_COMPLETE}</DateInfo>
 				) : (
-					// !추후 실제 날짜 계산해서 넣어놓기
-					<DateInfo>{MESSAGE.DDAY_COUNT}</DateInfo>
+					<DateInfo>{MESSAGE.DDAY_COUNT}{props.novelDdayCounter}</DateInfo>
 				)}
 				<NovelViewBox
 					onClick={() => {
