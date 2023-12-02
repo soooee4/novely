@@ -6,7 +6,7 @@ import Buttons from "components/controls/Button";
 
 // Constant
 import { CODE, LABEL, COLOR, MESSAGE } from "common";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 /** STYLE 정의 */
 // 전체 영역

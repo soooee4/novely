@@ -98,6 +98,10 @@ const LoginPopup = (props) => {
 			});
 	};
 
+  const enter = (e) => {
+    if (e.key === "Enter") onLogin();
+  };
+
 	return (
     <Wrapper>
       <LoginBox>
@@ -124,6 +128,7 @@ const LoginPopup = (props) => {
           sx={{
             marginBottom: 5,
           }}
+          onSubmit={onLogin}
         />
         <Buttons
           type={CODE.BUTTON.BORDER}

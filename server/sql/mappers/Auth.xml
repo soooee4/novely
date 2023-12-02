@@ -3,30 +3,31 @@
 <mapper namespace="Auth">
     <select id="login">
       SELECT
-        login_id                      -- 사용자 아이디
+        login_id,
+        user_reg_dv
       FROM
         t_user_mgt
       WHERE
-        login_id = #{login_id}        -- 사용자 아이디
-        AND login_pw = #{login_pw}    -- 사용자 비밀번호
+        login_id = #{login_id}
+        AND login_pw = #{login_pw}
     </select>
 
     <select id="isUser">
       SELECT
-        login_id                      -- 사용자 아이디
+        login_id
       FROM
         t_user_mgt
       WHERE
-        login_id = #{login_id}        -- 사용자 아이디
+        login_id = #{login_id}
     </select>
 
     <insert id="join">
       INSERT INTO t_user_mgt 
       (
-        login_id,                     -- 사용자 아이디
-        login_pw,                     -- 사용자 비밀번호
-        user_nickname,                -- 사용자 닉네임
-        image                         -- 사용자 프로필 이미지 파일명
+        login_id,
+        login_pw,
+        user_nickname,
+        image
       )
       VALUES 
       (
@@ -39,44 +40,59 @@
 
     <select id="getUserInfo">
       SELECT
-        user_nickname,                -- 사용자 닉네임
-        user_reg_dv,                  -- 사용자 구분(G-일반, W-작가)
-        login_pw,                     -- 사용자 비밀번호
-        login_id,                     -- 사용자 아이디
-        image                         -- 사용자 프로필 이미지 파일명
+        user_nickname,
+        user_reg_dv,
+        login_pw,
+        login_id,
+        image
       FROM
         t_user_mgt
       WHERE
-        login_id = #{login_id}        -- 사용자 아이디
+        login_id = #{login_id}
+    </select>
+
+    <select id="getAuthUserInfo">
+      SELECT
+        user_nickname,
+        user_reg_dv,
+        login_pw,
+        login_id,
+        author_info,
+        image
+      FROM
+        t_user_mgt
+      WHERE
+        login_id = #{login_id}
     </select>
 
     <update id="editProfile">
       UPDATE  
         t_user_mgt
       SET
-        user_nickname = #{user_nickname},     -- 사용자 닉네임
-        login_pw = #{login_pw}                -- 사용자 비밀번호
+        user_nickname = #{user_nickname},
+        login_pw = #{login_pw}
       WHERE
-        login_id = #{login_id}                -- 사용자 아이디
+        login_id = #{login_id}
     </update>
 
     <select id="getUserImg">
       SELECT 
-        image                                 -- 사용자 프로필 이미지 파일명
+        image
       FROM
        t_user_mgt
       WHERE
-        login_id = #{user_id}                 -- 사용자 아ㅇ디
+        login_id = #{user_id}
     </select>
 
-    <update id="AuthorEditProfile">
+    <update id="authorEditProfile">
       UPDATE  
         t_user_mgt
       SET
-        user_nickname = #{user_nickname},     -- 사용자 닉네임
-        login_pw = #{login_pw},               -- 사용자 비밀번호
-        author_info = #{author_info}          
+        user_nickname = #{user_nickname},
+        login_pw = #{login_pw},
+        author_info = #{author_info},
+        image = #{image}
       WHERE
-        login_id = #{login_id}                -- 사용자 아이디
+        login_id = #{login_id}
     </update>
 </mapper>

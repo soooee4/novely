@@ -79,6 +79,8 @@ const Header = () => {
 
 	const nickname = profile && profile.user_nickname;
 
+  const navigate = useNavigate();
+
 	const goToPage = (url) => {
 		navigate(url);
 	};
@@ -94,7 +96,7 @@ const Header = () => {
 		setModal(false);
 	};
 
-	// 모달창 바꿔주는 함수
+	// 팝업 상태값 변경
 	const popupChange = () => {
 		// 로그인
 		if (popup === "login") {
@@ -121,8 +123,6 @@ const Header = () => {
 			);
 		}
 	};
-
-	const navigate = useNavigate();
 
 	return (
 		<Whole>

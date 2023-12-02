@@ -18,25 +18,28 @@ import { getData } from "common/communication";
 /** STYLE 정의 */
 // 전체 영역
 const Wrapper = styled(Box)({
-	width: "99%",
-	height: "99%",
-	// border: '2px solid orange',
+	width: "98%",
+	height:"98%",
 	display: "flex",
 	gap: 20,
-	paddingTop: 5,
+	// paddingTop: 5,
+  // border: '2px solid blue'
 });
 
 // 소설 컴포넌트 카드 영역
 const NovelCardBox = styled(Box)({
 	flexGrow: 1,
+  height: "100%",
 	width: "80%",
 	margin: "0 auto",
 	display: "flex",
 	flexWrap: "wrap",
+
 });
 
 const IsDataInfo = styled(Typography)({
 	fontSize: 17,
+  
 });
 
 /** 작가 상세 정보를 보여주는 모달 (소설 상세 페이지에서 작가 닉네임 클릭시 해당 팝업 띄워짐) */

@@ -70,7 +70,10 @@ const WriteNovIntroPopup = (props) => {
 				changeState={props.changeState}
 			/>
 			<IntroMsg>{MESSAGE.WRITE_MAIN_NOVEL_INTRO}</IntroMsg>
-			<textarea style={writeNovText} onChange={inputDescription} />
+			<textarea 
+        style={writeNovText} 
+        onChange={inputDescription} 
+      />
 		</Wrapper>
 	);
 };

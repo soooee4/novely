@@ -76,7 +76,7 @@ const modalHeight = (popup) => {
 			height = 500;
 			break;
 		case "authorDetail":
-			height = 355;
+			height = 353;
 			break;
 		case "editProfile":
 			height = 600;

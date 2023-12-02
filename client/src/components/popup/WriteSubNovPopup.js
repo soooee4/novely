@@ -68,6 +68,7 @@ const writeNovText = {
 	padding: 10,
 	fontSize: 17,
 	boxSizing: "border-box",
+
 };
 
 /** 서브 소설 title, content 작성 컴포넌트 (미완성 소설 보는 팝업에서 이어쓰기 버튼 클릭 시 해당 팝업 띄워줌) */
@@ -115,12 +116,19 @@ const WriteSubNovPopup = (props) => {
 			</HeaderBox>
 			<WholeBox>
 				<ViewBox>
-					<Content>{props.mainNovel.content}</Content>
+					<Content>
+						{props.mainNovel.content && props.mainNovel.content
+							? props.mainNovel.content.split("\\n").map((line) => (
+									<>
+										{line.replace("\\r", "")}
+										<br />
+									</>
+							  ))
+							: ""}
+					</Content>
 				</ViewBox>
-				<WriteBox> 
-          <pre>
+				<WriteBox>
 					<textarea style={writeNovText} onChange={inputContent} />
-          </pre>
 				</WriteBox>
 			</WholeBox>
 		</Wrapper>

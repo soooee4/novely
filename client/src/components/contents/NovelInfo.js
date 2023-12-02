@@ -16,7 +16,7 @@ const Whole = styled(Box)({
 	display: "flex",
 	margin: "0 auto",
 	paddingTop: 20,
-	// border: '1px solid orange'
+
 });
 
 // 좌측 소개글 및 이미지 영역
@@ -25,6 +25,7 @@ const InfoBox = styled(Box)({
 	height: "100%",
 	display: "flex",
 	flexDirection: "column",
+
 });
 
 // 마감 기한 표시 및 view 버튼 영역
@@ -139,7 +140,9 @@ const NovelInfo = (props) => {
         }
 				</AuthorBox>
 				<DescriptionBox>
-					<Description>{props.description}</Description>
+					{/* 사용자가 줄바꿈을 했을 때 공백으로 띄워주기 위해 replace 매서드 사용 */}
+          <Description>{props.description && props.description.replace(/\\n/g, ' ')}</Description>
+
 				</DescriptionBox>
 			</InfoBox>
 

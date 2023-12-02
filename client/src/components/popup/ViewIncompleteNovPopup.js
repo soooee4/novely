@@ -1,5 +1,5 @@
 // React Package Module
-import { useEffect, useState } from "react";
+import { useEffect, useState, React } from "react";
 
 // MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
@@ -40,10 +40,15 @@ const Title = styled(Typography)({
 
 const Content = styled(Typography)({
 	fontSize: 15,
+  whiteSpace: "pre-wrap"
 });
+
+
+
 
 /** 미완성 작품 (메인 소설) 읽기 컴포넌트 (작품 상세 페이지에서 view 버튼 클릭 시 미완성작일 경우 해당 팝업 띄워줌) */
 const ViewIncompleteNovPopup = (props) => {
+
 	const [mainNovel, setMainNovel] = useState({});         // 메인 소설 데이터
 
 	// 미완성 소설 보기
@@ -70,7 +75,9 @@ const ViewIncompleteNovPopup = (props) => {
 		<Wrapper>
 			<HeaderBox>
 				<Title>{mainNovel && mainNovel.title}</Title>
-				{mainNovel.created_user !== props.login_id &&
+				{/* <Title>{mainNovel && mainNovel.title.replace("\\n"," ")}</Title> */}
+
+				{mainNovel.created_user !== props.login_id && (
 					<Buttons
 						type={CODE.BUTTON.BASIC}
 						backgroundColor={COLOR.WHITE}
@@ -80,14 +87,20 @@ const ViewIncompleteNovPopup = (props) => {
 						padding={0}
 						changeState={props.changeState}
 					/>
-				}
+				)}
 			</HeaderBox>
-			{/* <Content>{mainNovel && mainNovel.content}</Content> */}
-			<Content>{mainNovel && mainNovel.content.replace("\n","<br />")}</Content>
-
-  
-   
-
+      {/* 문자열을 \n 기준으로 나누고 각 줄마다 <br /> 태그를 추가하여 줄바꿈 처리함 */}
+      {/* 자바스크립트에서 \은 특수 문자를 나타내기 때문에 실제 문자 \를 찾으려면 \\로 표현해야 함 */}
+			<Content>
+				{mainNovel && mainNovel.content
+					? mainNovel.content.split("\\n").map((line) => (
+							<>
+								{line}
+								<br />
+							</>
+					  ))
+					: ""}
+			</Content>
 		</Wrapper>
 	);
 };

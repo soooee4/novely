@@ -86,8 +86,12 @@ const ViewSubNovPopup = (props) => {
 			}
 		} else if (props.subNovelData.like_yn === "Y") {
 			alert(MESSAGE.ALREADY_VOTED);
-		}
+		} 
 	};
+
+console.log(props.subNovelData.created_user, props.login_id)
+
+
 
 	return (
 		<Wrapper>
@@ -96,24 +100,44 @@ const ViewSubNovPopup = (props) => {
 			<WholeBox>
 				<MainNovBox>
 					<ContentBox>
-						<Content>{props.mainNovel.content}</Content>
+						<Content>
+							{props.mainNovel.content && props.mainNovel.content
+								? props.mainNovel.content.split("\\n").map((line) => (
+										<>
+											{line.replace("\\r", "")}
+											<br />
+										</>
+								  ))
+								: ""}
+						</Content>
 					</ContentBox>
 				</MainNovBox>
 				<SubNovBox>
 					<ContentBox>
-						<Content>{props.subNovelData.sub_content}</Content>
+						<Content>
+							{props.subNovelData.sub_content && props.subNovelData.sub_content
+								? props.subNovelData.sub_content.split("\\n").map((line) => (
+										<>
+											{line.replace("\\r", "")}
+											<br />
+										</>
+								  ))
+								: ""}
+						</Content>
 					</ContentBox>
 				</SubNovBox>
 			</WholeBox>
-			<Buttons
-				type={CODE.BUTTON.BASIC}
-				backgroundColor={COLOR.WHITE}
-				color={COLOR.BLACK}
-				name={LABEL.BUTTONS.LIKE_BTN}
-				fontSize={15}
-				margin={"0px -5px 0px auto"}
-				likeSubNovel={likeSubNovel}
-			/>
+			{props.subNovelData.created_user !== props.user_id && (
+				<Buttons
+					type={CODE.BUTTON.BASIC}
+					backgroundColor={COLOR.WHITE}
+					color={COLOR.BLACK}
+					name={LABEL.BUTTONS.LIKE_BTN}
+					fontSize={15}
+					margin={"0px -5px 0px auto"}
+					likeSubNovel={likeSubNovel}
+				/>
+			)}
 		</Wrapper>
 	);
 };

@@ -87,7 +87,6 @@ const SelectTagPopup = (props) => {
 	useEffect(() => {
 		getData("common/tag")
 			.then((data) => {
-				console.log(data)
 				setTag(data);
 			})
 			.catch((err) => {
@@ -95,10 +94,12 @@ const SelectTagPopup = (props) => {
 			});
 	}, []);
 
+  // 태그 클릭 시 실행될 함수
 	const onSelectTags = (tag, type) => {
 		// 장르일 경우
 		if (type === "genre") {
 			if (genre.length < 2) {
+        // 기존 배열에 해당 값 없다면 -1 반환, -1일 경우 배열에 추가
 				if (genre.findIndex((genre) => genre === tag) === -1)
 					setGenre([tag, ...genre]);
 			} else {
