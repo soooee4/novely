@@ -16,6 +16,7 @@ import SearchBar from "components/controls/Search";
 import ModalPopup from "components/popup/ModalPopup";
 import LoginPopup from "components/popup/LoginPopup";
 import JoinPopup from "components/popup/JoinPopup";
+import AuthorFirstLoginPopup from "components/popup/AuthorFirstLoginPopup";
 
 // Constant
 import { CODE, MESSAGE } from "common";
@@ -77,7 +78,6 @@ const Main = () => {
     setModal(false);
   };
 
-
   // 소설 데이터 조회(완성 소설) => 찜 / 찜해제 시에도 사용
   const getNovelData = () => {
     // 로그인 상태라면 login_id 넘어가고 아니라면 null값 넘어가도록 처리
@@ -93,6 +93,9 @@ const Main = () => {
   // 메인 화면 렌더링 시 소설 데이터 조회
   useEffect(() => {
     getNovelData();
+
+    // 작가 권한 첫 로그인 시 작가 소개 입력 모달창 열기
+    if (profile && profile.author_first_login === 'Y') setModal(true);
   }, []);
 
   // 장르 태그 조회
@@ -173,16 +176,26 @@ const Main = () => {
   // 팝업 상태값 변경
   const popupChange = () => {
     if (popup === "login") {
-      return (
-        <LoginPopup
-          changeState={() => setPopup("join")}
-          closeModal={closeModal}
-          isLogin={() => setIsLogin(true)}
-        />
-      );
+      // 메인 작가 승급 후 첫 로그인 여부
+      if (profile && profile.author_first_login) {
+        return (
+          <AuthorFirstLoginPopup
+            profile={profile} 
+            closeModal={closeModal}
+          />
+        );
+      } else {
+        return (
+          <LoginPopup
+            changeState={() => setPopup("join")}
+            closeModal={closeModal}
+            isLogin={() => setIsLogin(true)}
+          />
+        );
+      }
     } else if (popup === "join") {
       return <JoinPopup changeState={() => setPopup("profile")} />;
-    }
+    } 
   };
 
   return (

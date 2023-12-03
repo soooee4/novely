@@ -3,8 +3,8 @@
 <mapper namespace="Auth">
     <select id="login">
       SELECT
-        login_id,
-        user_reg_dv
+        login_id,                   -- 아이디
+        user_reg_dv                 -- 사용자 구분(G-일반, W-작가)
       FROM
         t_user_mgt
       WHERE
@@ -14,7 +14,7 @@
 
     <select id="isUser">
       SELECT
-        login_id
+        login_id                    -- 아이디
       FROM
         t_user_mgt
       WHERE
@@ -24,10 +24,10 @@
     <insert id="join">
       INSERT INTO t_user_mgt 
       (
-        login_id,
-        login_pw,
-        user_nickname,
-        image
+        login_id,                   -- 아이디
+        login_pw,                   -- 비밀번호
+        user_nickname,              -- 닉네임
+        image                       -- 프로필 이미지
       )
       VALUES 
       (
@@ -40,11 +40,11 @@
 
     <select id="getUserInfo">
       SELECT
-        user_nickname,
-        user_reg_dv,
-        login_pw,
-        login_id,
-        image
+        user_nickname,              -- 닉네임
+        user_reg_dv,                -- 사용자 구분(G-일반, W-작가)
+        login_id,                   -- 아이디
+        login_pw,                   -- 비밀번호
+        image                       -- 프로필 이미지
       FROM
         t_user_mgt
       WHERE
@@ -53,12 +53,13 @@
 
     <select id="getAuthUserInfo">
       SELECT
-        user_nickname,
-        user_reg_dv,
-        login_pw,
-        login_id,
-        author_info,
-        image
+        user_nickname,              -- 닉네임
+        user_reg_dv,                -- 사용자 구분(G-일반, W-작가)
+        login_id,                   -- 아이디
+        login_pw,                   -- 비밀번호
+        author_info,                -- 작가 소개
+        image,                      -- 프로필 이미지
+        author_first_login          -- 작가 권한 첫 로그인 여부
       FROM
         t_user_mgt
       WHERE
@@ -69,15 +70,15 @@
       UPDATE  
         t_user_mgt
       SET
-        user_nickname = #{user_nickname},
-        login_pw = #{login_pw}
+        user_nickname = #{user_nickname},   -- 닉네임
+        login_pw = #{login_pw}              -- 비밀번호
       WHERE
         login_id = #{login_id}
     </update>
 
     <select id="getUserImg">
       SELECT 
-        image
+        image                               -- 프로필 이미지
       FROM
        t_user_mgt
       WHERE
@@ -88,10 +89,20 @@
       UPDATE  
         t_user_mgt
       SET
-        user_nickname = #{user_nickname},
-        login_pw = #{login_pw},
-        author_info = #{author_info},
-        image = #{image}
+        user_nickname = #{user_nickname},   -- 닉네임
+        login_pw = #{login_pw},             -- 비밀번호
+        author_info = #{author_info},       -- 작가 소개
+        image = #{image}                    -- 프로필 이미지
+      WHERE
+        login_id = #{login_id}
+    </update>
+
+    <update id="authorFirstLogin">
+      UPDATE
+        t_user_mgt
+      SET
+        author_info = #{authorInfo},        -- 작가 소개
+        author_first_login = 'N'            -- 작가 권한 첫 로그인 여부
       WHERE
         login_id = #{login_id}
     </update>

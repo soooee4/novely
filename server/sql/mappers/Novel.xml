@@ -377,4 +377,14 @@
         sub_novel_seqno = #{sub_novel_seqno}
         AND user_id = #{user_id}
     </delete>
+
+    <!-- 서브 소설 투표 시 기존 like_count 컬럼에 값 추가 -->
+    <update id="updateLikeCount">
+        UPDATE  
+	        t_sub_novel_mgt
+        SET
+	        sub_like_count = sub_like_count + 1
+        WHERE
+          sub_novel_seqno = #{sub_novel_seqno}
+    </update>
 </mapper>

@@ -119,7 +119,8 @@
       UPDATE
         t_user_mgt
       SET
-        user_reg_dv = 'W'              -- 사용자 구분(G-일반, W-작가)
+        user_reg_dv = 'W',             -- 사용자 구분(G-일반, W-작가)
+        author_first_login = 'Y'       -- 작가 권한 첫 로그인 여부
       WHERE
         <foreach collection="sub_created_user" item="id" separator="," open="(" close=")">
           login_id = #{id}             -- 사용자 아이디

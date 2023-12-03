@@ -1,5 +1,6 @@
 const pool = require("../../lib/dbConnPool");
 const mapper = require("../../sql");
+const { MESSAGE } = require("../../common/message");
 
 // 완성 소설 조회 함수
 const getNovel = async ({ user_id }) => {
@@ -284,18 +285,32 @@ const deletePickNovel = async ({ main_novel_seqno, user_id }) => {
 // 서브 소설 좋아요 기능 함수
 const postLikeSubNovel = async ({ sub_novel_seqno, user_id }) => {
 	const client = await pool.connect();
-	const sqlId = "Novel.postLikeSubNovel";
+	let sqlId = "Novel.postLikeSubNovel";
 
 	try {
-		const data = await client.query(
+    // 쿼리 시작
+    await client.query("BEGIN");
+
+		let data = await client.query(
 			mapper.makeSql(sqlId, {
 				sub_novel_seqno,
 				user_id,
 			})
 		);
-
-		return data;
+    sqlId = "Novel.updateLikeCount"
+      data = await client.query(
+			mapper.makeSql(sqlId, {
+				sub_novel_seqno
+			})
+		);
+    
+    // 쿼리 실행 이상없다면 커밋
+    await client.query("COMMIT");
+    
+		return MESSAGE.LIKE_SUCCEED;
 	} catch (err) {
+    // 쿼리 실행 도중 에러 발생 시 roll back
+    await client.query("ROLLBACK");
 		console.log(err);
 	} finally {
 		if (client) client.release();
@@ -354,6 +369,7 @@ const getPickNovel = async ({ user_id }) => {
 	}
 };
 
+
 module.exports = {
 	getNovel,
 	getSubNovel,
@@ -367,5 +383,5 @@ module.exports = {
 	deletePickNovel,
 	postLikeSubNovel,
 	deleteLikeSubNovel,
-	getPickNovel,
+	getPickNovel
 };

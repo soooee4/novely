@@ -61,6 +61,7 @@ const Buttons = (props) => {
 					props.setSelectedTab && props.setSelectedTab();           // 헤더나 필터 탭 클릭 시 클릭한 탭 색상 변경
 					props.postSubNovData && props.postSubNovData();           // 서브 소설 데이터 서버 전송
 					props.enter && props.enter();							  // 키보드 엔터키 실행
+					props.patchAuthorInfo && props.patchAuthorInfo();
 					// props.setMainNovelData && props.setMainNovelData();
 					// props.isPost && props.isPost();                   
 				}}

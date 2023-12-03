@@ -34,7 +34,7 @@ const getMainNovel = async (req, res, next) => {
 	}
 };
 
-// * 찜한 소설 조회 함수
+// 찜한 소설 조회 함수
 const getPickNovel = async (req, res, next) => {
 	try {
 		const data = await svc.getPickNovel({ ...req.query });
@@ -163,11 +163,13 @@ const postLikeSubNovel = async (req, res, next) => {
 	try {
 		const data = await svc.postLikeSubNovel({ ...req.body });
 
-		if (data.rowCount === 1) {
-			res.send(MESSAGE.LIKE_SUCCEED);
-		} else if (data.rowCount === 0) {
-			res.send(MESSAGE.LIKE_FAILED);
-		}
+		// if (data.rowCount === 1) {
+		// 	res.send(MESSAGE.LIKE_SUCCEED);
+		// } else if (data.rowCount === 0) {
+		// 	res.send(MESSAGE.LIKE_FAILED);
+		// }
+    res.send(data);
+    console.log(data,172)
 	} catch (err) {
 		console.log(err);
 	}
