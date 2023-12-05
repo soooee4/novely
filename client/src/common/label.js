@@ -17,7 +17,7 @@ export const LABEL = {
 		SAD: "슬픈",
 		UNFOLLOW: "Unfollow",
 		FOLLOW: "Follow",
-		VIEWNOVEL: "View",
+		VIEWNOVEL: "VIEW",
 		LOGIN: "로그인",
 		SIGNUP: "회원가입",
 		GOTOSIGNUP: "이메일로 가입하기",
@@ -47,7 +47,7 @@ export const LABEL = {
 		CURRENT_PW: "현재 비밀번호",
 		NEW_PW: "새 비밀번호",
 		NEW_PW_CONFIRM: "새 비밀번호 확인",
-		SEARCH: "좋아하는 작가, 작품을 검색해보세요!",
+		SEARCH: "관심있는 작품을 검색해보세요!",
 		STANDARD: "standard",
     
     // INPUT PLACE HOLDER

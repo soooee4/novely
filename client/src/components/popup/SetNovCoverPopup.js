@@ -16,6 +16,9 @@ const Wrapper = styled(Box)({
 	display: "flex",
 	flexDirection: "column",
 	boxSizing: "border-box",
+  paddingTop: 40,
+  //  boxShadow: "inset 0 0 3px 3px blue"
+
 });
 
 const ImgBox = styled(Box)({
@@ -43,13 +46,14 @@ const ImgDescription = styled(Typography)({
 	color: COLOR.GRAY,
 	fontWeight: "bold",
 	margin: "0 auto",
+
 });
 
 const IntroMsg = styled(Typography)({
 	fontSize: 18,
 	fontWeight: "bolder",
 	textAlign: "center",
-	marginBottom: 30,
+	marginBottom: 20,
 });
 
 /** 서브 소설 작성 후 소설 커버 이미지 업로드 하는 팝업 */
@@ -79,9 +83,10 @@ const SetNovCoverPopup = (props) => {
       />
       <IntroMsg>{MESSAGE.SELECT_COVER_INTRO}</IntroMsg>
       <ImgBox>
+      <ImgDescription>{MESSAGE.BASIC_COVER_INTRO}</ImgDescription>
         <CoverImg 
           style={{
-            backgroundImage: `url(${coverImgSrc})`,
+            backgroundImage: `url(${process.env.REACT_APP_COVER_IMAGE_DIRECTORY}/cover_basic.jpg)`,
             backgroundSize: "100% 100%"
           }}
         />
@@ -92,7 +97,6 @@ const SetNovCoverPopup = (props) => {
             setPreviewImg(e.target.files[0]); 
           }}
         />
-        <ImgDescription>{MESSAGE.BASIC_COVER_INTRO}</ImgDescription>
       </ImgBox>
     </Wrapper>
   );

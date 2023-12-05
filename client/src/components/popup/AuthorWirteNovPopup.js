@@ -9,7 +9,7 @@ import Buttons from "components/controls/Button";
 import Inputs from "components/controls/Input";
 
 // Constant
-import { CODE, LABEL, COLOR } from "common";
+import { CODE, LABEL, COLOR, MESSAGE } from "common";
 
 /** STYLE 정의 */
 // 전체 영역
@@ -79,6 +79,18 @@ const AuthorWriteNovPopup = (props) => {
 		setContent(e.target.value);
 	};
 
+  const goToNext = () => {
+    if (title === "") {
+      alert(MESSAGE.ERROR.WRITE_TITLE)
+      return;
+    } else if (content === "") {
+      alert(MESSAGE.ERROR.WRITE_CONTENT)
+      return;
+    } else {
+      props.changeState()
+    }
+  }
+
 	return (
 		<Wrapper>
 			<HeaderBox>
@@ -94,7 +106,8 @@ const AuthorWriteNovPopup = (props) => {
 					name={LABEL.BUTTONS.GOTONEXT}
 					margin={"-17px 0px 0px auto"}
 					postAuthorNovel={postAuthorNovel}
-					changeState={props.changeState}
+					// changeState={(title !== "" || content !== "") && props.changeState}
+          goToNext={goToNext}
 				/>
 			</HeaderBox>
 			<WholeBox>

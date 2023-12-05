@@ -25,8 +25,9 @@ const AuthorInfo = (props) => {
     <Box
       sx={{
         width: 280,
-        height: 380,
-        marginBottom: 10
+  paddingTop: 5
+   
+        // marginBottom: 10
       }}
     >
       <Box

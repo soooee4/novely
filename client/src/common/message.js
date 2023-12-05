@@ -13,7 +13,7 @@ export const MESSAGE = {
   JOINED: '회원가입 완료!',
   SELECT_TAG_INTRO: '어떤 느낌의 이야기로 완성하셨나요? 적절한 태그를 설정해보세요 :)',
   MIN_SELECT_TAG: '장르, 키워드는 최소 1개씩 선택해주세요.',
-  SELECT_COVER_INTRO: '마지막으로 이야기를 한눈에 보여줄 표지를 등록해보세요!',
+  SELECT_COVER_INTRO: '마지막으로, 소설을 나타내는 표지를 등록해보세요!',
   BASIC_COVER_INTRO: '표지가 없어도 걱정 마세요, 기본 이미지로 설정해드릴게요 :)',
   CONFIRM_VOTE: '이 소설에 투표하시겠어요? 투표 후 취소할 수 없어요',
   VOTED: '투표 완료!',
@@ -31,6 +31,8 @@ export const MESSAGE = {
     NICKNAME_INVALIDATION: '닉네임은 12자 이내로 설정해주세요.',
     CONFIRM_NEW_PW: '비밀번호가 일치하지 않아요.',
     INCORRECT_CUR_PW: '현재 비밀번호가 일치하지 않습니다 :(',
-    EXIST_USER: '이미 가입된 정보입니다.'
+    EXIST_USER: '이미 가입된 정보입니다.',
+    WRITE_TITLE: '제목을 입력해주세요!',
+    WRITE_CONTENT: '내용을 입력해주세요!',
   },
 }

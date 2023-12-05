@@ -6,11 +6,10 @@ const { parsingFormData } = require("../../common/util");
 const { fileUpload } = require("../../common/controller");
 const { MESSAGE } = require("../../common/message");
 
-// 완성 소설 조회 함수
-const getNovel = async (req, res, next) => {
-
+// 완성 소설 조회
+const getNovels = async (req, res, next) => {
 	try {
-		const data = await svc.getNovel({ ...req.query });
+		const data = await svc.getNovels({ ...req.query });
 
 		if (data.rowCount !== 0) {
 			res.send(data.rows);
@@ -21,7 +20,21 @@ const getNovel = async (req, res, next) => {
 	}
 };
 
-// 메인 소설 조회 함수
+// 미완성 소설 조회 
+const getIncompleteNovels = async (req, res, next) => {
+	try {
+		const data = await svc.getIncompleteNovels({ ...req.query });
+
+		if (data.rowCount !== 0) {
+			res.send(data.rows);
+		}
+
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+// 메인 소설 조회
 const getMainNovel = async (req, res, next) => {
 	try {
 		const data = await svc.getMainNovel({ ...req.query });
@@ -34,10 +47,10 @@ const getMainNovel = async (req, res, next) => {
 	}
 };
 
-// 찜한 소설 조회 함수
-const getPickNovel = async (req, res, next) => {
+// 찜한 완성 소설 조회 
+const getPickNovels = async (req, res, next) => {
 	try {
-		const data = await svc.getPickNovel({ ...req.query });
+		const data = await svc.getPickNovels({ ...req.query });
 
 		if (data.rowCount !== 0) {
 			res.send(data);
@@ -47,7 +60,20 @@ const getPickNovel = async (req, res, next) => {
 	}
 };
 
-// 작가에 따른 미완성 소설 조회 함수
+// 찜한 소설 조회 
+const getPickIncompleteNovels = async (req, res, next) => {
+	try {
+		const data = await svc.getPickIncompleteNovels({ ...req.query });
+
+		if (data.rowCount !== 0) {
+			res.send(data);
+		}
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+// 작가에 따른 미완성 소설 조회 
 const getAuthorNovel = async (req, res, next) => {
 	try {
 		const data = await svc.getAuthorNovel({ ...req.query });
@@ -58,7 +84,7 @@ const getAuthorNovel = async (req, res, next) => {
 	}
 };
 
-// 서브 소설 조회 함수
+// 서브 소설 조회 
 const getSubNovel = async (req, res, next) => {
 	try {
 		const data = await svc.getSubNovel({ ...req.query });
@@ -68,7 +94,7 @@ const getSubNovel = async (req, res, next) => {
 	}
 };
 
-// 완성 소설 보기 함수
+// 완성 소설 보기 
 const getCompleteNovel = async (req, res, next) => {
 	try {
 		const data = await svc.getCompleteNovel({ ...req.query });
@@ -81,7 +107,7 @@ const getCompleteNovel = async (req, res, next) => {
 	}
 };
 
-// 소설 등록 함수
+// 소설 등록 
 const postNovel = async (req, res, next) => {
 	try {
 		const data = await svc.postNovel({ ...req.body });
@@ -96,7 +122,7 @@ const postNovel = async (req, res, next) => {
 	}
 };
 
-// 서브 소설 등록 함수
+// 서브 소설 등록 
 const postSubNovel = async (req, res, next) => {
 	try {
 		const data = await svc.postSubNovel({ ...req.body });
@@ -111,7 +137,7 @@ const postSubNovel = async (req, res, next) => {
 	}
 };
 
-// 메인 소설 등록 함수
+// 메인 소설 등록 
 const postMainNovel = async (req, res, next) => {
 	try {
 		const data = await svc.postMainNovel({ ...req.body });
@@ -127,7 +153,7 @@ const postMainNovel = async (req, res, next) => {
 	}
 };
 
-// 소설 찜 기능 함수
+// 소설 찜 기능 
 const postPickNovel = async (req, res, next) => {
 	try {
 		const data = await svc.postPickNovel({ ...req.body });
@@ -142,7 +168,7 @@ const postPickNovel = async (req, res, next) => {
 	}
 };
 
-// 소설 찜 해제 기능 함수
+// 소설 찜 해제 기능 
 const deletePickNovel = async (req, res, next) => {
 	try {
 		const data = await svc.deletePickNovel({ ...req.body });
@@ -158,7 +184,7 @@ const deletePickNovel = async (req, res, next) => {
 	}
 };
 
-// 서브소설 좋아요 기능 함수
+// 서브소설 좋아요 기능 
 const postLikeSubNovel = async (req, res, next) => {
 	try {
 		const data = await svc.postLikeSubNovel({ ...req.body });
@@ -176,7 +202,7 @@ const postLikeSubNovel = async (req, res, next) => {
 };
 
 
-// 서브소설 좋아요 해제 기능 함수
+// 서브 소설 좋아요 해제 기능 
 const deleteLikeSubNovel = async (req, res, next) => {
 	try {
 		const data = await svc.deleteLikeSubNovel({ ...req.body });
@@ -194,7 +220,12 @@ const deleteLikeSubNovel = async (req, res, next) => {
 /**
  * 완성 소설 조회
  */
-router.get("/getNovel", getNovel);
+router.get("/getNovels", getNovels);
+
+/** 
+ * 미완성 소설 조회
+ */
+router.get("/getIncompleteNovels", getIncompleteNovels);
 
 /**
  * 메인 소설 조회
@@ -217,9 +248,9 @@ router.get("/getAuthorNovel", getAuthorNovel);
 router.get("/getCompleteNovel", getCompleteNovel);
 
 /**
- * 소설 등록
+ * 메인 소설 등록
  */
-router.post("/postNovel", postNovel);
+router.post("/postMainNovel", postMainNovel);
 
 /**
  * 서브 소설 등록
@@ -227,14 +258,14 @@ router.post("/postNovel", postNovel);
 router.post("/postSubNovel", parsingFormData, fileUpload, postSubNovel);
 
 /**
- * 메인 소설 등록
+ * 찜한 완성 소설 가져오기
  */
-router.post("/postMainNovel", postMainNovel);
+router.get("/getPickNovels", getPickNovels);
 
 /**
- * 찜한 소설 가져오기
+ * 찜한 미완성 소설 가져오기
  */
-router.get("/getPickNovel", getPickNovel);
+router.get("/getPickIncompleteNovels", getPickIncompleteNovels);
 
 /**
  * 소설 찜 기능

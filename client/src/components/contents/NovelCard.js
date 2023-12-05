@@ -104,8 +104,10 @@ const NovelCard = (props) => {
         user_id: props.user_id,
       })
       .then(() => {
-        props.getNovelData();
-
+        props.getNovelData && props.getNovelData();                         // Main 페이지 완성 소설 조회
+        props.getIncompleteNovelData && props.getIncompleteNovelData();     // Main 페이지 미완성 소설 조회
+        props.getPickNovels && props.getPickNovels();                       // 찜한 소설 페이지 완성 소설 조회
+        props.getPickIncompleteNovels && props.getPickIncompleteNovels();   // 찜한 소설 페이지 미완성 소설 조회
       })
       .catch((err) => {
         console.log(err);
@@ -116,7 +118,10 @@ const NovelCard = (props) => {
         user_id: props.user_id,
       })
       .then(() => {
-        props.getNovelData();
+        props.getNovelData && props.getNovelData();                         // Main 페이지 완성 소설 조회
+        props.getIncompleteNovelData && props.getIncompleteNovelData();     // Main 페이지 미완성 소설 조회
+        props.getPickNovels && props.getPickNovels();                       // 찜한 소설 페이지 완성 소설 조회
+        props.getPickIncompleteNovels && props.getPickIncompleteNovels();   // 찜한 소설 페이지 미완성 소설 조회
       })
       .catch((err) => {
         console.log(err);
@@ -126,39 +131,41 @@ const NovelCard = (props) => {
 
 
 	return (
-		<Whole >
-			<Cover 
+		<Whole>
+			<Cover
 				onClick={props.onClick}
 				style={{
-				// props.cover_image => 파일명이 한글일 경우 encoding을 통해 올바른 경로 추출
-				backgroundImage: `url(${process.env.REACT_APP_COVER_IMAGE_DIRECTORY}/${encodeURIComponent(props.cover_image)})`,
-				backgroundSize: "cover"
-        }}
-      />
+					// props.cover_image => 파일명이 한글일 경우 encoding을 통해 올바른 경로 추출
+					backgroundImage: `url(${process.env.REACT_APP_COVER_IMAGE_DIRECTORY}/${encodeURIComponent(props.cover_image)})`,
+					backgroundSize: "cover",
+				}}
+			/>
 			<InfoBox>
 				<InfoItemBox>
 					<TitleBox>
 						<Title>{props.title}</Title>
 					</TitleBox>
-						<LikedBox>
-              {props.pick_yn && 
-							(props.pick_yn === "Y" ? 
-              <Icons 
-                type={CODE.ICON.FILLHEART}
-                // 하트 아이콘 눌렀을 때 실행될 기능
-                pickNovel={pickNovel}
-              />
-              :
-              <Icons 
-              type={CODE.ICON.HEART}
-              // 하트 아이콘 눌렀을 때 실행될 기능
-              pickNovel={pickNovel}
-            />
-          )}
-						</LikedBox>
+					<LikedBox>
+						{props.pick_yn &&
+							(props.pick_yn === "Y" ? (
+								<Icons
+									type={CODE.ICON.FILLHEART}
+									// 하트 아이콘 눌렀을 때 실행될 기능
+									pickNovel={pickNovel}
+								/>
+							) : (
+								<Icons
+									type={CODE.ICON.HEART}
+									// 하트 아이콘 눌렀을 때 실행될 기능
+									pickNovel={pickNovel}
+								/>
+							))}
+					</LikedBox>
 				</InfoItemBox>
 				<InfoItemBox>
-        <Description>{props.description && props.description.replace(/\\n/g, ' ')}</Description>
+					<Description>
+						{props.description && props.description.replace(/\\n/g, " ")}
+					</Description>
 				</InfoItemBox>
 				{props.genre_1 && (
 					<TagBox>

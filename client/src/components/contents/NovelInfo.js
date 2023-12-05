@@ -95,80 +95,87 @@ const NovelViewBox = styled(Box)({
 
 /** 소설 축약 정보 컴포넌트(소설 상세보기 페이지의 헤더) */
 const NovelInfo = (props) => {
-
 	return (
-		<Whole>
-			<InfoBox>
-				<TitleBox>
-					<Title>{props.title}</Title>
-				</TitleBox>
-				<AuthorBox>
-          {props.main_author_id ?
-          <> 
+    <Whole>
+      <InfoBox>
+        <TitleBox>
+          <Title>{props.title}</Title>
+        </TitleBox>
+        <AuthorBox>
+          {props.main_author_id ? (
+            <>
+              <Author
+                onClick={() => {
+                  props.showModal();
+                  props.setPopup("authorDetail");
+                  props.setAuthorId(props.main_author_id);
+                  props.setAuthorNickName(props.main_author_nickname);
+                }}
+              >
+                By.{props.main_author_nickname}
+              </Author>
+              {props.sub_author_id && (
+                <Author
+                  onClick={() => {
+                    props.showModal();
+                    props.setPopup("authorDetail");
+                    props.setAuthorId(props.sub_author_id);
+                    props.setAuthorNickName(props.sub_author_nickname);
+                  }}
+                >
+                  By.{props.sub_author_nickname}
+                </Author>
+              )}
+            </>
+          ) : (
             <Author
               onClick={() => {
                 props.showModal();
                 props.setPopup("authorDetail");
-                props.setAuthorId(props.main_author_id);
-                props.setAuthorNickName(props.main_author_nickname);
+                props.setAuthorId(props.created_user);
+                props.setAuthorNickName(props.user_nickname);
               }}
             >
-              By.{props.main_author_nickname}
+              By.{props.user_nickname}
             </Author>
-            <Author
-              onClick={() => {
-                props.showModal();
-                props.setPopup("authorDetail");
-                props.setAuthorId(props.sub_author_id);
-                props.setAuthorNickName(props.sub_author_nickname);
-              }}
-            >
-              By.{props.sub_author_nickname}
-            </Author>
-          </>
-          :
-          <Author
-            onClick={() => {
-              props.showModal();
-              props.setPopup("authorDetail");
-              props.setAuthorId(props.created_user)
-              props.setAuthorNickName(props.user_nickname);
+          )}
+        </AuthorBox>
+        <DescriptionBox>
+          {/* 사용자가 줄바꿈을 했을 때 공백으로 띄워주기 위해 replace 매서드 사용 */}
+          <Description>
+            {props.description && props.description.replace(/\\n/g, " ")}
+          </Description>
+        </DescriptionBox>
+      </InfoBox>
+
+      <DateBox>
+        {props.complete_seqno ? (
+          <DateInfo>{MESSAGE.DDAY_COMPLETE}</DateInfo>
+        ) : (
+          <DateInfo>
+            {MESSAGE.DDAY_COUNT}
+            {props.novelDdayCounter}
+          </DateInfo>
+        )}
+        <NovelViewBox
+          onClick={() => {
+            props.showModal();
+            props.complete_seqno !== undefined
+              ? props.setPopup("viewComNov")
+              : props.setPopup("viewIncomNov");
           }}
         >
-          By.{props.user_nickname}
-        </Author>
-        }
-				</AuthorBox>
-				<DescriptionBox>
-					{/* 사용자가 줄바꿈을 했을 때 공백으로 띄워주기 위해 replace 매서드 사용 */}
-          <Description>{props.description && props.description.replace(/\\n/g, ' ')}</Description>
-
-				</DescriptionBox>
-			</InfoBox>
-
-			<DateBox>
-				{props.complete_seqno ? (
-					<DateInfo>{MESSAGE.DDAY_COMPLETE}</DateInfo>
-				) : (
-					<DateInfo>{MESSAGE.DDAY_COUNT}{props.novelDdayCounter}</DateInfo>
-				)}
-				<NovelViewBox
-					onClick={() => {
-						props.showModal();
-            props.complete_seqno !== undefined ? props.setPopup("viewComNov") : props.setPopup("viewIncomNov")            
-					}}
-				>
-					<Icons type={CODE.ICON.SEARCH} />
-					<Buttons
-						type={CODE.BUTTON.BASIC}
-						name={LABEL.BUTTONS.VIEWNOVEL}
-						height={10}
-						margin={"5px 0 0 -12px"}
-					/>
-				</NovelViewBox>
-			</DateBox>
-		</Whole>
-	);
+          <Icons type={CODE.ICON.SEARCH} />
+          <Buttons
+            type={CODE.BUTTON.BASIC}
+            name={LABEL.BUTTONS.VIEWNOVEL}
+            height={10}
+            margin={"5px 0 0 -12px"}
+          />
+        </NovelViewBox>
+      </DateBox>
+    </Whole>
+  );
 };
 
 export default NovelInfo;

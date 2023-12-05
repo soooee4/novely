@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // MUI Package Module
-import { Box, styled, Typography, useScrollTrigger } from "@mui/material";
+import { Box, styled, Typography } from "@mui/material";
 
 // Control Component
 import Buttons from "components/controls/Button";
@@ -75,7 +75,6 @@ const Header = () => {
 	const [popup, setPopup] = useState("login");       // popup 상태값
 	const [isLogin, setIsLogin] = useState(localStorage.getItem("profile") ? true : false);   // 로그인 여부
 	const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile")));   // 로컬스토리지에 저장된 사용자 정보
-	const [selectedTab, setSelectedTab] = useState("");   // 선택한 메뉴 탭
 
 	const nickname = profile && profile.user_nickname;
 
@@ -124,6 +123,9 @@ const Header = () => {
 		}
 	};
 
+  // 현재 컴포넌트 URL 경로(새로고침 시 선택한 탭 메뉴 bolder 유지를 위해 현재 경로를 참조: 새로고침 시 state는 초기화)
+  const currentPath = window.location.pathname;
+
 	return (
 		<Whole>
 			<LogoBox>
@@ -158,8 +160,7 @@ const Header = () => {
 								type={CODE.BUTTON.BASIC}
 								name={LABEL.BUTTONS.FAVORITE_NOVEL}
 								margin={10}
-								setSelectedTab={() => setSelectedTab("favorite")}
-								fontWeight={selectedTab === "favorite" && "bolder"}
+								fontWeight={currentPath === "/favorite-novel" && "bolder"}
 							/>
 							{/* 권한에 따라 내 정보, 내 작품 메뉴 변경 */}
 							{profile.user_reg_dv === "W" && (
@@ -168,8 +169,7 @@ const Header = () => {
 									type={CODE.BUTTON.BASIC}
 									name={LABEL.BUTTONS.MY_NOVEL}
 									margin={10}
-									setSelectedTab={() => setSelectedTab("authorMyNov")}
-									fontWeight={selectedTab === "authorMyNov" && "bolder"}
+									fontWeight={currentPath === "/author-myNovel" && "bolder"}
 								/>
 							)}
 							<Buttons

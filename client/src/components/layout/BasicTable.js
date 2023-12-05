@@ -8,7 +8,6 @@ import {
 	Paper,
 } from "@mui/material";
 import { CODE } from "common";
-import Icons from "components/controls/Icons";
 
 /** 서브소설 목록을 보여주는 테이블 컴포넌트 (소설 상세보기 페이지에서 사용) */
 const BasicTable = (props) => {
@@ -49,7 +48,7 @@ const BasicTable = (props) => {
 										align="center"
 										size="small"
 										sx={{
-											width: "65%",
+											width: "55%",
 											textAlign: "left",
 											cursor: "pointer",
 										}}
@@ -58,15 +57,14 @@ const BasicTable = (props) => {
 									</TableCell>
 									<TableCell
 										sx={{
-											width: "25%",
+											width: "30%",
 										}}
-										align="center"
+										// align="center"
 									>
 										By.{novel.user_nickname}
 									</TableCell>
-									<TableCell align="center">{novel.sub_like_count}</TableCell>
+									<TableCell align="center">👍 {novel.sub_like_count}</TableCell>
                   <TableCell align="center">
-                    <Icons type={CODE.ICON.LIKE} />
                   </TableCell>
 								</TableRow>
 						  ))
@@ -89,7 +87,7 @@ const BasicTable = (props) => {
 										align="center"
 										size="small"
 										sx={{
-											width: "65%",
+                      width: "55%",
 											textAlign: "left",
 											cursor: "pointer",
 										}}
@@ -98,15 +96,14 @@ const BasicTable = (props) => {
 									</TableCell>
 									<TableCell
 										sx={{
-											width: "25%",
+											width: "30%",
 										}}
-										align="center"
+										// align="center"
 									>
 										By.{novel.user_nickname}
 									</TableCell>
-									<TableCell align="center">{novel.sub_like_count}</TableCell>
+									<TableCell align="center">👍 {novel.sub_like_count}</TableCell>
                   <TableCell align="center">
-                    <Icons type={CODE.ICON.LIKE} />
                   </TableCell>
 								</TableRow>
 						  ))}

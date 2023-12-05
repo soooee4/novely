@@ -18,12 +18,10 @@ import { getData } from "common/communication";
 /** STYLE 정의 */
 // 전체 영역
 const Wrapper = styled(Box)({
-	width: "98%",
-	height:"98%",
+	width: "100%",
+	height:"100%",
 	display: "flex",
-	gap: 20,
-	// paddingTop: 5,
-  // border: '2px solid blue'
+  gap: 20,
 });
 
 // 소설 컴포넌트 카드 영역
@@ -34,12 +32,13 @@ const NovelCardBox = styled(Box)({
 	margin: "0 auto",
 	display: "flex",
 	flexWrap: "wrap",
-
+  overflow: "scroll",
+  paddingTop: 20,
+  gap: 20,
 });
 
 const IsDataInfo = styled(Typography)({
 	fontSize: 17,
-  
 });
 
 /** 작가 상세 정보를 보여주는 모달 (소설 상세 페이지에서 작가 닉네임 클릭시 해당 팝업 띄워짐) */
@@ -73,8 +72,6 @@ const AuthorDetailPopup = (props) => {
 	const goToDetail = (novel) => {
 		navigate("/novel-detail", { state: { props: novel } });
 	};
-
-	console.log(authorNovelData, 777)
 
 	return (
 		<Wrapper>

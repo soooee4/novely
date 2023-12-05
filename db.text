@@ -1,0 +1,144 @@
+-- public.t_complete_novel_mgt definition
+
+-- Drop table
+
+-- DROP TABLE public.t_complete_novel_mgt;
+
+CREATE TABLE public.t_complete_novel_mgt (
+	complete_seqno serial4 NOT NULL, -- 완성 소설 순번
+	complete_novel_title varchar(20) NOT NULL, -- 완성 소설 타이틀
+	complete_novel_content text NOT NULL, -- 완성 소설 내용
+	created_date timestamp NULL DEFAULT now(), -- 완성 소설 등록 일시
+	main_author_id varchar(20) NOT NULL, -- 완성 소설 메인 작가 아이디
+	sub_author_id varchar(20) NOT NULL, -- 완성 소설 서브 작가 아이디
+	genre_1 varchar(20) NOT NULL, -- 완성 소설 첫번째 장르(필수)
+	genre_2 varchar(20) NULL, -- 완성 소설 두번째 장르(선택)
+	keyword_1 varchar(30) NOT NULL, -- 완성 소설 첫번째 키워드(필수)
+	keyword_2 varchar(30) NULL, -- 완성 소설 두번째 키워드(선택)
+	keyword_3 varchar(30) NULL, -- 완성 소설 세번째 키워드(선택)
+	description varchar(100) NULL, -- 완성 소설 한 줄 소개
+	like_count int4 NULL, -- 소설 좋아요 수(서브 소설에 기록된 like_count 값)
+	main_seqno int4 NOT NULL, -- 메인 소설 순번
+	sub_seqno int4 NULL, -- 서브 소설 순번
+	cover_image varchar(30) NULL, -- 소설 커버 이미지명
+	CONSTRAINT t_complete_novel_mgt_pk PRIMARY KEY (complete_seqno)
+);
+COMMENT ON TABLE public.t_complete_novel_mgt IS '완성 소설 정보 테이블';
+
+-- Column comments
+
+COMMENT ON COLUMN public.t_complete_novel_mgt.complete_seqno IS '완성 소설 순번';
+COMMENT ON COLUMN public.t_complete_novel_mgt.complete_novel_title IS '완성 소설 타이틀';
+COMMENT ON COLUMN public.t_complete_novel_mgt.complete_novel_content IS '완성 소설 내용';
+COMMENT ON COLUMN public.t_complete_novel_mgt.created_date IS '완성 소설 등록 일시';
+COMMENT ON COLUMN public.t_complete_novel_mgt.main_author_id IS '완성 소설 메인 작가 아이디';
+COMMENT ON COLUMN public.t_complete_novel_mgt.sub_author_id IS '완성 소설 서브 작가 아이디';
+COMMENT ON COLUMN public.t_complete_novel_mgt.genre_1 IS '완성 소설 첫번째 장르(필수)';
+COMMENT ON COLUMN public.t_complete_novel_mgt.genre_2 IS '완성 소설 두번째 장르(선택)';
+COMMENT ON COLUMN public.t_complete_novel_mgt.keyword_1 IS '완성 소설 첫번째 키워드(필수)';
+COMMENT ON COLUMN public.t_complete_novel_mgt.keyword_2 IS '완성 소설 두번째 키워드(선택)';
+COMMENT ON COLUMN public.t_complete_novel_mgt.keyword_3 IS '완성 소설 세번째 키워드(선택)';
+COMMENT ON COLUMN public.t_complete_novel_mgt.description IS '완성 소설 한 줄 소개';
+COMMENT ON COLUMN public.t_complete_novel_mgt.like_count IS '소설 좋아요 수(서브 소설에 기록된 like_count 값)';
+COMMENT ON COLUMN public.t_complete_novel_mgt.main_seqno IS '메인 소설 순번';
+COMMENT ON COLUMN public.t_complete_novel_mgt.sub_seqno IS '서브 소설 순번';
+COMMENT ON COLUMN public.t_complete_novel_mgt.cover_image IS '소설 커버 이미지명';
+
+
+-- public.t_novel_like_mgt definition
+
+-- Drop table
+
+-- DROP TABLE public.t_novel_like_mgt;
+
+CREATE TABLE public.t_novel_like_mgt (
+	sub_novel_seqno int4 NOT NULL,
+	user_id varchar(20) NOT NULL
+);
+
+
+-- public.t_novel_mgt definition
+
+-- Drop table
+
+-- DROP TABLE public.t_novel_mgt;
+
+CREATE TABLE public.t_novel_mgt (
+	title varchar(50) NOT NULL, -- 소설 제목
+	"content" varchar(5000) NULL, -- 소설 내용
+	novel_seqno serial4 NOT NULL, -- 소설 순번
+	created_user varchar(20) NULL, -- 생성자 ID
+	created_date timestamp NULL DEFAULT (now() AT TIME ZONE 'ASIA/SEOUL'::text), -- 생성일시
+	complete_yn varchar(1) NOT NULL DEFAULT 'N'::character varying, -- 소설 완성 여부
+	description varchar(128) NULL,
+	cover_image varchar(30) NULL DEFAULT 'cover_basic.jpg'::character varying, -- 소설 커버 이미지명
+	CONSTRAINT t_novel_mgt_pk PRIMARY KEY (novel_seqno)
+);
+COMMENT ON TABLE public.t_novel_mgt IS '소설 정보 테이블';
+
+-- Column comments
+
+COMMENT ON COLUMN public.t_novel_mgt.title IS '소설 제목';
+COMMENT ON COLUMN public.t_novel_mgt."content" IS '소설 내용';
+COMMENT ON COLUMN public.t_novel_mgt.novel_seqno IS '소설 순번';
+COMMENT ON COLUMN public.t_novel_mgt.created_user IS '생성자 ID';
+COMMENT ON COLUMN public.t_novel_mgt.created_date IS '생성일시';
+COMMENT ON COLUMN public.t_novel_mgt.complete_yn IS '소설 완성 여부';
+COMMENT ON COLUMN public.t_novel_mgt.cover_image IS '소설 커버 이미지명';
+
+
+-- public.t_novel_pick_mgt definition
+
+-- Drop table
+
+-- DROP TABLE public.t_novel_pick_mgt;
+
+CREATE TABLE public.t_novel_pick_mgt (
+	main_novel_seqno int4 NOT NULL,
+	user_id varchar(20) NOT NULL
+);
+
+
+-- public.t_sub_novel_mgt definition
+
+-- Drop table
+
+-- DROP TABLE public.t_sub_novel_mgt;
+
+CREATE TABLE public.t_sub_novel_mgt (
+	sub_novel_seqno serial4 NOT NULL, -- 후속 소설 순번
+	sub_title varchar(50) NULL, -- 후속 소설 제목
+	sub_content varchar(5000) NULL, -- 후속 소설 내용
+	sub_like_count int4 NULL DEFAULT 0, -- 후속 소설 좋아요 수
+	main_novel_seqno int4 NOT NULL, -- 원작 소설 순번
+	genre_1 varchar(20) NOT NULL, -- 서브 소설 첫번째 장르(필수)
+	genre_2 varchar(20) NULL, -- 서브 소설 두번째 장르(선택)
+	keyword_1 varchar(30) NOT NULL, -- 서브 소설 첫번째 키워드(필수)
+	keyword_2 varchar(30) NULL, -- 서브 소설 두번째 키워드(선택)
+	keyword_3 varchar(30) NULL, -- 서브 소설 세번째 키워드(선택)
+	sub_description varchar(100) NULL, -- 서브 소설 한줄 소개
+	created_date timestamp NULL DEFAULT now(), -- 서브 소설 정보 등록일시
+	created_user varchar(20) NULL, -- 서브 소설 등록 유저 아이디
+	complete_yn varchar(1) NULL DEFAULT 'N'::character varying, -- 완성 여부
+	cover_image varchar(30) NULL DEFAULT 'cover_basic.jpg'::character varying, -- 소설 커버 이미지명
+	CONSTRAINT t_sub_novel_mgt_pk PRIMARY KEY (sub_novel_seqno),
+	CONSTRAINT t_sub_novel_mgt_fk FOREIGN KEY (main_novel_seqno) REFERENCES public.t_novel_mgt(novel_seqno)
+);
+
+-- Column comments
+
+COMMENT ON COLUMN public.t_sub_novel_mgt.sub_novel_seqno IS '후속 소설 순번';
+COMMENT ON COLUMN public.t_sub_novel_mgt.sub_title IS '후속 소설 제목';
+COMMENT ON COLUMN public.t_sub_novel_mgt.sub_content IS '후속 소설 내용';
+COMMENT ON COLUMN public.t_sub_novel_mgt.sub_like_count IS '후속 소설 좋아요 수';
+COMMENT ON COLUMN public.t_sub_novel_mgt.main_novel_seqno IS '원작 소설 순번';
+COMMENT ON COLUMN public.t_sub_novel_mgt.genre_1 IS '서브 소설 첫번째 장르(필수)';
+COMMENT ON COLUMN public.t_sub_novel_mgt.genre_2 IS '서브 소설 두번째 장르(선택)';
+COMMENT ON COLUMN public.t_sub_novel_mgt.keyword_1 IS '서브 소설 첫번째 키워드(필수)';
+COMMENT ON COLUMN public.t_sub_novel_mgt.keyword_2 IS '서브 소설 두번째 키워드(선택)';
+COMMENT ON COLUMN public.t_sub_novel_mgt.keyword_3 IS '서브 소설 세번째 키워드(선택)';
+COMMENT ON COLUMN public.t_sub_novel_mgt.sub_description IS '서브 소설 한줄 소개';
+COMMENT ON COLUMN public.t_sub_novel_mgt.created_date IS '서브 소설 정보 등록일시';
+COMMENT ON COLUMN public.t_sub_novel_mgt.created_user IS '서브 소설 등록 유저 아이디';
+COMMENT ON COLUMN public.t_sub_novel_mgt.complete_yn IS '완성 여부';
+COMMENT ON COLUMN public.t_sub_novel_mgt.cover_image IS '소설 커버 이미지명';

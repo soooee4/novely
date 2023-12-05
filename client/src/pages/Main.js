@@ -19,7 +19,7 @@ import JoinPopup from "components/popup/JoinPopup";
 import AuthorFirstLoginPopup from "components/popup/AuthorFirstLoginPopup";
 
 // Constant
-import { CODE, MESSAGE } from "common";
+import { CODE, MESSAGE, COLOR, LABEL } from "common";
 
 // util
 
@@ -46,6 +46,12 @@ const TagBox = styled(Box)({
   flexWrap: "wrap",
 });
 
+// 소설 구분 버튼 박스
+const DivNovelBtn = styled(Box)({
+	display: "flex",
+	minHeight: 40,
+});
+
 // 소설 컴포넌트 카드 영역
 const NovelCardBox = styled(Box)({
   flexGrow: 1,
@@ -54,6 +60,7 @@ const NovelCardBox = styled(Box)({
   display: "flex",
   flexWrap: "wrap",
 });
+
 
 /** 메인화면 Component */
 const Main = () => {
@@ -68,9 +75,11 @@ const Main = () => {
   const [selectedTag, setSelectedTag] = useState([]);                                     // 선택된 태그
   const [schWord, setSchWord] = useState("");                                             // Seacrh Bar에서 입력한 검색 단어
   const [searchNovData, setSearchNovData] = useState([]);                                 // Search Bar에서 검색한 소설 데이터
+  const [selectedTab, setSelectedTab] = useState("complete");
 
+  // 제목 검색(완성 소설 탭에서 검색할 경우 complete_novel_title, 미완성 소설 탭에서 검색할 경우 title에서 단어를 찾음)
   const search = () => {
-    setSearchNovData(novelData.filter((nov) => nov.complete_novel_title.includes(schWord)));
+    setSearchNovData(novelData.filter((nov) => nov.complete_novel_title ? nov.complete_novel_title.includes(schWord) : nov.title.includes(schWord)));
   };
 
   // 모달창 닫기
@@ -81,7 +90,7 @@ const Main = () => {
   // 소설 데이터 조회(완성 소설) => 찜 / 찜해제 시에도 사용
   const getNovelData = () => {
     // 로그인 상태라면 login_id 넘어가고 아니라면 null값 넘어가도록 처리
-    getData("novel/getNovel", { user_id: profile?.login_id })
+    getData("novel/getNovels", { login_id: profile?.login_id })
       .then((data) => {
         setNovelData(data);
       })
@@ -89,6 +98,18 @@ const Main = () => {
         console.log(err);
       });
   };
+
+  // 소설 데이터 조회(미완성 소설) => 미완성 소설 탭 클릭 시 실행
+  const getIncompleteNovelData = () => {
+    getData("novel/getIncompleteNovels", { login_id: profile?.login_id })
+      .then((data) => {
+        setNovelData(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
 
   // 메인 화면 렌더링 시 소설 데이터 조회
   useEffect(() => {
@@ -200,42 +221,72 @@ const Main = () => {
 
   return (
     <MainBox>
-      <ModalPopup
-        open={modal}
-        width={600}
-        height={400}
-        onClose={() => setModal(false)}
-      >
-        {popupChange()}
-      </ModalPopup>
       <SearchBar setSchWord={(word) => setSchWord(word)} onClick={search} />
-      <TagBox>
-        {genre.map((list, i) => {
-          return (
-            <Buttons
-              key={i}
-              type={CODE.BUTTON.TAG}
-              name={list.code_name}
-              backgroundColor={
-                selectedTag.findIndex(name => name === list.code_name) !== -1 ? 'skyblue' : `#${list.color}`
-              }
-              color={
-                selectedTag.findIndex(name => name === list.code_name) !== -1 ? 'white' : 'black'
-              }
-              setSelectedTag={(tag) => settingTag(tag)}
-              selectedTag={selectedTag}
-            />
-          );
-        })}
-      </TagBox>
+      {selectedTab === "complete" && (
+        <TagBox>
+          {genre.map((list, i) => {
+            return (
+              <Buttons
+                key={i}
+                type={CODE.BUTTON.TAG}
+                name={list.code_name}
+                backgroundColor={
+                  selectedTag.findIndex((name) => name === list.code_name) !== -1
+                    ? "skyblue"
+                    : `#${list.color}`
+                }
+                color={
+                  selectedTag.findIndex((name) => name === list.code_name) !== -1
+                    ? "white"
+                    : "black"
+                }
+                setSelectedTag={(tag) => settingTag(tag)}
+                selectedTag={selectedTag}
+              />
+            );
+          })}
+        </TagBox>
+      )}
+      <DivNovelBtn>
+        <Buttons
+          type={CODE.BUTTON.BASIC}
+          backgroundColor={COLOR.WHITE}
+          color={COLOR.BLACK}
+          name={LABEL.BUTTONS.COMPLETE}
+          padding={0}
+          setSelectedTab={() => setSelectedTab("complete")}
+          getNovelData={() => getNovelData()}
+          fontWeight={selectedTab === "complete" && "bolder"}
+        />
+        <span
+          style={{
+            paddingTop: 8,
+            marginLeft: 8,
+            marginRight: 8,
+            display: "inline-block",
+          }}
+        >
+          |
+        </span>
+        <Buttons
+          type={CODE.BUTTON.BASIC}
+          backgroundColor={COLOR.WHITE}
+          color={COLOR.BLACK}
+          name={LABEL.BUTTONS.IN_COMPLETE}
+          padding={0}
+          setSelectedTab={() => setSelectedTab("incomplete")}
+          getIncompleteNovelData={() => getIncompleteNovelData()}
+          fontWeight={selectedTab === "incomplete" && "bolder"}
+        />
+      </DivNovelBtn>
       <NovelCardBox>
         {novelData &&
           filterNovData.map((list) => {
             return (
               <NovelCard
-                key={list.complete_seqno}
+                key={list.complete_seqno || list.main_seqno}
                 main_seqno={list.main_seqno}
-                title={list.complete_novel_title}
+                title={list.complete_novel_title || list.title}
                 genre_1={list.genre_1}
                 genre_2={list.genre_2}
                 keyword_1={list.keyword_1}
@@ -249,9 +300,9 @@ const Main = () => {
                 description={list.description}
                 like_count={list.like_count}
                 created_date={list.created_date}
-                pick_yn={list.pick_yn}
+                pick_yn={(list.main_author_id !== profile?.login_id && list.sub_author_id !== profile?.login_id) && list.pick_yn}
                 user_id={profile?.login_id}
-                getNovelData={getNovelData}
+                getNovelData={selectedTab === "complete" ? getNovelData : getIncompleteNovelData}
                 cover_image={list.cover_image}
                 onClick={() => goToDetail(list)}
               />

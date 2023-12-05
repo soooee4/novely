@@ -4,8 +4,11 @@ import { useMemo, useState } from "react";
 // MUI Package Module
 import { Box, styled } from "@mui/material";
 
+// Control Component
+import Buttons from "components/controls/Button";
+
 // Constant
-import { MESSAGE, LABEL } from "../../common";
+import { MESSAGE, LABEL, CODE } from "../../common";
 
 // TextField Component
 import TextField from "@mui/material/TextField";
@@ -21,15 +24,24 @@ import { pwValidation } from "common/util";
 const Wrapper = styled(Box)({
   justifyContent: "center",
   alignItems: "center",
+  // border: "2px solid blue",
+  padding: "0px 20px 20px 20px"
 });
 
 const Text = styled(TextField)({
   width: "100%",
   "& .MuiInputBase-input": {
     height: 20,
-    fontSize: 12,
+    fontSize: 14,
+    marginTop: 8
   },
 });
+
+const ButtonBox = styled(Box)({
+  width: "100%",
+  display: 'flex',
+  justifyContent: 'flex-end',
+})
 
 /** 내 정보 수정 컴포넌트 (헤더의 내 정보 버튼 클릭 시 해당 팝업 띄워줌)*/
 const EditProfile = (props) => {
@@ -152,75 +164,85 @@ const EditProfile = (props) => {
   };
 
   return (
-    <Wrapper>
-      <Box
-        sx={{
-          width: 180,
-          height: 180,
-          borderRadius: "50%",
-          margin: "0 auto",
-          marginTop: 4,
-          marginBottom: 2,
-          backgroundImage: `url(${imageUrl})`,
-          backgroundSize: "cover",
-        }}
-      />
-      {/* 파일 하나만 선택하도록 할 것이기 때문에 files의 0번째 배열을 직접적으로 가져옴 */}
-      <input type="file" onChange={(e) => setImg(e.target.files[0])} />
-      <Text
-        id="standard-read-only-input"
-        InputProps={{
-          readOnly: true,
-        }}
-        variant="standard"
-        placeholder={profile.login_id}
-      />
-      <Text
-        id="standard-basic"
-        variant="standard"
-        defaultValue={profile.user_nickname}
-        onChange={inputNickname}
-        onBlur={nickNameValidate}
-        helperText={nickNameRegMsg !== "" ? nickNameRegMsg : ""}
-      />
-      <Text
-        id="standard-basic"
-        variant="standard"
-        placeholder={LABEL.INPUT.PLACE_HOLDER.CURRENT_PW}
-        onChange={inputCurPw}
-        type="password"
-      />
-      <Text
-        id="standard-basic"
-        variant="standard"
-        placeholder={LABEL.INPUT.PLACE_HOLDER.NEW_PW}
-        onChange={inputNewPw}
-        type="password"
-        onBlur={() => validation()}
-        value={newPw}
-        helperText={pwRegMsg}
-      />
-      <Text
-        id="standard-basic"
-        variant="standard"
-        placeholder={LABEL.INPUT.PLACE_HOLDER.NEW_PW_REPEAT}
-        type="password"
-        onBlur={confirmNewPassword}
-        helperText={confirmNewPwRegMsg !== "" ? confirmNewPwRegMsg : ""}
-      />
-      <Text
-        id="standard-basic"
-        variant="standard"
-        defaultValue={profile.author_info}
-        onChange={inputInfo}
-        // onBlur={nickNameValidate}
-        // helperText={nickNameRegMsg !== "" ? nickNameRegMsg : ""}
-      />
-      <button type="submit" onClick={onEditProfile}>
-        {" "}
-        완료{" "}
-      </button>
-    </Wrapper>
-  );
+		<Wrapper>
+			<Box
+				sx={{
+					width: 180,
+					height: 180,
+					borderRadius: "50%",
+					margin: "0 auto",
+					marginTop: 4,
+					marginBottom: 2,
+					backgroundImage: `url(${imageUrl})`,
+					backgroundSize: "cover",
+				}}
+			/>
+			{/* 파일 하나만 선택하도록 할 것이기 때문에 files의 0번째 배열을 직접적으로 가져옴 */}
+			<input type="file" onChange={(e) => setImg(e.target.files[0])} />
+			<Text
+				id="standard-read-only-input"
+				InputProps={{
+					readOnly: true,
+				}}
+				variant="standard"
+				placeholder={profile.login_id}
+			/>
+			<Text
+				id="standard-basic"
+				variant="standard"
+				defaultValue={profile.user_nickname}
+				onChange={inputNickname}
+				onBlur={nickNameValidate}
+				helperText={nickNameRegMsg !== "" ? nickNameRegMsg : ""}
+			/>
+			<Text
+				id="standard-basic"
+				variant="standard"
+				placeholder={LABEL.INPUT.PLACE_HOLDER.CURRENT_PW}
+				onChange={inputCurPw}
+				type="password"
+			/>
+			<Text
+				id="standard-basic"
+				variant="standard"
+				placeholder={LABEL.INPUT.PLACE_HOLDER.NEW_PW}
+				onChange={inputNewPw}
+				type="password"
+				onBlur={() => validation()}
+				value={newPw}
+				helperText={pwRegMsg}
+			/>
+			<Text
+				id="standard-basic"
+				variant="standard"
+				placeholder={LABEL.INPUT.PLACE_HOLDER.NEW_PW_REPEAT}
+				type="password"
+				onBlur={confirmNewPassword}
+				helperText={confirmNewPwRegMsg !== "" ? confirmNewPwRegMsg : ""}
+			/>
+			{profile.user_reg_dv === "W" && (
+				<Text
+					id="standard-basic"
+					variant="standard"
+					defaultValue={profile.author_info}
+					onChange={inputInfo}
+					// onBlur={nickNameValidate}
+					// helperText={nickNameRegMsg !== "" ? nickNameRegMsg : ""}
+				/>
+			)}
+			{/* <button type="submit" onClick={onEditProfile}>
+				{" "}
+				완료{" "}
+			</button> */}
+      <ButtonBox>
+			<Buttons
+				type={CODE.BUTTON.BASIC}
+				name={LABEL.BUTTONS.SUBMIT}
+        onEditProfile={onEditProfile}
+        margin={"10px 0 0 auto"}
+			/>
+      </ButtonBox>
+		</Wrapper>
+	);
 };
 export default EditProfile;

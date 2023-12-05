@@ -49,23 +49,40 @@ const FavoriteNov = () => {
 	 * inCompleteNovData: 로그인한 작가의 미완성 소설 데이터
 	 * profile: 로컬스토리지에 저장된 프로필
 	 */
-	const [completeNovData, setCompleteNovData] = useState([]);       // 로그인한 작가의 완성 소설 데이터
-	const [inCompleteNovData, setInCompleteNovData] = useState([]);   // 로그인한 작가의 미완성 소설 데이터
-	const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile"))); // 로컬스토리지에 저장된 사용자 프로필
-  	const [selectedTab, setSelectedTab] = useState("complete");     // 선택된 메뉴
-	const [isComplete, setIsComplete] = useState(true);               // 소설 완성 여부 (기본값 complete 소설 표시)
+	const [completeNovData, setCompleteNovData] = useState([]); 							// 로그인한 작가의 완성 소설 데이터
+	const [incompleteNovData, setIncompleteNovData] = useState([]); 						// 로그인한 작가의 미완성 소설 데이터
+	const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile"))); 	// 로컬스토리지에 저장된 사용자 프로필
+	const [selectedTab, setSelectedTab] = useState("complete"); 							// 선택된 메뉴
+	const [isComplete, setIsComplete] = useState(true); 									// 소설 완성 여부 (기본값 complete 소설 표시)
 
-	// 소설 중 pick_yn이 Y인(찜한) 작품만 가져오기
+	console.log(incompleteNovData);
+
+	// 페이지 렌더링 시 찜한 완성 소설 데이터 조회
 	useEffect(() => {
-		getData("novel/getPickNovel", { user_id: profile.login_id })
+		getPickNovels();
+	}, []);
+
+	// 찜한 완성 소설 데이터 조회
+	const getPickNovels = () => {
+		getData("novel/getPickNovels", { login_id: profile.login_id })
 			.then((data) => {
-				setCompleteNovData(data.complete)
-        		setInCompleteNovData(data.inComplete)
+				setCompleteNovData(data);
 			})
 			.catch((err) => {
 				console.log(err);
 			});
-	}, []);
+	};
+
+	// 찜한 완성 소설 데이터 조회
+	const getPickIncompleteNovels = () => {
+		getData("novel/getPickIncompleteNovels", { login_id: profile.login_id })
+			.then((data) => {
+				setIncompleteNovData(data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
 
 	// 상세정보 페이지로 클릭한 novel 정보 보내기
 	const navigate = useNavigate();
@@ -82,10 +99,11 @@ const FavoriteNov = () => {
 						type={CODE.BUTTON.BASIC}
 						backgroundColor={COLOR.WHITE}
 						color={COLOR.BLACK}
-            			fontWeight={selectedTab === "complete" && "bolder"}
+						fontWeight={selectedTab === "complete" && "bolder"}
 						name={LABEL.BUTTONS.COMPLETE}
 						isComplete={() => setIsComplete(true)}
 						setSelectedTab={() => setSelectedTab("complete")}
+						getPickNovels={getPickNovels}
 						padding={0}
 					/>
 					<span
@@ -102,17 +120,19 @@ const FavoriteNov = () => {
 						type={CODE.BUTTON.BASIC}
 						backgroundColor={COLOR.WHITE}
 						color={COLOR.BLACK}
-            			fontWeight={selectedTab === "incomplete" && "bolder"}
+						fontWeight={selectedTab === "incomplete" && "bolder"}
 						name={LABEL.BUTTONS.IN_COMPLETE}
 						isComplete={() => setIsComplete(false)}
 						setSelectedTab={() => setSelectedTab("incomplete")}
+						getPickIncompleteNovels={getPickIncompleteNovels}
 						padding={0}
 					/>
 				</DivNovelBtn>
 				<NovelCardBox>
-					{inCompleteNovData &&
+					{/* 찜한 미완성 소설 데이터 */}
+					{incompleteNovData &&
 						isComplete === false &&
-						inCompleteNovData.map((list) => {
+						incompleteNovData.map((list) => {
 							return (
 								<NovelCard
 									key={list.main_seqno}
@@ -120,10 +140,16 @@ const FavoriteNov = () => {
 									description={list.description}
 									created_date={list.created_date}
 									created_user={list.created_user}
+									cover_image={list.cover_image}
+									pick_yn={list.pick_yn}
+									user_id={profile.login_id}
+									main_seqno={list.main_seqno}
+									getPickIncompleteNovels={getPickIncompleteNovels}
 									onClick={() => goToDetail(list)}
 								/>
 							);
 						})}
+					{/* 찜한 완성 소설 데이터 */}
 					{completeNovData &&
 						isComplete &&
 						completeNovData.map((list) => {
@@ -144,6 +170,11 @@ const FavoriteNov = () => {
 									description={list.description}
 									like_count={list.like_count}
 									created_date={list.created_date}
+									cover_image={list.cover_image}
+									pick_yn={list.pick_yn}
+									user_id={profile.login_id}
+									main_seqno={list.main_seqno}
+									getPickNovels={getPickNovels}
 									onClick={() => goToDetail(list)}
 								/>
 							);

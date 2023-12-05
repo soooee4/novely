@@ -22,7 +22,8 @@ const Wrapper = styled(Box)({
 	flexDirection: "column",
 	padding: "0 3%",
 	boxSizing: "border-box",
-	marinTop: "-30px",
+	paddingTop: 40,
+  //  boxShadow: "inset 0 0 3px 3px blue"
 });
 
 const WholeBox = styled(Box)({
