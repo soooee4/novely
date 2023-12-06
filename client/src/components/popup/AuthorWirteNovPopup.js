@@ -45,23 +45,28 @@ const HeaderBox = styled(Box)({
 	boxSizing: "border-box",
 });
 
-
-const writeNovText = {
-	width: "100%",
-	height: "100%",
-	boxSizing: "borderBox",
-	resize: "none",
-	outline: "none",
-	borderRadius: 10,
-	padding: 10,
-	fontSize: 17,
-	boxSizing: "border-box",
+const writeNovText = (color) => {
+  return (
+    {
+      width: "100%",
+      height: "100%",
+      boxSizing: "borderBox",
+      resize: "none",
+      outline: "none",
+      borderRadius: 10,
+      padding: 10,
+      fontSize: 17,
+      boxSizing: "border-box",
+      backgroundColor: color,
+      color: color === "#121212" ? "white" : "black"
+    }
+  )
 };
 
 /** 작가 권한일 시 메인 소설을 쓰는 컴포넌트 (내 작품 페이지에서 새 소설 쓰기 버튼 클릭 시 해당 팝업 띄워줌) */
 const AuthorWriteNovPopup = (props) => {
-	const [title, setTitle] = useState("");           // 소설 제목
-	const [content, setContent] = useState("");       // 소설 내용
+	const [title, setTitle] = useState(""); 	// 소설 제목
+	const [content, setContent] = useState(""); // 소설 내용
 
 	// 저장 후 다음 버튼 눌렀을 때 AuthorMyNov 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
 	const postAuthorNovel = () => {
@@ -79,17 +84,17 @@ const AuthorWriteNovPopup = (props) => {
 		setContent(e.target.value);
 	};
 
-  const goToNext = () => {
-    if (title === "") {
-      alert(MESSAGE.ERROR.WRITE_TITLE)
-      return;
-    } else if (content === "") {
-      alert(MESSAGE.ERROR.WRITE_CONTENT)
-      return;
-    } else {
-      props.changeState()
-    }
-  }
+	const goToNext = () => {
+		if (title === "") {
+			alert(MESSAGE.ERROR.WRITE_TITLE);
+			return;
+		} else if (content === "") {
+			alert(MESSAGE.ERROR.WRITE_CONTENT);
+			return;
+		} else {
+			props.changeState();
+		}
+	};
 
 	return (
 		<Wrapper>
@@ -98,21 +103,22 @@ const AuthorWriteNovPopup = (props) => {
 					fullWidth
 					onChange={inputTitle}
 					sx={{ width: "70%" }}
+					color={props.color}
 				/>
 				<Buttons
 					type={CODE.BUTTON.BASIC}
-					backgroundColor={COLOR.WHITE}
-					color={COLOR.BLACK}
+					color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
 					name={LABEL.BUTTONS.GOTONEXT}
 					margin={"-17px 0px 0px auto"}
 					postAuthorNovel={postAuthorNovel}
+					goToNext={goToNext}
+					// backgroundColor={COLOR.WHITE}
 					// changeState={(title !== "" || content !== "") && props.changeState}
-          goToNext={goToNext}
 				/>
 			</HeaderBox>
 			<WholeBox>
 				<WriteBox>
-					<textarea style={writeNovText} onChange={inputContent} />
+					<textarea style={writeNovText(props.color)} onChange={inputContent} />
 				</WriteBox>
 			</WholeBox>
 		</Wrapper>

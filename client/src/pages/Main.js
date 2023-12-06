@@ -110,7 +110,6 @@ const Main = () => {
       });
   };
 
-
   // 메인 화면 렌더링 시 소설 데이터 조회
   useEffect(() => {
     getNovelData();

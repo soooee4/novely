@@ -353,15 +353,15 @@ const AuthorMyNov = () => {
 	 * profile: 로컬스토리지에 저장된 프로필
 	 */
 	const [completeNovData, setCompleteNovData] = useState([]); 		// 로그인한 작가의 완성 소설 데이터
-	const [incompleteNovData, setIncompleteNovData] = useState([]); // 로그인한 작가의 미완성 소설 데이터
+	const [incompleteNovData, setIncompleteNovData] = useState([]); 	// 로그인한 작가의 미완성 소설 데이터
 	const [profile, setProfile] = useState(
 		JSON.parse(localStorage.getItem("profile"))
-	); 																	                            // 로컬스토리지에 저장된 사용자 프로필
-	const [isComplete, setIsComplete] = useState(true); 				    // 소설 완성 여부
+	); 																	// 로컬스토리지에 저장된 사용자 프로필
+	const [isComplete, setIsComplete] = useState(true); 				// 소설 완성 여부
 	const [selectedTab, setSelectedTab] = useState("complete"); 		// 선택된 메뉴
-	const [modal, setModal] = useState(false); 							        // 모달 open 여부
-	const [popup, setPopup] = useState(""); 							          // popup 상태값
-  	const [color, setColor] = useState("#ffffff");                  // 배경색 모드
+	const [modal, setModal] = useState(false); 							// 모달 open 여부
+	const [popup, setPopup] = useState(""); 							// popup 상태값
+  	const [color, setColor] = useState("#ffffff");                  	// 배경색 모드
 
 	// 메인 소설 서버로 post하기 위한 데이터 세팅
 	const [regditMainNovData, setRegditMainNovData] = useState({

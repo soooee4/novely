@@ -114,54 +114,60 @@ const EditProfile = (props) => {
 
   // 프로필 수정
   const onEditProfile = () => {
-    // 현재 비밀번호 미입력 시
-    if (curPw === "") {
-      alert("현재 비밀번호를 입력해야 합니다");
-      return;
-    }
+		// 현재 비밀번호 미입력 시
+		if (curPw === "") {
+			alert("현재 비밀번호를 입력해야 합니다");
+			return;
+		}
 
-    // 이미지 파일의 경우 json에 그냥 담는게 아니라 formData 형태로 만들어줘야 하니 formData를 선언하고 그 폼데이터안에 데이터와 이미지 파일 정보를 넣어서 사용
-    const data = {
-      login_id: profile.login_id,
-      user_nickname: nickname,
-      current_pw: curPw,
-      new_pw: newPw,
-      file: img,
-      author_info: info,
-      isAuthor: isAuthor,
-      old_img_name: profile.image,
-    };
+		// 이미지 파일의 경우 json에 그냥 담는게 아니라 formData 형태로 만들어줘야 하니 formData를 선언하고 그 폼데이터안에 데이터와 이미지 파일 정보를 넣어서 사용
+		const data = {
+			login_id: profile.login_id,
+			user_nickname: nickname,
+			current_pw: curPw,
+			new_pw: newPw,
+			file: img,
+			author_info: info,
+			isAuthor: isAuthor,
+			old_img_name: profile.image,
+		};
 
-    // 폼 데이터 변수 선언
-    const formData = new FormData();
+		// img에서 확장자만 추출
+		// const imgArray = img ? img.type.split("/") : null;
+		// const imgExt = imgArray ? imgArray[imgExt.length - 1] : null;
 
-    // data의 각 key값으로 formdata에 데이터 세팅
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
+		// 폼 데이터 변수 선언
+		const formData = new FormData();
 
-    patchData("auth/editProfile", formData).then((data) => {
-      console.log(data,132)
-      // res.data가 false로 넘어올 경우 경고창 띄워줌
-      // data가 제대로 넘어올 경우
-      // 기존 로컬스토리지에 저장한 profile에 닉네임 추가하여 setProfile 함수를 이용하여 정보 업데이트 후 다시 로컬스토리지에 저장
-      // 스프레드 연산자 사용하여 profile 객체를 분해하여 복사하여 넣음 (데이터 복사, 추가 시 사용)
-      if (typeof data === "object") {
-        const newData = JSON.stringify({
-          ...profile,
-          user_nickname: data.user_nickname,
-          image: data.image,
-          author_info: data.author_info
-        });
-        localStorage.setItem("profile", newData);
-        setProfile(newData);
-        alert(MESSAGE.EDIT_SUCCEED);
-        closeModal();
-      } else {
-        alert(data);
-      }
-    });
-  };
+		// data의 각 key값으로 formdata에 데이터 세팅
+		Object.keys(data).forEach((key) => {
+			formData.append(key, data[key]);
+		});
+		// if (imgExt === "jpg" || imgExt === "jpeg" || imgExt === "png") {
+			patchData("auth/editProfile", formData).then((data) => {
+				console.log(data, 132);
+				// res.data가 false로 넘어올 경우 경고창 띄워줌
+				// data가 제대로 넘어올 경우
+				// 기존 로컬스토리지에 저장한 profile에 닉네임 추가하여 setProfile 함수를 이용하여 정보 업데이트 후 다시 로컬스토리지에 저장
+				// 스프레드 연산자 사용하여 profile 객체를 분해하여 복사하여 넣음 (데이터 복사, 추가 시 사용)
+				if (typeof data === "object") {
+					const newData = JSON.stringify({
+						...profile,
+						user_nickname: data.user_nickname,
+						image: data.image,
+						author_info: data.author_info,
+					});
+					localStorage.setItem("profile", newData);
+					setProfile(newData);
+					alert(MESSAGE.EDIT_SUCCEED);
+					closeModal();
+				} else {
+					alert(data);
+				}
+			});
+		// }
+		// alert("확장자명을 변경해주세요");
+	};
 
   return (
 		<Wrapper>
@@ -178,7 +184,9 @@ const EditProfile = (props) => {
 				}}
 			/>
 			{/* 파일 하나만 선택하도록 할 것이기 때문에 files의 0번째 배열을 직접적으로 가져옴 */}
+    
 			<input type="file" onChange={(e) => setImg(e.target.files[0])} />
+
 			<Text
 				id="standard-read-only-input"
 				InputProps={{

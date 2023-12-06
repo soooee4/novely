@@ -195,7 +195,6 @@ const postLikeSubNovel = async (req, res, next) => {
 		// 	res.send(MESSAGE.LIKE_FAILED);
 		// }
     res.send(data);
-    console.log(data,172)
 	} catch (err) {
 		console.log(err);
 	}

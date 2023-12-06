@@ -67,10 +67,10 @@ const Buttons = (props) => {
 					props.getPickNovels && props.getPickNovels();                       // 찜한 완성 소설 데이터 조회(찜한 작품 페이지)
 					props.getPickIncompleteNovels && props.getPickIncompleteNovels();   // 찜한 미완성 소설 데이터 조회(찜한 작품 페이지)
 					props.getMyCompleteNovel && props.getMyCompleteNovel();             // 로그인 아이디가 작성한 완성 소설 조회(내 작품 페이지)
-          props.getMyIncompleteNovel && props.getMyIncompleteNovel();         // 로그인 아이디가 작성한 미완성 소설 조회(내 작품 페이지)
+					props.getMyIncompleteNovel && props.getMyIncompleteNovel();         // 로그인 아이디가 작성한 미완성 소설 조회(내 작품 페이지)
+					props.goToNext && props.goToNext();                                 // 메인 소설 title, content 입력 후 다음 버튼 누를 시 실행                   
 					// props.setMainNovelData && props.setMainNovelData();
 					// props.isPost && props.isPost();
-          props.goToNext && props.goToNext();                                 // 메인 소설 title, content 입력 후 다음 버튼 누를 시 실행                   
 				}}
 				style={{
 					width: props.width,
@@ -79,6 +79,7 @@ const Buttons = (props) => {
 					padding: props.padding,
 					fontSize: props.fontSize,
 					fontWeight: props.fontWeight,
+          			color: props.color
 				}}
 			>
 				{props.name}

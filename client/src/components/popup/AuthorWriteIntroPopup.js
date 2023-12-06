@@ -23,16 +23,22 @@ const Wrapper = styled(Box)({
 });
 
 //textarea 영역
-const writeNovText = {
-	width: "100%",
-	height: "80%",
-	resize: "none",
-	outline: "none",
-	borderRadius: 10,
-	padding: 20,
-	fontSize: 15,
-	boxSizing: "border-box",
-	marginBottom: 20,
+const writeNovText = (color) => {
+  return ( 
+    {
+      width: "100%",
+      height: "80%",
+      resize: "none",
+      outline: "none",
+      borderRadius: 10,
+      padding: 20,
+      fontSize: 15,
+      boxSizing: "border-box",
+      marginBottom: 20,
+      backgroundColor: color,
+      color: color === "#121212" ? "white" : "black"
+    }
+  )
 };
 
 const IntroMsg = styled(Typography)({
@@ -56,13 +62,13 @@ const AuthorWriteIntroPopup = (props) => {
 				postMainNovel={props.postMainNovel}
 				type={CODE.BUTTON.BASIC}
 				backgroundColor={COLOR.WHITE}
-				color={COLOR.BLACK}
+				color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
 				name={LABEL.BUTTONS.SUBMIT}
-				margin={"-10px -5px 0px auto"}
+				margin={"10px -5px 0px auto"}
 				navigate={() => navigate("/author-myNovel")}
 			/>
 			<IntroMsg>{MESSAGE.WRITE_NOVEL_INTRO}</IntroMsg>
-			<textarea style={writeNovText} onChange={inputDescription} />
+			<textarea style={writeNovText(props.color)} onChange={inputDescription} />
 		</Wrapper>
 	);
 };

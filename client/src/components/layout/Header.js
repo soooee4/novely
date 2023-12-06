@@ -78,7 +78,7 @@ const Header = () => {
 
 	const nickname = profile && profile.user_nickname;
 
-  const navigate = useNavigate();
+  	const navigate = useNavigate();
 
 	const goToPage = (url) => {
 		navigate(url);
