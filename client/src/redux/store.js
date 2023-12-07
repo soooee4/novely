@@ -21,11 +21,11 @@ const persistedMainReducer = persistReducer(persistConfig, mainSlice);
 const store = configureStore({
     reducer: {
       main: persistedMainReducer, 
-  
+
       //------------------------------------------------------------------------------------------
       // 
       [AuthApi.reducerPath]: AuthApi.reducer,     // 인증
-      
+
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({serializableCheck: false}).concat(
@@ -34,7 +34,7 @@ const store = configureStore({
         AuthApi.middleware,   // 인증
 
       ),
-  
+
   });
 
 export default store;

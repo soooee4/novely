@@ -27,6 +27,38 @@ export const rootSlice = createSlice({
         //     state.profile = {};
         // },
     },
+
+    // extraReducers: (builder) => {
+    //     builder
+    //     .addMatcher(AuthApi.endpoints.postLogin.matchPending, (state, {payload}) => {
+
+    //     })
+    //     .addMatcher(AuthApi.endpoints.postLogin.matchFulfilled, (state, {payload}) => {
+    //         state.isLogin = true;
+    //         // if (typeof payload.data === "object") {
+    //         //     state.profile = payload.data;
+    //         // } else {
+    //         //     alert(data);
+    //         // }
+    //         if (typeof payload.data === "object") {
+    //             localStorage.setItem("profile",
+    //                 JSON.stringify({
+    //                 user_nickname: data.user_nickname,
+    //                 user_reg_dv: data.user_reg_dv,
+    //                 login_id: data.login_id,
+    //                 image: data.image,
+    //                 author_first_login: data. author_first_login
+    //                 })
+    //             );
+    //             window.location.reload();
+    //         } else {
+    //             alert(data);
+    //         }
+    //     })
+    //     .addMatcher(AuthApi.endpoints.postLogin.matchRejected, (state, {payload}) => {
+
+    //     })
+    // }
 });
 
 const { actions, reducer } = rootSlice;
