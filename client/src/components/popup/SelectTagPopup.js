@@ -96,26 +96,56 @@ const SelectTagPopup = (props) => {
 	}, []);
 
   // 태그 클릭 시 실행될 함수
-	const onSelectTags = (tag, type) => {
-		// 장르일 경우
-		if (type === "genre") {
-			if (genre.length < 2) {
-        // 기존 배열에 해당 값 없다면 -1 반환, -1일 경우 배열에 추가
-				if (genre.findIndex((genre) => genre === tag) === -1)
-					setGenre([tag, ...genre]);
-			} else {
-				alert(MESSAGE.OVER_SELECTED_GENRE);
-			}
-		}
-		// 키워드일 경우
-		if (type === "keyword") {
-			if (keyword.length < 3) {
-				if (keyword.findIndex((keyword) => keyword === tag) === -1)
-					setKeyword([tag, ...keyword]);
-			} else {
-				alert(MESSAGE.OVER_SELECTED_KEY_WORD);
-			}
-		}
+	// const onSelectTags = (tag, type) => {
+	// 	// 장르일 경우
+	// 	if (type === "genre") {
+  //     const check = genre.findIndex((v) => v === tag);  // 선택한 장르가 배열에 있는지 확인
+
+  //     if (check === -1) {
+  //       if(genre.length > 1) {
+  //         alert(MESSAGE.OVER_SELECTED_GENRE);
+  //         return;
+  //       } else {
+  //         setGenre([tag, ...genre]);
+  //       }
+  //     } else {
+  //       setGenre(genre.filter((g) => g !== genre[check]));
+  //     }
+
+  //   // 키워드일 경우
+	// 	} else {
+  //     const check = keyword.findIndex((v) => v === tag);  // 선택한 키워드가 배열에 있는지 확인
+
+  //     if (check === -1) {
+  //       if (keyword.length > 2) {
+  //         alert(MESSAGE.OVER_SELECTED_KEY_WORD);
+  //         return;
+  //       } else {
+  //         setKeyword([tag, ...keyword]);
+  //       }
+  //     } else {
+  //       setKeyword(keyword.filter((k) => k !== keyword[check]));
+  //     }
+  //   }
+	// };
+
+  // 태그 클릭 시 실행될 함수
+  const onSelectTags = (tag, type) => {
+    const checkState = type === "genre" ? genre : keyword;
+    const setState = type === "genre" ? setGenre: setKeyword;
+    const check = checkState.findIndex((v) => v === tag);
+    const maxLength = type === "genre" ? 1 : 2;
+
+		if (check === -1) {
+      if (checkState.length > maxLength) {
+        alert(type === "genre" ? MESSAGE.OVER_SELECTED_GENRE : MESSAGE.OVER_SELECTED_KEY_WORD);
+        return;
+      } else {
+        setState([tag, ...checkState]);
+      }
+    } else {
+      setState(checkState.filter((v) => v !== checkState[check]));
+    }
 	};
 
 	// 저장 후 다음 버튼 클릭 시 실행할 기능들 함수
@@ -136,7 +166,7 @@ const SelectTagPopup = (props) => {
 			<Buttons
 				type={CODE.BUTTON.BASIC}
 				backgroundColor={COLOR.WHITE}
-				color={COLOR.BLACK}
+				color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
 				name={LABEL.BUTTONS.GOTONEXT}
 				margin={"-10px 0px 5px auto"}
 				onClickNextBtn={onClickNextBtn}

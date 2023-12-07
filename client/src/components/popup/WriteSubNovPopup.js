@@ -96,9 +96,9 @@ const WriteSubNovPopup = (props) => {
   // 저장 후 다음 버튼 눌렀을 때 NovDetail 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
 	const postSubNovel = () => {
         if (content === "") {
-					alert(MESSAGE.ERROR.WRITE_CONTENT);
-					return;
-				}
+			alert(MESSAGE.ERROR.WRITE_CONTENT);
+			return;
+		}
 		props.setTitleContent({
 			title: title,      
 			content: content, 

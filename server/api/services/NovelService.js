@@ -190,38 +190,38 @@ const postSubNovel = async ({
 	title,
 	content,
 	genre_1,
-  genre_2,
-  keyword_1,
-  keyword_2,
-  keyword_3,
+	genre_2,
+	keyword_1,
+	keyword_2,
+	keyword_3,
 	description,
 	created_user,
-  file,
-  image_file_name
+	file,
+	image_file_name
 }) => {
 	const client = await pool.connect();
 	const sqlId = "Novel.postSubNovel";
 
   // 필수값인 장르1, 키워드1 값을 제외한 나머지 값들이 빈 값일 경우 null 처리
-	genre_2 = genre_2 === undefined ? null : genre_2;
-	keyword_2 = keyword_2 === undefined ? null : keyword_2;
-	keyword_3 = keyword_3 === undefined ? null : keyword_3;
+  genre_2 = genre_2 === undefined || 'undefined' ? null : genre_2;
+	keyword_2 = keyword_2 === undefined || 'undefined' ? null : keyword_2;
+	keyword_3 = keyword_3 === undefined || 'undefined' ? null : keyword_3;
   image_file_name = image_file_name === undefined ? file : image_file_name;
   
 	try {
 		const data = await client.query(
 			mapper.makeSql(sqlId, {
 				main_novel_seqno,
-        title,
-        content,
-        genre_1,
-        genre_2,
-        keyword_1,
-        keyword_2,
-        keyword_3,
-        description,
-        created_user,
-        image_file_name
+				title,
+				content,
+				genre_1,
+				genre_2,
+				keyword_1,
+				keyword_2,
+				keyword_3,
+				description,
+				created_user,
+				image_file_name
 			})
 		);
 
@@ -380,5 +380,5 @@ module.exports = {
 	postLikeSubNovel,
 	deleteLikeSubNovel,
 	getPickNovels,
-  getPickIncompleteNovels
+  	getPickIncompleteNovels
 };

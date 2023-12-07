@@ -5,7 +5,7 @@ const mapper = require("../sql");
 const batchUpdateNovAndAuthor = async () => {
   // 매일 오전 00:00 실행
   // schedule.scheduleJob("초 분 시 일 월 몇주", async () => {
-  schedule.scheduleJob("0 0 0 * * *", async () => {
+  schedule.scheduleJob("0 45 16 * * *", async () => {
     const client = await pool.connect();
     let sqlId;
 
@@ -69,7 +69,7 @@ const batchUpdateNovAndAuthor = async () => {
           mapper.makeSql(sqlId, { sub_created_user })
         );
 
-        console.log(`현재 기준 작성한지 30일이 넘었으며, 미완 메인 소설 seqno는 ${main_seqno}, 미완 서브 소설들의 seqno는 ${sub_seqno}, 
+        console.log(`현재 기준 작성한지 30일이 넘은 미완 메인 소설들의 seqno는 ${main_seqno}이며, 미완 서브 소설들의 seqno는 ${sub_seqno}, 
                     가장 많은 좋아요를 받은 서브 소설의 작가 ID는 ${sub_created_user[0]} 입니다. 일괄 업데이트 완료되었습니다.`);
       }
         

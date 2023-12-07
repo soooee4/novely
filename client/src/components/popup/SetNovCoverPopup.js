@@ -75,7 +75,7 @@ const SetNovCoverPopup = (props) => {
       <Buttons
         type={CODE.BUTTON.BASIC}
         backgroundColor={COLOR.WHITE}
-        color={COLOR.BLACK}
+        color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
         name={LABEL.BUTTONS.SUBMIT}
         width={100}
         margin={"-10px -5px 0px auto"}

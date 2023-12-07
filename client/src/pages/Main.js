@@ -218,6 +218,8 @@ const Main = () => {
     } 
   };
 
+  console.log(novelData,11111)
+
   return (
     <MainBox>
       <SearchBar setSchWord={(word) => setSchWord(word)} onClick={search} />

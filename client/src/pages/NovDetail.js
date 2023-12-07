@@ -601,7 +601,7 @@ const NovDetail = () => {
 		keyword_2: null,
 		keyword_3: null,
 		description: null,
-		file: "cover_basic.jpeg",
+		file: "cover_basic.jpg",		// 여
 		created_user: profile.login_id,
 	});
 

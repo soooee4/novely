@@ -38,7 +38,8 @@
         tsnm.keyword_3,                                       -- 세번째 키워드
         tsnm.sub_description,                                 -- 서브 소설 한줄 소개
         tsnm.created_user AS sub_author_id,                   -- 서브 소설 작성자 아이디
-        tnm.created_user AS main_author_id                    -- 메인 소설 작성자 아이디
+        tnm.created_user AS main_author_id,                   -- 메인 소설 작성자 아이디
+        tsnm.cover_image
       FROM t_sub_novel_mgt tsnm
       LEFT JOIN t_novel_mgt tnm 
         ON tsnm.main_novel_seqno = tnm.novel_seqno            -- 메인 소설 순번
@@ -47,9 +48,9 @@
           SELECT 
             MAX(tsnm2.sub_like_count)
           FROM t_sub_novel_mgt tsnm2 
-          WHERE 
+          WHERE tsnm2.main_novel_seqno In 
             <foreach collection="main_seqno" item="seq" separator="," open="(" close=")"> 
-              tsnm2.main_novel_seqno = #{seq}
+              #{seq}
             </foreach>
         ) 
     </select>
@@ -70,7 +71,7 @@
         like_count,                 -- 좋아요 수
         main_seqno,                 -- 메인 소설 순번
         sub_seqno,                  -- 서브 소설 순번
-        cover_image,                -- 소설 커버 이미지명
+        cover_image                 -- 소설 커버 이미지명
       )
       VALUES
       <foreach collection="mostLikeNov" item="nov" separator=",">
@@ -121,9 +122,9 @@
       SET
         user_reg_dv = 'W',             -- 사용자 구분(G-일반, W-작가)
         author_first_login = 'Y'       -- 작가 권한 첫 로그인 여부
-      WHERE
+      WHERE login_id IN
         <foreach collection="sub_created_user" item="id" separator="," open="(" close=")">
-          login_id = #{id}             -- 사용자 아이디
+          #{id}                        -- 사용자 아이디
         </foreach>
     </update>
 </mapper>

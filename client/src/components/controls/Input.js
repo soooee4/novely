@@ -5,34 +5,46 @@ import TextField from "@mui/material/TextField";
 // Constant
 import { LABEL } from "common";
 
-const theme = createTheme({
-	components: {
-		MuiInput: {
-			styleOverrides: {
-				underline: {
-					"&:after": {
-						borderBottom: "none",
-					},
-				},
-			},
-		},
-	},
-});
+const createDynamicTheme = (color) => {
+  return createTheme({
+    components: {
+      MuiInput: {
+        styleOverrides: {
+          underline: {
+            "&:after": {
+              borderBottom: "none",
+            },
+            ":hover": {
+              borderBottom: color === "#121212" && "solid white 0.5px"
+            }
+          },
+          input: {
+            color: color === "#121212" ? 'white' : 'black',
+            borderBottom: color === "#121212" && 'solid white 1px'
+          }
+        },
+      },
+    },
+  })
+};
 
 // Input Component
 const Inputs = (props) => {
-	const test = props.defaultValue;
+  const { fullWidth, id, label, helperText, defaultValue, onChange, color } = props;
+
+  // 상위에서 받아온 배경 컬러값에 따라 input창의 글씨색 변경
+  const dynamicTheme = createDynamicTheme(color);
 
 	return (
-		<ThemeProvider theme={theme}>
+		<ThemeProvider theme={dynamicTheme}>
 			<TextField
-				fullWidth={props.fullWidth}
-				id={props.id}
-				label={props.label}
+				fullWidth={fullWidth}
+				id={id}
+				label={label}
 				variant={LABEL.INPUT.STANDARD}
-				helperText={props.helperText}
-				defaultValue={test}
-				onChange={props.onChange}
+				helperText={helperText}
+				defaultValue={defaultValue}
+				onChange={onChange}
 			/>
 		</ThemeProvider>
 	);
