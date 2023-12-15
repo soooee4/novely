@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+
 // MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
 
@@ -78,6 +80,11 @@ const Header = () => {
 
 	const nickname = profile && profile.user_nickname;
 
+  const isLogin1 = useSelector((state) => state.main.isLogin);
+	const profile1 = useSelector((state) => state.main.profile);
+	
+	console.log(profile1)
+
   	const navigate = useNavigate();
 
 	const goToPage = (url) => {
@@ -102,14 +109,19 @@ const Header = () => {
 			return (
 				<LoginPopup
 					changeState={() => setPopup("join")}
-					closeModal={closeModal}
 					isLogin={() => setIsLogin(true)}
 				/>
 			);
 
 			// 회원가입
 		} else if (popup === "join") {
-			return <JoinPopup profile={profile} setProfile={setProfile} />;
+			return (
+        <JoinPopup 
+          profile={profile} 
+          setProfile={setProfile}
+					changeState={() => setPopup("login")}
+        />
+      );
 
 			// 프로필 수정
 		} else if (popup === "editProfile") {

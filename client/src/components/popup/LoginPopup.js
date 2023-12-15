@@ -15,22 +15,23 @@ import { idValidation, pwValidation } from "common/util";
 
 // API
 import { postData } from "common/communication";
-// import { usePostLoginMutation } from "redux/services/AuthService";
+import { usePostLoginMutation } from "redux/services/AuthService";
 
 /** STYLE 정의 */
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "99%",
-	height: "90%",
+	height: "100%",
 	display: "flex",
 	justifyContent: "center",
 	alignItems: "center",
+  boxSizing: "border-box"
 });
 
 // 로그인 전체 영역
 const LoginBox = styled(Box)({
 	width: 400,
-	height: 250,
+
 });
 
 const Text = styled(TextField)({
@@ -42,7 +43,7 @@ const Text = styled(TextField)({
 });
 
 const SighUpText = styled(Typography)({
-	fontSize: 9,
+	fontSize: 13,
 	marginTop: 13,
 	marginLeft: 2,
 });
@@ -57,7 +58,7 @@ const LoginPopup = (props) => {
 	const [pwRegMsg, setPwRegMsg] = useState("");     // 비밀번호 유효성 검사 미통화 시 띄워주는 에러메세지
 
   // redux에서 API 통신을 가져올 땐 변수 선언 후 변수명을 대괄호안에 넣어야한다. 그래야 쓸 수 있다.
-  // const [login] = usePostLoginMutation({ login_id: id, login_pw: pw });
+  const [login] = usePostLoginMutation();
 
 	// input값 입력
 	const inputId = (e) => {
@@ -76,32 +77,34 @@ const LoginPopup = (props) => {
     }
   };
 
-	const onLogin = () => {
-		postData("auth/login", {
-			login_id: id,
-			login_pw: pw,
-		})
-			.then((data) => {
-        if (typeof data === 'object') {
-          localStorage.setItem("profile",
-            JSON.stringify({
-              user_nickname: data.user_nickname,
-              user_reg_dv: data.user_reg_dv,
-              login_id: data.login_id,
-              image: data.image,
-              author_first_login: data. author_first_login
-            })
-          )
-          window.location.reload();
-          // props.closeModal();
-        } else if (typeof(data) === 'string') {
-          alert(data);
-        }
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	};
+	// const onLogin = () => {
+	// 	postData("auth/login", {
+	// 		login_id: id,
+	// 		login_pw: pw,
+	// 	})
+	// 		.then((data) => {
+  //       if (typeof data === 'object') {
+  //         localStorage.setItem("profile",
+  //           JSON.stringify({
+  //             user_nickname: data.user_nickname,
+  //             user_reg_dv: data.user_reg_dv,
+  //             login_id: data.login_id,
+  //             image: data.image,
+  //             author_first_login: data. author_first_login
+  //           })
+  //         )
+  //         window.location.reload();
+  //       } else if (typeof(data) === 'string') {
+  //         alert(data);
+  //       }
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err);
+	// 		});
+	// };
+  const onLogin = async () => {
+    await login({ login_id: id, login_pw: pw });
+  };
 
   const enter = (e) => {
     if (e.key === "Enter") onLogin();
@@ -144,7 +147,7 @@ const LoginPopup = (props) => {
           width="100%"
           height="40px"
           padding="3px"
-          fontSize="20px"
+          fontSize="21px"
           onSubmit={onLogin}
         />
         <Box sx={{ display: "flex" }}>
@@ -154,7 +157,7 @@ const LoginPopup = (props) => {
             name={LABEL.BUTTONS.GOTOSIGNUP}
             backgroundColor={COLOR.WHITE}
             color={COLOR.BLACK}
-            fontSize="8px"
+            fontSize="13px"
             fontWeight="bolder"
             changeState={props.changeState}
             margin="5px 0 0 0"

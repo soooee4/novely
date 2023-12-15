@@ -22,49 +22,50 @@ export const rootSlice = createSlice({
  *      - setLogout    : 로그아웃 (로그인 여부 변경 및 프로필 삭제)
  */
     reducers: {
-        // setLogout: (state, action) => {
-        //     state.isLogin = action.payload;
-        //     state.profile = {};
-        // },
+        setLogout: (state, action) => {
+            state.isLogin = action.payload;
+            state.profile = {};
+        },
     },
 
-    // extraReducers: (builder) => {
-    //     builder
-    //     .addMatcher(AuthApi.endpoints.postLogin.matchPending, (state, {payload}) => {
+    extraReducers: (builder) => {
+        builder
+        .addMatcher(AuthApi.endpoints.postLogin.matchPending, (state, {payload}) => {
 
-    //     })
-    //     .addMatcher(AuthApi.endpoints.postLogin.matchFulfilled, (state, {payload}) => {
-    //         state.isLogin = true;
-    //         // if (typeof payload.data === "object") {
-    //         //     state.profile = payload.data;
-    //         // } else {
-    //         //     alert(data);
-    //         // }
-    //         if (typeof payload.data === "object") {
-    //             localStorage.setItem("profile",
-    //                 JSON.stringify({
-    //                 user_nickname: data.user_nickname,
-    //                 user_reg_dv: data.user_reg_dv,
-    //                 login_id: data.login_id,
-    //                 image: data.image,
-    //                 author_first_login: data. author_first_login
-    //                 })
-    //             );
-    //             window.location.reload();
-    //         } else {
-    //             alert(data);
-    //         }
-    //     })
-    //     .addMatcher(AuthApi.endpoints.postLogin.matchRejected, (state, {payload}) => {
-
-    //     })
-    // }
+        })
+        .addMatcher(AuthApi.endpoints.postLogin.matchFulfilled, (state, {payload}) => {
+            state.profile = {};
+            state.isLogin = true;
+            // if (typeof payload.data === "object") {
+            //     state.profile = payload.data;
+            // } else {
+            //     alert(data);
+            // }
+            if (typeof payload === "object") {
+                localStorage.setItem("profile",
+                    JSON.stringify({
+                    user_nickname: payload.user_nickname,
+                    user_reg_dv: payload.user_reg_dv,
+                    login_id: payload.login_id,
+                    image: payload.image,
+                    author_first_login: payload. author_first_login
+                    })
+                );
+                window.location.reload();
+            } else {
+                alert('실패 메세지');
+            }
+        })
+        .addMatcher(AuthApi.endpoints.postLogin.matchRejected, (state, {payload}) => {
+            console.log(payload)
+        })
+    }
 });
 
 const { actions, reducer } = rootSlice;
 
 export const {
-    setIsLogin
+    setLogout
 } = actions;
 
 export default reducer;

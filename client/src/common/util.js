@@ -143,10 +143,10 @@ const modalWidth = (popup) => {
 			width = 400;
 			break;
 		case "login":
-			width = 600;
+			width = 550;
 			break;
 		case "join":
-			width = 600;
+			width = 550;
 			break;
 		default:
 			width = "90%";
@@ -177,10 +177,10 @@ const modalHeight = (popup) => {
 			height = 600;
 			break;
 		case "login":
-			height = 370;
+			height = 340;
 			break;
 		case "join":
-			height = 370;
+			height = 340;
 			break;
 		default:
 			height = "90vh";

@@ -34,7 +34,8 @@ export const LABEL = {
 		COMPLETE: "완성 소설",
 		IN_COMPLETE: "미완성 소설",
 		WRITE_NOVEL: "새 소설 쓰기",
-    DONE: "완료"
+    DONE: "완료",
+    UPLOAD_IMAGE: "👉 사진 선택"
 	},
 
 	// INPUT 

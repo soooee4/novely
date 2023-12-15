@@ -55,7 +55,6 @@ const AuthorFirstLoginPopup = (props) => {
 
 	// 저장 후 다음 버튼 눌렀을 때 Main 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
 	const patchAuthorInfo = () => {
-		console.log(111)
 		patchData("auth/patchFirstAuthor", {
 			authorInfo: authorInfo,
 			login_id: props.profile.login_id

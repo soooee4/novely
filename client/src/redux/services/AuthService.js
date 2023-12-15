@@ -1,13 +1,13 @@
 // Service는 API 설정하는 곳
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { SYSCODE } from "common/code";
+import { CODE } from 'common';
 
 export const AuthApi = createApi({
     reducerPath: 'AuthApi',
     baseQuery: fetchBaseQuery({ 
       baseUrl: process.env.REACT_APP_REQUEST_URL + '/auth',
-      credentials: 'include'
+      // credentials: 'include'
     }),
     endpoints: (builder) => ({
         // get => builder.query
@@ -15,7 +15,7 @@ export const AuthApi = createApi({
 
       // 로그인
       postLogin: builder.mutation({
-        query: (params) => ({ url: '/login', method: SYSCODE.REQ_METHOD.POST, body: params }),
+        query: (params) => ({ url: '/login', method: CODE.REQ_METHOD.POST, body: params }),
         keepUnusedDataFor:0
       }),
     }),

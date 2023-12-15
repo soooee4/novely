@@ -21,8 +21,6 @@ import AuthorFirstLoginPopup from "components/popup/AuthorFirstLoginPopup";
 // Constant
 import { CODE, MESSAGE, COLOR, LABEL } from "common";
 
-// util
-
 // API
 import { getData } from "common/communication";
 
@@ -60,7 +58,6 @@ const NovelCardBox = styled(Box)({
   display: "flex",
   flexWrap: "wrap",
 });
-
 
 /** 메인화면 Component */
 const Main = () => {
@@ -218,8 +215,6 @@ const Main = () => {
     } 
   };
 
-  console.log(novelData,11111)
-
   return (
     <MainBox>
       <SearchBar setSchWord={(word) => setSchWord(word)} onClick={search} />
@@ -231,16 +226,28 @@ const Main = () => {
                 key={i}
                 type={CODE.BUTTON.TAG}
                 name={list.code_name}
-                backgroundColor={
+                // backgroundColor={
+                //   selectedTag.findIndex((name) => name === list.code_name) !== -1
+                //     ? "#eeeeee"
+                //     : `#${list.color}`
+                // }
+                backgroundColor={`#${list.color}`}
+                // color={
+                //   selectedTag.findIndex((name) => name === list.code_name) !== -1
+                //     ? "white"
+                //     : "black"
+                // }
+                color={COLOR.BLACK}
+                fontWeight={
                   selectedTag.findIndex((name) => name === list.code_name) !== -1
-                    ? "skyblue"
-                    : `#${list.color}`
+                  ? "900"
+                  : "500"
                 }
-                color={
-                  selectedTag.findIndex((name) => name === list.code_name) !== -1
-                    ? "white"
-                    : "black"
-                }
+                // border={
+                //   selectedTag.findIndex((name) => name === list.code_name) !== -1
+                //   ? "1.5px solid black"
+                //   : ""
+                // }
                 setSelectedTag={(tag) => settingTag(tag)}
                 selectedTag={selectedTag}
               />
@@ -314,7 +321,10 @@ const Main = () => {
         open={modal}
         width={600}
         height={400}
-        onClose={() => setModal(false)}
+        onClose={() => {
+          setModal(false);
+          setPopup("login");
+        }}
       >
         {popupChange()}
       </ModalPopup>

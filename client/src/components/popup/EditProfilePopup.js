@@ -1,5 +1,5 @@
 // React Package Module
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 
 // MUI Package Module
 import { Box, styled } from "@mui/material";
@@ -41,7 +41,17 @@ const ButtonBox = styled(Box)({
   width: "100%",
   display: 'flex',
   justifyContent: 'flex-end',
-})
+});
+
+const fileUploaderBtn =  {
+  backgroundColor: "white",
+  color: "black",
+  border: "none", 
+  cursor: "pointer",
+  display: "block",
+  margin: "0 auto",
+  fontSize: 15
+};
 
 /** 내 정보 수정 컴포넌트 (헤더의 내 정보 버튼 클릭 시 해당 팝업 띄워줌)*/
 const EditProfile = (props) => {
@@ -61,6 +71,7 @@ const EditProfile = (props) => {
   const [isAuthor, setIsAuthor] = useState(
     profile.user_reg_dv === "W" ? true : false
   );
+  const [selectedFileName, setSelectedFileName] = useState("");   // 사용자가 선택한 프로필 사진 이름
 
   // 프로필 이미지 URL
   const imageUrl = useMemo(() => {
@@ -132,10 +143,6 @@ const EditProfile = (props) => {
 			old_img_name: profile.image,
 		};
 
-		// img에서 확장자만 추출
-		// const imgArray = img ? img.type.split("/") : null;
-		// const imgExt = imgArray ? imgArray[imgExt.length - 1] : null;
-
 		// 폼 데이터 변수 선언
 		const formData = new FormData();
 
@@ -143,9 +150,7 @@ const EditProfile = (props) => {
 		Object.keys(data).forEach((key) => {
 			formData.append(key, data[key]);
 		});
-		// if (imgExt === "jpg" || imgExt === "jpeg" || imgExt === "png") {
 			patchData("auth/editProfile", formData).then((data) => {
-				console.log(data, 132);
 				// res.data가 false로 넘어올 경우 경고창 띄워줌
 				// data가 제대로 넘어올 경우
 				// 기존 로컬스토리지에 저장한 profile에 닉네임 추가하여 setProfile 함수를 이용하여 정보 업데이트 후 다시 로컬스토리지에 저장
@@ -165,9 +170,15 @@ const EditProfile = (props) => {
 					alert(data);
 				}
 			});
-		// }
-		// alert("확장자명을 변경해주세요");
 	};
+
+  // 파일 업로드 하는 input에 대한 참조를 저장하는 변수 (현재 참조 대상이 없음을 나타내기 위해 초기값 null로 세팅)
+  const fileInputRef = useRef(null);
+
+  // 파일 업로드 하는 input 클릭 했을 때 기능 함수 (현재 참조하는 요소 클릭하도록)
+  const fileUploadBtn = () => {
+    fileInputRef.current.click();
+  }
 
   return (
 		<Wrapper>
@@ -183,9 +194,24 @@ const EditProfile = (props) => {
 					backgroundSize: "cover",
 				}}
 			/>
+      
 			{/* 파일 하나만 선택하도록 할 것이기 때문에 files의 0번째 배열을 직접적으로 가져옴 */}
-    
-			<input type="file" onChange={(e) => setImg(e.target.files[0])} />
+			{/* input 태그 내장 매서드 사용하여 확장자 제한 */}
+			<input
+				type="file"
+				accept="image/jpg, image/jpeg, image/png"
+        onChange={(e) => {
+          setImg(e.target.files[0]);
+          setSelectedFileName(e.target.files[0].name); // 선택한 파일명 업데이트
+        }}
+        style={{ display: 'none'}}
+        ref={fileInputRef}
+			/>
+      {/* 사용자가 선택한 파일명 */}
+      {selectedFileName && <p style={{fontSize: 12, textAlign: "center", margin: "0 auto"}}>{selectedFileName}</p>}
+      {/* 커스텀한 파일 업로더 버튼 */}
+      <button onClick={fileUploadBtn} style={fileUploaderBtn}>{LABEL.BUTTONS.UPLOAD_IMAGE}</button>
+
 
 			<Text
 				id="standard-read-only-input"
@@ -242,14 +268,14 @@ const EditProfile = (props) => {
 				{" "}
 				완료{" "}
 			</button> */}
-      <ButtonBox>
-			<Buttons
-				type={CODE.BUTTON.BASIC}
-				name={LABEL.BUTTONS.SUBMIT}
-        onEditProfile={onEditProfile}
-        margin={"10px 0 0 auto"}
-			/>
-      </ButtonBox>
+			<ButtonBox>
+				<Buttons
+					type={CODE.BUTTON.BASIC}
+					name={LABEL.BUTTONS.SUBMIT}
+					onEditProfile={onEditProfile}
+					margin={"10px 0 0 auto"}
+				/>
+			</ButtonBox>
 		</Wrapper>
 	);
 };

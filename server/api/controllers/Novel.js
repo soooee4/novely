@@ -10,7 +10,6 @@ const { MESSAGE } = require("../../common/message");
 const getNovels = async (req, res, next) => {
 	try {
 		const data = await svc.getNovels({ ...req.query });
-
 		if (data.rowCount !== 0) {
 			res.send(data.rows);
 		}

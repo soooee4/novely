@@ -30,11 +30,13 @@ const BorderBtn = styled(Button)({
 
 // 태그 버튼
 const TagBtn = styled(Button)({
-	height: 15,
-	borderRadius: 7,
+	height: 17,
+	borderRadius: 8,
 	color: COLOR.BLACK,
-	fontSize: 9,
+	fontSize: 10,
 	marginLeft: 5,
+  marginBottom: 4,
+  boxSizing: "border-box"
 });
 
 // Button Component
@@ -60,7 +62,7 @@ const Buttons = (props) => {
 					props.onEditProfile && props.onEditProfile();                       // 프로필 수정
 					props.setSelectedTab && props.setSelectedTab();                     // 헤더나 필터 탭 클릭 시 클릭한 탭 색상 변경
 					props.postSubNovData && props.postSubNovData();                     // 서브 소설 데이터 서버 전송
-					props.enter && props.enter();							            // 키보드 엔터키 실행
+					props.enter && props.enter();							                          // 키보드 엔터키 실행
 					props.patchAuthorInfo && props.patchAuthorInfo();                   // 유저 정보 수정
 					props.getNovelData && props.getNovelData();                         // 완성 소설 데이터 조회(메인 페이지)
 					props.getIncompleteNovelData && props.getIncompleteNovelData();     // 미완성 소설 데이터 조회(메인 페이지)
@@ -79,7 +81,7 @@ const Buttons = (props) => {
 					padding: props.padding,
 					fontSize: props.fontSize,
 					fontWeight: props.fontWeight,
-          			color: props.color
+          color: props.color
 				}}
 			>
 				{props.name}
@@ -99,10 +101,12 @@ const Buttons = (props) => {
 					margin: props.margin,
 					padding: props.padding,
 					fontSize: props.fontSize,
-          			color: props.color
+          color: props.color,
+          fontWeight: props.fontWeight,
+          border: props.border
 				}}
 			>
-				#{props.name}
+				# {props.name}
 			</TagBtn>
 		);
 	} else if (props.type === CODE.BUTTON.BORDER) {

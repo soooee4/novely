@@ -34,5 +34,6 @@ export const MESSAGE = {
     EXIST_USER: '이미 가입된 정보입니다.',
     WRITE_TITLE: '제목을 입력해주세요!',
     WRITE_CONTENT: '내용을 입력해주세요!',
+    CHECK_JOIN_INFO: '가입 정보를 정확히 입력해주세요!'
   },
 }

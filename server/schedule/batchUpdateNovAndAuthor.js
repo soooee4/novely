@@ -5,7 +5,7 @@ const mapper = require("../sql");
 const batchUpdateNovAndAuthor = async () => {
   // 매일 오전 00:00 실행
   // schedule.scheduleJob("초 분 시 일 월 몇주", async () => {
-  schedule.scheduleJob("0 45 16 * * *", async () => {
+  schedule.scheduleJob("40 40 22 * * *", async () => {
     const client = await pool.connect();
     let sqlId;
 
