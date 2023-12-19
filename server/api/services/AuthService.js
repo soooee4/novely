@@ -164,9 +164,11 @@ const editProfile = async ({
   }
 };
 
+// 작가로 승급 후 첫 로그인 시 작가 소개 업데이트
 const authorFirstLogin = async ({ login_id, authorInfo }) => {
   const client = await pool.connect();
   let sqlId = "Auth.authorFirstLogin";
+  console.log(login_id, authorInfo,171)
 
   try {
     // 작가 소개 업데이트 및 작가 권한 첫 로그인 여부 변경(Y => N)
