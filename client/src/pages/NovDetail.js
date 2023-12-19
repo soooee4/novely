@@ -241,6 +241,8 @@ const NovDetail = () => {
 		if (regditNovData.file !== "basic.jpeg") {
 			subNovData = new FormData();
 
+      console.log(regditNovData.file,244);
+
 			// 선택된 이미지 파일의 확장자명이 jpeg, jpg, png가 아닐 경우 경고문 띄우고 함수 종료
 			// 데이터 가공하여 확장자명만 뽑아서 제한 걸기 (2차로)
 

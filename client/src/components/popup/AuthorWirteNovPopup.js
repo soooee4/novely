@@ -36,6 +36,23 @@ const WriteBox = styled(Box)({
 	flex: 1,
 	height: "100%",
 	boxSizing: "border-box",
+  padding: 15,
+  paddingRight: 5,
+  borderRadius: 10,
+	border: `1px solid ${COLOR.GRAY}`,
+
+
+  '&>textarea::-webkit-scrollbar': {
+    width: 5, 
+  },
+  '&>textarea::-webkit-scrollbar-thumb': {
+    background: '#aaa',
+    borderRadius: 5,
+  },
+  '&>textarea::-webkit-scrollbar-track': {
+    backgroundColor: 'transparent',
+  },
+
 });
 
 // 제목, 이어쓰기 버튼 영역
@@ -48,13 +65,12 @@ const HeaderBox = styled(Box)({
 const writeNovText = (color) => {
   return (
     {
+      paddingRight: 10,
+      border:'none',
       width: "100%",
       height: "100%",
-      boxSizing: "borderBox",
       resize: "none",
       outline: "none",
-      borderRadius: 10,
-      padding: 10,
       fontSize: 17,
       boxSizing: "border-box",
       backgroundColor: color,
@@ -62,6 +78,7 @@ const writeNovText = (color) => {
     }
   )
 };
+
 
 /** 작가 권한일 시 메인 소설을 쓰는 컴포넌트 (내 작품 페이지에서 새 소설 쓰기 버튼 클릭 시 해당 팝업 띄워줌) */
 const AuthorWriteNovPopup = (props) => {
@@ -117,9 +134,12 @@ const AuthorWriteNovPopup = (props) => {
 				/>
 			</HeaderBox>
 			<WholeBox>
-				<WriteBox>
-					<textarea style={writeNovText(props.color)} onChange={inputContent} />
-				</WriteBox>
+					<WriteBox>
+						<textarea
+							style={writeNovText(props.color)}
+							onChange={inputContent}
+						/>
+					</WriteBox>
 			</WholeBox>
 		</Wrapper>
 	);

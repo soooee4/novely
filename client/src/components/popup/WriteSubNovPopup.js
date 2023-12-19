@@ -1,5 +1,5 @@
 // React Package Module
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Control Component
 import Buttons from "components/controls/Button";
@@ -32,23 +32,54 @@ const WholeBox = styled(Box)({
 	boxSizing: "border-box",
 });
 
+const ScrollBox = styled(Box)({
+  overflow: "auto",
+	height: "100%",
+
+
+  '&::-webkit-scrollbar': {
+    width: 5, 
+  },
+  '&::-webkit-scrollbar-thumb': {
+    background: '#aaa',
+    borderRadius: 5,
+  },
+  '&::-webkit-scrollbar-track': {
+    backgroundColor: 'transparent',
+  },
+})
+
 const ViewBox = styled(Box)({
 	flex: 1,
 	height: "100%",
 	border: `1px solid ${COLOR.GRAY}`,
 	borderRadius: 10,
 	padding: 10,
+  paddingRight:5,
 	boxSizing: "border-box",
-  overflow: "auto",
+
 });
 
 const WriteBox = styled(Box)({
-	flex: 1,
+  flex: 1,
 	height: "100%",
 	boxSizing: "border-box",
-	overflow: "auto",
-	display: "flex",
-	alignItems: "flex-start",
+  borderRadius: 10,
+  padding: 10,
+  paddingRight:5,
+	border: `1px solid ${COLOR.GRAY}`,
+
+
+  '&>textarea::-webkit-scrollbar': {
+    width: 5, 
+  },
+  '&>textarea::-webkit-scrollbar-thumb': {
+    background: '#aaa',
+    borderRadius: 5,
+  },
+  '&>textarea::-webkit-scrollbar-track': {
+    backgroundColor: 'transparent',
+  },
 });
 
 // 제목, 이어쓰기 버튼 영역
@@ -60,22 +91,22 @@ const HeaderBox = styled(Box)({
 
 const Content = styled(Typography)({
 	fontSize: 15,
+  marginRight:5
 });
 
 const writeNovText = (color) => {
   return (
     {
+      border:'none',
       width: "100%",
       height: "100%",
       boxSizing: "borderBox",
       resize: "none",
       outline: "none",
-      borderRadius: 10,
-      padding: 10,
       fontSize: 17,
       boxSizing: "border-box",
       backgroundColor: color,
-      color: color === "#121212" ? "white" : "black"
+      color: color === "#121212" ? "white" : "black",
     }
   )
 };
@@ -84,6 +115,7 @@ const writeNovText = (color) => {
 const WriteSubNovPopup = (props) => {
 	const [title, setTitle] = useState("");           // 서브 소설 제목
 	const [content, setContent] = useState("");       // 서브 소설 내용
+  const [isScrolling, setIsScrolling] = useState(false);
 
 	const inputTitle = (e) => {
 		setTitle(e.target.value);
@@ -106,6 +138,25 @@ const WriteSubNovPopup = (props) => {
 		});
 	};
 
+  //스크롤 감지하여 화면에 띄워주는 함수
+  // const handleScroll = () => {
+  //   setIsScrolling(true);
+  //   // 스크롤링 0.5초 후 동작 멈춤
+  //   setTimeout(() => {
+  //     setIsScrolling(false);
+  //   }, 1000);
+  // }
+  
+  // useEffect(() => {
+  //   const temp = document.querySelector('.cc')
+  //   temp.addEventListener("scroll", handleScroll);
+
+  //   // 클린업 (언마운트 시 이벤트 리스너 삭제)
+  //   return () => {
+  //     temp.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
+
 	return (
 		<Wrapper>
 			<HeaderBox>
@@ -113,7 +164,7 @@ const WriteSubNovPopup = (props) => {
 					fullWidth
 					defaultValue={props.mainNovel.title}
 					onChange={inputTitle}
-          			color={props.color}
+					color={props.color}
 					// sx={{ width: "30%" }}
 				/>
 				<Buttons
@@ -127,20 +178,25 @@ const WriteSubNovPopup = (props) => {
 				/>
 			</HeaderBox>
 			<WholeBox>
-				<ViewBox>
-					<Content>
-						{props.mainNovel.content && props.mainNovel.content
-							? props.mainNovel.content.split("\\n").map((line, i) => (
-									<div key={i}>
-										{line.replace("\\r", "")}
-										<br />
-									</div>
-							  ))
-							: ""}
-					</Content>
+				<ViewBox >
+					<ScrollBox>
+						<Content>
+							{props.mainNovel.content && props.mainNovel.content
+								? props.mainNovel.content.split("\\n").map((line, i) => (
+										<div key={i}>
+											{line.replace("\\r", "")}
+											<br />
+										</div>
+								  ))
+								: ""}
+						</Content>
+					</ScrollBox>
 				</ViewBox>
 				<WriteBox>
-					<textarea style={writeNovText(props.color)} onChange={inputContent} />
+						<textarea
+							style={writeNovText(props.color)}
+							onChange={inputContent}
+						/>
 				</WriteBox>
 			</WholeBox>
 		</Wrapper>

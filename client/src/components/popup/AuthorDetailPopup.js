@@ -35,7 +35,19 @@ const NovelCardBox = styled(Box)({
   overflow: "scroll",
   paddingTop: 20,
   gap: 20,
+
+    // 스크롤바 숨기기
+    '&::-webkit-scrollbar': {
+      display: 'none'
+    },
+
+    '& > div' : {
+      margin: 0
+    }
+
 });
+
+
 
 const IsDataInfo = styled(Typography)({
 	fontSize: 17,

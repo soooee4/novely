@@ -124,6 +124,7 @@ const Wrapper = styled(Box)({
 	display: "flex",
 	flexDirection: "column",
 	padding: "0 3%",
+  paddingRight: "1.5%",
 	boxSizing: "border-box",
 	paddingTop: "20px",
 	height: "100%",
@@ -147,8 +148,27 @@ const Title = styled(Typography)({
 const Content = styled(Typography)({
 	fontSize: 15,
   whiteSpace: "pre-wrap",
+  paddingRight: 20,
+
   
 });
+
+const ScrollBox = styled(Box)({
+  overflow: "auto",
+	height: "100%",
+
+  '&::-webkit-scrollbar': {
+    width: 7, 
+  },
+  '&::-webkit-scrollbar-thumb': {
+    background: '#aaa',
+    borderRadius: 5,
+  },
+  '&::-webkit-scrollbar-track': {
+    backgroundColor: 'transparent',
+  },
+})
+
 
 /** 미완성 작품 (메인 소설) 읽기 컴포넌트 (작품 상세 페이지에서 view 버튼 클릭 시 미완성작일 경우 해당 팝업 띄워줌) */
 const ViewIncompleteNovPopup = (props) => {
@@ -183,7 +203,7 @@ const ViewIncompleteNovPopup = (props) => {
 					<Buttons
 						type={CODE.BUTTON.BASIC}
 						backgroundColor={COLOR.WHITE}
-						color={props.color === "#121212" ? COLOR.WHITE: COLOR.BLACK}
+						color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
 						name={LABEL.BUTTONS.GOTOWRITE}
 						margin={"-30px 0px 0px auto"}
 						padding={0}
@@ -191,16 +211,18 @@ const ViewIncompleteNovPopup = (props) => {
 					/>
 				)}
 			</HeaderBox>
-			<Content>
-				{mainNovel && mainNovel.content
-					? mainNovel.content.split("\\n").map((line, i) => (
-							<>
-								{line}
-								<br />
-							</>
-					  ))
-					: ""}
-			</Content>
+			<ScrollBox>
+				<Content>
+					{mainNovel && mainNovel.content
+						? mainNovel.content.split("\\n").map((line, i) => (
+								<>
+									{line}
+									<br />
+								</>
+						  ))
+						: ""}
+				</Content>
+			</ScrollBox>
 		</Wrapper>
 	);
 };
