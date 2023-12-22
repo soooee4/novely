@@ -104,6 +104,7 @@
 //* /////////////////////////////////////////////////
 // React Package Module
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
@@ -112,7 +113,7 @@ import { Box, styled, Typography } from "@mui/material";
 import Buttons from "components/controls/Button";
 
 // Constant
-import { CODE, LABEL, COLOR } from "common";
+import { CODE, LABEL, COLOR, MESSAGE } from "common";
 
 // API Service
 import { patchData } from "common/communication";
@@ -151,15 +152,24 @@ const IntroMsg = styled(Typography)({
 
 /** 작가로 승급 후 처음으로 로그인 시 띄워지는 작가 소갯말 세팅 컴포넌트 */
 const AuthorFirstLoginPopup = (props) => {
-   const [authorInfo, setAuthorInfo] = useState("");     // 작가 소갯말
 
+ 
+   const [authorInfo, setAuthorInfo] = useState("");     // 작가 소갯말
+   const navigate = useNavigate();
    const inputAuthorInfo = (e) => {
       setAuthorInfo(e.target.value);
    };
 
+   // 기존 작가의 작품 당선 후 첫 로그인 시 내 작품 페이지로 이동
+   const goToMyPage = () => {
+    navigate('/author-myNovel');
+   }
+   
+
+
    // 저장 후 다음 버튼 눌렀을 때 Main 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
    const patchAuthorInfo = () => {
-      console.log(111)
+   
       patchData("auth/patchFirstAuthor", {
          authorInfo: authorInfo,
          login_id: props.profile.login_id
@@ -183,6 +193,8 @@ const AuthorFirstLoginPopup = (props) => {
 
    return (
       <Wrapper>
+        {props.profile.user_reg_dv === "G" ? (
+          <>
          <Buttons
             type={CODE.BUTTON.BASIC}
             backgroundColor={COLOR.WHITE}
@@ -192,11 +204,29 @@ const AuthorFirstLoginPopup = (props) => {
             patchAuthorInfo={patchAuthorInfo}
             changeState={props.changeState}
          />
-         <IntroMsg>축하합니다! 작가로 승급되셨어요 기념으로 아래 작가 소갯말을 작성해주세요 :)</IntroMsg>
+         <IntroMsg>{MESSAGE.AUTHOR_FIRST_LOGIN}</IntroMsg>
          <textarea 
         style={writeNovText} 
         onChange={inputAuthorInfo} 
       />
+      </>
+        ) :
+        <div style={{ margin: 'auto 0'}}>
+         <IntroMsg sx={{fontSize: '20px', marginBottom: 1}}>{MESSAGE.AUTHOR_ELECTED_FIRST_LOGIN}</IntroMsg>
+         <div style={{ margin: '0 auto', display: 'flex'}}>
+         <Buttons
+            type={CODE.BUTTON.BASIC}
+            backgroundColor={COLOR.WHITE}
+            color={COLOR.BLACK}
+            name={LABEL.BUTTONS.GOTO_ELECTED_NOVEL}
+            margin={"0 auto"}
+            patchAuthorInfo={patchAuthorInfo}
+            goToMyPage={goToMyPage}
+         />
+         </div>
+        </div>
+        
+        }
       </Wrapper>
    );
 };

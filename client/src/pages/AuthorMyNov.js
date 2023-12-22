@@ -393,12 +393,13 @@ const AuthorMyNov = () => {
 		getMyCompleteNovel();
 	}, []);
 
-  // 완성 소설 중 로그인 아이디가 작성한 소설 가져오기
+  // 완성 소설의 메인 작가, 서브 작가 아이디 중 로그인 아이디와 일치하는 소설 가져오기
   const getMyCompleteNovel = () => {
     getData("novel/getNovels", { user_id: profile.login_id })
 			.then((data) => {
 				setCompleteNovData(
-					data.filter((novel) => novel.main_author_id === profile.login_id)
+					data.filter((novel) => novel.main_author_id === profile.login_id || novel.sub_author_id === profile.login_id)
+          // return novel.main_author_id === profile.login_id || novel.sub_author_id === profile.login_id
 				);
 			})
 			.catch((err) => {

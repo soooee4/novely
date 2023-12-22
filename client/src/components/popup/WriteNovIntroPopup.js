@@ -100,7 +100,7 @@ const Wrapper = styled(Box)({
 	flexDirection: "column",
 	padding: "0 3%",
 	boxSizing: "border-box",
-	paddingTop: 40,
+	// paddingTop: 40,
   paddingBottom: 20,
   //  boxShadow: "inset 0 0 3px 3px blue"
 

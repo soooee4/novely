@@ -23,7 +23,8 @@ export const MESSAGE = {
   WRITER: '작가',
   PRE_WRITER: '예비작가',
   EDIT_SUCCEED: "수정 완료 :)",
-
+  AUTHOR_FIRST_LOGIN: "축하합니다! 작품이 당선되어 작가가 되셨어요👏 기념으로 아래 작가 소갯말을 작성해주세요 :)",
+  AUTHOR_ELECTED_FIRST_LOGIN: "축하합니다! 작품이 당선되었어요👏",
   // 에러 메세지
   ERROR: {
     EMAIL_INVALIDATION: '이메일을 확인해주세요.',
@@ -34,6 +35,7 @@ export const MESSAGE = {
     EXIST_USER: '이미 가입된 정보입니다.',
     WRITE_TITLE: '제목을 입력해주세요!',
     WRITE_CONTENT: '내용을 입력해주세요!',
-    CHECK_JOIN_INFO: '가입 정보를 정확히 입력해주세요!'
+    CHECK_JOIN_INFO: '가입 정보를 정확히 입력해주세요!',
+    CHECK_EXT: 'jpg, jpeg, png 형식의 파일만 가능해요 :('
   },
 }

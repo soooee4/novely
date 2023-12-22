@@ -18,7 +18,7 @@ const Wrapper = styled(Box)({
 	display: "flex",
 	flexDirection: "column",
 	boxSizing: "border-box",
-	paddingTop: 40,
+	// paddingTop: 40,
 	//  boxShadow: "inset 0 0 3px 3px blue"
 });
 
@@ -56,18 +56,24 @@ const IntroMsg = styled(Typography)({
 	marginBottom: 20,
 });
 
-const fileUploaderBtn = {
-	backgroundColor: "white",
-	color: "black",
-	border: "none",
-	cursor: "pointer",
-	display: "block",
-	margin: "0 auto",
-	fontSize: 15,
+const fileUploaderBtn = (color) => {
+	return (
+		{
+			backgroundColor: "transparent",
+			color: color === "#121212" ? "#ffffff" : "#121212",
+			border: "none",
+			cursor: "pointer",
+			display: "block",
+			margin: "0 auto",
+			fontSize: 15,
+		}
+	)
 };
 
 /** 서브 소설 작성 후 소설 커버 이미지 업로드 하는 팝업 */
 const SetNovCoverPopup = (props) => {
+
+
 	// 선택한 이미지 Blob데이터의 경로 state
 	const [coverImgSrc, setCoverImgSrc] = useState(null);
 
@@ -117,6 +123,7 @@ const SetNovCoverPopup = (props) => {
 						setPreviewImg(e.target.files[0]);
 						setSelectedFileName(e.target.files[0].name); // 선택한 파일명 업데이트
 					}}
+          // color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
 					style={{ display: "none" }}
 					ref={fileInputRef}
 				/>
@@ -127,7 +134,7 @@ const SetNovCoverPopup = (props) => {
 					</p>
 				)}
 				{/* 커스텀한 파일 업로더 버튼 */}
-				<button onClick={fileUploadBtn} style={fileUploaderBtn}>
+				<button onClick={fileUploadBtn} style={fileUploaderBtn(props.color)}>
 					{LABEL.BUTTONS.UPLOAD_IMAGE}
 				</button>
 			</ImgBox>

@@ -1,6 +1,9 @@
 // React Package Module
 import { useMemo, useState, useRef, useEffect } from "react";
 
+// imageCompression Module
+import imageCompression from 'browser-image-compression';
+
 // MUI Package Module
 import { Box, styled } from "@mui/material";
 
@@ -50,7 +53,8 @@ const fileUploaderBtn =  {
   cursor: "pointer",
   display: "block",
   margin: "0 auto",
-  fontSize: 15
+  fontSize: 15,
+  backgroundColor: "transparent"
 };
 
 /** 내 정보 수정 컴포넌트 (헤더의 내 정보 버튼 클릭 시 해당 팝업 띄워줌)*/
@@ -124,20 +128,29 @@ const EditProfile = (props) => {
   };
 
   // 프로필 수정
-  const onEditProfile = () => {
+  const onEditProfile = async () => {
+    // 선택된 이미지 파일의 확장자명이 jpeg, jpg, png가 아닐 경우 경고문 띄우고 함수 종료
+    const ext = img.type.split('/')[1]
+    const allowList = ['jpeg','jpg','png']
+    if (!allowList.includes(ext)) {
+      alert(MESSAGE.ERROR.CHECK_EXT);
+      return;
+    }
 		// 현재 비밀번호 미입력 시
 		if (curPw === "") {
-			alert("현재 비밀번호를 입력해야 합니다");
+      alert("현재 비밀번호를 입력해야 합니다");
 			return;
 		}
+    const resizingImg = await handleImageUpload(img)
 
+    // return;
 		// 이미지 파일의 경우 json에 그냥 담는게 아니라 formData 형태로 만들어줘야 하니 formData를 선언하고 그 폼데이터안에 데이터와 이미지 파일 정보를 넣어서 사용
 		const data = {
 			login_id: profile.login_id,
 			user_nickname: nickname,
 			current_pw: curPw,
 			new_pw: newPw,
-			file: img,
+			file: resizingImg,
 			author_info: info,
 			isAuthor: isAuthor,
 			old_img_name: profile.image,
@@ -146,7 +159,9 @@ const EditProfile = (props) => {
 		// 폼 데이터 변수 선언
 		const formData = new FormData();
 
+
 		// data의 각 key값으로 formdata에 데이터 세팅
+    // Object.keys 사용하여 키 값을 배열로 반환 후 순회
 		Object.keys(data).forEach((key) => {
 			formData.append(key, data[key]);
 		});
@@ -179,6 +194,28 @@ const EditProfile = (props) => {
   const fileUploadBtn = () => {
     fileInputRef.current.click();
   }
+
+  // 파일 이미지 압축 함수
+  const handleImageUpload = async (img) => {
+
+		const options = {
+			maxSizeMB: 0.5,
+			maxWidthOrHeight: 360,
+		};
+    // console.log(img)
+
+		try {
+			const compressedBlob = await imageCompression(img, options);
+
+      // 리사이징한 Blob 데이터를 File 형태로 변환
+      const resizingFile = new File([compressedBlob], img.name, { type: img.type });
+      
+      // 리사이징된 File 형태의 이미지 리턴
+      return resizingFile;
+    } catch (error) {
+			console.log(error);
+		}
+	};
 
   return (
 		<Wrapper>

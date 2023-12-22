@@ -96,6 +96,7 @@ const NovelViewBox = styled(Box)({
 /** 소설 축약 정보 컴포넌트(소설 상세보기 페이지의 헤더) */
 const NovelInfo = (props) => {
 
+  // console.log(props.complete_seqno,99)
 	return (
     <Whole>
       <InfoBox>
@@ -150,7 +151,7 @@ const NovelInfo = (props) => {
       </InfoBox>
 
       <DateBox>
-        {props.novelDdayCounter < 1 ? (
+        {props.complete_seqno ? (
           <DateInfo>{MESSAGE.DDAY_COMPLETE}</DateInfo>
         ) : (
           <DateInfo>
