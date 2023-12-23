@@ -31,10 +31,12 @@ const MainBox = styled(Box)({
   display: "flex",
   flexDirection: "column",
   margin: "0 auto",
+  
 });
 
 // 검색창 하단 장르 태그 박스
 const TagBox = styled(Box)({
+ 
   width: "100%",
   height: 'auto',
   margin: "0 auto",
@@ -57,6 +59,8 @@ const NovelCardBox = styled(Box)({
   margin: "0 auto",
   display: "flex",
   flexWrap: "wrap",
+    border: "3px solid blue",
+  
 });
 
 /** 메인화면 Component */
@@ -74,6 +78,8 @@ const Main = () => {
   const [searchNovData, setSearchNovData] = useState([]);                                 // Search Bar에서 검색한 소설 데이터
   const [selectedTab, setSelectedTab] = useState("complete");
 
+  console.log(novelData)
+
   // 제목 검색(완성 소설 탭에서 검색할 경우 complete_novel_title, 미완성 소설 탭에서 검색할 경우 title에서 단어를 찾음)
   const search = () => {
     setSearchNovData(novelData.filter((nov) => nov.complete_novel_title ? nov.complete_novel_title.includes(schWord) : nov.title.includes(schWord)));
@@ -83,7 +89,7 @@ const Main = () => {
   const closeModal = () => {
     setModal(false);
   };
-
+  
   // 소설 데이터 조회(완성 소설) => 찜 / 찜해제 시에도 사용
   const getNovelData = () => {
     // 로그인 상태라면 login_id 넘어가고 아니라면 null값 넘어가도록 처리

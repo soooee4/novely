@@ -4,7 +4,8 @@
     <select id="login">
       SELECT
         login_id,                   -- 아이디
-        user_reg_dv                 -- 사용자 구분(G-일반, W-작가)
+        user_reg_dv,
+        author_first_login                -- 사용자 구분(G-일반, W-작가)
       FROM
         t_user_mgt
       WHERE
@@ -71,7 +72,8 @@
         t_user_mgt
       SET
         user_nickname = #{user_nickname},   -- 닉네임
-        login_pw = #{login_pw}              -- 비밀번호
+        login_pw = #{login_pw},             -- 비밀번호
+        image = #{image}                    -- 프로필 이미지
       WHERE
         login_id = #{login_id}
     </update>

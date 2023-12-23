@@ -90,6 +90,7 @@ const ModalPopup = (props) => {
     if (e.key === 'Escape') {
       onClose();
       setColorMode("#ffffff");
+      props.setColorInit && props.setColorInit();
     }
   };
 
@@ -132,6 +133,7 @@ const ModalPopup = (props) => {
             onClick={() => {
               onClose();
               setColorMode("#ffffff");
+              props.setColorInit && props.setColorInit();
               popupState === "join" && localStorage.getItem("profile") && window.location.reload();
             }}
           />

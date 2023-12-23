@@ -314,8 +314,8 @@ const NovDetail = () => {
 		const dueDate = new Date(createdDate.setDate(createdDate.getDate() + 30));
 
 		// 현재 날짜를 한국 시간으로 변환
-		// const currentDate = new Date((new Date()).getTime() + offset)
-		const currentDate = new Date((new Date()).getTime())
+		const currentDate = new Date((new Date()).getTime() + offset)
+		// const currentDate = new Date((new Date()).getTime())
 
 
 		// 현재 날짜와 마감일의 차이를 밀리초 단위로 변환하여 계산
@@ -326,6 +326,7 @@ const NovDetail = () => {
 
     console.log(currentDate, dueDate, 9999)
 		return leftDay;
+  
 	};
 
 	// 팝업 상태값 변경
@@ -480,6 +481,7 @@ console.log(novel,397)
 				height={modalHeight(popup)}
 				mode={modalColorMode(popup)}
 				setColor={(data) => setColor(data)}
+				setColorInit={() => setColor("#ffffff")}
 			>
 				{popupChange()}
 			</ModalPopup>

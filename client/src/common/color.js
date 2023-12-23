@@ -28,5 +28,8 @@ export const COLOR = {
     BLUE_GRAY: "#9eb3c2",
     HEART_PINK: "#FB2576",
     LIGHT_GRAY: "#F1F1F1",
+    BABY_PINK: "#ffc2d1",
+    LIGHT_PEACH: "#fec89a",
+    BABY_BLUE: "#b0d7ff",
     INHERIT: "inherit"
 };

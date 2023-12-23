@@ -128,7 +128,7 @@ const Wrapper = styled(Box)({
 	boxSizing: "border-box",
 	paddingTop: "20px",
 	height: "100%",
-  overflow: "auto",
+  // overflow: "auto",
 });
 
 // 제목, 이어쓰기 버튼 영역
@@ -148,8 +148,7 @@ const Title = styled(Typography)({
 const Content = styled(Typography)({
 	fontSize: 15,
   whiteSpace: "pre-wrap",
-  paddingRight: 20,
-
+  // paddingRight: 20,
   
 });
 

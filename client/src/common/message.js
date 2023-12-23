@@ -36,6 +36,9 @@ export const MESSAGE = {
     WRITE_TITLE: '제목을 입력해주세요!',
     WRITE_CONTENT: '내용을 입력해주세요!',
     CHECK_JOIN_INFO: '가입 정보를 정확히 입력해주세요!',
-    CHECK_EXT: 'jpg, jpeg, png 형식의 파일만 가능해요 :('
+    CHECK_EXT: 'jpg, jpeg, png 형식의 파일만 가능해요 :(',
+    WRITE_DESCRIPTION: '소개를 입력해주세요!',
+    TITLE_INVALIDATION: '제목은 50자 이내로 설정해주세요!',
+    INFO_INVALIDATION: '소갯말은 50자 이내로 설정해주세요!',
   },
 }

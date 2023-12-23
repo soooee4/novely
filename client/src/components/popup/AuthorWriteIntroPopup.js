@@ -53,6 +53,7 @@ const AuthorWriteIntroPopup = (props) => {
 	const navigate = useNavigate();
 
 	const inputDescription = (e) => {
+    
 		props.setDescription(e.target.value);
 	};
 

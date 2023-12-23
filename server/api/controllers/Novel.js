@@ -10,24 +10,19 @@ const { MESSAGE } = require("../../common/message");
 const getNovels = async (req, res, next) => {
 	try {
 		const data = await svc.getNovels({ ...req.query });
-		if (data.rowCount !== 0) {
-			res.send(data.rows);
-		}
 
+		res.send(data.rows);
 	} catch (err) {
 		console.log(err);
 	}
 };
 
-// 미완성 소설 조회 
+// 미완성 소설 조회
 const getIncompleteNovels = async (req, res, next) => {
 	try {
 		const data = await svc.getIncompleteNovels({ ...req.query });
 
-		if (data.rowCount !== 0) {
-			res.send(data.rows);
-		}
-
+		res.send(data.rows);
 	} catch (err) {
 		console.log(err);
 	}

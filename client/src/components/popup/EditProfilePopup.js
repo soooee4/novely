@@ -1,9 +1,6 @@
 // React Package Module
 import { useMemo, useState, useRef, useEffect } from "react";
 
-// imageCompression Module
-import imageCompression from 'browser-image-compression';
-
 // MUI Package Module
 import { Box, styled } from "@mui/material";
 
@@ -53,8 +50,7 @@ const fileUploaderBtn =  {
   cursor: "pointer",
   display: "block",
   margin: "0 auto",
-  fontSize: 15,
-  backgroundColor: "transparent"
+  fontSize: 15
 };
 
 /** 내 정보 수정 컴포넌트 (헤더의 내 정보 버튼 클릭 시 해당 팝업 띄워줌)*/
@@ -76,13 +72,17 @@ const EditProfile = (props) => {
     profile.user_reg_dv === "W" ? true : false
   );
   const [selectedFileName, setSelectedFileName] = useState("");   // 사용자가 선택한 프로필 사진 이름
+  const [previewUrl, setPreviewUrl] = useState("");
 
-  // 프로필 이미지 URL
+    console.log(profile,7777)
+
   const imageUrl = useMemo(() => {
-    return `${process.env.REACT_APP_IMAGE_DIRECTORY}/${
-      profile.image
-    }?${Date.now()}`;
-  }, [profile.image]);
+	if (previewUrl !== "") {
+		return previewUrl;
+	} else {
+		return `${process.env.REACT_APP_IMAGE_DIRECTORY}/${profile.image}?${Date.now()}`;
+	}
+  }, [profile.image, previewUrl]);
 
   /** Input 입력 */
   // 닉네임
@@ -128,29 +128,23 @@ const EditProfile = (props) => {
   };
 
   // 프로필 수정
-  const onEditProfile = async () => {
-    // 선택된 이미지 파일의 확장자명이 jpeg, jpg, png가 아닐 경우 경고문 띄우고 함수 종료
-    const ext = img.type.split('/')[1]
-    const allowList = ['jpeg','jpg','png']
-    if (!allowList.includes(ext)) {
-      alert(MESSAGE.ERROR.CHECK_EXT);
-      return;
-    }
+  const onEditProfile = () => {
 		// 현재 비밀번호 미입력 시
 		if (curPw === "") {
-      alert("현재 비밀번호를 입력해야 합니다");
+			alert(MESSAGE.WRITE_CUR_PW);
 			return;
-		}
-    const resizingImg = await handleImageUpload(img)
+		} else if (info.length > 50) {
+      alert(MESSAGE.ERROR.INFO_INVALIDATION);
+      return;
+    }
 
-    // return;
 		// 이미지 파일의 경우 json에 그냥 담는게 아니라 formData 형태로 만들어줘야 하니 formData를 선언하고 그 폼데이터안에 데이터와 이미지 파일 정보를 넣어서 사용
 		const data = {
 			login_id: profile.login_id,
 			user_nickname: nickname,
 			current_pw: curPw,
 			new_pw: newPw,
-			file: resizingImg,
+			file: img,
 			author_info: info,
 			isAuthor: isAuthor,
 			old_img_name: profile.image,
@@ -159,9 +153,7 @@ const EditProfile = (props) => {
 		// 폼 데이터 변수 선언
 		const formData = new FormData();
 
-
 		// data의 각 key값으로 formdata에 데이터 세팅
-    // Object.keys 사용하여 키 값을 배열로 반환 후 순회
 		Object.keys(data).forEach((key) => {
 			formData.append(key, data[key]);
 		});
@@ -195,125 +187,119 @@ const EditProfile = (props) => {
     fileInputRef.current.click();
   }
 
-  // 파일 이미지 압축 함수
-  const handleImageUpload = async (img) => {
+  const fileChange = (e) => {
+	const file = e.target.files[0];
+	setImg(file);
+    setSelectedFileName(file.name); // 선택한 파일명 업데이트
 
-		const options = {
-			maxSizeMB: 0.5,
-			maxWidthOrHeight: 360,
+	if (file) {
+		const reader = new FileReader();
+		reader.onloadend = () => {
+			setPreviewUrl(reader.result);
 		};
-    // console.log(img)
-
-		try {
-			const compressedBlob = await imageCompression(img, options);
-
-      // 리사이징한 Blob 데이터를 File 형태로 변환
-      const resizingFile = new File([compressedBlob], img.name, { type: img.type });
-      
-      // 리사이징된 File 형태의 이미지 리턴
-      return resizingFile;
-    } catch (error) {
-			console.log(error);
-		}
-	};
+		reader.readAsDataURL(file);
+	}
+  };
 
   return (
-		<Wrapper>
-			<Box
-				sx={{
-					width: 180,
-					height: 180,
-					borderRadius: "50%",
-					margin: "0 auto",
-					marginTop: 4,
-					marginBottom: 2,
-					backgroundImage: `url(${imageUrl})`,
-					backgroundSize: "cover",
-				}}
-			/>
-      
-			{/* 파일 하나만 선택하도록 할 것이기 때문에 files의 0번째 배열을 직접적으로 가져옴 */}
-			{/* input 태그 내장 매서드 사용하여 확장자 제한 */}
-			<input
-				type="file"
-				accept="image/jpg, image/jpeg, image/png"
-        onChange={(e) => {
-          setImg(e.target.files[0]);
-          setSelectedFileName(e.target.files[0].name); // 선택한 파일명 업데이트
+    <Wrapper>
+      <Box
+        sx={{
+          width: 180,
+          height: 180,
+          borderRadius: "50%",
+          margin: "0 auto",
+          marginTop: 4,
+          marginBottom: 2,
+          backgroundImage: `url(${imageUrl})`,
+          backgroundSize: "cover",
         }}
-        style={{ display: 'none'}}
+      />
+
+      {/* 파일 하나만 선택하도록 할 것이기 때문에 files의 0번째 배열을 직접적으로 가져옴 */}
+      {/* input 태그 내장 매서드 사용하여 확장자 제한 */}
+      <input
+        type="file"
+        accept="image/jpg, image/jpeg, image/png"
+        onChange={(e) => fileChange(e)}
+        style={{ display: "none" }}
         ref={fileInputRef}
-			/>
+      />
       {/* 사용자가 선택한 파일명 */}
-      {selectedFileName && <p style={{fontSize: 12, textAlign: "center", margin: "0 auto"}}>{selectedFileName}</p>}
+      {selectedFileName && (
+        <p style={{ fontSize: 12, textAlign: "center", margin: "0 auto" }}>
+          {selectedFileName}
+        </p>
+      )}
       {/* 커스텀한 파일 업로더 버튼 */}
-      <button onClick={fileUploadBtn} style={fileUploaderBtn}>{LABEL.BUTTONS.UPLOAD_IMAGE}</button>
+      <button onClick={fileUploadBtn} style={fileUploaderBtn}>
+        {LABEL.BUTTONS.UPLOAD_IMAGE}
+      </button>
 
-
-			<Text
-				id="standard-read-only-input"
-				InputProps={{
-					readOnly: true,
-				}}
-				variant="standard"
-				placeholder={profile.login_id}
-			/>
-			<Text
-				id="standard-basic"
-				variant="standard"
-				defaultValue={profile.user_nickname}
-				onChange={inputNickname}
-				onBlur={nickNameValidate}
-				helperText={nickNameRegMsg !== "" ? nickNameRegMsg : ""}
-			/>
-			<Text
-				id="standard-basic"
-				variant="standard"
-				placeholder={LABEL.INPUT.PLACE_HOLDER.CURRENT_PW}
-				onChange={inputCurPw}
-				type="password"
-			/>
-			<Text
-				id="standard-basic"
-				variant="standard"
-				placeholder={LABEL.INPUT.PLACE_HOLDER.NEW_PW}
-				onChange={inputNewPw}
-				type="password"
-				onBlur={() => validation()}
-				value={newPw}
-				helperText={pwRegMsg}
-			/>
-			<Text
-				id="standard-basic"
-				variant="standard"
-				placeholder={LABEL.INPUT.PLACE_HOLDER.NEW_PW_REPEAT}
-				type="password"
-				onBlur={confirmNewPassword}
-				helperText={confirmNewPwRegMsg !== "" ? confirmNewPwRegMsg : ""}
-			/>
-			{profile.user_reg_dv === "W" && (
-				<Text
-					id="standard-basic"
-					variant="standard"
-					defaultValue={profile.author_info}
-					onChange={inputInfo}
-					// onBlur={nickNameValidate}
-					// helperText={nickNameRegMsg !== "" ? nickNameRegMsg : ""}
-				/>
-			)}
-			{/* <button type="submit" onClick={onEditProfile}>
+      <Text
+        id="standard-read-only-input"
+        InputProps={{
+          readOnly: true,
+        }}
+        variant="standard"
+        placeholder={profile.login_id}
+      />
+      <Text
+        id="standard-basic"
+        variant="standard"
+        defaultValue={profile.user_nickname}
+        onChange={inputNickname}
+        onBlur={nickNameValidate}
+        helperText={nickNameRegMsg !== "" ? nickNameRegMsg : ""}
+      />
+      <Text
+        id="standard-basic"
+        variant="standard"
+        placeholder={LABEL.INPUT.PLACE_HOLDER.CURRENT_PW}
+        onChange={inputCurPw}
+        type="password"
+      />
+      <Text
+        id="standard-basic"
+        variant="standard"
+        placeholder={LABEL.INPUT.PLACE_HOLDER.NEW_PW}
+        onChange={inputNewPw}
+        type="password"
+        onBlur={() => validation()}
+        value={newPw}
+        helperText={pwRegMsg}
+      />
+      <Text
+        id="standard-basic"
+        variant="standard"
+        placeholder={LABEL.INPUT.PLACE_HOLDER.NEW_PW_REPEAT}
+        type="password"
+        onBlur={confirmNewPassword}
+        helperText={confirmNewPwRegMsg !== "" ? confirmNewPwRegMsg : ""}
+      />
+      {profile.user_reg_dv === "W" && (
+        <Text
+          id="standard-basic"
+          variant="standard"
+          defaultValue={profile.author_info}
+          onChange={inputInfo}
+          // onBlur={nickNameValidate}
+          // helperText={nickNameRegMsg !== "" ? nickNameRegMsg : ""}
+        />
+      )}
+      {/* <button type="submit" onClick={onEditProfile}>
 				{" "}
 				완료{" "}
 			</button> */}
-			<ButtonBox>
-				<Buttons
-					type={CODE.BUTTON.BASIC}
-					name={LABEL.BUTTONS.SUBMIT}
-					onEditProfile={onEditProfile}
-					margin={"10px 0 0 auto"}
-				/>
-			</ButtonBox>
-		</Wrapper>
-	);
+      <ButtonBox>
+        <Buttons
+          type={CODE.BUTTON.BASIC}
+          name={LABEL.BUTTONS.SUBMIT}
+          onEditProfile={onEditProfile}
+          margin={"10px 0 0 auto"}
+        />
+      </ButtonBox>
+    </Wrapper>
+  );
 };
 export default EditProfile;

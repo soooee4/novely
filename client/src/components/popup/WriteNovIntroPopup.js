@@ -142,9 +142,11 @@ const WriteNovIntroPopup = (props) => {
 
 	// 저장 후 다음 버튼 눌렀을 때 NovDetail 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
 	const postSubDesc = () => {
-		props.setDescription({
-			description: description,
-		});
+		if (description) {
+			props.setDescription({
+				description: description,
+			});
+		} else alert (MESSAGE.ERROR.WRITE_DESCRIPTION)
 	};
 
 	return (
@@ -156,7 +158,7 @@ const WriteNovIntroPopup = (props) => {
 				name={LABEL.BUTTONS.GOTONEXT}
 				margin={"-10px -5px 0px auto"}
 				postSubDesc={postSubDesc}
-				changeState={props.changeState}
+				changeState={description && props.changeState}
 			/>
 			<IntroMsg>{MESSAGE.WRITE_MAIN_NOVEL_INTRO}</IntroMsg>
 			<textarea 

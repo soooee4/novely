@@ -169,7 +169,12 @@ const AuthorFirstLoginPopup = (props) => {
 
    // 저장 후 다음 버튼 눌렀을 때 Main 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
    const patchAuthorInfo = () => {
-   
+
+   if (authorInfo.length > 50) {
+			alert(MESSAGE.ERROR.INFO_INVALIDATION);
+			return;
+		}
+
       patchData("auth/patchFirstAuthor", {
          authorInfo: authorInfo,
          login_id: props.profile.login_id

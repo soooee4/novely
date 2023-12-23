@@ -312,13 +312,14 @@ import AuthorWriteIntroPopup from "../components/popup/AuthorWriteIntroPopup";
 import ModalPopup from "components/popup/ModalPopup";
 
 // Constant
-import { CODE, LABEL, COLOR } from "common";
+import { CODE, LABEL, COLOR, MESSAGE } from "common";
 
 //util
 import { modalWidth, modalHeight, modalColorMode } from "common/util";
 
 // API
 import { getData, postData } from "common/communication";
+import { red } from "@mui/material/colors";
 
 /** STYLE 정의 */
 // 헤더 제외 영역
@@ -439,6 +440,11 @@ const AuthorMyNov = () => {
 
 	// 메인소설 등록 함수
 	const postMainNovel = () => {
+    if (!regditMainNovData.description) {
+      alert(MESSAGE.ERROR.WRITE_DESCRIPTION);
+      return;
+    }
+
 		postData("novel/postMainNovel", {
 			title: regditMainNovData.title,
 			content: regditMainNovData.content,
@@ -586,6 +592,7 @@ const AuthorMyNov = () => {
 				height={modalHeight(popup)}
 				mode={modalColorMode(popup)}
 				setColor={(data) => setColor(data)}
+				setColorInit={() => setColor("#ffffff")}
 			>
 				{popupChange()}
 			</ModalPopup>

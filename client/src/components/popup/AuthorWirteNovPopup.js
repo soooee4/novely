@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 // MUI Package Module
-import { Box, styled } from "@mui/material";
+import { Box, Typography, styled } from "@mui/material";
 
 // Control Component
 import Buttons from "components/controls/Button";
@@ -62,6 +62,12 @@ const HeaderBox = styled(Box)({
 	boxSizing: "border-box",
 });
 
+// 글자수 표시 영역
+const CountText = styled(Typography)({
+  fontSize: 13,
+  margin: "3px 5px 0px auto"
+});
+
 const writeNovText = (color) => {
   return (
     {
@@ -84,6 +90,7 @@ const writeNovText = (color) => {
 const AuthorWriteNovPopup = (props) => {
 	const [title, setTitle] = useState(""); 	// 소설 제목
 	const [content, setContent] = useState(""); // 소설 내용
+  const [contentCount, setContentCount] = useState(0) // 내용 글자수 체크
 
 	// 저장 후 다음 버튼 눌렀을 때 AuthorMyNov 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
 	const postAuthorNovel = () => {
@@ -99,6 +106,7 @@ const AuthorWriteNovPopup = (props) => {
 
 	const inputContent = (e) => {
 		setContent(e.target.value);
+    setContentCount(e.target.value.length);
 	};
 
 	const goToNext = () => {
@@ -108,7 +116,10 @@ const AuthorWriteNovPopup = (props) => {
 		} else if (content === "") {
 			alert(MESSAGE.ERROR.WRITE_CONTENT);
 			return;
-		} else {
+		} else if (title.length > 50) {
+			alert(MESSAGE.ERROR.TITLE_INVALIDATION);
+			return; 
+    } else {
 			props.changeState();
 		}
 	};
@@ -121,6 +132,7 @@ const AuthorWriteNovPopup = (props) => {
 					onChange={inputTitle}
 					sx={{ width: "70%" }}
 					color={props.color}
+          maxLength={50}
 				/>
 				<Buttons
 					type={CODE.BUTTON.BASIC}
@@ -134,13 +146,19 @@ const AuthorWriteNovPopup = (props) => {
 				/>
 			</HeaderBox>
 			<WholeBox>
-					<WriteBox>
-						<textarea
-							style={writeNovText(props.color)}
-							onChange={inputContent}
-						/>
-					</WriteBox>
+				<WriteBox>
+					<textarea 
+            style={writeNovText(props.color)} 
+            onChange={inputContent} 
+            maxLength={10000}
+          />
+				</WriteBox>
 			</WholeBox>
+			{contentCount === 10000 ? (
+				<CountText style={{ color: "red" }}>{contentCount}/10000</CountText>
+			) : (
+				<CountText>{contentCount}/10000</CountText>
+			)}
 		</Wrapper>
 	);
 };

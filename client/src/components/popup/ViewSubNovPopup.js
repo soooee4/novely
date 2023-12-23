@@ -204,14 +204,49 @@ const Content = styled(Typography)({
 
 // 내용 표시되는 영역
 const ContentBox = styled(Box)({
+  boxSizing: "border-box",
 	border: "2px solid grey",
 	flex: 1,
 	border: `1px solid ${COLOR.GRAY}`,
 	borderRadius: 10,
-	padding: 10,
+	padding: "8px 5px 0px 0px",
 	boxSizing: "border-box",
   overflow: "auto",
+  height: "100%",
+	// '&::-webkit-scrollbar': {
+	// 	width: 5
+	// },
+	// '&::-webkit-scrollbar-thumb': {
+	// 	backgroundColor: '#aaa',
+	// 	borderRadius: 5,
+
+	// },
+	// '&::-webkit-scrollbar-track': {
+	// 	backgroundColor: 'transparent',
+  //   width: 10,
+	// },
 });
+
+const ScrollBox = styled(Box)({
+  boxSizing: "border-box",
+  overflowY: "auto",
+  height: "100%",
+  padding: "0 3%",
+
+	'&::-webkit-scrollbar': {
+		width: 5
+	},
+	'&::-webkit-scrollbar-thumb': {
+		backgroundColor: '#aaa',
+		borderRadius: 5,
+
+	},
+	'&::-webkit-scrollbar-track': {
+		backgroundColor: 'transparent',
+    width: 10,
+	},
+});
+
 
 /** 미완성 작품 (메인 소설)에 달린 서브 소설 읽기 컴포넌트 (작품 상세 페이지 하단 테이블의 소설 제목 클릭 시 해당 팝업 띄워줌) */
 const ViewSubNovPopup = (props) => {
@@ -245,30 +280,34 @@ const ViewSubNovPopup = (props) => {
 			<WholeBox>
 				<MainNovBox>
 					<ContentBox>
-						<Content>
-							{props.mainNovel.content && props.mainNovel.content
-								? props.mainNovel.content.split("\\n").map((line) => (
-										<>
-											{line.replace("\\r", "")}
-											<br />
-										</>
-								  ))
-								: ""}
-						</Content>
+            <ScrollBox>
+              <Content>
+                {props.mainNovel.content && props.mainNovel.content
+                  ? props.mainNovel.content.split("\\n").map((line) => (
+                      <>
+                        {line.replace("\\r", "")}
+                        <br />
+                      </>
+                    ))
+                  : ""}
+              </Content>
+            </ScrollBox>
 					</ContentBox>
 				</MainNovBox>
 				<SubNovBox>
 					<ContentBox>
-						<Content>
-							{props.subNovelData.sub_content && props.subNovelData.sub_content
-								? props.subNovelData.sub_content.split("\\n").map((line) => (
-										<>
-											{line.replace("\\r", "")}
-											<br />
-										</>
-								  ))
-								: ""}
-						</Content>
+            <ScrollBox>
+              <Content>
+                {props.subNovelData.sub_content && props.subNovelData.sub_content
+                  ? props.subNovelData.sub_content.split("\\n").map((line) => (
+                      <>
+                        {line.replace("\\r", "")}
+                        <br />
+                      </>
+                    ))
+                  : ""}
+              </Content>
+            </ScrollBox>
 					</ContentBox>
 				</SubNovBox>
 			</WholeBox>

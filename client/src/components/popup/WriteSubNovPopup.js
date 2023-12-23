@@ -36,7 +36,6 @@ const ScrollBox = styled(Box)({
   overflow: "auto",
 	height: "100%",
 
-
   '&::-webkit-scrollbar': {
     width: 5, 
   },
@@ -89,6 +88,13 @@ const HeaderBox = styled(Box)({
 	boxSizing: "border-box",
 });
 
+// 글자수 표시 영역
+const CountText = styled(Typography)({
+  fontSize: 13,
+  margin: "3px 5px 0px auto"
+});
+
+
 const Content = styled(Typography)({
 	fontSize: 15,
   marginRight:5
@@ -115,7 +121,8 @@ const writeNovText = (color) => {
 const WriteSubNovPopup = (props) => {
 	const [title, setTitle] = useState("");           // 서브 소설 제목
 	const [content, setContent] = useState("");       // 서브 소설 내용
-  const [isScrolling, setIsScrolling] = useState(false);
+  // const [isScrolling, setIsScrolling] = useState(false);
+  const [contentCount, setContentCount] = useState(0) // 내용 글자수 체크
 
 	const inputTitle = (e) => {
 		setTitle(e.target.value);
@@ -123,19 +130,26 @@ const WriteSubNovPopup = (props) => {
 
 	const inputContent = (e) => {
 		setContent(e.target.value);
+    setContentCount(e.target.value.length);
+
 	};
 
+  console.log(title,1211)
   // 저장 후 다음 버튼 눌렀을 때 NovDetail 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
 	const postSubNovel = () => {
-        if (content === "") {
+		if (content === "") {
 			alert(MESSAGE.ERROR.WRITE_CONTENT);
 			return;
+		} else if (title.length > 50) {
+			alert(MESSAGE.ERROR.TITLE_INVALIDATION);
+			return;
+		} else {
+			props.setTitleContent({
+				title: title,
+				content: content,
+				main_novel_seqno: props.mainNovel.main_seqno,
+			});
 		}
-		props.setTitleContent({
-			title: title,      
-			content: content, 
-      		main_novel_seqno: props.mainNovel.main_seqno
-		});
 	};
 
   //스크롤 감지하여 화면에 띄워주는 함수
@@ -174,11 +188,11 @@ const WriteSubNovPopup = (props) => {
 					name={LABEL.BUTTONS.GOTONEXT}
 					margin={"-20px 0px 0px auto"}
 					postSubNovel={postSubNovel}
-					changeState={content !== "" && props.changeState}
+					changeState={(content !== "" && title.length <= 50) && props.changeState}
 				/>
 			</HeaderBox>
 			<WholeBox>
-				<ViewBox >
+				<ViewBox>
 					<ScrollBox>
 						<Content>
 							{props.mainNovel.content && props.mainNovel.content
@@ -193,12 +207,18 @@ const WriteSubNovPopup = (props) => {
 					</ScrollBox>
 				</ViewBox>
 				<WriteBox>
-						<textarea
-							style={writeNovText(props.color)}
-							onChange={inputContent}
-						/>
+					<textarea
+						style={writeNovText(props.color)}
+						onChange={inputContent}
+						maxLength={10000}
+					/>
 				</WriteBox>
 			</WholeBox>
+			{contentCount === 10000 ? (
+				<CountText style={{ color: "red" }}>{contentCount}/10000</CountText>
+			) : (
+				<CountText>{contentCount}/10000</CountText>
+			)}
 		</Wrapper>
 	);
 };

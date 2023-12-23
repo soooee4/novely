@@ -68,10 +68,12 @@ import { getData } from "common/communication";
 	// 레이아웃
 	const Wrapper = styled(Box)({
 		width: "100%",
+    height: "100%",
 		display: "flex",
 		flexDirection: "column",
-    padding: '0 3%',
-    boxSizing: 'border-box'
+		padding: '0 3%',
+		boxSizing: 'border-box',
+		
 	});
 
 	const Title = styled(Typography)({
@@ -83,6 +85,22 @@ import { getData } from "common/communication";
 	const Content = styled(Typography)({
 		fontSize: 17,
 	});
+
+	// 내용 표시되는 영역
+const ContentBox = styled(Box)({
+  	overflow: "auto",
+    paddingRight: 12,
+	'&::-webkit-scrollbar': {
+		width: 5
+	},
+	'&::-webkit-scrollbar-thumb': {
+		backgroundColor: '#aaa',
+		borderRadius: 5,
+	},
+	'&::-webkit-scrollbar-track': {
+		backgroundColor: 'transparent',
+	},
+});
 
 
 /** 완성 작품 읽기 컴포넌트 (작품 상세 페이지에서 view 버튼 클릭 시 완성작일 경우 해당 팝업 띄워줌) */
@@ -104,9 +122,11 @@ const ViewCompleteNovPopup = (props) => {
 	return (
 		<Wrapper>
 			<Title>{completeNovel[0] && completeNovel[0].complete_novel_title}</Title>
-			<Content>
-				{completeNovel[0] && completeNovel[0].complete_novel_content}
-			</Content>
+			<ContentBox>
+				<Content>
+					{completeNovel[0] && completeNovel[0].complete_novel_content}
+				</Content>
+			</ContentBox>
 		</Wrapper>
 	);
 };
