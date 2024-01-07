@@ -34,7 +34,8 @@
         user_nickname,              -- 닉네임
         user_reg_dv,                -- 사용자 구분(G-일반, W-작가)
         login_id,                   -- 아이디
-        login_pw,                   -- 비밀번호
+        login_pw as cur_pw,         -- 비밀번호
+        hashsalt,                   -- 비밀번호 hashSalt
         image                       -- 프로필 이미지
       FROM
         t_user_mgt
@@ -47,7 +48,8 @@
         user_nickname,              -- 닉네임
         user_reg_dv,                -- 사용자 구분(G-일반, W-작가)
         login_id,                   -- 아이디
-        login_pw,                   -- 비밀번호
+        login_pw as cur_pw,         -- 비밀번호
+        hashsalt,                   -- 비밀번호 hashSalt
         author_info,                -- 작가 소개
         image,                      -- 프로필 이미지
         author_first_login          -- 작가 권한 첫 로그인 여부

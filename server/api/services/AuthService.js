@@ -19,7 +19,7 @@ const login = async ({ login_id, login_pw }) => {
     // 인증 체크용 데이터 가져오기
     const { cur_pw, hashsalt, user_reg_dv } = { ...authCheckInfo.rows[0] };
 
-    // login_pw = login_pw.toLowerCase();
+    login_pw = login_pw.toLowerCase();
     const { hashPassword } = await util.makeHashedPassword(login_pw, hashsalt);
 
     // 비밀번호 체크
@@ -108,22 +108,34 @@ const editProfile = async ({
   const client = await pool.connect();
   let sqlId = isAuthor ? "Auth.getAuthUserInfo" : "Auth.getUserInfo";
 
-  current_pw = current_pw.toLowerCase();
-
   try {
     // 유저 정보 조회
     let userInfo = await client.query(mapper.makeSql(sqlId, { login_id }));
+
+    // 인증 체크용 데이터 가져오기
+    const { cur_pw, hashsalt } = { ...userInfo.rows[0] };
+
+    const { hashPassword } = await util.makeHashedPassword(current_pw, hashsalt);
+
     let data;
 
     // 사용자가 입력한 현재 비밀번호가 DB에 있는 비밀번호와 일치하는지 확인
-    if (current_pw !== userInfo.rows[0].login_pw) {
+    if (cur_pw !== hashPassword) {
       return MESSAGE.UNMATCHED_PASSWORD;
     } else {
       // 닉네임, 비밀번호, 작가 소개글, 이미지 중 하나만 변경했을 때 빈 값으로 올 경우 기존에 있던 정보를 넣어주기 위한 조건 (논리 연산자 사용)
       user_nickname = user_nickname || userInfo.rows[0].user_nickname;
-      new_pw = new_pw || userInfo.rows[0].login_pw;
       image_file_name = image_file_name || userInfo.rows[0].image;
       author_info = author_info || userInfo.rows[0].author_info;
+
+      let hashNewPw;
+
+      // 비밀번호 해쉬화
+      if (new_pw) {
+        const { hashPassword } = await util.makeHashedPassword(new_pw, hashsalt);
+
+        hashNewPw = hashPassword;
+      }
 
       // 일치하는 경우 프로필 수정 실행
       /** 클라이언트에서 받은 isAuthor가 false일 경우(일반회원) */
@@ -132,7 +144,7 @@ const editProfile = async ({
         data = await client.query(
           mapper.makeSql(sqlId, {
             user_nickname,
-            login_pw: new_pw,
+            login_pw: new_pw ? hashNewPw : cur_pw,
             login_id,
             author_info: author_info,
             image: image_file_name,
@@ -143,7 +155,7 @@ const editProfile = async ({
         data = await client.query(
           mapper.makeSql(sqlId, {
             user_nickname,
-            login_pw: new_pw,
+            login_pw: new_pw ? hashNewPw : cur_pw,
             login_id,
             image: image_file_name,
           })
