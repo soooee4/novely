@@ -23,7 +23,6 @@ const getTag = async (req, res, next) => {
   }
 };
 
-
 /**
  * 장르 태그 조회
  */

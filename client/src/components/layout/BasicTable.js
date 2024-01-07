@@ -28,7 +28,6 @@ const BasicTable = (props) => {
 				aria-label="simple table"
 			>
 				<TableBody>
-					{/* subNovelData가 있고 소설 상세 페이지에서 인기순을 누를 경우 true로 바뀌는 isPopular가 false일 경우 기존 받아온 데이터로 뿌려줌 */}
 					{props.subNovelData && props.isPopular === false
 						? props.subNovelData.map((novel, i) => (
 								<TableRow
@@ -59,7 +58,6 @@ const BasicTable = (props) => {
 										sx={{
 											width: "30%",
 										}}
-										// align="center"
 									>
 										By.{novel.user_nickname}
 									</TableCell>

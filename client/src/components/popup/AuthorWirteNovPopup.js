@@ -141,8 +141,6 @@ const AuthorWriteNovPopup = (props) => {
 					margin={"-17px 0px 0px auto"}
 					postAuthorNovel={postAuthorNovel}
 					goToNext={goToNext}
-					// backgroundColor={COLOR.WHITE}
-					// changeState={(title !== "" || content !== "") && props.changeState}
 				/>
 			</HeaderBox>
 			<WholeBox>

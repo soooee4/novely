@@ -176,6 +176,7 @@
       tsnm.main_novel_seqno,                                  -- 메인 소설 순번
       tsnm.created_user,                                      -- 서브 소설 작성자 아이디
       tum.user_nickname,                                      -- 서브 소설 작성자 닉네임
+      tnm.content,                                            -- 메인 소설 내용
       (
         SELECT 
           CASE WHEN (COUNT(*) = 1) THEN 'Y' ELSE 'N' END
@@ -188,9 +189,10 @@
       t_sub_novel_mgt tsnm
     LEFT JOIN t_user_mgt tum
       ON tsnm.created_user = tum.login_id
+    LEFT JOIN t_novel_mgt tnm
+      ON tnm.novel_seqno = #{main_novel_seqno}
     WHERE
       main_novel_seqno = #{main_novel_seqno}
-      AND tsnm.complete_yn = 'N'
     ORDER BY
       sub_novel_seqno DESC           
   </select>

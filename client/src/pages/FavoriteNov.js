@@ -55,8 +55,6 @@ const FavoriteNov = () => {
 	const [selectedTab, setSelectedTab] = useState("complete"); 							// 선택된 메뉴
 	const [isComplete, setIsComplete] = useState(true); 									// 소설 완성 여부 (기본값 complete 소설 표시)
 
-	console.log(incompleteNovData);
-
 	// 페이지 렌더링 시 찜한 완성 소설 데이터 조회
 	useEffect(() => {
 		getPickNovels();

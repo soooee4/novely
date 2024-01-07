@@ -24,7 +24,6 @@ import { pwValidation } from "common/util";
 const Wrapper = styled(Box)({
   justifyContent: "center",
   alignItems: "center",
-  // border: "2px solid blue",
   padding: "0px 20px 20px 20px"
 });
 
@@ -73,8 +72,6 @@ const EditProfile = (props) => {
   );
   const [selectedFileName, setSelectedFileName] = useState("");   // 사용자가 선택한 프로필 사진 이름
   const [previewUrl, setPreviewUrl] = useState("");
-
-    console.log(profile,7777)
 
   const imageUrl = useMemo(() => {
 	if (previewUrl !== "") {
@@ -158,10 +155,6 @@ const EditProfile = (props) => {
 			formData.append(key, data[key]);
 		});
 			patchData("auth/editProfile", formData).then((data) => {
-				// res.data가 false로 넘어올 경우 경고창 띄워줌
-				// data가 제대로 넘어올 경우
-				// 기존 로컬스토리지에 저장한 profile에 닉네임 추가하여 setProfile 함수를 이용하여 정보 업데이트 후 다시 로컬스토리지에 저장
-				// 스프레드 연산자 사용하여 profile 객체를 분해하여 복사하여 넣음 (데이터 복사, 추가 시 사용)
 				if (typeof data === "object") {
 					const newData = JSON.stringify({
 						...profile,

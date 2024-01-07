@@ -9,50 +9,80 @@
         t_novel_mgt tnm
       WHERE
         tnm.complete_yn = 'N' 
-        AND date_part('DAY', NOW() - tnm.created_date) <![CDATA[>]]> 30
+        AND date_part('DAY', NOW() - tnm.created_date) <![CDATA[>]]> 30  
     </select>
 
-    <select id="getSubNovelSeqnos">
-      SELECT
-        sub_novel_seqno
+    <select id="checkElectedIncompleteNov">
+      SELECT DISTINCT
+        main_novel_seqno
       FROM
-        t_sub_novel_mgt
+        t_sub_novel_mgt 
       WHERE
-        main_novel_seqno IN 
+        main_novel_seqno IN
         <foreach collection="main_seqno" item="seq" separator="," open="(" close=")">
           #{seq}
         </foreach>
     </select>
 
+    <update id="initCreatedDatePostponeNov">
+      UPDATE
+        t_novel_mgt
+      SET 
+        created_date = NOW() AT TIME ZONE 'ASIA/SEOUL'
+      WHERE novel_seqno IN
+        <foreach collection="postpone_main_seqno" item="seq" separator="," open="(" close=")">
+          #{seq}
+        </foreach>
+    </update>
+
     <select id="getMostLikeWriter">
-      SELECT 
-        tsnm.sub_title,
-        tnm.content || ' ' || tsnm.sub_content AS content,    -- 메인, 서브 소설 테이블에 기록된 content를 합친 데이터
-        tsnm.sub_like_count,                                  -- 서브 소설 좋아요 수
-        tsnm.main_novel_seqno,                                -- 메인 소설 순번
-        tsnm.sub_novel_seqno,                                 -- 서브 소설 순번
-        tsnm.genre_1,                                         -- 첫번째 장르(필수)
-        tsnm.genre_2,                                         -- 두번째 장르
-        tsnm.keyword_1,                                       -- 첫번째 키워드(필수)
-        tsnm.keyword_2,                                       -- 두번째 키워드
-        tsnm.keyword_3,                                       -- 세번째 키워드
-        tsnm.sub_description,                                 -- 서브 소설 한줄 소개
-        tsnm.created_user AS sub_author_id,                   -- 서브 소설 작성자 아이디
-        tnm.created_user AS main_author_id,                   -- 메인 소설 작성자 아이디
-        tsnm.cover_image
-      FROM t_sub_novel_mgt tsnm
-      LEFT JOIN t_novel_mgt tnm 
-        ON tsnm.main_novel_seqno = tnm.novel_seqno            -- 메인 소설 순번
-      WHERE tsnm.sub_like_count =
-        (
-          SELECT 
-            MAX(tsnm2.sub_like_count)
-          FROM t_sub_novel_mgt tsnm2 
-          WHERE tsnm2.main_novel_seqno In 
-            <foreach collection="main_seqno" item="seq" separator="," open="(" close=")"> 
-              #{seq}
-            </foreach>
-        ) 
+      WITH ranked_novels AS (
+        SELECT
+          tsnm.sub_title,
+          tnm.content || ' ' || tsnm.sub_content AS content,
+          tsnm.sub_like_count,
+          tsnm.main_novel_seqno,
+          tsnm.sub_novel_seqno,
+          tsnm.genre_1,
+          tsnm.genre_2,
+          tsnm.keyword_1,
+          tsnm.keyword_2,
+          tsnm.keyword_3,
+          tsnm.sub_description,
+          tsnm.created_user as sub_author_id,
+          tnm.created_user as main_author_id,
+          tsnm.cover_image,
+          ROW_NUMBER() OVER (PARTITION BY main_novel_seqno ORDER BY sub_like_count DESC) AS row_num
+        FROM
+          t_sub_novel_mgt tsnm 
+        LEFT JOIN t_novel_mgt tnm
+          ON tsnm.main_novel_seqno = tnm.novel_seqno
+        WHERE
+          main_novel_seqno IN
+          <foreach collection="sub_more_than_zero_main_seqno" item="seq" separator="," open="(" close=")">
+            #{seq}
+          </foreach>
+      )
+      SELECT
+        sub_title,
+        content,
+        sub_like_count,
+        main_novel_seqno,
+        sub_novel_seqno,
+        genre_1,
+        genre_2,
+        keyword_1,
+        keyword_2,
+        keyword_3,
+        sub_description,
+        sub_author_id,
+        main_author_id,
+        cover_image
+      FROM
+        ranked_novels 
+      WHERE
+        row_num = 1
+      AND sub_like_count != 0
     </select>
 
     <insert id="postCompleteNovel">
@@ -100,7 +130,7 @@
       SET
         complete_yn = 'Y'             -- 완성 여부
       WHERE novel_seqno IN
-        <foreach collection="main_seqno" item="seq" separator="," open="(" close=")">
+        <foreach collection="like_more_than_zero_main_seqno" item="seq" separator="," open="(" close=")">
           #{seq}::INTEGER
         </foreach>
     </update>
@@ -110,8 +140,8 @@
         t_sub_novel_mgt
       SET
         complete_yn = 'Y'             -- 완성 여부
-      WHERE sub_novel_seqno IN
-        <foreach collection="sub_seqno" item="seq" separator="," open="(" close=")">
+      WHERE main_novel_seqno IN
+        <foreach collection="like_more_than_zero_main_seqno" item="seq" separator="," open="(" close=")">
           #{seq}::INTEGER
         </foreach>
     </update>

@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Auth">
-    <select id="login">
-      SELECT
-        login_id,                   -- 아이디
-        user_reg_dv,
-        author_first_login                -- 사용자 구분(G-일반, W-작가)
-      FROM
-        t_user_mgt
-      WHERE
-        login_id = #{login_id}
-        AND login_pw = #{login_pw}
-    </select>
-
     <select id="isUser">
       SELECT
         login_id                    -- 아이디
@@ -27,13 +15,15 @@
       (
         login_id,                   -- 아이디
         login_pw,                   -- 비밀번호
+        hashsalt,                   -- 암호화된 랜덤 데이터
         user_nickname,              -- 닉네임
         image                       -- 프로필 이미지
       )
       VALUES 
       (
         #{login_id},
-        #{login_pw},
+        #{hashPassword},
+        #{hashSalt},
         #{user_nickname},
         #{image}
       )
@@ -108,4 +98,15 @@
       WHERE
         login_id = #{login_id}
     </update>
+
+    <select id="getAuthCheckInfo">
+      SELECT
+        login_pw as cur_pw,    -- 비밀번호
+        hashsalt,              -- 비밀번호 HashSalt
+        user_reg_dv            -- 사용자 구분(G-일반, W-작가)
+      FROM
+        t_user_mgt
+      WHERE
+        login_id = #{login_id}
+    </select>
 </mapper>

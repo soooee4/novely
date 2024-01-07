@@ -6,33 +6,37 @@ const { MESSAGE } = require("../../common/message");
 // 로그인
 const login = async ({ login_id, login_pw }) => {
   const client = await pool.connect();
-  let sqlId = "Auth.login";
-
-  login_pw = login_pw.toLowerCase();
+  let sqlId;
 
   try {
-    // 유저 정보가 있는지 DB 확인
-    const isLogin = await client.query(
-      mapper.makeSql(sqlId, { login_id, login_pw })
-    );
+    // 사용자 인증 체크용 데이터 조회
+    sqlId = "Auth.getAuthCheckInfo";
+    const authCheckInfo = await client.query(mapper.makeSql(sqlId, { login_id }));
+
+    // 미등록 사용자 체크
+    if (authCheckInfo.rowCount === 0) return MESSAGE.UNMATCHED_LOGIN_INFO;
+
+    // 인증 체크용 데이터 가져오기
+    const { cur_pw, hashsalt, user_reg_dv } = { ...authCheckInfo.rows[0] };
+
+    // login_pw = login_pw.toLowerCase();
+    const { hashPassword } = await util.makeHashedPassword(login_pw, hashsalt);
+
+    // 비밀번호 체크
+    const validPw = cur_pw === hashPassword;
+    if (!validPw) return MESSAGE.UNMATCHED_PASSWORD;
 
     // user 정보를 담을 변수
     let userInfo = null;
 
-    // 로그인 시 입력했던 id, pw가 db상에 존재할 경우(유저 정보를 리턴하여 클라이언트로 전송)
-    if (isLogin.rowCount === 1) {
-      sqlId =
-        isLogin.rows[0].user_reg_dv === "W"
-          ? "Auth.getAuthUserInfo"
-          : "Auth.getUserInfo";
+    // 비밀번호 유효 시 유저 정보를 리턴하여 클라이언트로 전송
+    if (validPw) {
+      sqlId = user_reg_dv === "W" ? "Auth.getAuthUserInfo" : "Auth.getUserInfo";
       userInfo = await client.query(mapper.makeSql(sqlId, { login_id }));
 
       return userInfo.rows[0];
-
-      // 존재하지 않을 경우(false로 처리)
-    } else {
-      return MESSAGE.UNMATCHED_LOGIN_INFO;
-    }
+    } 
+    
   } catch (err) {
     console.log(err);
   }
@@ -51,17 +55,20 @@ const join = async ({ login_id, login_pw, image }) => {
       // 존재할 경우
       return MESSAGE.ALREADY_JOINED;
     } else {
-      // 존재하지 않는 경우
-      sqlId = "Auth.join";
-
+      // 존재하지 않는 경우(최초 가입)
+      // 비밀번호 해쉬화
+      const { hashPassword, hashSalt } = await util.makeHashedPassword(login_pw);
+      
       // 닉네임 랜덤 생성
       const nickname = util.makeRandomNickname();
-
+      
       // 회원 등록
+      sqlId = "Auth.join";
       const regditUser = await client.query(
         mapper.makeSql(sqlId, {
           login_id,
-          login_pw,
+          hashPassword,
+          hashSalt,
           user_nickname: nickname,
           image: image ? image : "basic.jpeg",
         })
@@ -168,7 +175,6 @@ const editProfile = async ({
 const authorFirstLogin = async ({ login_id, authorInfo }) => {
   const client = await pool.connect();
   let sqlId = "Auth.authorFirstLogin";
-  console.log(login_id, authorInfo,171)
 
   try {
     // 작가 소개 업데이트 및 작가 권한 첫 로그인 여부 변경(Y => N)

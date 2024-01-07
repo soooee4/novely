@@ -39,7 +39,6 @@ export const patchData = async (url, params) => {
 		);
 		return response.data;
 	} catch (err) {
-    console.log('eeee')
 		console.log(err);
 	}
 };

@@ -22,8 +22,6 @@ const Wrapper = styled(Box)({
 	flexDirection: "column",
 	padding: "0 3%",
 	boxSizing: "border-box",
-	// paddingTop: 40,
-  //  boxShadow: "inset 0 0 3px 3px blue"
 });
 
 const WholeBox = styled(Box)({
@@ -95,55 +93,27 @@ const SelectTagPopup = (props) => {
 			});
 	}, []);
 
-  // 태그 클릭 시 실행될 함수
-	// const onSelectTags = (tag, type) => {
-	// 	// 장르일 경우
-	// 	if (type === "genre") {
-  //     const check = genre.findIndex((v) => v === tag);  // 선택한 장르가 배열에 있는지 확인
-
-  //     if (check === -1) {
-  //       if(genre.length > 1) {
-  //         alert(MESSAGE.OVER_SELECTED_GENRE);
-  //         return;
-  //       } else {
-  //         setGenre([tag, ...genre]);
-  //       }
-  //     } else {
-  //       setGenre(genre.filter((g) => g !== genre[check]));
-  //     }
-
-  //   // 키워드일 경우
-	// 	} else {
-  //     const check = keyword.findIndex((v) => v === tag);  // 선택한 키워드가 배열에 있는지 확인
-
-  //     if (check === -1) {
-  //       if (keyword.length > 2) {
-  //         alert(MESSAGE.OVER_SELECTED_KEY_WORD);
-  //         return;
-  //       } else {
-  //         setKeyword([tag, ...keyword]);
-  //       }
-  //     } else {
-  //       setKeyword(keyword.filter((k) => k !== keyword[check]));
-  //     }
-  //   }
-	// };
-
-  // 태그 클릭 시 실행될 함수
+  // 태그 클릭 시 실행될 함수 (태그 선택 및 선택 해제)
   const onSelectTags = (tag, type) => {
-    const checkState = type === "genre" ? genre : keyword;
-    const setState = type === "genre" ? setGenre: setKeyword;
-    const check = checkState.findIndex((v) => v === tag);
-    const maxLength = type === "genre" ? 1 : 2;
+    const checkState = type === "genre" ? genre : keyword;          // 현재 선택된 태그들을 담는 배열
+    const setState = type === "genre" ? setGenre: setKeyword;       // 상태를 업데이트하는 함수
+    // findIndex 매서드를 사용하여 true를 반환하는 첫 번째 요소의 인덱스를 담은 배열 생성
+    const check = checkState.findIndex((v) => v === tag);           // 선택된 태그와 일치하는 요소의 인덱스 추출하여 담는 배열
+    const maxLength = type === "genre" ? 1 : 2;                     // 선택 가능한 최대 갯수
 
+    // 사용자가 선택한 태그가 기존 선택된 태그 배열에 없는 경우
 		if (check === -1) {
+      // 선택된 태그 배열의 갯수와 최대 허용 갯수 비교하여 초과일 경우 알림창 띄워주고 함수 종료
       if (checkState.length > maxLength) {
         alert(type === "genre" ? MESSAGE.OVER_SELECTED_GENRE : MESSAGE.OVER_SELECTED_KEY_WORD);
         return;
+        // 초과하지 않을 경우 스프레드 연산자 사용하여 기존 배열 첫번째 자리에 사용자가 선택한 태그 추가 
       } else {
         setState([tag, ...checkState]);
       }
+    // 사용자가 선택한 태그가 기존 선택된 태그 배열에 이미 존재하는 경우 선택 해제
     } else {
+      // 사용자가 선택한 태그를 기존 배열에서 찾은 경우 사용자가 선택한 태그를 제외한 새로운 배열 생성
       setState(checkState.filter((v) => v !== checkState[check]));
     }
 	};

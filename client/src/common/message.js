@@ -25,6 +25,8 @@ export const MESSAGE = {
   EDIT_SUCCEED: "수정 완료 :)",
   AUTHOR_FIRST_LOGIN: "축하합니다! 작품이 당선되어 작가가 되셨어요👏 기념으로 아래 작가 소갯말을 작성해주세요 :)",
   AUTHOR_ELECTED_FIRST_LOGIN: "축하합니다! 작품이 당선되었어요👏",
+  AUTHOR_REGISTER_SUCCESS: '작가 등록 완료!',
+  D_DAY: '마감 D-DAY',
   // 에러 메세지
   ERROR: {
     EMAIL_INVALIDATION: '이메일을 확인해주세요.',
@@ -39,6 +41,7 @@ export const MESSAGE = {
     CHECK_EXT: 'jpg, jpeg, png 형식의 파일만 가능해요 :(',
     WRITE_DESCRIPTION: '소개를 입력해주세요!',
     TITLE_INVALIDATION: '제목은 50자 이내로 설정해주세요!',
-    INFO_INVALIDATION: '소갯말은 50자 이내로 설정해주세요!',
+    INFO_INVALIDATION: '100자 이내로 적어주세요!',
+    DESC_INVALIDATION: '소개는 50자 이내로 적어주세요!'
   },
 }

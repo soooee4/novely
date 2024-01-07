@@ -134,7 +134,6 @@ const WriteSubNovPopup = (props) => {
 
 	};
 
-  console.log(title,1211)
   // 저장 후 다음 버튼 눌렀을 때 NovDetail 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
 	const postSubNovel = () => {
 		if (content === "") {
@@ -155,7 +154,7 @@ const WriteSubNovPopup = (props) => {
   //스크롤 감지하여 화면에 띄워주는 함수
   // const handleScroll = () => {
   //   setIsScrolling(true);
-  //   // 스크롤링 0.5초 후 동작 멈춤
+    // 스크롤링 0.5초 후 동작 멈춤
   //   setTimeout(() => {
   //     setIsScrolling(false);
   //   }, 1000);
@@ -165,7 +164,7 @@ const WriteSubNovPopup = (props) => {
   //   const temp = document.querySelector('.cc')
   //   temp.addEventListener("scroll", handleScroll);
 
-  //   // 클린업 (언마운트 시 이벤트 리스너 삭제)
+    // 클린업 (언마운트 시 이벤트 리스너 삭제)
   //   return () => {
   //     temp.removeEventListener("scroll", handleScroll);
   //   };
@@ -179,11 +178,9 @@ const WriteSubNovPopup = (props) => {
 					defaultValue={props.mainNovel.title}
 					onChange={inputTitle}
 					color={props.color}
-					// sx={{ width: "30%" }}
 				/>
 				<Buttons
 					type={CODE.BUTTON.BASIC}
-					// backgroundColor={COLOR.WHITE}
 					color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
 					name={LABEL.BUTTONS.GOTONEXT}
 					margin={"-20px 0px 0px auto"}

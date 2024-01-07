@@ -4,7 +4,6 @@ const router = Router();
 const svc = require("../services/AuthService");
 const { parsingFormData } = require("../../common/util");
 const { fileUpload } = require("../../common/controller");
-const { MESSAGE } = require("../../common/message");
 
 
 // 로그인

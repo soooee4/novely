@@ -11,7 +11,7 @@ const schedule = require('./schedule')
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, '../image')));
+app.use(express.static(path.join(__dirname, '../../image')));
 
 app.use("/", routes);
 

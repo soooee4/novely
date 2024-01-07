@@ -7,11 +7,8 @@ const getGenre = async () => {
 	const sqlId = "Common.getGenre";
 	
 	try {
-		// console.log(11111)
-		const data = await client.query(
-			mapper.makeSql(sqlId, {}));
-		  // console.log(data,123);  
-		  return data;
+		const data = await client.query(mapper.makeSql(sqlId, {}));
+		return data;
 	} catch (err) {
 		console.log(err);
 	} finally {

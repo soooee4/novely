@@ -21,11 +21,6 @@ const BorderBtn = styled(Button)({
 	border: `1px solid ${COLOR.BLACK}`,
 	borderRadius: 7,
 	padding: 15,
-	// "&:hover": {
-	// 	fontWeight: "bolder",
-	// 	fontSize: 15,
-	// 	padding: "15px 0",
-	// },
 });
 
 // 태그 버튼

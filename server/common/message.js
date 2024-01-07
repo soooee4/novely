@@ -13,7 +13,8 @@ const MESSAGE = {
   POST_FAILED: '등록 실패',
   UNMATCHED_PASSWORD: '현재 비밀번호가 일치하지 않습니다 :(',
   PATCH_PROFILE_FAILED: '프로필 수정 실패 :(',
-  JOIN_FAILED: '회원가입 실패 :('
+  JOIN_FAILED: '회원가입 실패 :(',
+  UNMATCHED_PASSWORD: '비밀번호가 일치하지 않습니다.'
 };
 
 module.exports = {

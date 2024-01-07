@@ -14,9 +14,6 @@ const makeSql = (sqlId, params, nolog) => {
   if (sqlIds.length != 2) throw Error(`invalid sql id(${sqlId})`);
 
   const sql = mybatis.getStatement(sqlIds[0], sqlIds[1], params);
-  // sqlIds[0]는 namespace(예약어), [1]은 id(예약어)
-  //   if (!nolog) apiLog(sourcePath, "makeSql", `sqlId : ${sqlId}\n${sql}`);
-  // apiLog(sourcePath, 'makeSql', `sqlId : ${sqlId}`);
 
   return sql;
 };

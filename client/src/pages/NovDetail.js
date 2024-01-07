@@ -2,9 +2,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-// imageCompression Module
-import imageCompression from 'browser-image-compression';
-
 // MUI Package Module
 import { Box, Typography, styled } from "@mui/material";
 
@@ -16,7 +13,6 @@ import BasicTable from "components/layout/BasicTable";
 
 // Control Component
 import Buttons from "components/controls/Button";
-
 
 // Popup Component
 import ModalPopup from "components/popup/ModalPopup";
@@ -33,7 +29,12 @@ import ViewSubNovPopup from "components/popup/ViewSubNovPopup";
 import { CODE, LABEL, MESSAGE } from "common";
 
 // util
-import { modalWidth, modalHeight, modalColorMode } from "common/util";
+import {
+	modalWidth,
+	modalHeight,
+	modalColorMode,
+	compressImage,
+} from "common/util";
 
 // API
 import { getData, postData } from "common/communication";
@@ -57,29 +58,24 @@ const NovDetailBox = styled(Box)({
 });
 
 // 소설 커버 이미지 영역
-const NovCoverBox = styled(Box)({
-
-	marginRight: 20,
-});
+// const NovCoverBox = styled(Box)({
+// 	marginRight: 20,
+// });
 
 // 소설 커버 이미지 영역
 const NovelCover = styled(Box)({
-	minWidth: "20%",
-	minHeight: "70%",
+	width: 200,
+	height: 300,
 	marginTop: 5,
 	borderRadius: 15,
 	backgroundColor: "pink",
-  backgroundSize: "cover",
-  backgroundRepeat: "no-repeat",
-  border: "5px solid yellow",
-  flex: 1,
+	backgroundSize: "cover",
+	backgroundRepeat: "no-repeat",
 });
-
 
 // 소설 게시판 영역
 const NovBoardBox = styled(Box)({
 	height: "70%",
-	flexGrow: 1,
 	display: "flex",
 	flexDirection: "column",
 	padding: "10px",
@@ -112,8 +108,6 @@ const NovDetail = () => {
 
 	const novel = location.state.props;
 
-  // console.log(novel,11111)
-
 	/** STATE 정의
 	 * modal: Modal 팝업 상태
 	 * popup:  팝업 내용 변경
@@ -124,20 +118,20 @@ const NovDetail = () => {
 	 * isPopular: 서브 소설을 담은 table에 인기순인지 최신순인지 알려주기 위한 상태
 	 * regditNovData: 이어쓰기 팝업에서 입력한 서브소설 데이터(t_sub_novel_mgt 테이블에 들어갈 데이터)
 	 */
-	const [modal, setModal] = useState(false); 					        // 모달 open 여부
-	const [popup, setPopup] = useState(""); 					          // popup 상태값
-	const [authorId, setAuthorId] = useState(""); 				      // 소설 정보 헤더에서 클릭한 작가 아이디
-	const [authorNickName, setAuthorNickName] = useState(""); 	// 소설 정보 헤더에서 클릭한 작가 닉네임
-	const [subNovelData, setSubNovelData] = useState([]); 		  // 메인 소설에 연결된 서브 소설들 데이터(BasicTable에 넘김)
-	const [mainNovel, setMainNovel] = useState({}); 			      // 이어쓰기 팝업에서 띄워져야 할 메인 소설의 데이터(title, content, seqno가 담겨있음)
-	const [novelIdx, setNovelIdx] = useState(0); 				        // 클릭한 소설의 인덱스
-	const [isPopular, setIsPopular] = useState(false); 			    // 서브 소설을 담은 table에 인기순인지 최신순인지 알려주기 위한 상태
+	const [modal, setModal] = useState(false); // 모달 open 여부
+	const [popup, setPopup] = useState(""); // popup 상태값
+	const [authorId, setAuthorId] = useState(""); // 소설 정보 헤더에서 클릭한 작가 아이디
+	const [authorNickName, setAuthorNickName] = useState(""); // 소설 정보 헤더에서 클릭한 작가 닉네임
+	const [subNovelData, setSubNovelData] = useState([]); // 메인 소설에 연결된 서브 소설들 데이터(BasicTable에 넘김)
+	const [mainNovel, setMainNovel] = useState({}); // 이어쓰기 팝업에서 띄워져야 할 메인 소설의 데이터(title, content, seqno가 담겨있음)
+	const [novelIdx, setNovelIdx] = useState(0); // 클릭한 소설의 인덱스
+	const [isPopular, setIsPopular] = useState(false); // 서브 소설을 담은 table에 인기순인지 최신순인지 알려주기 위한 상태
 	const [profile, setProfile] = useState(
 		JSON.parse(localStorage.getItem("profile"))
-	); 															                            // 로컬스토리지에 저장된 사용자 정보
-	const [isLike, setIsLike] = useState(false); 				        // 노벨카드에서 소설 찜 상태 변경 여부 공유받기 위한 상태
-  const [color, setColor] = useState("#ffffff");              // 배경색 모드
- 
+	); // 로컬스토리지에 저장된 사용자 정보
+	const [isLike, setIsLike] = useState(false); // 노벨카드에서 소설 찜 상태 변경 여부 공유받기 위한 상태
+	const [color, setColor] = useState("#ffffff"); // 배경색 모드
+
 	// 서버에 post하기 위한 데이터
 	const [regditNovData, setRegditNovData] = useState({
 		main_novel_seqno: null,
@@ -153,8 +147,6 @@ const NovDetail = () => {
 		created_user: profile.login_id,
 	});
 
-  
-
 	// 인기순 (like_count가 많은 순으로 정렬할 서브 소설 배열)
 	const [popularOrder, setPopularOrder] = useState([]);
 
@@ -169,7 +161,7 @@ const NovDetail = () => {
 		popularOrder.sort((a, b) => b.sub_like_count - a.sub_like_count);
 	};
 
-	// * 소설에 딸린 서브 소설 가져오기
+	// 소설에 딸린 서브 소설 가져오기
 	const getSubNovelData = () => {
 		getData("novel/getSubNovel", {
 			main_novel_seqno: novel.main_seqno,
@@ -227,7 +219,6 @@ const NovDetail = () => {
 		}));
 	};
 
-  
 	// SelectTagPopup 받아온 description 세팅 함수
 	const setCoverImage = (data) => {
 		setRegditNovData((prevState) => ({
@@ -235,38 +226,35 @@ const NovDetail = () => {
 			file: data.file,
 		}));
 	};
-  
 
 	// 서브 소설 데이터 서버 전송
 	const postSubNovData = async () => {
-
-    let subNovData;
+		let subNovData;
 
 		// 커버 이미지 선택할 경우 폼 데이터 생성
 		if (regditNovData.file !== "cover_basic.jpg") {
-		
-      // 선택된 이미지 파일의 확장자명이 jpeg, jpg, png가 아닐 경우 경고문 띄우고 함수 종료
-      const ext = regditNovData.file.type.split('/')[1]
-      const allowList = ['jpeg','jpg','png']
-      if (!allowList.includes(ext)) {
-        alert(MESSAGE.ERROR.CHECK_EXT);
-        return;
-      }
-      
-      
-      const resizingImg = await handleImageUpload(regditNovData.file)
-      setRegditNovData((prev)=>({
-        ...prev,
-        file : resizingImg
-      }))
-      
-      const formData = new FormData();
+			// 선택된 이미지 파일의 확장자명이 jpeg, jpg, png가 아닐 경우 경고문 띄우고 함수 종료
+			const ext = regditNovData.file.type.split("/")[1];
+			const allowList = ["jpeg", "jpg", "png"];
+			if (!allowList.includes(ext)) {
+				alert(MESSAGE.ERROR.CHECK_EXT);
+				return;
+			}
+
+			// 이미지 압축
+			const resizingImg = await compressImage(regditNovData.file);
+			setRegditNovData((prev) => ({
+				...prev,
+				file: resizingImg,
+			}));
+
+			const formData = new FormData();
 
 			Object.keys(regditNovData).forEach((key) => {
 				formData.append(key, regditNovData[key]);
 			});
 
-      subNovData = formData;
+			subNovData = formData;
 
 			// 커버 이미지 선택없이 나머지 데이터만 전송할 경우
 		} else {
@@ -280,59 +268,45 @@ const NovDetail = () => {
 		});
 	};
 
-  // 파일 이미지 압축 함수
-  const handleImageUpload = async (img) => {
-
-		const options = {
-			maxSizeMB: 0.5,
-			maxWidthOrHeight: 870,
-		};
-
-		try {
-			const compressedBlob = await imageCompression(img, options);
-
-      // 리사이징한 Blob 데이터를 File 형태로 변환
-      const resizingFile = new File([compressedBlob], img.name, { type: img.type });
-      
-      // 리사이징된 File 형태의 이미지 리턴
-      return resizingFile;
-    } catch (error) {
-			console.log(error);
-		}
-	};
-
 	// 소설 마감 기한 알려주는 디데이 카운터 함수
 	const novelDdayCounter = () => {
-
-    // 한국 시간으로 변환
-    const offset = 1000 * 60 * 60 * 9;
-
 		// 문자열로 뽑히는 created_date를 Date 객체로 변환
 		const createdDate = new Date(novel.created_date);
 
 		// 마감일은 소설의 작성일 기준 30일 후로 설정
 		const dueDate = new Date(createdDate.setDate(createdDate.getDate() + 30));
 
-		// 현재 날짜를 한국 시간으로 변환
-		const currentDate = new Date((new Date()).getTime() + offset)
-		// const currentDate = new Date((new Date()).getTime())
-
+		// 현재 시간(PC 설정 관계없이 서울 시간으로 고정)
+		const krCurr = new Date(
+			new Date().getTime() +
+				new Date().getTimezoneOffset() * 60 * 1000 +
+				9 * 60 * 60 * 1000
+		);
 
 		// 현재 날짜와 마감일의 차이를 밀리초 단위로 변환하여 계산
-		const leftTime = dueDate.getTime() - currentDate.getTime();
+		let leftTime = dueDate.getTime() - krCurr.getTime();
 
-		// 밀리초를 일 단위로 변환 
-		const leftDay = Math.ceil(leftTime / (1000 * 60 * 60 * 24));   // 1초 = 1000밀리초, 1분은 60초, 1시간은 60분, 1일은 24시간
-
-    console.log(currentDate, dueDate, 9999)
-		return leftDay;
-  
+		// 밀리초를 일 단위로 변환
+	  let leftDay = Math.ceil(leftTime / (1000 * 60 * 60 * 24)); // 1초 = 1000밀리초, 1분은 60초, 1시간은 60분, 1일은 24시간
+    
+    if (leftDay === 0) {
+      return MESSAGE.D_DAY
+    } else if (leftDay < 0 || novel.complete_seqno) {
+      return MESSAGE.DDAY_COMPLETE 
+    } else {
+      return MESSAGE.DDAY_COUNT + leftDay
+    }
 	};
 
 	// 팝업 상태값 변경
 	const popupChange = () => {
 		if (popup === "viewComNov") {
-			return <ViewCompleteNovPopup complete_seqno={novel.complete_seqno} color={color} />;
+			return (
+				<ViewCompleteNovPopup
+					complete_seqno={novel.complete_seqno}
+					color={color}
+				/>
+			);
 		} else if (popup === "viewIncomNov") {
 			return (
 				<ViewIncompleteNovPopup
@@ -340,7 +314,7 @@ const NovDetail = () => {
 					main_seqno={novel.main_seqno}
 					setMainNovel={(novel) => setMainNovel(novel)}
 					login_id={profile.login_id}
-          			color={color}
+					color={color}
 				/>
 			);
 		} else if (popup === "writeNov") {
@@ -349,7 +323,7 @@ const NovDetail = () => {
 					mainNovel={mainNovel}
 					changeState={() => setPopup("selectTag")}
 					setTitleContent={(data) => setTitleContent(data)}
-          color={color}
+					color={color}
 					// 현재 data의 형태는 WriteSubNovPopup에서 받은 { title: title, content: content }
 				/>
 			);
@@ -366,7 +340,7 @@ const NovDetail = () => {
 				<SelectTagPopup
 					changeState={() => setPopup("novIntro")}
 					setTags={(data) => setTags(data)}
-          color={color}
+					color={color}
 				/>
 			);
 		} else if (popup === "novIntro") {
@@ -374,7 +348,7 @@ const NovDetail = () => {
 				<WriteNovIntroPopup
 					setDescription={setDescription}
 					changeState={() => setPopup("novCover")}
-          color={color}
+					color={color}
 				/>
 			);
 		} else if (popup === "novCover") {
@@ -382,7 +356,7 @@ const NovDetail = () => {
 				<SetNovCoverPopup
 					setCoverImage={(data) => setCoverImage(data)}
 					postSubNovData={postSubNovData}
-          color={color}
+					color={color}
 				/>
 			);
 		} else if (popup === "viewSubNov") {
@@ -394,19 +368,22 @@ const NovDetail = () => {
 					user_id={profile.login_id}
 					setIsLike={setIsLike}
 					getSubNovelData={getSubNovelData}
-          color={color}
+					color={color}
 				/>
 			);
 		}
 	};
 
-console.log(novel,397)
+
+
 	return (
 		<Wrapper>
 			{/* 소설 정보 헤더 영역 */}
 			<NovelInfo
 				// 소설 정보
-				title={novel.complete_novel_title ? novel.complete_novel_title : novel.title}
+				title={
+					novel.complete_novel_title ? novel.complete_novel_title : novel.title
+				}
 				complete_seqno={novel.complete_seqno}
 				description={novel.description}
 				main_author_id={novel.main_author_id}
@@ -428,12 +405,13 @@ console.log(novel,397)
 			{/* 소설 이미지 및 서브 소설 정보 영역 */}
 			<NovDetailBox>
 				{/* <NovCoverBox> */}
-					<NovelCover
-						style={{
-							backgroundImage: `url(${process.env.REACT_APP_COVER_IMAGE_DIRECTORY}/${encodeURIComponent(novel.cover_image)})`,
-	
-						}}
-					/>
+				<NovelCover
+					style={{
+						backgroundImage: `url(${
+							process.env.REACT_APP_COVER_IMAGE_DIRECTORY
+						}/${encodeURIComponent(novel.cover_image)})`,
+					}}
+				/>
 				{/* </NovCoverBox> */}
 				<NovBoardBox>
 					<NovBoardInfoBox>

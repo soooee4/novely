@@ -22,4 +22,11 @@
       FROM
         t_code_mgt
     </select>
+
+    <select id="getNextSubNovelSeqno">
+      SELECT
+        MAX(sub_novel_seqno) as seqno
+	    FROM
+		    t_sub_novel_mgt
+    </select>
 </mapper>

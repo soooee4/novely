@@ -1,4 +1,4 @@
-import Header from "components/layout/Header";
+import Header from "components/container/Header";
 
 const Page = (props) => {
   

@@ -59,7 +59,6 @@ const NovelCardBox = styled(Box)({
   margin: "0 auto",
   display: "flex",
   flexWrap: "wrap",
-    border: "3px solid blue",
   
 });
 
@@ -78,12 +77,16 @@ const Main = () => {
   const [searchNovData, setSearchNovData] = useState([]);                                 // Search Bar에서 검색한 소설 데이터
   const [selectedTab, setSelectedTab] = useState("complete");
 
-  console.log(novelData)
-
-  // 제목 검색(완성 소설 탭에서 검색할 경우 complete_novel_title, 미완성 소설 탭에서 검색할 경우 title에서 단어를 찾음)
+  // 제목 검색 (완성 소설 탭에서 검색할 경우 complete_novel_title, 미완성 소설 탭에서 검색할 경우 title에서 단어를 찾아 해당 데이터로 업데이트)
   const search = () => {
-    setSearchNovData(novelData.filter((nov) => nov.complete_novel_title ? nov.complete_novel_title.includes(schWord) : nov.title.includes(schWord)));
-  };
+		setSearchNovData(
+			novelData.filter((nov) =>
+				nov.complete_novel_title
+					? nov.complete_novel_title.includes(schWord)
+					: nov.title.includes(schWord)
+			)
+		);
+	};
 
   // 모달창 닫기
   const closeModal = () => {
@@ -200,7 +203,7 @@ const Main = () => {
   const popupChange = () => {
     if (popup === "login") {
       // 메인 작가 승급 후 첫 로그인 여부
-      if (profile && profile.author_first_login) {
+      if (profile && profile.author_first_login === "Y") {
         return (
           <AuthorFirstLoginPopup
             profile={profile} 
@@ -222,120 +225,115 @@ const Main = () => {
   };
 
   return (
-    <MainBox>
-      <SearchBar setSchWord={(word) => setSchWord(word)} onClick={search} />
-      {selectedTab === "complete" && (
-        <TagBox>
-          {genre.map((list, i) => {
-            return (
-              <Buttons
-                key={i}
-                type={CODE.BUTTON.TAG}
-                name={list.code_name}
-                // backgroundColor={
-                //   selectedTag.findIndex((name) => name === list.code_name) !== -1
-                //     ? "#eeeeee"
-                //     : `#${list.color}`
-                // }
-                backgroundColor={`#${list.color}`}
-                // color={
-                //   selectedTag.findIndex((name) => name === list.code_name) !== -1
-                //     ? "white"
-                //     : "black"
-                // }
-                color={COLOR.BLACK}
-                fontWeight={
-                  selectedTag.findIndex((name) => name === list.code_name) !== -1
-                  ? "900"
-                  : "500"
-                }
-                // border={
-                //   selectedTag.findIndex((name) => name === list.code_name) !== -1
-                //   ? "1.5px solid black"
-                //   : ""
-                // }
-                setSelectedTag={(tag) => settingTag(tag)}
-                selectedTag={selectedTag}
-              />
-            );
-          })}
-        </TagBox>
-      )}
-      <DivNovelBtn>
-        <Buttons
-          type={CODE.BUTTON.BASIC}
-          backgroundColor={COLOR.WHITE}
-          color={COLOR.BLACK}
-          name={LABEL.BUTTONS.COMPLETE}
-          padding={0}
-          setSelectedTab={() => setSelectedTab("complete")}
-          getNovelData={() => getNovelData()}
-          fontWeight={selectedTab === "complete" && "bolder"}
-        />
-        <span
-          style={{
-            paddingTop: 8,
-            marginLeft: 8,
-            marginRight: 8,
-            display: "inline-block",
-          }}
-        >
-          |
-        </span>
-        <Buttons
-          type={CODE.BUTTON.BASIC}
-          backgroundColor={COLOR.WHITE}
-          color={COLOR.BLACK}
-          name={LABEL.BUTTONS.IN_COMPLETE}
-          padding={0}
-          setSelectedTab={() => setSelectedTab("incomplete")}
-          getIncompleteNovelData={() => getIncompleteNovelData()}
-          fontWeight={selectedTab === "incomplete" && "bolder"}
-        />
-      </DivNovelBtn>
-      <NovelCardBox>
-        {novelData &&
-          filterNovData.map((list) => {
-            return (
-              <NovelCard
-                key={list.complete_seqno || list.main_seqno}
-                main_seqno={list.main_seqno}
-                title={list.complete_novel_title || list.title}
-                genre_1={list.genre_1}
-                genre_2={list.genre_2}
-                keyword_1={list.keyword_1}
-                keyword_2={list.keyword_2}
-                keyword_3={list.keyword_3}
-                genre_1_color={list.genre_1_color}
-                genre_2_color={list.genre_2_color}
-                keyword_1_color={list.keyword_1_color}
-                keyword_2_color={list.keyword_2_color}
-                keyword_3_color={list.keyword_3_color}
-                description={list.description}
-                like_count={list.like_count}
-                created_date={list.created_date}
-                pick_yn={(list.main_author_id !== profile?.login_id && list.sub_author_id !== profile?.login_id) && list.pick_yn}
-                user_id={profile?.login_id}
-                getNovelData={selectedTab === "complete" ? getNovelData : getIncompleteNovelData}
-                cover_image={list.cover_image}
-                onClick={() => goToDetail(list)}
-              />
-            );
-          })}
-      </NovelCardBox>
-      <ModalPopup
-        open={modal}
-        width={600}
-        height={400}
-        onClose={() => {
-          setModal(false);
-          setPopup("login");
-        }}
-      >
-        {popupChange()}
-      </ModalPopup>
-    </MainBox>
-  );
+		<MainBox>
+      {/* SearchBar에 검색어 상태 변경 함수를 내려주고 그 값을 공유받아 세팅 */}
+			<SearchBar setSchWord={(word) => setSchWord(word)} onClick={search} />
+			{selectedTab === "complete" && (
+				<TagBox>
+					{genre.map((list, i) => {
+						return (
+							<Buttons
+								key={i}
+								type={CODE.BUTTON.TAG}
+								name={list.code_name}
+								backgroundColor={`#${list.color}`}
+								color={COLOR.BLACK}
+								fontWeight={
+									selectedTag.findIndex((name) => name === list.code_name) !==
+									-1
+										? "900"
+										: "500"
+								}
+								setSelectedTag={(tag) => settingTag(tag)}
+								selectedTag={selectedTag}
+							/>
+						);
+					})}
+				</TagBox>
+			)}
+			<DivNovelBtn>
+				<Buttons
+					type={CODE.BUTTON.BASIC}
+					backgroundColor={COLOR.WHITE}
+					color={COLOR.BLACK}
+					name={LABEL.BUTTONS.COMPLETE}
+					padding={0}
+					setSelectedTab={() => setSelectedTab("complete")}
+					getNovelData={() => getNovelData()}
+					fontWeight={selectedTab === "complete" && "bolder"}
+				/>
+				<span
+					style={{
+						paddingTop: 8,
+						marginLeft: 8,
+						marginRight: 8,
+						display: "inline-block",
+					}}
+				>
+					|
+				</span>
+				<Buttons
+					type={CODE.BUTTON.BASIC}
+					backgroundColor={COLOR.WHITE}
+					color={COLOR.BLACK}
+					name={LABEL.BUTTONS.IN_COMPLETE}
+					padding={0}
+					setSelectedTab={() => setSelectedTab("incomplete")}
+					getIncompleteNovelData={() => getIncompleteNovelData()}
+					fontWeight={selectedTab === "incomplete" && "bolder"}
+				/>
+			</DivNovelBtn>
+			<NovelCardBox>
+				{novelData &&
+					filterNovData.map((list) => {
+						return (
+							<NovelCard
+								key={list.complete_seqno || list.main_seqno}
+								main_seqno={list.main_seqno}
+								title={list.complete_novel_title || list.title}
+								genre_1={list.genre_1}
+								genre_2={list.genre_2}
+								keyword_1={list.keyword_1}
+								keyword_2={list.keyword_2}
+								keyword_3={list.keyword_3}
+								genre_1_color={list.genre_1_color}
+								genre_2_color={list.genre_2_color}
+								keyword_1_color={list.keyword_1_color}
+								keyword_2_color={list.keyword_2_color}
+								keyword_3_color={list.keyword_3_color}
+								description={list.description}
+								like_count={list.like_count}
+								created_date={list.created_date}
+								pick_yn={
+									list.main_author_id !== profile?.login_id &&
+									list.sub_author_id !== profile?.login_id &&
+									list.pick_yn
+								}
+								user_id={profile?.login_id}
+								getNovelData={
+									selectedTab === "complete"
+										? getNovelData
+										: getIncompleteNovelData
+								}
+								cover_image={list.cover_image}
+								onClick={() => goToDetail(list)}
+							/>
+						);
+					})}
+			</NovelCardBox>
+			<ModalPopup
+				open={modal}
+				width={600}
+				height={400}
+				onClose={() => {
+					setModal(false);
+					setPopup("login");
+				}}
+			>
+				{popupChange()}
+			</ModalPopup>
+		</MainBox>
+	);
 };
 
 export default Main;

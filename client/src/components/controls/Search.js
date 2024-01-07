@@ -44,6 +44,7 @@ const SearchBar = (props) => {
 			<StyledInputBase
 				placeholder={LABEL.INPUT.SEARCH}
 				inputProps={{ "aria-label": "search" }}
+        // 사용자가 검색창에 텍스트를 입력할 때마다 감지하여 그 값을 소문자로 변환 후 상위 컴포넌트 (Main)에 전달
 				onChange={(e) => props.setSchWord(e.target.value.toLowerCase())}
 				onKeyDown={enter}
 			/>

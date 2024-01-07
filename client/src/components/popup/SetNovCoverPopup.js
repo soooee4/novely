@@ -18,8 +18,6 @@ const Wrapper = styled(Box)({
   display: "flex",
   flexDirection: "column",
   boxSizing: "border-box",
-  // paddingTop: 40,
-  //  boxShadow: "inset 0 0 3px 3px blue"
 });
 
 const ImgBox = styled(Box)({
@@ -127,7 +125,6 @@ const SetNovCoverPopup = (props) => {
           type="file"
           accept="image/jpg, image/jpeg, image/png"
           onChange={(e) => fileUpload(e)}
-          // color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
           style={{ display: "none" }}
           ref={fileInputRef}
         />

@@ -18,7 +18,6 @@ const _getAlertType = (type) => {
 };
 
 const ToastPopup = (props) => {
-	console.log(props);
 	const severity = _getAlertType(props.type);
 
 	return (
