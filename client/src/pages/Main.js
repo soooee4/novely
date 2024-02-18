@@ -195,7 +195,7 @@ const Main = () => {
 
       // 로그인 상태
     } else {
-      navigate("/novel-detail", { state: { props: novel } });
+      navigate("/novel_detail", { state: { props: novel } });
     }
   };
 

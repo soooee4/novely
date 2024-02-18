@@ -42,7 +42,7 @@ const modalWidth = (popup) => {
 			width = 400;
 			break;
 		case "novCover":
-			width = 450;
+			width = 480;
 			break;
 		case "authorDetail":
 			width = "85%";

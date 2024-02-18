@@ -6,25 +6,23 @@ import Buttons from "components/controls/Button";
 import Icons from "components/controls/Icons";
 
 // Constant
-import { CODE, LABEL, COLOR, MESSAGE } from "common";
+import { CODE, LABEL, COLOR } from "common";
 
 /** STYLE 정의 */
 // 전체 영역
 const Whole = styled(Box)({
-	width: "100%",
+  paddingRight: 150,
+	minWidth: 900,
 	height: 150,
 	display: "flex",
-	margin: "0 auto",
 	paddingTop: 20,
+  boxSizing: "border-box",
 
 });
 
 // 좌측 소개글 및 이미지 영역
 const InfoBox = styled(Box)({
-	width: "70%",
 	height: "100%",
-	display: "flex",
-	flexDirection: "column",
 
 });
 
@@ -34,6 +32,9 @@ const DateBox = styled(Box)({
 	height: "100%",
 	display: "flex",
 	flexDirection: "column",
+  minWidth: 480,
+  marginRight: 160
+
 });
 
 // 소설 제목 영역
@@ -75,6 +76,10 @@ const Author = styled(Typography)({
 const Description = styled(Typography)({
 	fontSize: 13,
 	color: COLOR.GRAY,
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
+  overflow: "hidden",
+  // width: 600
 });
 
 // 기한 표시 텍스트
@@ -82,7 +87,7 @@ const DateInfo = styled(Typography)({
 	fontSize: 23,
 	marginTop: 30,
 	marginBottom: 10,
-	marginLeft: "auto",
+  textAlign: "right",
 });
 
 //  view 버튼 영역

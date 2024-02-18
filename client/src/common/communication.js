@@ -5,7 +5,7 @@ import axios from "axios";
 /** GET */
 export const getData = async (url, params) => {
 	try {
-		const response = await axios.get(`http://localhost:8080/api/${url}`, {
+		const response = await axios.get(`${process.env.REACT_APP_REQUEST_URL}/${url}`, {
 			params: params,
 		});
 		if (response.data) {
@@ -21,7 +21,7 @@ export const postData = async (url, params) => {
 
 	try {
 		const response = await axios.post(
-			`http://localhost:8080/api/${url}`,
+			`${process.env.REACT_APP_REQUEST_URL}/${url}`,
 			params
 		);
 		return response.data;
@@ -34,7 +34,7 @@ export const postData = async (url, params) => {
 export const patchData = async (url, params) => {
 	try {
 		const response = await axios.patch(
-			`http://localhost:8080/api/${url}`,
+			`${process.env.REACT_APP_REQUEST_URL}/${url}`,
 			params
 		);
 		return response.data;
@@ -48,7 +48,7 @@ export const deleteData = async (url, params) => {
 
   try {
     const response = await axios.delete(
-			`http://localhost:8080/api/${url}`,
+			`${process.env.REACT_APP_REQUEST_URL}/${url}`,
       // delete 요청 시 body에 데이터 담는 법
      { data: params }
 		);

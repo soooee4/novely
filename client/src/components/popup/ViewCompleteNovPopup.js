@@ -70,14 +70,24 @@ const ViewCompleteNovPopup = (props) => {
 				<Content>
 					{completeNovel[0] &&
 						completeNovel[0]
-							.complete_novel_content
-							.split("\\n")
-							.map((line, i) => (
-								<>
-									{line.replaceAll('\\', "")}
-									<br />
-								</>
-							))
+							// .complete_novel_content
+							// .split("\\n")
+							// .map((line, i) => (
+							// 	<>
+							// 		{line.replaceAll('\\', "")}
+							// 		<br />
+							// 	</>
+							// ))
+              .complete_novel_content
+							.replaceAll(/(?:\r|\n\|r\n|\\n|\\r|\\n\\n|\\r\\n)/g, "\r\n")
+              .replaceAll("\\", "")
+              // .split("\r\n")
+							// .map((line, i) => (
+							// 	<>
+							// 		{line.replaceAll("\r\n", <br />)}
+							// 		{/* <br /> */}
+							// 	</>
+							// ))
 							}
 				</Content>
 			</ContentBox>

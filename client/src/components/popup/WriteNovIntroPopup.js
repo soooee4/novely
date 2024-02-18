@@ -58,18 +58,23 @@ const WriteNovIntroPopup = (props) => {
 	const inputDescription = (e) => {
 		setDescription(e.target.value);
 	};
+  
+  console.log(description.length,62)
 
 	// 저장 후 다음 버튼 눌렀을 때 NovDetail 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
-	const postSubDesc = () => {
-		if (description.length < 100) {
+  const postSubDesc = () => {
+		if (description.length === 0) {
+			alert(MESSAGE.ERROR.WRITE_DESCRIPTION);
+			return;
+		} else if (description.length > 100) {
+			alert(MESSAGE.ERROR.INFO_INVALIDATION);
+			return;
+		} else {
 			props.setDescription({
 				description: description,
 			});
-      return;
-		} else if (description.length === 0) {
-    alert (MESSAGE.ERROR.WRITE_DESCRIPTION);
-    return;
-    } alert(MESSAGE.ERROR.DESC_INVALIDATION); return;
+			// return;
+		}
 	};
 
 	return (
@@ -79,9 +84,9 @@ const WriteNovIntroPopup = (props) => {
 				backgroundColor={COLOR.WHITE}
 				color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
 				name={LABEL.BUTTONS.GOTONEXT}
-				margin={"-10px -5px 0px auto"}
+				margin={"5px 20px 5px auto"}
 				postSubDesc={postSubDesc}
-				changeState={description.length < 100 && props.changeState}
+				changeState={description.length !== 0 && description.length < 100 && props.changeState}
 			/>
 			<IntroMsg>{MESSAGE.WRITE_MAIN_NOVEL_INTRO}</IntroMsg>
 			<textarea 

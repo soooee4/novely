@@ -65,7 +65,7 @@ const AuthorWriteIntroPopup = (props) => {
 				color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
 				name={LABEL.BUTTONS.SUBMIT}
 				margin={"10px -5px 0px auto"}
-				navigate={() => navigate("/author-myNovel")}
+				navigate={() => navigate("/author_myNovel")}
 			/>
 			<IntroMsg>{MESSAGE.WRITE_NOVEL_INTRO}</IntroMsg>
 			<textarea style={writeNovText(props.color)} onChange={inputDescription} />

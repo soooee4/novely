@@ -138,7 +138,7 @@ const SelectTagPopup = (props) => {
 				backgroundColor={COLOR.WHITE}
 				color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
 				name={LABEL.BUTTONS.GOTONEXT}
-				margin={"-10px 0px 5px auto"}
+				margin={"5px 20px 5px auto"}
 				onClickNextBtn={onClickNextBtn}
 			/>
 			<IntroMsg>{MESSAGE.SELECT_TAG_INTRO}</IntroMsg>

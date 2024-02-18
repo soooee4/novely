@@ -52,8 +52,8 @@ const Title = styled(Typography)({
 	fontWeight: "bold",
 });
 
-const Content = styled(Typography)({
-	fontSize: 15,
+const Content = styled("div")({
+	fontSize: 15
 });
 
 // 내용 표시되는 영역
@@ -114,8 +114,6 @@ const ViewSubNovPopup = (props) => {
 		} 
 	};
 
-  console.log(props,111)
-
 	return (
 		<Wrapper>
 			{/* 서브 소설의 제목만 표시 */}
@@ -126,11 +124,11 @@ const ViewSubNovPopup = (props) => {
 						<ScrollBox>
 							<Content>
 								{props.subNovelData &&
-									props.subNovelData.content.split("\\n").map((line) => (
-										<>
+									props.subNovelData.content.split("\\n").map((line, i) => (
+										<div key={i}>
 											{line.replace("\\r", "")}
 											<br />
-										</>
+										</div>
 									))}
 							</Content>
 						</ScrollBox>
@@ -141,11 +139,11 @@ const ViewSubNovPopup = (props) => {
 						<ScrollBox>
 							<Content>
 								{props.subNovelData &&
-									props.subNovelData.sub_content.split("\\n").map((line) => (
-										<>
+									props.subNovelData.sub_content.split("\\n").map((line, i) => (
+										<div key={i}>
 											{line.replace("\\r", "")}
 											<br />
-										</>
+										</div>
 									))}
 							</Content>
 						</ScrollBox>

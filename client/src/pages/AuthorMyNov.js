@@ -129,7 +129,7 @@ const AuthorMyNov = () => {
 	const navigate = useNavigate();
 
 	const goToDetail = (novel) => {
-		navigate("/novel-detail", { state: { props: novel } });
+		navigate("/novel_detail", { state: { props: novel } });
 	};
 
 	// Modal OPEN/CLOSE
@@ -147,7 +147,8 @@ const AuthorMyNov = () => {
       alert(MESSAGE.ERROR.WRITE_DESCRIPTION);
       return;
     } else if (regditMainNovData.description.length >= 100) {
-      alert(MESSAGE.ERROR.DESC_INVALIDATION); return;
+      alert(MESSAGE.ERROR.DESC_INVALIDATION); 
+      return;
     }
 
 		postData("novel/postMainNovel", {
@@ -156,8 +157,8 @@ const AuthorMyNov = () => {
 			description: regditMainNovData.description,
 			created_user: profile.login_id,
 		})
-			.then((data) => {
-				alert("등록 완료!");
+			.then((msg) => {
+				alert(msg);
 				closeModal();
 				getMyIncompleteNovel();
 			})

@@ -102,6 +102,8 @@ const batchUpdateNovAndAuthor = async () => {
       // 쿼리 실행 도중 에러 발생 시 roll back
       await client.query("ROLLBACK");
       console.log(err);
+    } finally {
+      if (client) client.release();
     }
   });
 };

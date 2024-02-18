@@ -108,8 +108,8 @@ const SetNovCoverPopup = (props) => {
         backgroundColor={COLOR.WHITE}
         color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
         name={LABEL.BUTTONS.SUBMIT}
-        width={100}
-        margin={"-10px -5px 0px auto"}
+        width={50}
+        margin={"-10px 35px 5px auto"}
         postSubNovData={props.postSubNovData}
       />
       <IntroMsg>{MESSAGE.SELECT_COVER_INTRO}</IntroMsg>

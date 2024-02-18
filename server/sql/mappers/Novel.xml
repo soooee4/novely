@@ -7,7 +7,6 @@
     SELECT
       tcnm.complete_seqno,                      -- 완성 소설 순번
       tcnm.complete_novel_title,                -- 완성 소설 제목
-      tcnm.complete_novel_content,              -- 완성 소설 내용
       tcnm.like_count,                          -- 완성 소설 좋아요 수
       tcnm.main_seqno,                          -- 메인 소설 순번
       tcnm.sub_seqno,                           -- 서브 소설 순번
@@ -63,7 +62,6 @@
     SELECT
       tcnm.complete_seqno,                          -- 완성 소설 순번
       tcnm.complete_novel_title,                    -- 완성 소설 제목
-      tcnm.complete_novel_content,                  -- 완성 소설 내용
       tcnm.like_count,                              -- 완성 소설 좋아요 수
       tcnm.main_seqno,                              -- 메인 소설 순번
       tcnm.sub_seqno,                               -- 서브 소설 순번
@@ -126,7 +124,6 @@
     SELECT
       tnm.novel_seqno AS main_seqno,              -- 미완성 메인 소설 순번
       tnm.title,                                  -- 미완성 메인 소설 제목
-      tnm.content,                                -- 미완성 메인 소설 내용
       tnm.created_user AS main_author_id,         -- 미완성 메인 소설 작성자 아이디
       tnm.created_date,                           -- 미완성 메인 소설 작성일자
       tnm.description,                            -- 미완성 메인 소설 한 줄 설명
@@ -144,8 +141,7 @@
   <select id="getIncompleteNovelsOnLogin">
     SELECT
       tnm.novel_seqno AS main_seqno,                      -- 미완성 메인 소설 순번
-      tnm.title,                                          -- 미완성 메인 소설 제목
-      tnm.content,                                        -- 미완성 메인 소설 내용                                
+      tnm.title,                                          -- 미완성 메인 소설 제목                              
       tnm.created_user AS main_author_id,                 -- 미완성 메인 소설 작성자 아이디
       tnm.created_date,                                   -- 미완성 메인 소설 작성일자
       tnm.description,                                    -- 미완성 메인 소설 한 줄 설명

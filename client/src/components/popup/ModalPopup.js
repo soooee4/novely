@@ -52,43 +52,90 @@ const ModalPopup = (props) => {
     props.setColor(color);
   };
 
-  return ( 
-    <ThemeProvider theme={theme} >
-      <Dialog
-        onKeyDown={pressEsc} 
-        open={open} 
-        fullWidth={fullWidth}
-        PaperProps={{style:{maxWidth:'100%', width: width, backgroundColor: colorMode, color: colorMode === "#121212" ? "white" : "black"}}}> 
-          {/* CloseIcon을 눌렀을 때 join팝업일 경우 로컬 스토리지에 profile이 있으면 새로고침. */}
-          {mode && 
-            <div style={{ display: "flex", margin: "10px 0 0 10px", gap: 5 }}>
-              <button style={{ width: 18, height: 18, borderRadius: '50%', backgroundColor: "#ffffff" }} onClick={() => brightDark(1)}></button>
-              <button style={{ width: 18, height: 18, borderRadius: '50%', backgroundColor: "#f2e8cf" }} onClick={() => brightDark(2)}></button>
-              <button style={{ width: 18, height: 18, borderRadius: '50%', backgroundColor: "#121212" }} onClick={() => brightDark(3)}></button>
-            </div>
-          }
-          <CloseIcon 
-            sx={{ padding: "11px 13px 0px 0px", marginLeft: "auto", position: "absolute", right: 10, top: 3,  color: colorMode === "#121212" ? "white" : "black" }}
-            onClick={() => {
-              onClose();
-              setColorMode("#ffffff");
-              props.setColorInit && props.setColorInit();
-              popupState === "join" && localStorage.getItem("profile") && window.location.reload();
-            }}
-          />
-        <DialogContent 
-          sx={{
-            boxSizing: 'border-box',
-            width: fullWidth ? '100%' : width, 
-            height: height,
-            backgroundColor: colorMode
-          }}
-        >
-          {children}
-        </DialogContent>
-      </Dialog>
-    </ThemeProvider>
-  )
+  return (
+		<ThemeProvider theme={theme}>
+			<Dialog
+				onKeyDown={pressEsc}
+				open={open}
+				fullWidth={fullWidth}
+				PaperProps={{
+					style: {
+						maxWidth: "100%",
+						width: width,
+            // 배경색을 colorMode 상태값에 따라 동적으로 설정
+						backgroundColor: colorMode,
+            // 글자색도 마찬가지로 colorMode 상태값에 따라 동적으로 설정
+						color: colorMode === "#121212" ? "white" : "black",
+					},
+				}}
+			>
+				{/* CloseIcon을 눌렀을 때 join팝업일 경우 로컬 스토리지에 profile이 있으면 새로고침. */}
+				{mode && (
+          //  각 테마 선택 버튼을 누를 시 brightDark 파라미터에 해당 값 넣어주기
+					<div style={{ display: "flex", margin: "10px 0 0 10px", gap: 5 }}>
+						<button
+							style={{
+								width: 18,
+								height: 18,
+								borderRadius: "50%",
+								backgroundColor: "#ffffff",
+							}}
+							onClick={() => brightDark(1)}
+						></button>
+						<button
+							style={{
+								width: 18,
+								height: 18,
+								borderRadius: "50%",
+								backgroundColor: "#f2e8cf",
+							}}
+							onClick={() => brightDark(2)}
+						></button>
+						<button
+							style={{
+								width: 18,
+								height: 18,
+								borderRadius: "50%",
+								backgroundColor: "#121212",
+							}}
+							onClick={() => brightDark(3)}
+						></button>
+					</div>
+				)}
+				<CloseIcon
+					sx={{
+						padding: "11px 13px 0px 0px",
+						marginLeft: "auto",
+						position: "absolute",
+						right: 10,
+						top: 3,
+						color: colorMode === "#121212" ? "white" : "black",
+						":hover": {
+							cursor: "pointer",
+						},
+					}}
+					onClick={() => {
+						onClose();
+						setColorMode("#ffffff");
+						props.setColorInit && props.setColorInit();
+						popupState === "join" &&
+							localStorage.getItem("profile") &&
+							window.location.reload();
+					}}
+				/>
+				<DialogContent
+					sx={{
+						boxSizing: "border-box",
+						width: fullWidth ? "100%" : width,
+						height: height,
+						backgroundColor: colorMode,
+					}}
+				>
+					{children}
+				</DialogContent>
+			</Dialog>
+		</ThemeProvider>
+	);
 };
 
 export default ModalPopup;

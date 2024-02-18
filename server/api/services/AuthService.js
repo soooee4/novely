@@ -39,6 +39,8 @@ const login = async ({ login_id, login_pw }) => {
     
   } catch (err) {
     console.log(err);
+  } finally {
+    if (client) client.release();
   }
 };
 
@@ -207,6 +209,8 @@ const authorFirstLogin = async ({ login_id, authorInfo }) => {
     }
   } catch (err) {
     console.log(err);
+  } finally {
+    if (client) client.release();
   }
 };
 

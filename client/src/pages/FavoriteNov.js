@@ -86,7 +86,7 @@ const FavoriteNov = () => {
 	const navigate = useNavigate();
 
 	const goToDetail = (novel) => {
-		navigate("/novel-detail", { state: { props: novel } });
+		navigate("/novel_detail", { state: { props: novel } });
 	};
 
 	return (

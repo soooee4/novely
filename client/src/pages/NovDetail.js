@@ -42,35 +42,29 @@ import { getData, postData } from "common/communication";
 /** 영역 STYLE 정의 */
 // 전체 영역
 const Wrapper = styled(Box)({
-	width: "99vw",
 	height: "99vh",
 	display: "flex",
 	flexDirection: "column",
-	padding: "0px 100px",
 	boxSizing: "border-box",
+  paddingLeft: 150
 });
 
 // 소설 커버 이미지, 소설 목록 게시판 영역
 const NovDetailBox = styled(Box)({
 	height: "100%",
 	display: "flex",
-	flexWrap: "wrap",
 });
 
 // 소설 커버 이미지 영역
-// const NovCoverBox = styled(Box)({
-// 	marginRight: 20,
-// });
-
-// 소설 커버 이미지 영역
 const NovelCover = styled(Box)({
-	width: 200,
+	minWidth: 200,
 	height: 300,
 	marginTop: 5,
 	borderRadius: 15,
 	backgroundColor: "pink",
 	backgroundSize: "cover",
 	backgroundRepeat: "no-repeat",
+  marginRight: 35
 });
 
 // 소설 게시판 영역
@@ -146,6 +140,7 @@ const NovDetail = () => {
 		file: "cover_basic.jpg",
 		created_user: profile.login_id,
 	});
+
 
 	// 인기순 (like_count가 많은 순으로 정렬할 서브 소설 배열)
 	const [popularOrder, setPopularOrder] = useState([]);
@@ -229,44 +224,48 @@ const NovDetail = () => {
 
 	// 서브 소설 데이터 서버 전송
 	const postSubNovData = async () => {
-		let subNovData;
+    let subNovData;
 
-		// 커버 이미지 선택할 경우 폼 데이터 생성
-		if (regditNovData.file !== "cover_basic.jpg") {
-			// 선택된 이미지 파일의 확장자명이 jpeg, jpg, png가 아닐 경우 경고문 띄우고 함수 종료
-			const ext = regditNovData.file.type.split("/")[1];
-			const allowList = ["jpeg", "jpg", "png"];
-			if (!allowList.includes(ext)) {
-				alert(MESSAGE.ERROR.CHECK_EXT);
-				return;
-			}
+    // 커버 이미지 선택할 경우 폼 데이터 생성
+    if (regditNovData.file !== "cover_basic.jpg") {
+      // 선택된 이미지 파일의 확장자명이 jpeg, jpg, png가 아닐 경우 경고문 띄우고 함수 종료
+      const ext = regditNovData.file.type.split("/")[1];
+      const allowList = ["jpeg", "jpg", "png"];
+      if (!allowList.includes(ext)) {
+        alert(MESSAGE.ERROR.CHECK_EXT);
+        return;
+      }
 
-			// 이미지 압축
-			const resizingImg = await compressImage(regditNovData.file);
-			setRegditNovData((prev) => ({
-				...prev,
-				file: resizingImg,
-			}));
+      // 이미지 압축
+      const resizingImg = await compressImage(regditNovData.file);
+      setRegditNovData((prev) => ({
+        ...prev,
+        file: resizingImg,
+      }));
 
-			const formData = new FormData();
+      const formData = new FormData();
 
-			Object.keys(regditNovData).forEach((key) => {
-				formData.append(key, regditNovData[key]);
-			});
+      Object.keys(regditNovData).forEach((key) => {
+        formData.append(key, regditNovData[key]);
+      });
 
-			subNovData = formData;
+      subNovData = formData;
 
-			// 커버 이미지 선택없이 나머지 데이터만 전송할 경우
-		} else {
-			subNovData = regditNovData;
-		}
+      // 커버 이미지 선택없이 나머지 데이터만 전송할 경우
+    } else {
+      subNovData = regditNovData;
+    }
 
-		postData("novel/postSubNovel", subNovData).then((msg) => {
-			alert(msg);
-			closeModal();
-			getSubNovelData();
-		});
-	};
+    postData("novel/postSubNovel", subNovData)
+      .then((msg) => {
+        alert(msg);
+        closeModal();
+        getSubNovelData();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
 	// 소설 마감 기한 알려주는 디데이 카운터 함수
 	const novelDdayCounter = () => {

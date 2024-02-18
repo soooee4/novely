@@ -27,6 +27,7 @@ export const MESSAGE = {
   AUTHOR_ELECTED_FIRST_LOGIN: "축하합니다! 작품이 당선되었어요👏",
   AUTHOR_REGISTER_SUCCESS: '작가 등록 완료!',
   D_DAY: '마감 D-DAY',
+  OVER_SELECTED_TAG: '태그는 3개까지만 고를 수 있습니다 :)',
   // 에러 메세지
   ERROR: {
     EMAIL_INVALIDATION: '이메일을 확인해주세요.',

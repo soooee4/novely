@@ -24,13 +24,14 @@ import { modalWidth, modalHeight } from "common/util";
 // 전체 영역
 const Whole = styled(Box)({
 	height: 70,
+  paddingLeft: 120,
 	display: "flex",
+  paddingRight: 100
 });
 
 // 최상단 로고 감싸는 영역
 const LogoBox = styled(Box)({
 	height: "100%",
-	paddingLeft: "8%",
 	display: "flex",
 });
 
@@ -46,19 +47,19 @@ const Logo = styled(Typography)({
 // 로고 제외 전체 영역
 const MenuBar = styled(Box)({
 	flexGrow: 1,
-	marginRight: "5%",
 	justifyContent: "flex-end",
 	display: "flex",
+
 });
 
 // 닉네임 포함 환영문구 영역
 const WelcomeMsg = styled(Typography)({
 	color: "black",
 	fontSize: 15,
-	marginLeft: "auto",
 	fontWeight: "bolder",
 	alignSelf: "center",
-	marginRight: 10,
+  minWidth: 200,
+  marginLeft: 170
 });
 
 // 메뉴 버튼 영역
@@ -67,6 +68,7 @@ const MenuBtnBox = styled(Box)({
 	display: "flex",
 	justifyContent: "flex-end",
 	alignItems: "center",
+  
 });
 
 /** 모든 페이지에 고정적으로 위치하는 헤더 (메뉴 버튼 포함) */
@@ -160,20 +162,23 @@ const Header = () => {
 						// 일반 유저 로그인 상태
 						<>
 							<Buttons
-								navigate={() => navigate("/favorite-novel")}
+								navigate={() => navigate("/favorite_novel")}
 								type={CODE.BUTTON.BASIC}
 								name={LABEL.BUTTONS.FAVORITE_NOVEL}
 								margin={10}
-								fontWeight={currentPath === "/favorite-novel" && "bolder"}
+								fontWeight={currentPath === "/favorite_novel" && "bolder"}
+                minWidth={75}
+
 							/>
 							{/* 권한에 따라 내 정보, 내 작품 메뉴 변경 */}
 							{profile.user_reg_dv === "W" && (
 								<Buttons
-									navigate={() => navigate("/author-myNovel")}
+									navigate={() => navigate("/author_myNovel")}
 									type={CODE.BUTTON.BASIC}
 									name={LABEL.BUTTONS.MY_NOVEL}
 									margin={10}
-									fontWeight={currentPath === "/author-myNovel" && "bolder"}
+									fontWeight={currentPath === "/author_myNovel" && "bolder"}
+                  minWidth={70}
 								/>
 							)}
 							<Buttons
@@ -182,6 +187,8 @@ const Header = () => {
 								margin={"10px 25px 10px 10px"}
 								showModal={() => setModal(true)}
 								changeState={() => setPopup("editProfile")}
+                minWidth={70}
+
 							/>
 							<Buttons
 								type={CODE.BUTTON.BORDER}
@@ -190,6 +197,7 @@ const Header = () => {
 								color={"white"}
 								width={90}
 								logout={logout}
+        
 							/>
 						</>
 					)}

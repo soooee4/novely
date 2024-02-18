@@ -27,7 +27,7 @@ const fileUpload = async (req, res, next) => {
     }
 
     // 저장 경로 설정(프로젝트 폴더 파일 경로): 커버 / 프로필 이미지 경로 구분
-    const documentDir = path.join(__dirname, `../../../image/${req.body.title ? 'nov_cover' : 'profile'}`);
+    const documentDir = path.join(__dirname, `../../image/${req.body.title ? 'nov_cover' : 'profile'}`);
 
     // 경로 존재 확인. 경로가 존재하지 않는다면 생성.
     fs.existsSync(documentDir) || fs.mkdirSync(documentDir, { recursive: true });

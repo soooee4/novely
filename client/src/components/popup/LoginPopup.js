@@ -75,29 +75,30 @@ const LoginPopup = (props) => {
   };
 
    const onLogin = () => {
-      postData("auth/login", {
-         login_id: id,
-         login_pw: pw,
-      })
-         .then((data) => {
-        if (typeof data === 'object') {
-          localStorage.setItem("profile",
-            JSON.stringify({
-              user_nickname: data.user_nickname,
-              user_reg_dv: data.user_reg_dv,
-              login_id: data.login_id,
-              image: data.image,
-              author_first_login: data. author_first_login
-            })
-          )
-          window.location.reload();
-        } else if (typeof(data) === 'string') {
-          alert(data);
-        }
-         })
-         .catch((err) => {
-            console.log(err);
-         });
+     postData("auth/login", {
+       login_id: id,
+       login_pw: pw,
+     })
+       .then((data) => {
+         if (typeof data === "object") {
+           localStorage.setItem(
+             "profile",
+             JSON.stringify({
+               user_nickname: data.user_nickname,
+               user_reg_dv: data.user_reg_dv,
+               login_id: data.login_id,
+               image: data.image,
+               author_first_login: data.author_first_login,
+             })
+           );
+           window.location.reload();
+         } else if (typeof data === "string") {
+           alert(data);
+         }
+       })
+       .catch((err) => {
+         console.log(err);
+       });
    };
 
   const enter = (e) => {
