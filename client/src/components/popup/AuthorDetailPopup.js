@@ -22,29 +22,30 @@ const Wrapper = styled(Box)({
 	height:"100%",
 	display: "flex",
   gap: 20,
+  boxSizing: 'border-box',
+  paddingBottom: 10
 });
 
 // 소설 컴포넌트 카드 영역
 const NovelCardBox = styled(Box)({
 	flexGrow: 1,
-  height: "100%",
+	height: "100%",
 	width: "80%",
 	margin: "0 auto",
 	display: "flex",
 	flexWrap: "wrap",
-  overflow: "scroll",
-  paddingTop: 20,
-  gap: 20,
+	overflow: "scroll",
+	paddingTop: 10,
+	gap: 25,
 
-    // 스크롤바 숨기기
-    '&::-webkit-scrollbar': {
-      display: 'none'
-    },
+	// 스크롤바 숨기기
+	"&::-webkit-scrollbar": {
+		display: "none",
+	},
 
-    '& > div' : {
-      margin: 0
-    }
-
+	"& > div": {
+		margin: 0,
+	},
 });
 
 
@@ -60,6 +61,7 @@ console.log(props,59)
 
 	const [authorNovelData, setAuthorNovelData] = useState([]);   // 작성한 메인 소설 데이터
 	const [userImg, setUserImg] = useState("");                   // 사용자 프로필 이미지
+	const [authorInfo, setAuthorInfo] = useState("");                   // 작가 소갯말
 	const [profile, setProfile] = useState(                       // 로컬스토리지에 저장된 사용자 정보
 		JSON.parse(localStorage.getItem("profile"))
 	);
@@ -72,6 +74,7 @@ console.log(props,59)
 			.then(function (data) {
 				setAuthorNovelData(data.novel_data);
 				setUserImg(data.user_image);
+        setAuthorInfo(data.author_info);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -94,7 +97,7 @@ console.log(props,59)
 				authorNickName={props.authorNickName}
 				authorId={props.authorId}
 				user_image={userImg}
-        authorInfo={props.authorInfo}
+        authorInfo={authorInfo}
 			/>
 			<NovelCardBox>
 				{authorNovelData.length !== 0 ? (

@@ -69,14 +69,6 @@ const Title = styled(Typography)({
 	textOverflow: "ellipsis"
 });
 
-// 좋아요 수
-const CountLike = styled(Typography)({
-	fontSize: 11,
-	display: "flex",
-	alignItems: "center",
-	marginRight: 2,
-});
-
 // 소설 한줄소개
 const Description = styled(Typography)({
 	fontSize: 11,

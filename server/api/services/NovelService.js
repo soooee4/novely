@@ -20,7 +20,6 @@ const getNovels = async ({ login_id }) => {
 			sqlId = "Novel.getNovelsOnLogin";
 			data = await client.query(mapper.makeSql(sqlId, { login_id: login_id }));
 		}
-
 		return data;
 	} catch (err) {
 		console.log(err);
@@ -79,21 +78,23 @@ const getAuthorNovel = async ({ created_user, login_id }) => {
 	let sqlId;
 
 	try {
-		// 미완성 소설 데이터와 작가 이미지를 담을 변수
+		// 미완성 소설 데이터와 작가 이미지, 작가 소갯말을 담을 변수
 		let data = {
 			novel_data: null,
 			user_image: null,
+      author_info: null
 		};
 
-		sqlId = "Auth.getUserImg";
-		const user_image = await client.query(
+		sqlId = "Auth.getAuthorInfo";
+		const authorData = await client.query(
 			mapper.makeSql(sqlId, {
 				user_id: created_user,
 			})
 		);
 
 		// 클라이언트로 보낼 데이터 중 작가 프로필 이미지 세팅
-		data.user_image = user_image.rows[0].image;
+		data.user_image = authorData.rows[0].image;
+    data.author_info = authorData.rows[0].author_info;
 
 		// 작가 아이디와 로그인 아이디가 동일하지 않을 경우
 		if (created_user !== login_id) {

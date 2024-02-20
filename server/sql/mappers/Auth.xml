@@ -70,9 +70,10 @@
         login_id = #{login_id}
     </update>
 
-    <select id="getUserImg">
+    <select id="getAuthorInfo">
       SELECT 
-        image                               -- 프로필 이미지
+        image,                              -- 프로필 이미지
+        author_info                         -- 작가 소개            
       FROM
        t_user_mgt
       WHERE

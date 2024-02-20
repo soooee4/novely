@@ -27,13 +27,12 @@ const BorderBtn = styled(Button)({
 
 // 태그 버튼
 const TagBtn = styled(Button)({
-	height: 17,
+	height: 15,
 	borderRadius: 8,
 	color: COLOR.BLACK,
-	fontSize: 10,
-	marginLeft: 5,
-  marginBottom: 4,
-  boxSizing: "border-box"
+	fontSize: 9.5,
+	marginLeft: 3,
+  boxSizing: "border-box",
 });
 
 // Button Component
