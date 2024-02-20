@@ -28,12 +28,12 @@ const MainBox = styled(Box)({
 
 // 소설 컴포넌트 카드 영역
 const NovelCardBox = styled(Box)({
-	flexGrow: 1,
-	width: "100%",
-	margin: "0 auto",
-	display: "flex",
-	flexWrap: "wrap",
-	boxSizing: "border-box",
+  flexGrow: 1,
+  width: "100%",
+  margin: "0 auto",
+  display: "grid",
+  gridTemplateColumns: "repeat(5, 1fr)",
+  gridGap: "0.1rem",
 });
 
 // 소설 구분 버튼 박스

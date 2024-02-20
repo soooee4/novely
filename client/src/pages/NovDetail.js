@@ -336,6 +336,7 @@ const NovDetail = () => {
 					authorId={authorId}
 					authorNickName={authorNickName}
 					closeModal={closeModal}
+          authorInfo={profile.author_info}
 				/>
 			);
 		} else if (popup === "selectTag") {

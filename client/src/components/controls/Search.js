@@ -9,9 +9,8 @@ const Search = styled("div")({
 	display: "flex",
 	borderRadius: 10,
 	backgroundColor: COLOR.LIGHT_GRAY,
-	width: "98%",
-	paddingRight: 15,
-	margin: "0 auto",
+	width: 1125,
+	paddingRight: 15
 });
 
 const SearchIconWrapper = styled("div")({

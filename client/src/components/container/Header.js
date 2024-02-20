@@ -25,10 +25,8 @@ import { modalWidth, modalHeight } from "common/util";
 const Whole = styled(Box)({
 	height: 70,
   paddingLeft: 120,
+  margin: "10px 0",
 	display: "flex",
-  width: '100vw',
-  boxSizing: 'border-box',
-  width: 1245,
 });
 
 // 최상단 로고 감싸는 영역
@@ -48,9 +46,11 @@ const Logo = styled(Typography)({
 
 // 로고 제외 전체 영역
 const MenuBar = styled(Box)({
-	flexGrow: 1,
 	justifyContent: "flex-end",
 	display: "flex",
+  marginLeft: 600,
+  paddingRight: 40,
+  minWidth: 500,
 });
 
 // 닉네임 포함 환영문구 영역
@@ -60,14 +60,13 @@ const WelcomeMsg = styled(Typography)({
 	fontWeight: "bolder",
 	alignSelf: "center",
   minWidth: 200,
-  marginLeft: 30
 });
 
 // 메뉴 버튼 영역
 const MenuBtnBox = styled(Box)({
-	display: "flex",
-	justifyContent: "flex-end",
-	alignItems: "center",
+  display: "flex",
+  justifyContent: "flex-end",
+  alignItems: "center",
 });
 
 /** 모든 페이지에 고정적으로 위치하는 헤더 (메뉴 버튼 포함) */
@@ -166,7 +165,7 @@ const Header = () => {
 								name={LABEL.BUTTONS.FAVORITE_NOVEL}
 								margin={10}
 								fontWeight={currentPath === "/favorite_novel" && "bolder"}
-                minWidth={75}
+                minWidth={78}
 
 							/>
 							{/* 권한에 따라 내 정보, 내 작품 메뉴 변경 */}
@@ -194,7 +193,7 @@ const Header = () => {
 								name={LABEL.BUTTONS.LOGOUT}
 								backgroundColor={"black"}
 								color={"white"}
-								width={90}
+								width={93}
 								logout={logout}
         
 							/>

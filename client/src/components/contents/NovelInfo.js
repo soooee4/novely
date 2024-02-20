@@ -91,6 +91,7 @@ const NovelViewBox = styled(Box)({
 
 /** 소설 축약 정보 컴포넌트(소설 상세보기 페이지의 헤더) */
 const NovelInfo = (props) => {
+  console.log(props,94)
 
 	return (
     <Whole>

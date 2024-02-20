@@ -88,6 +88,7 @@ const LoginPopup = (props) => {
                user_reg_dv: data.user_reg_dv,
                login_id: data.login_id,
                image: data.image,
+               author_info: data.author_info,
                author_first_login: data.author_first_login,
              })
            );

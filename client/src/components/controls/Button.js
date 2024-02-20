@@ -8,6 +8,7 @@ import { CODE, COLOR } from "common";
 const BasicBtn = styled(Button)({
 	color: COLOR.BLACK,
 	borderRadius: 5,
+  fontSize: 14,
 	"&:hover": {
 		backgroundColor: "transparent",
 		fontWeight: "bolder",
@@ -16,11 +17,12 @@ const BasicBtn = styled(Button)({
 
 // 로그인, 로그아웃 버튼
 const BorderBtn = styled(Button)({
-	height: 10,
+	height: 12,
 	fontWeight: 700,
 	border: `1px solid ${COLOR.BLACK}`,
 	borderRadius: 7,
 	padding: 15,
+  fontSize: 14
 });
 
 // 태그 버튼

@@ -31,19 +31,13 @@ const MainBox = styled(Box)({
   display: "flex",
   flexDirection: "column",
   margin: "0 auto",
-  
 });
 
 // 검색창 하단 장르 태그 박스
 const TagBox = styled(Box)({
- 
-  width: "100%",
-  height: 'auto',
-  margin: "0 auto",
-  marginBottom: 12,
-  marginTop: 8,
+  margin: "12px 0",
   display: "flex",
-  flexWrap: "wrap",
+  flexWrap: "no-wrap",
 });
 
 // 소설 구분 버튼 박스
@@ -57,9 +51,9 @@ const NovelCardBox = styled(Box)({
   flexGrow: 1,
   width: "100%",
   margin: "0 auto",
-  display: "flex",
-  flexWrap: "wrap",
-  
+  display: "grid",
+  gridTemplateColumns: "repeat(5, 1fr)",
+  gridGap: "0.1rem",
 });
 
 /** 메인화면 Component */
