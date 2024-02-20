@@ -42,29 +42,32 @@ import { getData, postData } from "common/communication";
 /** 영역 STYLE 정의 */
 // 전체 영역
 const Wrapper = styled(Box)({
-	height: "99vh",
+	// height: "99vh",
 	display: "flex",
 	flexDirection: "column",
 	boxSizing: "border-box",
-  paddingLeft: 150
+  paddingLeft: 140,
+  paddingRight: 140,
+
 });
 
 // 소설 커버 이미지, 소설 목록 게시판 영역
 const NovDetailBox = styled(Box)({
-	height: "100%",
 	display: "flex",
+
 });
 
 // 소설 커버 이미지 영역
 const NovelCover = styled(Box)({
-	minWidth: 200,
-	height: 300,
-	marginTop: 5,
+	minWidth: 215,
+	height: 320,
+  marginRight: 35,
+  marginLeft: 10,
+  marginTop: 10,
 	borderRadius: 15,
 	backgroundColor: "pink",
 	backgroundSize: "cover",
 	backgroundRepeat: "no-repeat",
-  marginRight: 35
 });
 
 // 소설 게시판 영역
@@ -93,6 +96,7 @@ const NovelCount = styled(Typography)({
 const FilterBox = styled(Box)({
 	marginRight: 10,
 });
+
 
 /** 작품 상세 페이지 (NovelCard 컴포넌트 클릭 시 해당 페이지로 이동) */
 const NovDetail = () => {
@@ -373,8 +377,6 @@ const NovDetail = () => {
 		}
 	};
 
-
-
 	return (
 		<Wrapper>
 			{/* 소설 정보 헤더 영역 */}
@@ -428,12 +430,14 @@ const NovDetail = () => {
 								name={LABEL.BUTTONS.LATEST}
 								height={10}
 								sortLatest={() => setIsPopular(false)}
+								fontWeight={isPopular ? "normal" : "bold"}
 							/>
 							<Buttons
 								type={CODE.BUTTON.BASIC}
 								name={LABEL.BUTTONS.POPULAR}
 								height={10}
 								sortPopular={sortPopular}
+								fontWeight={isPopular ? "bold" : "normal"}
 							/>
 						</FilterBox>
 					</NovBoardInfoBox>

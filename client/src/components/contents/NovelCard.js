@@ -66,7 +66,7 @@ const Title = styled(Typography)({
 	paddingTop: 2,
 	whiteSpace: "noWrap",
 	overflow: "hidden",
-	textOverflow: "ellipsis",
+	textOverflow: "ellipsis"
 });
 
 // 좋아요 수

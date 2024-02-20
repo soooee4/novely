@@ -3,7 +3,6 @@ import { Box, styled, Typography } from "@mui/material";
 
 // Control Component
 import Buttons from "components/controls/Button";
-import Icons from "components/controls/Icons";
 
 // Constant
 import { CODE, LABEL, COLOR } from "common";
@@ -11,36 +10,28 @@ import { CODE, LABEL, COLOR } from "common";
 /** STYLE 정의 */
 // 전체 영역
 const Whole = styled(Box)({
-  paddingRight: 150,
-	minWidth: 900,
-	height: 150,
+  width: 1050,
 	display: "flex",
-	paddingTop: 20,
+	marginTop: 20,
+  marginBottom: 25,
   boxSizing: "border-box",
-
 });
 
 // 좌측 소개글 및 이미지 영역
 const InfoBox = styled(Box)({
+  boxSizing: "border-box",
 	height: "100%",
-
+  flexGrow: 1,
 });
 
 // 마감 기한 표시 및 view 버튼 영역
 const DateBox = styled(Box)({
-	flexGrow: 1,
-	height: "100%",
-	display: "flex",
-	flexDirection: "column",
-  minWidth: 480,
-  marginRight: 160
+  justifyContent: 'flex-end',
 
 });
 
 // 소설 제목 영역
 const TitleBox = styled(Box)({
-	width: "100%",
-	minHeight: 30,
 	marginBottom: 5,
 });
 
@@ -61,6 +52,7 @@ const DescriptionBox = styled(Box)({
 const Title = styled(Typography)({
 	fontSize: 23,
 	fontWeight: 800,
+  marginBottom: 10
 });
 
 // 작가 이름 텍스트
@@ -79,14 +71,13 @@ const Description = styled(Typography)({
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
   overflow: "hidden",
-  // width: 600
 });
 
 // 기한 표시 텍스트
 const DateInfo = styled(Typography)({
 	fontSize: 23,
 	marginTop: 30,
-	marginBottom: 10,
+	marginBottom: 15,
   textAlign: "right",
 });
 
@@ -171,12 +162,11 @@ const NovelInfo = (props) => {
               : props.setPopup("viewIncomNov");
           }}
         >
-          <Icons type={CODE.ICON.SEARCH} />
           <Buttons
             type={CODE.BUTTON.BASIC}
             name={LABEL.BUTTONS.VIEWNOVEL}
             height={10}
-            margin={"5px 0 0 -12px"}
+            fontSize={17}
           />
         </NovelViewBox>
       </DateBox>

@@ -78,7 +78,6 @@ const Buttons = (props) => {
 					fontSize: props.fontSize,
 					fontWeight: props.fontWeight,
           color: props.color,
-          // minWidth: props.minWidth ? props.minWidth : 
           minWidth: props.minWidth
 				}}
 			>

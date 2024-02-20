@@ -26,7 +26,9 @@ const Whole = styled(Box)({
 	height: 70,
   paddingLeft: 120,
 	display: "flex",
-  paddingRight: 100
+  width: '100vw',
+  boxSizing: 'border-box',
+  width: 1245,
 });
 
 // 최상단 로고 감싸는 영역
@@ -49,7 +51,6 @@ const MenuBar = styled(Box)({
 	flexGrow: 1,
 	justifyContent: "flex-end",
 	display: "flex",
-
 });
 
 // 닉네임 포함 환영문구 영역
@@ -59,16 +60,14 @@ const WelcomeMsg = styled(Typography)({
 	fontWeight: "bolder",
 	alignSelf: "center",
   minWidth: 200,
-  marginLeft: 170
+  marginLeft: 30
 });
 
 // 메뉴 버튼 영역
 const MenuBtnBox = styled(Box)({
-	marginRight: 50,
 	display: "flex",
 	justifyContent: "flex-end",
 	alignItems: "center",
-  
 });
 
 /** 모든 페이지에 고정적으로 위치하는 헤더 (메뉴 버튼 포함) */

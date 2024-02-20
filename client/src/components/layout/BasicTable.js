@@ -19,11 +19,12 @@ const BasicTable = (props) => {
 				width: "100%",
 				boxShadow: "none",
 				border: "1px solid #E0E0E0",
+        marginBottom: 5
 			}}
 		>
 			<Table
 				sx={{
-					minWidth: 650,
+					minWidth: 750,
 				}}
 				aria-label="simple table"
 			>
@@ -47,7 +48,7 @@ const BasicTable = (props) => {
 										align="center"
 										size="small"
 										sx={{
-											width: "55%",
+											width: "60%",
 											textAlign: "left",
 											cursor: "pointer",
 										}}
@@ -56,7 +57,7 @@ const BasicTable = (props) => {
 									</TableCell>
 									<TableCell
 										sx={{
-											width: "30%",
+											width: "27%",
 										}}
 									>
 										By.{novel.user_nickname}
@@ -85,7 +86,7 @@ const BasicTable = (props) => {
 										align="center"
 										size="small"
 										sx={{
-                      width: "55%",
+                      width: "60%",
 											textAlign: "left",
 											cursor: "pointer",
 										}}
@@ -94,7 +95,7 @@ const BasicTable = (props) => {
 									</TableCell>
 									<TableCell
 										sx={{
-											width: "30%",
+											width: "27%",
 										}}
 										// align="center"
 									>
