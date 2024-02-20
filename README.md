@@ -106,56 +106,53 @@ PW: b12345
 
 ```
 const NovDetail = () => {
-	// 팝업 내용 State
-	const [popup, setPopup] = useState("login");
+  // 팝업 내용 State
+  const [popup, setPopup] = useState("login");
   // ... other state
-	
-	const popupChange = () => {
-	    // 로그인
-	    if (popup === "login") {
-	      return (
-	        <LoginPopup
-	          changeState={() => setPopup("join")}
-	          closeModal={closeModal}
-	          isLogin={() => setIsLogin(true)}
-	        />
-	      );
-	
-	      // 회원가입
-	    } else if (popup === "join") {
-	      return <JoinPopup 
-								profile={profile} 
-								setProfile={setProfile} 
-							 />
-	
-	      // 프로필 수정
-	    } else if (popup === "editProfile") {
-	      return (
-	        <EditProfilePopup
-	          profile={profile}
-	          setProfile={setProfile}
-	          closeModal={closeModal}
-	        />
-	      );
-	    }
-	  };
-	
-	// ... other functions
 
-	return (
-		<>
-			// .... other components
-			<ModalPopup
-					fullWidth
-					open={modal}
-					width={modalWidth(popup)}
-					onClose={closeModal}
-					height={modalHeight(popup)}
-			>
-				{popupChange()}
-			</ModalPopup>
-		</>
-	)
+  const popupChange = () => {
+    // 로그인
+    if (popup === "login") {
+      return (
+        <LoginPopup
+          changeState={() => setPopup("join")}
+          closeModal={closeModal}
+          isLogin={() => setIsLogin(true)}
+        />
+      );
+
+    // 회원가입
+    } else if (popup === "join") {
+      return <JoinPopup profile={profile} etProfile={setProfile} />;
+
+    // 프로필 수정
+    } else if (popup === "editProfile") {
+      return (
+        <EditProfilePopup
+          profile={profile}
+          setProfile={setProfile}
+          closeModal={closeModal}
+        />
+      );
+    }
+  };
+
+  // ... other functions
+
+  return (
+    <>
+      {/* other components */}
+      <ModalPopup
+        fullWidth
+        open={modal}
+        width={modalWidth(popup)}
+        onClose={closeModal}
+        height={modalHeight(popup)}
+      >
+        {popupChange()}
+      </ModalPopup>
+    </>
+  );
 };
 
 export default NovDetail;
@@ -167,75 +164,75 @@ export default NovDetail;
 const NovDetail = () => {
   // ... other state
   // 서버에 post하기 위한 소설 State
-	const [regditNovData, setRegditNovData] = useState({
-		main_novel_seqno: null,
-		title: null,
-		content: null,
-		genre_1: null,
-		genre_2: null,
-		keyword_1: null,
-		keyword_2: null,
-		keyword_3: null,
-		description: null,
-		file: "cover_basic.jpg",
-		created_user: profile.login_id,
-	});
+  const [regditNovData, setRegditNovData] = useState({
+    main_novel_seqno: null,
+    title: null,
+    content: null,
+    genre_1: null,
+    genre_2: null,
+    keyword_1: null,
+    keyword_2: null,
+    keyword_3: null,
+    description: null,
+    file: "cover_basic.jpg",
+    created_user: profile.login_id,
+  });
 
-	// WriteSubNovPopup에서 입력된 data(title, content) redgitNovData에 세팅
-	const setTitleContent = (data) => {
-		setRegditNovData((prevState) => ({
-			...prevState,
-			title: data.title === "" ? novel.title : data.title, 
-			content: data.content,
-			main_novel_seqno: data.main_novel_seqno,
-		}));
-	};
-	
-	const popupChange = () => {
-		if (popup === "writeNov") {
-			return (
-				<WriteSubNovPopup
-					mainNovel={mainNovel}
-					changeState={() => setPopup("selectTag")}
-					setTitleContent={(data) => setTitleContent(data)}
+  // WriteSubNovPopup에서 입력된 data(title, content) redgitNovData에 세팅
+  const setTitleContent = (data) => {
+    setRegditNovData((prevState) => ({
+      ...prevState,
+      title: data.title === "" ? novel.title : data.title,
+      content: data.content,
+      main_novel_seqno: data.main_novel_seqno,
+    }));
+  };
+
+  const popupChange = () => {
+    if (popup === "writeNov") {
+      return (
+        <WriteSubNovPopup
+          mainNovel={mainNovel}
+          changeState={() => setPopup("selectTag")}
+          setTitleContent={(data) => setTitleContent(data)}
           color={color}
-				/>
-			);
-		} else if (popup === "novCover") {
-			return (
-				<SetNovCoverPopup
-					setCoverImage={(data) => setCoverImage(data)}
-					// 데이터가 입력되는 마지막 모달 팝업인 SetNovCoverPopup에 post기능 함수를 넘겨 '제출'버튼 클릭 시 서버로 데이터를 보낼 수 있게 함
-					postSubNovData={postSubNovData}
+        />
+      );
+    } else if (popup === "novCover") {
+      return (
+        <SetNovCoverPopup
+          setCoverImage={(data) => setCoverImage(data)}
+          // 데이터가 입력되는 마지막 모달 팝업인 SetNovCoverPopup에 post기능 함수를 넘겨 '제출'버튼 클릭 시 서버로 데이터를 보낼 수 있게 함
+          postSubNovData={postSubNovData}
           color={color}
-				/>
-			);
-		}
-	};
+        />
+      );
+    }
+  };
 
-	const postSubNovData = async () => {
-		postData("novel/postSubNovel", redgitNovData).then(msg => {
-			alert(msg);
-			closeModal();
-		});
-	};
-	
-	// ... other functions
+  const postSubNovData = async () => {
+    postData("novel/postSubNovel", regditNovData).then((msg) => {
+      alert(msg);
+      closeModal();
+    });
+  };
 
-	return (
-		<>
-			// .... other components
-			<ModalPopup
-					fullWidth
-					open={modal}
-					width={modalWidth(popup)}
-					onClose={closeModal}
-					height={modalHeight(popup)}
-			>
-				{popupChange()}
-			</ModalPopup>
-		</>
-	)
+  // ... other functions
+
+  return (
+    <>
+      {/* other components */}
+      <ModalPopup
+        fullWidth
+        open={modal}
+        width={modalWidth(popup)}
+        onClose={closeModal}
+        height={modalHeight(popup)}
+      >
+        {popupChange()}
+      </ModalPopup>
+    </>
+  );
 };
 
 export default NovDetail;
@@ -285,6 +282,10 @@ const schedule = require("node-schedule");
 const pool = require("../lib/dbConnPool");
 const mapper = require("../sql");
 
+const schedule = require("node-schedule");
+const pool = require("../lib/dbConnPool");
+const mapper = require("../sql");
+
 const batchUpdateNovAndAuthor = async () => {
   // 매일 오전 00:00 실행
   schedule.scheduleJob("* 0 0 * * *", async () => {
@@ -296,17 +297,17 @@ const batchUpdateNovAndAuthor = async () => {
       await client.query("BEGIN");
 
       // 30일 경과된 메인 소설 순번 배열
-      let main_seqno = [];  
+      let main_seqno = [];
       // 메인 소설에 엮인 서브 소설 순번 배열
-			const sub_seqno = []; 
-			// 좋아요를 가장 많이 받은 서브 소설의 작가 아이디 배열
-      let sub_created_user = []; 
-			// 서브 소설이 하나 이상 존재하는 메인 소설 순번 배열
+      const sub_seqno = [];
+      // 좋아요를 가장 많이 받은 서브 소설의 작가 아이디 배열
+      let sub_created_user = [];
+      // 서브 소설이 하나 이상 존재하는 메인 소설 순번 배열
       const sub_more_than_zero_main_seqno = [];
-	// 서브 소설 중 좋아요가 적어도 하나 이상인 메인 소설 순번 배열     
+      // 서브 소설 중 좋아요가 적어도 하나 이상인 메인 소설 순번 배열
       const like_more_than_zero_main_seqno = [];
-	// 30일 경과 후 엮인 서브 소설이 하나도 없는 메인 소설 순번 배열    
-      let postpone_main_seqno = [];                 
+      // 30일 경과 후 엮인 서브 소설이 하나도 없는 메인 소설 순번 배열
+      let postpone_main_seqno = [];
 
       // 작성한지 30일 경과된 미완성 메인 소설 조회
       sqlId = "Schedule.checkIncompleteNov";
@@ -316,30 +317,43 @@ const batchUpdateNovAndAuthor = async () => {
       if (main_seqno.length > 0) {
         // 엮인 서브 소설이 하나 이상 존재하는 미완성 메인 소설 조회
         sqlId = "Schedule.checkElectedIncompleteNov";
-        const electedMainNov = await client.query(mapper.makeSql(sqlId, { main_seqno }));
-        electedMainNov.rows.forEach((nov) => sub_more_than_zero_main_seqno.push(nov.main_novel_seqno));
-      
+        const electedMainNov = await client.query(
+          mapper.makeSql(sqlId, { main_seqno })
+        );
+        electedMainNov.rows.forEach((nov) =>
+          sub_more_than_zero_main_seqno.push(nov.main_novel_seqno)
+        );
+
         // 완성 소설 승급이 미뤄지는 메인 소설 순번 세팅
-        postpone_main_seqno = main_seqno.filter(seq => !sub_more_than_zero_main_seqno.includes(seq));
-        
+        postpone_main_seqno = main_seqno.filter(
+          (seq) => !sub_more_than_zero_main_seqno.includes(seq)
+        );
+
         // 좋아요 수가 가장 많은 서브 소설 정보 조회(좋아요가 최소 0개 이상이어야 함)
         sqlId = "Schedule.getMostLikeWriter";
         const mostLikeNov = await client.query(
           mapper.makeSql(sqlId, { sub_more_than_zero_main_seqno })
         );
-        mostLikeNov.rows.forEach(nov => {
+        mostLikeNov.rows.forEach((nov) => {
           // complete_yn이 'Y'로 변경될 서브 소설 순번 세팅
           sub_seqno.push(nov.sub_novel_seqno);
           // 작가로 권한 변경되어야 할 유저 아이디 세팅
           sub_created_user.push(nov.sub_author_id);
           // 엮인 서브 소설 중 좋아요가 적어도 하나 이상인 메인 소설 순번 세팅
           like_more_than_zero_main_seqno.push(nov.main_novel_seqno);
-        })
-        
+        });
+
         // 승급될 유저 아이디 중복 값 제거(예: boo@novely.com가 쓴 서브 소설 여러개 당선 시)
         sub_created_user = Array.from(new Set(sub_created_user));
         // 서브 소설 중 좋아요가 전부 0인 메인 소설 seqno를 기존 승급 연기 대상인 메인 소설 seqno에 추가
-        postpone_main_seqno = Array.from(new Set([ ...postpone_main_seqno, ...sub_more_than_zero_main_seqno.filter(v => !like_more_than_zero_main_seqno.includes(v)) ]));
+        postpone_main_seqno = Array.from(
+          new Set([
+            ...postpone_main_seqno,
+            ...sub_more_than_zero_main_seqno.filter(
+              (v) => !like_more_than_zero_main_seqno.includes(v)
+            ),
+          ])
+        );
 
         // 완성 소설 테이블에 데이터 입력
         sqlId = "Schedule.postCompleteNovel";
@@ -379,7 +393,7 @@ const batchUpdateNovAndAuthor = async () => {
           일괄 업데이트 완료되었습니다.`
         );
       }
-        
+
       // 쿼리 실행 이상없다면 커밋
       await client.query("COMMIT");
     } catch (err) {
@@ -413,38 +427,39 @@ module.exports = batchUpdateNovAndAuthor;
 
 // 소설 커버 이미지 영역
 const Cover = styled(Box)({
-	width: "100%",
-	minHeight: 290,
-	borderRadius: 15,
-	backgroundColor: COLOR.PURPLE,
-	marginBottom: 9,
-  	"&:hover": {
-		opacity: 0.7,
-		cursor: "pointer",
-	},
+  width: "100%",
+  minHeight: 290,
+  borderRadius: 15,
+  backgroundColor: COLOR.PURPLE,
+  marginBottom: 9,
+  "&:hover": {
+    opacity: 0.7,
+    cursor: "pointer",
+  },
 });
 
 const NovelCard = (props) => {
-	return (
-		<>
-			<Cover
-				onClick={props.onClick}
-				style={{
-					backgroundImage: `url(
-						// process.env.REACT_APP_COVER_IMAGE_DIRECTORY 
-						// => http://서버ip:포트/nov_cover
-						${process.env.REACT_APP_COVER_IMAGE_DIRECTORY}/
-						${encodeURIComponent(props.cover_image)})`,
-					backgroundSize: "cover",
-				}}
-			/>
-		</>
-	)
+  return (
+    <>
+      <Cover
+        onClick={props.onClick}
+        style={{
+          backgroundImage: `url(
+            // process.env.REACT_APP_COVER_IMAGE_DIRECTORY 
+            // => http://서버ip:포트/nov_cover
+            ${process.env.REACT_APP_COVER_IMAGE_DIRECTORY}/
+            ${encodeURIComponent(props.cover_image)})`,
+          backgroundSize: "cover",
+        }}
+      />
+    </>
+  );
 };
 
 export default NovelCard;
 
 [Server]
+
 // image 폴더 접근 허용
 app.use(express.static(path.join(__dirname, '../../image')));
 ```
