@@ -23,11 +23,12 @@ import { modalWidth, modalHeight } from "common/util";
 /** STYLE 정의 */
 // 전체 영역
 const Whole = styled(Box)({
-	height: 70,
-  paddingLeft: 120,
-  margin: "10px 0",
-	display: "flex",
-});
+  justifyContent: 'space-between',
+  width: '80%',
+  height: 70,
+  margin: "0 auto",
+  display: 'flex',
+}); 
 
 // 최상단 로고 감싸는 영역
 const LogoBox = styled(Box)({
