@@ -2,7 +2,7 @@
 import { Box, styled, Typography } from "@mui/material";
 
 // Control Component
-import Buttons from "components/controls/Button";
+import { Buttons } from "components/controls";
 
 // Constant
 import { CODE, LABEL, COLOR } from "common";
@@ -91,7 +91,6 @@ const NovelViewBox = styled(Box)({
 
 /** 소설 축약 정보 컴포넌트(소설 상세보기 페이지의 헤더) */
 const NovelInfo = (props) => {
-  console.log(props,94)
 
 	return (
     <Whole>

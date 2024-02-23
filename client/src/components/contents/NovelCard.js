@@ -2,8 +2,7 @@
 import { Box, styled, Typography } from "@mui/material";
 
 // Control Component
-import Buttons from "components/controls/Button";
-import Icons from "components/controls/Icons";
+import { Buttons, Icons } from "components/controls";
 
 // Constant
 import { CODE, COLOR } from "common";
@@ -33,13 +32,6 @@ const Cover = styled(Box)({
 		opacity: 0.7,
 		cursor: "pointer",
 	},
-});
-
-// 소설 설명 영역 (제목, 한줄소개, 태그, 좋아요)
-const InfoBox = styled(Box)({
-	flex: "1",
-	display: "flex",
-	flexDirection: "column",
 });
 
 // 제목, 한줄소개, 좋아요 영역
@@ -82,7 +74,7 @@ const Description = styled(Typography)({
 // 태그 영역
 const TagBox = styled(Box)({
 	marginTop: 3,
-	minHeight: 60,
+	maxHeight: 50,
 });
 
 /** 소설 정보를 담고있는 카드 형식 컴포넌트 (메인 화면, 작가 상세 정보 팝업에서 사용) */
@@ -132,7 +124,7 @@ const NovelCard = (props) => {
 					backgroundSize: "cover",
 				}}
 			/>
-			<InfoBox>
+      <div>
 				<InfoItemBox>
 					<TitleBox>
 						<Title>{props.title}</Title>
@@ -194,7 +186,7 @@ const NovelCard = (props) => {
 						)}
 					</TagBox>
 				)}
-			</InfoBox>
+      </div>
 		</Whole>
 	);
 };

@@ -5,8 +5,7 @@ import { useState } from "react";
 import { Box, Typography, styled } from "@mui/material";
 
 // Control Component
-import Buttons from "components/controls/Button";
-import Inputs from "components/controls/Input";
+import { Buttons, Inputs } from "components/controls";
 
 // Constant
 import { CODE, LABEL, COLOR, MESSAGE } from "common";
@@ -71,6 +70,7 @@ const CountText = styled(Typography)({
 const writeNovText = (color) => {
   return (
     {
+      fontFamily: "'Pretendard-Regular', sans-serif", 
       paddingRight: 10,
       border:'none',
       width: "100%",

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Box, styled, TextField } from "@mui/material";
 
 // Control Component
-import Buttons from "components/controls/Button";
+import { Buttons } from "components/controls";
 
 // Constant
 import { COLOR, LABEL, CODE, MESSAGE } from "common";

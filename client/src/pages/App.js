@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // 공통 Component
-import Page from "components/container/Page";
+import { Page } from "components/container";
 
 // Pages
 import pages from "pages";

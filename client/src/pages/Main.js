@@ -6,17 +6,18 @@ import { useNavigate } from "react-router-dom";
 import { styled, Box } from "@mui/material";
 
 // Content Component
-import NovelCard from "components/contents/NovelCard";
+import { NovelCard } from "components/contents";
 
 // Control Component
-import Buttons from "components/controls/Button";
-import SearchBar from "components/controls/Search";
+import { Buttons, SearchBar } from "components/controls";
 
 // Popup Component
-import ModalPopup from "components/popup/ModalPopup";
-import LoginPopup from "components/popup/LoginPopup";
-import JoinPopup from "components/popup/JoinPopup";
-import AuthorFirstLoginPopup from "components/popup/AuthorFirstLoginPopup";
+import { 
+  ModalPopup,
+  LoginPopup,
+  JoinPopup,
+  AuthorFirstLoginPopup
+} from "components/popup";
 
 // Constant
 import { CODE, MESSAGE, COLOR, LABEL } from "common";
@@ -264,7 +265,6 @@ const Main = () => {
 						display: "inline-block",
 					}}
 				>
-					|
 				</span>
 				<Buttons
 					type={CODE.BUTTON.BASIC}

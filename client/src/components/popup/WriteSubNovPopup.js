@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react";
 
 // Control Component
-import Buttons from "components/controls/Button";
-import Inputs from "components/controls/Input";
+import { Buttons, Inputs } from "components/controls";
 
 // MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
@@ -103,6 +102,7 @@ const Content = styled(Typography)({
 const writeNovText = (color) => {
   return (
     {
+      fontFamily: "'Pretendard-Regular', sans-serif",
       border:'none',
       width: "100%",
       height: "100%",

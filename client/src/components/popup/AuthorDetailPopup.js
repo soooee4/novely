@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, styled, Typography } from "@mui/material";
 
 // Content Component
-import AuthorInfo from "components/contents/AuthorInfo";
-import NovelCard from "components/contents/NovelCard";
+import { AuthorInfo, NovelCard } from "components/contents";
 
 // Constant
 import { MESSAGE } from "common";
@@ -56,8 +55,6 @@ const IsDataInfo = styled(Typography)({
 
 /** 작가 상세 정보를 보여주는 모달 (소설 상세 페이지에서 작가 닉네임 클릭시 해당 팝업 띄워짐) */
 const AuthorDetailPopup = (props) => {
-
-console.log(props,59)
 
 	const [authorNovelData, setAuthorNovelData] = useState([]);   // 작성한 메인 소설 데이터
 	const [userImg, setUserImg] = useState("");                   // 사용자 프로필 이미지

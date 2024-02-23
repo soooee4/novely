@@ -6,15 +6,17 @@ import { useNavigate } from "react-router-dom";
 import { styled, Box } from "@mui/material";
 
 // Content Component
-import NovelCard from "components/contents/NovelCard";
+import { NovelCard } from "components/contents";
 
 // Control Component
-import Buttons from "components/controls/Button";
+import { Buttons } from "components/controls";
 
 // Popup Component
-import AuthorWriteNovPopup from "../components/popup/AuthorWirteNovPopup";
-import AuthorWriteIntroPopup from "../components/popup/AuthorWriteIntroPopup";
-import ModalPopup from "components/popup/ModalPopup";
+import { 
+	AuthorWriteNovPopup,
+	AuthorWriteIntroPopup,
+	ModalPopup
+} from "components/popup";
 
 // Constant
 import { CODE, LABEL, COLOR, MESSAGE } from "common";
@@ -213,7 +215,6 @@ const AuthorMyNov = () => {
 							display: "inline-block",
 						}}
 					>
-						|
 					</span>
 					<Buttons
 						type={CODE.BUTTON.BASIC}
@@ -234,7 +235,6 @@ const AuthorMyNov = () => {
 							display: "inline-block",
 						}}
 					>
-						|
 					</span>
 					<Buttons
 						type={CODE.BUTTON.BASIC}

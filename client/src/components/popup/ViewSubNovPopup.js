@@ -1,8 +1,8 @@
-// Control Component
-import Buttons from "components/controls/Button";
-
 // MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
+
+// Control Component
+import { Buttons } from "components/controls";
 
 // Constant
 import { CODE, LABEL, COLOR, MESSAGE } from "common";

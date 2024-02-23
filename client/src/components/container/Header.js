@@ -6,13 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { Box, styled, Typography } from "@mui/material";
 
 // Control Component
-import Buttons from "components/controls/Button";
+import { Buttons } from "components/controls";
 
 // Popup Component
-import ModalPopup from "components/popup/ModalPopup";
-import LoginPopup from "components/popup/LoginPopup";
-import JoinPopup from "components/popup/JoinPopup";
-import EditProfilePopup from "components/popup/EditProfilePopup";
+import {
+	ModalPopup,
+	LoginPopup,
+	JoinPopup,
+	EditProfilePopup,
+} from "components/popup";
 
 // Constant
 import { CODE, LABEL, MESSAGE } from "common";
@@ -23,12 +25,12 @@ import { modalWidth, modalHeight } from "common/util";
 /** STYLE 정의 */
 // 전체 영역
 const Whole = styled(Box)({
-  justifyContent: 'space-between',
-  width: '80%',
-  height: 70,
-  margin: "0 auto",
-  display: 'flex',
-}); 
+	justifyContent: "space-between",
+	width: "80%",
+	height: 70,
+	margin: "0 auto",
+	display: "flex",
+});
 
 // 최상단 로고 감싸는 영역
 const LogoBox = styled(Box)({
@@ -49,9 +51,9 @@ const Logo = styled(Typography)({
 const MenuBar = styled(Box)({
 	justifyContent: "flex-end",
 	display: "flex",
-  marginLeft: 600,
-  paddingRight: 40,
-  minWidth: 500,
+	marginLeft: 600,
+	paddingRight: 40,
+	minWidth: 500,
 });
 
 // 닉네임 포함 환영문구 영역
@@ -60,25 +62,29 @@ const WelcomeMsg = styled(Typography)({
 	fontSize: 15,
 	fontWeight: "bolder",
 	alignSelf: "center",
-  minWidth: 200,
+	minWidth: 200,
 });
 
 // 메뉴 버튼 영역
 const MenuBtnBox = styled(Box)({
-  display: "flex",
-  justifyContent: "flex-end",
-  alignItems: "center",
+	display: "flex",
+	justifyContent: "flex-end",
+	alignItems: "center",
 });
 
 /** 모든 페이지에 고정적으로 위치하는 헤더 (메뉴 버튼 포함) */
 const Header = () => {
-	const [modal, setModal] = useState(false);        // 모달 oepn 여부
-	const [popup, setPopup] = useState("login");       // popup 상태값
-	const [isLogin, setIsLogin] = useState(localStorage.getItem("profile") ? true : false);   // 로그인 여부
-	const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile")));   // 로컬스토리지에 저장된 사용자 정보
+	const [modal, setModal] = useState(false); // 모달 oepn 여부
+	const [popup, setPopup] = useState("login"); // popup 상태값
+	const [isLogin, setIsLogin] = useState(
+		localStorage.getItem("profile") ? true : false
+	); // 로그인 여부
+	const [profile, setProfile] = useState(
+		JSON.parse(localStorage.getItem("profile"))
+	); // 로컬스토리지에 저장된 사용자 정보
+const [nickname, setNickname] = useState(profile && profile.user_nickname);
 
-	const nickname = profile && profile.user_nickname;
-  	const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const goToPage = (url) => {
 		navigate(url);
@@ -109,12 +115,12 @@ const Header = () => {
 			// 회원가입
 		} else if (popup === "join") {
 			return (
-        <JoinPopup 
-          profile={profile} 
-          setProfile={setProfile}
+				<JoinPopup
+					profile={profile}
+					setProfile={setProfile}
 					changeState={() => setPopup("login")}
-        />
-      );
+				/>
+			);
 
 			// 프로필 수정
 		} else if (popup === "editProfile") {
@@ -123,13 +129,14 @@ const Header = () => {
 					profile={profile}
 					setProfile={setProfile}
 					closeModal={closeModal}
+          setNickname={setNickname}
 				/>
 			);
 		}
 	};
 
-  // 현재 컴포넌트 URL 경로(새로고침 시 선택한 탭 메뉴 bolder 유지를 위해 현재 경로를 참조: 새로고침 시 state는 초기화)
-  const currentPath = window.location.pathname;
+	// 현재 컴포넌트 URL 경로(새로고침 시 선택한 탭 메뉴 bolder 유지를 위해 현재 경로를 참조: 새로고침 시 state는 초기화)
+	const currentPath = window.location.pathname;
 
 	return (
 		<Whole>
@@ -141,7 +148,8 @@ const Header = () => {
 			<MenuBar>
 				{profile && (
 					<WelcomeMsg>
-						{profile.user_reg_dv === "G" ? MESSAGE.PRE_WRITER : MESSAGE.WRITER}&nbsp;
+						{profile.user_reg_dv === "G" ? MESSAGE.PRE_WRITER : MESSAGE.WRITER}
+						&nbsp;
 						{nickname}님 👋
 					</WelcomeMsg>
 				)}
@@ -166,8 +174,7 @@ const Header = () => {
 								name={LABEL.BUTTONS.FAVORITE_NOVEL}
 								margin={10}
 								fontWeight={currentPath === "/favorite_novel" && "bolder"}
-                minWidth={78}
-
+								minWidth={78}
 							/>
 							{/* 권한에 따라 내 정보, 내 작품 메뉴 변경 */}
 							{profile.user_reg_dv === "W" && (
@@ -177,7 +184,7 @@ const Header = () => {
 									name={LABEL.BUTTONS.MY_NOVEL}
 									margin={10}
 									fontWeight={currentPath === "/author_myNovel" && "bolder"}
-                  minWidth={70}
+									minWidth={70}
 								/>
 							)}
 							<Buttons
@@ -186,8 +193,7 @@ const Header = () => {
 								margin={"10px 25px 10px 10px"}
 								showModal={() => setModal(true)}
 								changeState={() => setPopup("editProfile")}
-                minWidth={70}
-
+								minWidth={70}
 							/>
 							<Buttons
 								type={CODE.BUTTON.BORDER}
@@ -196,7 +202,6 @@ const Header = () => {
 								color={"white"}
 								width={93}
 								logout={logout}
-        
 							/>
 						</>
 					)}

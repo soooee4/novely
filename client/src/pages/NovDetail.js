@@ -6,24 +6,26 @@ import { useLocation } from "react-router-dom";
 import { Box, Typography, styled } from "@mui/material";
 
 // Content Component
-import NovelInfo from "components/contents/NovelInfo";
+import { NovelInfo } from "components/contents";
 
 // Layout Component
-import BasicTable from "components/layout/BasicTable";
+import { BasicTable } from "components/layout";
 
 // Control Component
-import Buttons from "components/controls/Button";
+import { Buttons } from "components/controls";
 
 // Popup Component
-import ModalPopup from "components/popup/ModalPopup";
-import ViewCompleteNovPopup from "components/popup/ViewCompleteNovPopup";
-import ViewIncompleteNovPopup from "components/popup/ViewIncompleteNovPopup";
-import WriteSubNovPopup from "components/popup/WriteSubNovPopup";
-import AuthorDetailPopup from "components/popup/AuthorDetailPopup";
-import SelectTagPopup from "components/popup/SelectTagPopup";
-import WriteNovIntroPopup from "components/popup/WriteNovIntroPopup";
-import SetNovCoverPopup from "components/popup/SetNovCoverPopup";
-import ViewSubNovPopup from "components/popup/ViewSubNovPopup";
+import { 
+	ModalPopup,
+	ViewCompleteNovPopup,
+	ViewIncompleteNovPopup,
+	ViewSubNovPopup,
+	WriteSubNovPopup,
+	WriteNovIntroPopup,
+	AuthorDetailPopup,
+	SelectTagPopup,
+	SetNovCoverPopup
+} from "components/popup";
 
 // Constant
 import { CODE, LABEL, MESSAGE } from "common";

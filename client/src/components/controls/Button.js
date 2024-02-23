@@ -33,6 +33,7 @@ const TagBtn = styled(Button)({
 	fontSize: 9.5,
 	marginLeft: 3,
   boxSizing: "border-box",
+  marginTop: 4
 });
 
 // Button Component

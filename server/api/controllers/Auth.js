@@ -11,7 +11,6 @@ const login = async (req, res, next) => {
   try {
     const data = await svc.login({ ...req.body });
     res.send(data);
-    
   } catch (err) {
     console.log(err);
   }
@@ -23,7 +22,6 @@ const join = async (req, res, next) => {
   try {
     const data = await svc.join({ ...req.body });
     res.send(data);
-    
   } catch (err) {
     console.log(err);
   }

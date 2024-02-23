@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Box, styled, Typography } from "@mui/material";
 
 // Control Component
-import Buttons from "components/controls/Button";
+import { Buttons } from "components/controls";
 
 // Constant
 import { CODE, LABEL, COLOR, MESSAGE } from "common";
@@ -29,6 +29,7 @@ const Wrapper = styled(Box)({
 const writeNovText = (color) => {
   return (
     {
+      fontFamily: "'Pretendard-Regular', sans-serif",
       width: "100%",
       height: "100%",
       boxSizing: "borderBox",
@@ -59,7 +60,6 @@ const WriteNovIntroPopup = (props) => {
 		setDescription(e.target.value);
 	};
   
-  console.log(description.length,62)
 
 	// 저장 후 다음 버튼 눌렀을 때 NovDetail 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
   const postSubDesc = () => {

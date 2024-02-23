@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, styled, Typography } from "@mui/material";
 
 // Control Component
-import Buttons from "components/controls/Button";
+import { Buttons } from "components/controls";
 
 // Constant
 import { CODE, LABEL, COLOR, MESSAGE } from "common";
@@ -26,6 +26,7 @@ const Wrapper = styled(Box)({
 const writeNovText = (color) => {
   return ( 
     {
+      fontFamily: "'Pretendard-Regular', sans-serif",
       width: "100%",
       height: "80%",
       resize: "none",

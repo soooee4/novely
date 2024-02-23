@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { styled, Box } from "@mui/material";
 
 // Content Component
-import NovelCard from "components/contents/NovelCard";
+import { NovelCard } from "components/contents";
 
 // Control Component
-import Buttons from "components/controls/Button";
+import { Buttons } from "components/controls";
 
 // Constant
 import { CODE, LABEL, COLOR } from "common";
@@ -112,7 +112,6 @@ const FavoriteNov = () => {
 							display: "inline-block",
 						}}
 					>
-						|
 					</span>
 					<Buttons
 						type={CODE.BUTTON.BASIC}

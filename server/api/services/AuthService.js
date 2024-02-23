@@ -2,6 +2,7 @@ const pool = require("../../lib/dbConnPool");
 const mapper = require("../../sql");
 const util = require("../../common/util");
 const { MESSAGE } = require("../../common/message");
+// const { userInfo } = require("os");
 
 // 로그인
 const login = async ({ login_id, login_pw }) => {
@@ -46,6 +47,7 @@ const login = async ({ login_id, login_pw }) => {
 
 // 회원가입
 const join = async ({ login_id, login_pw, image }) => {
+
   const client = await pool.connect();
   let sqlId = "Auth.isUser";
 
@@ -80,11 +82,11 @@ const join = async ({ login_id, login_pw, image }) => {
       if (regditUser.rowCount === 1) {
         sqlId = "Auth.getUserInfo";
         userInfo = await client.query(mapper.makeSql(sqlId, { login_id }));
-
         return {
           user_nickname: userInfo.rows[0].user_nickname,
           user_reg_dv: userInfo.rows[0].user_reg_dv,
           login_id: userInfo.rows[0].login_id,
+          image: userInfo.rows[0].image
         };
       } else {
         return MESSAGE.JOIN_FAILED;

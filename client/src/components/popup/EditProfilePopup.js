@@ -5,7 +5,7 @@ import { useMemo, useState, useRef, useEffect } from "react";
 import { Box, styled } from "@mui/material";
 
 // Control Component
-import Buttons from "components/controls/Button";
+import { Buttons } from "components/controls";
 
 // Constant
 import { MESSAGE, LABEL, CODE } from "../../common";
@@ -164,6 +164,7 @@ const EditProfile = (props) => {
 					});
 					localStorage.setItem("profile", newData);
 					setProfile(newData);
+          props.setNickname(data.user_nickname);
 					alert(MESSAGE.EDIT_SUCCEED);
 					closeModal();
 				} else {
@@ -206,6 +207,7 @@ const EditProfile = (props) => {
           marginBottom: 2,
           backgroundImage: `url(${imageUrl})`,
           backgroundSize: "cover",
+          backgroundPosition: "center"
         }}
       />
 
