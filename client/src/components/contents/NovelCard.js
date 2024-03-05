@@ -75,6 +75,7 @@ const Description = styled(Typography)({
 const TagBox = styled(Box)({
 	marginTop: 3,
 	maxHeight: 50,
+  lineHeight: 0
 });
 
 /** 소설 정보를 담고있는 카드 형식 컴포넌트 (메인 화면, 작가 상세 정보 팝업에서 사용) */
