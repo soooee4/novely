@@ -8,6 +8,7 @@ const { fileUpload } = require("../../common/controller");
 
 // 로그인
 const login = async (req, res, next) => {
+
   try {
     const data = await svc.login({ ...req.body });
     res.send(data);

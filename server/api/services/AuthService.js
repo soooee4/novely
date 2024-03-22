@@ -32,9 +32,8 @@ const login = async ({ login_id, login_pw }) => {
 
     // 비밀번호 유효 시 유저 정보를 리턴하여 클라이언트로 전송
     if (validPw) {
-      sqlId = user_reg_dv === "W" ? "Auth.getAuthUserInfo" : "Auth.getUserInfo";
+      sqlId = user_reg_dv === "W" ? "Auth.getLoginAuthUserInfo" : "Auth.getLoginUserInfo";
       userInfo = await client.query(mapper.makeSql(sqlId, { login_id }));
-
       return userInfo.rows[0];
     } 
     

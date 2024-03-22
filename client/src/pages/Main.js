@@ -12,11 +12,11 @@ import { NovelCard } from "components/contents";
 import { Buttons, SearchBar } from "components/controls";
 
 // Popup Component
-import { 
-  ModalPopup,
-  LoginPopup,
-  JoinPopup,
-  AuthorFirstLoginPopup
+import {
+	ModalPopup,
+	LoginPopup,
+	JoinPopup,
+	AuthorFirstLoginPopup,
 } from "components/popup";
 
 // Constant
@@ -28,17 +28,17 @@ import { getData } from "common/communication";
 /** STYLE 정의 */
 // 헤더 제외 영역
 const MainBox = styled(Box)({
-  width: "80%",
-  display: "flex",
-  flexDirection: "column",
-  margin: "0 auto",
+	width: "80%",
+	display: "flex",
+	flexDirection: "column",
+	margin: "0 auto",
 });
 
 // 검색창 하단 장르 태그 박스
 const TagBox = styled(Box)({
-  margin: "12px 0",
-  display: "flex",
-  flexWrap: "no-wrap",
+	margin: "12px 0",
+	display: "flex",
+	flexWrap: "no-wrap",
 });
 
 // 소설 구분 버튼 박스
@@ -49,31 +49,35 @@ const DivNovelBtn = styled(Box)({
 
 // 소설 컴포넌트 카드 영역
 const NovelCardBox = styled(Box)({
-  flexGrow: 1,
-  width: "100%",
-  margin: "0 auto",
-  display: "grid",
-  gridTemplateColumns: "repeat(5, 1fr)",
-  gridGap: "0.1rem",
+	flexGrow: 1,
+	width: "100%",
+	margin: "0 auto",
+	display: "grid",
+	gridTemplateColumns: "repeat(5, 1fr)",
+	gridGap: "0.1rem",
 });
 
 /** 메인화면 Component */
 const Main = () => {
-  // 소설 정보 데이터, Modal open/close, Popup State정의
-  const [novelData, setNovelData] = useState([]);                                         // 완성 소설 데이터
-  const [modal, setModal] = useState(false);                                              // 모달 open 여부
-  const [popup, setPopup] = useState("login");                                            // popup 상태값
-  const [isLogin, setIsLogin] = useState(localStorage.getItem("id") ? true : false);      // 로그인 여부
-  const [genre, setGenre] = useState([]);                                                 // 장르
-  const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile")));    // 로컬스토리지에 저장된 사용자 정보
-  const [filterNovData, setFilterNovData] = useState([]);                                 // 태그 선택에 의해 필터링된 소설 데이터
-  const [selectedTag, setSelectedTag] = useState([]);                                     // 선택된 태그
-  const [schWord, setSchWord] = useState("");                                             // Seacrh Bar에서 입력한 검색 단어
-  const [searchNovData, setSearchNovData] = useState([]);                                 // Search Bar에서 검색한 소설 데이터
-  const [selectedTab, setSelectedTab] = useState("complete");
+	// 소설 정보 데이터, Modal open/close, Popup State정의
+	const [novelData, setNovelData] = useState([]); // 완성 소설 데이터
+	const [modal, setModal] = useState(false); // 모달 open 여부
+	const [popup, setPopup] = useState("login"); // popup 상태값
+	const [isLogin, setIsLogin] = useState(
+		localStorage.getItem("id") ? true : false
+	); // 로그인 여부
+	const [genre, setGenre] = useState([]); // 장르
+	const [profile, setProfile] = useState(
+		JSON.parse(localStorage.getItem("profile"))
+	); // 로컬스토리지에 저장된 사용자 정보
+	const [filterNovData, setFilterNovData] = useState([]); // 태그 선택에 의해 필터링된 소설 데이터
+	const [selectedTag, setSelectedTag] = useState([]); // 선택된 태그
+	const [schWord, setSchWord] = useState(""); // Seacrh Bar에서 입력한 검색 단어
+	const [searchNovData, setSearchNovData] = useState([]); // Search Bar에서 검색한 소설 데이터
+	const [selectedTab, setSelectedTab] = useState("complete");
 
-  // 제목 검색 (완성 소설 탭에서 검색할 경우 complete_novel_title, 미완성 소설 탭에서 검색할 경우 title에서 단어를 찾아 해당 데이터로 업데이트)
-  const search = () => {
+	// 제목 검색 (완성 소설 탭에서 검색할 경우 complete_novel_title, 미완성 소설 탭에서 검색할 경우 title에서 단어를 찾아 해당 데이터로 업데이트)
+	const search = () => {
 		setSearchNovData(
 			novelData.filter((nov) =>
 				nov.complete_novel_title
@@ -83,145 +87,142 @@ const Main = () => {
 		);
 	};
 
-  // 모달창 닫기
-  const closeModal = () => {
-    setModal(false);
-  };
-  
-  // 소설 데이터 조회(완성 소설) => 찜 / 찜해제 시에도 사용
-  const getNovelData = () => {
-    // 로그인 상태라면 login_id 넘어가고 아니라면 null값 넘어가도록 처리
-    getData("novel/getNovels", { login_id: profile?.login_id })
-      .then((data) => {
-        setNovelData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+	// 모달창 닫기
+	const closeModal = () => {
+		setModal(false);
+	};
 
-  // 소설 데이터 조회(미완성 소설) => 미완성 소설 탭 클릭 시 실행
-  const getIncompleteNovelData = () => {
-    getData("novel/getIncompleteNovels", { login_id: profile?.login_id })
-      .then((data) => {
-        setNovelData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+	// 소설 데이터 조회(완성 소설) => 찜 / 찜해제 시에도 사용
+	const getNovelData = () => {
+		// 로그인 상태라면 login_id 넘어가고 아니라면 null값 넘어가도록 처리
+		getData("novel/getNovels", { login_id: profile?.login_id })
+			.then((data) => {
+				setNovelData(data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
 
-  // 메인 화면 렌더링 시 소설 데이터 조회
-  useEffect(() => {
-    getNovelData();
+	// 소설 데이터 조회(미완성 소설) => 미완성 소설 탭 클릭 시 실행
+	const getIncompleteNovelData = () => {
+		getData("novel/getIncompleteNovels", { login_id: profile?.login_id })
+			.then((data) => {
+				setNovelData(data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
 
-    // 작가 권한 첫 로그인 시 작가 소개 입력 모달창 열기
-    if (profile && profile.author_first_login === 'Y') setModal(true);
-  }, []);
+	// 메인 화면 렌더링 시 소설 데이터 조회
+	useEffect(() => {
+		getNovelData();
 
-  // 장르 태그 조회
-  useEffect(() => {
-    getData("common/genre")
-      .then((data) => {
-        setGenre(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+		// 작가 권한 첫 로그인 시 작가 소개 입력 모달창 열기
+		if (profile && profile.author_first_login === "Y") setModal(true);
+	}, []);
 
-  // 새로고침 시 태그 필터링 제거
-  useEffect(() => {
-    setFilterNovData(novelData);
-  }, [novelData]);
+	// 장르 태그 조회
+	useEffect(() => {
+		getData("common/genre")
+			.then((data) => {
+				setGenre(data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
 
-  // 태그 선택 시
-  useEffect(() => {
-    // 필터링된 소설 정보를 담을 배열
-    const filteringNov = [];
+	// 새로고침 시 태그 필터링 제거
+	useEffect(() => {
+		setFilterNovData(novelData);
+	}, [novelData]);
 
-    // 조회된 완료 소설 중 선택된 장르 태그에 해당하는 소설 정보를 필터링된 소설 배열에 넣음
-    novelData.forEach((nov) => {
-      const check = selectedTag.findIndex(
-        (v) => v === nov.genre_1 || v === nov.genre_2
-      );
-      if (check !== -1) filteringNov.push(nov);
-    });
+	// 태그 선택 시
+	useEffect(() => {
+		// 필터링된 소설 정보를 담을 배열
+		const filteringNov = [];
 
-    // 선택된 태그 다시 클릭하여 선택 태그 전부 제거 시 complete novel data 세팅
-    if (selectedTag.length === 0) setFilterNovData(novelData);
-    else setFilterNovData(filteringNov);
-  }, [selectedTag]);
+		// 조회된 완료 소설 중 선택된 장르 태그에 해당하는 소설 정보를 필터링된 소설 배열에 넣음
+		novelData.forEach((nov) => {
+			const check = selectedTag.findIndex(
+				(v) => v === nov.genre_1 || v === nov.genre_2
+			);
+			if (check !== -1) filteringNov.push(nov);
+		});
 
-  // 태그 선택 함수(태그 클릭 시 필터링을 위함)
-  const settingTag = (tag) => {
-    // 이미 선택된 태그인지 체크(존재 여부 및 인덱스 추출)
-    const check = selectedTag.findIndex((v) => v === tag);
+		// 선택된 태그 다시 클릭하여 선택 태그 전부 제거 시 complete novel data 세팅
+		if (selectedTag.length === 0) setFilterNovData(novelData);
+		else setFilterNovData(filteringNov);
+	}, [selectedTag]);
 
-    // 선택되지 않은 태그일 경우 선택 태그 모음에 추가
-    if (check === -1) {
-      // 선택된 태그가 3개일 경우
-      if (selectedTag.length > 2) {
-        alert(MESSAGE.OVER_SELECTED_TAG);
-        return;
-      } else {
-        setSelectedTag([...selectedTag, tag]);
-      }
-      // 선택된 태그일 경우 선택 태그 모음에서 삭제
-    } else {
-      setSelectedTag(selectedTag.filter((tag) => tag !== selectedTag[check]));
-    }
-  };
+	// 태그 선택 함수(태그 클릭 시 필터링을 위함)
+	const settingTag = (tag) => {
+		// 이미 선택된 태그인지 체크(존재 여부 및 인덱스 추출)
+		const check = selectedTag.findIndex((v) => v === tag);
 
-  // 검색어 입력 후 검색 시
-  useEffect(() => {
-    setFilterNovData(searchNovData);
-  }, [searchNovData]);
+		// 선택되지 않은 태그일 경우 선택 태그 모음에 추가
+		if (check === -1) {
+			// 선택된 태그가 3개일 경우
+			if (selectedTag.length > 2) {
+				alert(MESSAGE.OVER_SELECTED_TAG);
+				return;
+			} else {
+				setSelectedTag([...selectedTag, tag]);
+			}
+			// 선택된 태그일 경우 선택 태그 모음에서 삭제
+		} else {
+			setSelectedTag(selectedTag.filter((tag) => tag !== selectedTag[check]));
+		}
+	};
 
-  // 전체 소설 데이터에서 특정 아이디가 작성한 메인소설을 뽑을 때 (작가권한 내 작품 페이지에 넘겨줄 데이터)
+	// 검색어 입력 후 검색 시
+	useEffect(() => {
+		setFilterNovData(searchNovData);
+	}, [searchNovData]);
 
-  const navigate = useNavigate();
+	// 전체 소설 데이터에서 특정 아이디가 작성한 메인소설을 뽑을 때 (작가권한 내 작품 페이지에 넘겨줄 데이터)
 
-  // 노벨 카드 클릭 시 소설 상세 페이지 이동
-  const goToDetail = (novel) => {
-    // 비로그인 상태
-    if (!localStorage.getItem("profile")) {
-      setModal(true);
+	const navigate = useNavigate();
 
-      // 로그인 상태
-    } else {
-      navigate("/novel_detail", { state: { props: novel } });
-    }
-  };
+	// 노벨 카드 클릭 시 소설 상세 페이지 이동
+	const goToDetail = (novel) => {
+		// 비로그인 상태
+		if (!localStorage.getItem("profile")) {
+			setModal(true);
 
-  // 팝업 상태값 변경
-  const popupChange = () => {
-    if (popup === "login") {
-      // 메인 작가 승급 후 첫 로그인 여부
-      if (profile && profile.author_first_login === "Y") {
-        return (
-          <AuthorFirstLoginPopup
-            profile={profile} 
-            closeModal={closeModal}
-          />
-        );
-      } else {
-        return (
-          <LoginPopup
-            changeState={() => setPopup("join")}
-            closeModal={closeModal}
-            isLogin={() => setIsLogin(true)}
-          />
-        );
-      }
-    } else if (popup === "join") {
-      return <JoinPopup changeState={() => setPopup("profile")} />;
-    } 
-  };
+			// 로그인 상태
+		} else {
+			navigate("/novel_detail", { state: { props: novel } });
+		}
+	};
 
-  return (
+	// 팝업 상태값 변경
+	const popupChange = () => {
+		if (popup === "login") {
+			// 메인 작가 승급 후 첫 로그인 여부
+			if (profile && profile.author_first_login === "Y") {
+				return (
+					<AuthorFirstLoginPopup profile={profile} closeModal={closeModal} />
+				);
+			} else {
+				return (
+					<LoginPopup
+						changeState={() => setPopup("join")}
+						closeModal={closeModal}
+						isLogin={() => setIsLogin(true)}
+					/>
+				);
+			}
+		} else if (popup === "join") {
+			return <JoinPopup changeState={() => setPopup("profile")} />;
+		}
+	};
+
+	return (
 		<MainBox>
-      {/* SearchBar에 검색어 상태 변경 함수를 내려주고 그 값을 공유받아 세팅 */}
+			{/* SearchBar에 검색어 상태 변경 함수를 내려주고 그 값을 공유받아 세팅 */}
 			<SearchBar setSchWord={(word) => setSchWord(word)} onClick={search} />
 			{selectedTab === "complete" && (
 				<TagBox>
@@ -264,8 +265,7 @@ const Main = () => {
 						marginRight: 8,
 						display: "inline-block",
 					}}
-				>
-				</span>
+				></span>
 				<Buttons
 					type={CODE.BUTTON.BASIC}
 					backgroundColor={COLOR.WHITE}

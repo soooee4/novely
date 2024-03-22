@@ -38,6 +38,7 @@ const TagBtn = styled(Button)({
 
 // Button Component
 const Buttons = (props) => {
+  console.log(props,5)
 	if (props.type === CODE.BUTTON.BASIC) {
 		return (
 			<BasicBtn
@@ -114,7 +115,9 @@ const Buttons = (props) => {
 			<BorderBtn
 				disableRipple
 				onClick={() => {
-					// props로 넘어온 값이 null, undefined가 아닐 경우에만 해당 함수 실행하도록 조건 부여
+          // ! rtk query로 변경한 로그인 (추후에 조건식 없애기)
+          props.onClick && props.onClick();
+
 					props.showModal && props.showModal();
 					props.changeState && props.changeState();
 					props.onSubmit && props.onSubmit();

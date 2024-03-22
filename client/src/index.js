@@ -1,15 +1,21 @@
-import React, { Suspense } from 'react';
-import ReactDOM from 'react-dom/client';
-import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
-import { GlobalStyles } from '@mui/system';
+import React, { Suspense } from "react";
+import { Provider } from "react-redux";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+import ReactDOM from "react-dom/client";
+import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
+import { GlobalStyles } from "@mui/system";
+
+import store from './redux/store';
+
 
 import pages from "pages";
-import 'styles/index.css';
+import "styles/index.css";
 
 const theme = createTheme({
-  typography: {
-    fontFamily: "'Pretendard-Regular', sans-serif",
-  },
+	typography: {
+		fontFamily: "'Pretendard-Regular', sans-serif",
+	},
 });
 
 const fontFace = `
@@ -21,16 +27,22 @@ const fontFace = `
 }
 `;
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const persistor = persistStore(store);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <GlobalStyles styles={fontFace} />
-      <Suspense fallback={<></>}>
-        {/* 로딩 중 보여질 페이지 설정 (설정 안할 시 오류 발생) */}
-        <pages.AppPage />
-      </Suspense>
-    </ThemeProvider>
-  </React.StrictMode>
+	<React.StrictMode>
+		<Provider store={store}>
+			<PersistGate loading={null} persistor={persistor}>
+				<ThemeProvider theme={theme}> 
+					<CssBaseline />
+					<GlobalStyles styles={fontFace} />
+					<Suspense fallback={<></>}>
+						{/* 로딩 중 보여질 페이지 설정 (설정 안할 시 오류 발생) */}
+						<pages.AppPage />
+					</Suspense>
+				</ThemeProvider>
+			</PersistGate>
+		</Provider>
+	</React.StrictMode>
 );

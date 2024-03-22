@@ -6,6 +6,8 @@ import CloseIcon from '@mui/icons-material/Close';
 
 /** 모든 팝업 컴포넌트의 부모가 되는 기본 모달 컴포넌트 */
 const ModalPopup = (props) => {
+ 
+
   // fullWidth 속성 props에 추가하여 fullWidth일 때만 너비 100%로 설정 (novel-detail 소설 보기, 쓰기)
   const { children, height, onClose, open, width, popupState, fullWidth, mode } = props;
 
