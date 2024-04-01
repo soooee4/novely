@@ -1,6 +1,9 @@
 // React Package Module
 import { useState } from "react";
 
+// Redux Package Module
+import { setModalOpen } from "redux/slice";
+
 // MUI Package Module
 import { Box, Typography, styled, TextField } from "@mui/material";
 
@@ -14,8 +17,8 @@ import { COLOR, LABEL, CODE, MESSAGE } from "common";
 import { idValidation, pwValidation } from "common/util";
 
 // API
-// import { postData } from "common/communication";
 import { useOnLoginMutation } from "redux/services/AuthService";
+import { useDispatch } from "react-redux";
 
 /** STYLE 정의 */
 // 전체 영역
@@ -72,36 +75,10 @@ const LoginPopup = (props) => {
 		}
 	};
 
+	const dispatch = useDispatch();
+
 	// rtk query
 	const [login] = useOnLoginMutation();
-
-	//  const onLogin = () => {
-	//    postData("auth/login", {
-	//      login_id: id,
-	//      login_pw: pw,
-	//    })
-	//      .then((data) => {
-	//        if (typeof data === "object") {
-	//          localStorage.setItem(
-	//            "profile",
-	//            JSON.stringify({
-	//              user_nickname: data.user_nickname,
-	//              user_reg_dv: data.user_reg_dv,
-	//              login_id: data.login_id,
-	//              image: data.image,
-	//              author_info: data.author_info,
-	//              author_first_login: data.author_first_login,
-	//            })
-	//          );
-	//          window.location.reload();
-	//        } else if (typeof data === "string") {
-	//          alert(data);
-	//        }
-	//      })
-	//      .catch((err) => {
-	//        console.log(err);
-	//      });
-	//  };
 
 	const enter = (e) => {
 		if (e.key === "Enter") login({ login_id: id, login_pw: pw });
@@ -160,7 +137,8 @@ const LoginPopup = (props) => {
 						color={COLOR.BLACK}
 						fontSize="13px"
 						fontWeight="bolder"
-						changeState={props.changeState}
+						// changeState={props.changeState}
+						setModalOpen={() => dispatch(setModalOpen("join"))}
 						margin="5px 0 0 0"
 					/>
 				</Box>

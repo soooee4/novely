@@ -5,9 +5,9 @@ const Page = (props) => {
   return (
     <>
       <Header 
-        profile={props.profile}
-        setProfile={props.setProfile}
-        logout={props.logout}
+        // profile={props.profile}
+        // setProfile={props.setProfile}
+        // logout={props.logout}
       />
       {props.children}
     </>

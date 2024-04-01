@@ -9,6 +9,7 @@ const persistMainConfig = {
 	key: "main",
 	storage,
 	whitelist: ["isLogin", "profile"],
+  blacklist: ["modal"]
 };
 
 const persistedMainReducer = persistReducer(persistMainConfig, slice);

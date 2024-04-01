@@ -32,20 +32,20 @@ const WholeBox = styled(Box)({
 });
 
 const ScrollBox = styled(Box)({
-  overflow: "auto",
+	overflow: "auto",
 	height: "100%",
 
-  '&::-webkit-scrollbar': {
-    width: 5, 
-  },
-  '&::-webkit-scrollbar-thumb': {
-    background: '#aaa',
-    borderRadius: 5,
-  },
-  '&::-webkit-scrollbar-track': {
-    backgroundColor: 'transparent',
-  },
-})
+	"&::-webkit-scrollbar": {
+		width: 5,
+	},
+	"&::-webkit-scrollbar-thumb": {
+		background: "#aaa",
+		borderRadius: 5,
+	},
+	"&::-webkit-scrollbar-track": {
+		backgroundColor: "transparent",
+	},
+});
 
 const ViewBox = styled(Box)({
 	flex: 1,
@@ -53,31 +53,29 @@ const ViewBox = styled(Box)({
 	border: `1px solid ${COLOR.GRAY}`,
 	borderRadius: 10,
 	padding: 10,
-  paddingRight:5,
+	paddingRight: 5,
 	boxSizing: "border-box",
-
 });
 
 const WriteBox = styled(Box)({
-  flex: 1,
+	flex: 1,
 	height: "100%",
 	boxSizing: "border-box",
-  borderRadius: 10,
-  padding: 10,
-  paddingRight:5,
+	borderRadius: 10,
+	padding: 10,
+	paddingRight: 5,
 	border: `1px solid ${COLOR.GRAY}`,
 
-
-  '&>textarea::-webkit-scrollbar': {
-    width: 5, 
-  },
-  '&>textarea::-webkit-scrollbar-thumb': {
-    background: '#aaa',
-    borderRadius: 5,
-  },
-  '&>textarea::-webkit-scrollbar-track': {
-    backgroundColor: 'transparent',
-  },
+	"&>textarea::-webkit-scrollbar": {
+		width: 5,
+	},
+	"&>textarea::-webkit-scrollbar-thumb": {
+		background: "#aaa",
+		borderRadius: 5,
+	},
+	"&>textarea::-webkit-scrollbar-track": {
+		backgroundColor: "transparent",
+	},
 });
 
 // 제목, 이어쓰기 버튼 영역
@@ -89,40 +87,36 @@ const HeaderBox = styled(Box)({
 
 // 글자수 표시 영역
 const CountText = styled(Typography)({
-  fontSize: 13,
-  margin: "3px 5px 0px auto"
+	fontSize: 13,
+	margin: "3px 5px 0px auto",
 });
-
 
 const Content = styled(Typography)({
 	fontSize: 15,
-  marginRight:5
+	marginRight: 5,
 });
 
 const writeNovText = (color) => {
-  return (
-    {
-      fontFamily: "'Pretendard-Regular', sans-serif",
-      border:'none',
-      width: "100%",
-      height: "100%",
-      boxSizing: "borderBox",
-      resize: "none",
-      outline: "none",
-      fontSize: 17,
-      boxSizing: "border-box",
-      backgroundColor: color,
-      color: color === "#121212" ? "white" : "black",
-    }
-  )
+	return {
+		fontFamily: "'Pretendard-Regular', sans-serif",
+		border: "none",
+		width: "100%",
+		height: "100%",
+		boxSizing: "borderBox",
+		resize: "none",
+		outline: "none",
+		fontSize: 17,
+		boxSizing: "border-box",
+		backgroundColor: color,
+		color: color === "#121212" ? "white" : "black",
+	};
 };
 
 /** 서브 소설 title, content 작성 컴포넌트 (미완성 소설 보는 팝업에서 이어쓰기 버튼 클릭 시 해당 팝업 띄워줌) */
 const WriteSubNovPopup = (props) => {
-	const [title, setTitle] = useState("");           // 서브 소설 제목
-	const [content, setContent] = useState("");       // 서브 소설 내용
-  // const [isScrolling, setIsScrolling] = useState(false);
-  const [contentCount, setContentCount] = useState(0) // 내용 글자수 체크
+	const [title, setTitle] = useState(""); // 서브 소설 제목
+	const [content, setContent] = useState(""); // 서브 소설 내용
+	const [contentCount, setContentCount] = useState(0); // 내용 글자수 체크
 
 	const inputTitle = (e) => {
 		setTitle(e.target.value);
@@ -130,11 +124,10 @@ const WriteSubNovPopup = (props) => {
 
 	const inputContent = (e) => {
 		setContent(e.target.value);
-    setContentCount(e.target.value.length);
-
+		setContentCount(e.target.value.length);
 	};
 
-  // 저장 후 다음 버튼 눌렀을 때 NovDetail 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
+	// 저장 후 다음 버튼 눌렀을 때 NovDetail 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
 	const postSubNovel = () => {
 		if (content === "") {
 			alert(MESSAGE.ERROR.WRITE_CONTENT);
@@ -151,25 +144,6 @@ const WriteSubNovPopup = (props) => {
 		}
 	};
 
-  //스크롤 감지하여 화면에 띄워주는 함수
-  // const handleScroll = () => {
-  //   setIsScrolling(true);
-    // 스크롤링 0.5초 후 동작 멈춤
-  //   setTimeout(() => {
-  //     setIsScrolling(false);
-  //   }, 1000);
-  // }
-  
-  // useEffect(() => {
-  //   const temp = document.querySelector('.cc')
-  //   temp.addEventListener("scroll", handleScroll);
-
-    // 클린업 (언마운트 시 이벤트 리스너 삭제)
-  //   return () => {
-  //     temp.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
-
 	return (
 		<Wrapper>
 			<HeaderBox>
@@ -185,7 +159,9 @@ const WriteSubNovPopup = (props) => {
 					name={LABEL.BUTTONS.GOTONEXT}
 					margin={"-20px 0px 0px auto"}
 					postSubNovel={postSubNovel}
-					changeState={(content !== "" && title.length <= 50) && props.changeState}
+					changeState={
+						content !== "" && title.length <= 50 && props.changeState
+					}
 				/>
 			</HeaderBox>
 			<WholeBox>

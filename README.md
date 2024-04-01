@@ -100,22 +100,22 @@ PW: b12345
 <h2 id="core-code">💎 핵심 코드</h2>
 
 <details>
-  <summary>&nbspPopup change</summary>
+  <summary>&nbspModal change</summary>
 
 - 해당 프로젝트에서는 버튼 클릭 후 변화되는 state값에 따라 팝업의 내용들이 바뀌게 됩니다. 이를 위해 popupChange라는 함수를 사용하여 state값에 따른 컴포넌트들을 렌더링하도록 하였습니다.
 
 ```
 const NovDetail = () => {
   // 팝업 내용 State
-  const [popup, setPopup] = useState("login");
+  const [popup, setModal] = useState("login");
   // ... other state
 
   const popupChange = () => {
     // 로그인
     if (popup === "login") {
       return (
-        <LoginPopup
-          changeState={() => setPopup("join")}
+        <LoginModal
+          changeState={() => setModal("join")}
           closeModal={closeModal}
           isLogin={() => setIsLogin(true)}
         />
@@ -123,12 +123,12 @@ const NovDetail = () => {
 
     // 회원가입
     } else if (popup === "join") {
-      return <JoinPopup profile={profile} etProfile={setProfile} />;
+      return <JoinModal profile={profile} etProfile={setProfile} />;
 
     // 프로필 수정
     } else if (popup === "editProfile") {
       return (
-        <EditProfilePopup
+        <EditProfileModal
           profile={profile}
           setProfile={setProfile}
           closeModal={closeModal}
@@ -142,7 +142,7 @@ const NovDetail = () => {
   return (
     <>
       {/* other components */}
-      <ModalPopup
+      <ModalModal
         fullWidth
         open={modal}
         width={modalWidth(popup)}
@@ -150,7 +150,7 @@ const NovDetail = () => {
         height={modalHeight(popup)}
       >
         {popupChange()}
-      </ModalPopup>
+      </ModalModal>
     </>
   );
 };
@@ -178,7 +178,7 @@ const NovDetail = () => {
     created_user: profile.login_id,
   });
 
-  // WriteSubNovPopup에서 입력된 data(title, content) redgitNovData에 세팅
+  // WriteSubNovModal에서 입력된 data(title, content) redgitNovData에 세팅
   const setTitleContent = (data) => {
     setRegditNovData((prevState) => ({
       ...prevState,
@@ -191,18 +191,18 @@ const NovDetail = () => {
   const popupChange = () => {
     if (popup === "writeNov") {
       return (
-        <WriteSubNovPopup
+        <WriteSubNovModal
           mainNovel={mainNovel}
-          changeState={() => setPopup("selectTag")}
+          changeState={() => setModal("selectTag")}
           setTitleContent={(data) => setTitleContent(data)}
           color={color}
         />
       );
     } else if (popup === "novCover") {
       return (
-        <SetNovCoverPopup
+        <SetNovCoverModal
           setCoverImage={(data) => setCoverImage(data)}
-          // 데이터가 입력되는 마지막 모달 팝업인 SetNovCoverPopup에 post기능 함수를 넘겨 '제출'버튼 클릭 시 서버로 데이터를 보낼 수 있게 함
+          // 데이터가 입력되는 마지막 모달 팝업인 SetNovCoverModal에 post기능 함수를 넘겨 '제출'버튼 클릭 시 서버로 데이터를 보낼 수 있게 함
           postSubNovData={postSubNovData}
           color={color}
         />
@@ -222,7 +222,7 @@ const NovDetail = () => {
   return (
     <>
       {/* other components */}
-      <ModalPopup
+      <ModalModal
         fullWidth
         open={modal}
         width={modalWidth(popup)}
@@ -230,7 +230,7 @@ const NovDetail = () => {
         height={modalHeight(popup)}
       >
         {popupChange()}
-      </ModalPopup>
+      </ModalModal>
     </>
   );
 };

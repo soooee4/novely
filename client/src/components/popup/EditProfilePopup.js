@@ -1,6 +1,9 @@
 // React Package Module
 import { useMemo, useState, useRef, useEffect } from "react";
 
+// Redux Package Module
+import { useSelector } from "react-redux";
+
 // MUI Package Module
 import { Box, styled } from "@mui/material";
 
@@ -14,7 +17,7 @@ import { MESSAGE, LABEL, CODE } from "../../common";
 import TextField from "@mui/material/TextField";
 
 // API Service
-import { patchData } from "common/communication";
+import { useEditProfileMutation } from "redux/services/AuthService";
 
 // Util
 import { pwValidation } from "common/util";
@@ -53,12 +56,11 @@ const fileUploaderBtn =  {
 };
 
 /** 내 정보 수정 컴포넌트 (헤더의 내 정보 버튼 클릭 시 해당 팝업 띄워줌)*/
-const EditProfile = (props) => {
-  // 구조 분해 할당 이용하여 props 분해
-  const { closeModal } = props;
+const EditProfile = () => {
+
+  const profile = useSelector((state) => state.main.profile);
   
   // STATE 정의
-  const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile")));	// 유저 정보
   const [newPw, setNewPw] = useState(""); 												// 새 비밀번호
   const [curPw, setCurPw] = useState(""); 												// 현재 비밀번호
   const [nickname, setNickname] = useState(profile.user_nickname); 						// 로컬스토리지에 저장된 사용자 닉네임
@@ -72,6 +74,10 @@ const EditProfile = (props) => {
   );
   const [selectedFileName, setSelectedFileName] = useState("");   // 사용자가 선택한 프로필 사진 이름
   const [previewUrl, setPreviewUrl] = useState("");
+
+
+  // rtk query
+  const [editProfile] = useEditProfileMutation();
 
   const imageUrl = useMemo(() => {
 	if (previewUrl !== "") {
@@ -125,7 +131,7 @@ const EditProfile = (props) => {
   };
 
   // 프로필 수정
-  const onEditProfile = () => {
+  const onClick = async () => {
 		// 현재 비밀번호 미입력 시
 		if (curPw === "") {
 			alert(MESSAGE.WRITE_CUR_PW);
@@ -154,29 +160,14 @@ const EditProfile = (props) => {
 		Object.keys(data).forEach((key) => {
 			formData.append(key, data[key]);
 		});
-			patchData("auth/editProfile", formData).then((data) => {
-				if (typeof data === "object") {
-					const newData = JSON.stringify({
-						...profile,
-						user_nickname: data.user_nickname,
-						image: data.image,
-						author_info: data.author_info,
-					});
-					localStorage.setItem("profile", newData);
-					setProfile(newData);
-          props.setNickname(data.user_nickname);
-					alert(MESSAGE.EDIT_SUCCEED);
-					closeModal();
-				} else {
-					alert(data);
-				}
-			});
+
+    await editProfile(formData);
 	};
 
   // 파일 업로드 하는 input에 대한 참조를 저장하는 변수 (현재 참조 대상이 없음을 나타내기 위해 초기값 null로 세팅)
   const fileInputRef = useRef(null);
 
-  // 파일 업로드 하는 input 클릭 했을 때 기능 함수 (현재 참조하는 요소 클릭하도록)
+  // ! 파일 업로드 하는 input 클릭 했을 때 기능 함수 (현재 참조하는 요소 클릭하도록)
   const fileUploadBtn = () => {
     fileInputRef.current.click();
   }
@@ -278,19 +269,13 @@ const EditProfile = (props) => {
           variant="standard"
           defaultValue={profile.author_info}
           onChange={inputInfo}
-          // onBlur={nickNameValidate}
-          // helperText={nickNameRegMsg !== "" ? nickNameRegMsg : ""}
         />
       )}
-      {/* <button type="submit" onClick={onEditProfile}>
-				{" "}
-				완료{" "}
-			</button> */}
       <ButtonBox>
         <Buttons
           type={CODE.BUTTON.BASIC}
           name={LABEL.BUTTONS.SUBMIT}
-          onEditProfile={onEditProfile}
+          onClick={onClick}
           margin={"10px 0 0 auto"}
         />
       </ButtonBox>

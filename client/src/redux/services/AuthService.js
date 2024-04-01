@@ -14,11 +14,18 @@ export const AuthApi = createApi({
       query: (params) => ({ url: '/auth/login', method: 'POST', body: params }),
       keepUnusedDataFor:0
     }),
+
+    // 프로필 수정
+    editProfile: builder.mutation({
+      query: (params) => ({ url: '/auth/editProfile', method: 'PATCH', body: params }),
+      keepUnusedDataFor:0
+    }),
   })
 })
 
 
 // endpoint에 대한 자동 Hook 함수 생성
 export const {
-  useOnLoginMutation
+  useOnLoginMutation,
+  useEditProfileMutation
 } = AuthApi;

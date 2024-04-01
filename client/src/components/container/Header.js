@@ -2,6 +2,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Redux Package Module
+import { useDispatch, useSelector } from "react-redux";
+import { setModalOpen, setLogout } from "redux/slice";
+
 // MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
 
@@ -10,10 +14,7 @@ import { Buttons } from "components/controls";
 
 // Popup Component
 import {
-	ModalPopup,
-	LoginPopup,
-	JoinPopup,
-	EditProfilePopup,
+	ModalPopup
 } from "components/popup";
 
 // Constant
@@ -74,15 +75,6 @@ const MenuBtnBox = styled(Box)({
 
 /** 모든 페이지에 고정적으로 위치하는 헤더 (메뉴 버튼 포함) */
 const Header = () => {
-	const [modal, setModal] = useState(false); // 모달 oepn 여부
-	const [popup, setPopup] = useState("login"); // popup 상태값
-	const [isLogin, setIsLogin] = useState(
-		localStorage.getItem("profile") ? true : false
-	); // 로그인 여부
-	const [profile, setProfile] = useState(
-		JSON.parse(localStorage.getItem("profile"))
-	); // 로컬스토리지에 저장된 사용자 정보
-const [nickname, setNickname] = useState(profile && profile.user_nickname);
 
 	const navigate = useNavigate();
 
@@ -91,49 +83,15 @@ const [nickname, setNickname] = useState(profile && profile.user_nickname);
 	};
 
 	const logout = () => {
-		localStorage.removeItem("profile");
+    dispatch(setLogout());
 		goToPage("/");
-		window.location.reload();
 	};
 
-	// 모달창 닫는 함수
-	const closeModal = () => {
-		setModal(false);
-	};
+  const profile = useSelector((state) => state.main.profile);
+	const content = useSelector((state) => state.main.modal.content);
 
-	// 팝업 상태값 변경
-	const popupChange = () => {
-		// 로그인
-		if (popup === "login") {
-			return (
-				<LoginPopup
-					changeState={() => setPopup("join")}
-					isLogin={() => setIsLogin(true)}
-				/>
-			);
+	const dispatch = useDispatch();
 
-			// 회원가입
-		} else if (popup === "join") {
-			return (
-				<JoinPopup
-					profile={profile}
-					setProfile={setProfile}
-					changeState={() => setPopup("login")}
-				/>
-			);
-
-			// 프로필 수정
-		} else if (popup === "editProfile") {
-			return (
-				<EditProfilePopup
-					profile={profile}
-					setProfile={setProfile}
-					closeModal={closeModal}
-          setNickname={setNickname}
-				/>
-			);
-		}
-	};
 
 	// 현재 컴포넌트 URL 경로(새로고침 시 선택한 탭 메뉴 bolder 유지를 위해 현재 경로를 참조: 새로고침 시 state는 초기화)
 	const currentPath = window.location.pathname;
@@ -146,24 +104,25 @@ const [nickname, setNickname] = useState(profile && profile.user_nickname);
 				</Logo>
 			</LogoBox>
 			<MenuBar>
-				{profile && (
+				{profile.login_id && (
 					<WelcomeMsg>
 						{profile.user_reg_dv === "G" ? MESSAGE.PRE_WRITER : MESSAGE.WRITER}
 						&nbsp;
-						{nickname}님 👋
+						{profile.user_nickname}님 👋
 					</WelcomeMsg>
 				)}
 				<MenuBtnBox>
 					{/* 비로그인 상태 */}
-					{!profile ? (
+					{!profile.login_id ? (
 						<Buttons
 							type={CODE.BUTTON.BORDER}
 							name={LABEL.BUTTONS.LOGIN}
 							backgroundColor={"black"}
 							color={"white"}
 							width={83}
-							showModal={() => setModal(true)}
-							changeState={() => setPopup("login")}
+							// showModal={() => setModal(true)}
+							// changeState={() => setPopup("login")}
+							setModalOpen={() => dispatch(setModalOpen("login"))}
 						/>
 					) : (
 						// 일반 유저 로그인 상태
@@ -191,8 +150,7 @@ const [nickname, setNickname] = useState(profile && profile.user_nickname);
 								type={CODE.BUTTON.BASIC}
 								name={LABEL.BUTTONS.MY_INFO}
 								margin={"10px 25px 10px 10px"}
-								showModal={() => setModal(true)}
-								changeState={() => setPopup("editProfile")}
+                setModalOpen={() => dispatch(setModalOpen('editProfile'))}
 								minWidth={70}
 							/>
 							<Buttons
@@ -208,14 +166,9 @@ const [nickname, setNickname] = useState(profile && profile.user_nickname);
 				</MenuBtnBox>
 			</MenuBar>
 			<ModalPopup
-				open={modal}
-				width={modalWidth(popup)}
-				height={modalHeight(popup)}
-				onClose={() => setModal(false)}
-				popupState={popup}
-			>
-				{popupChange()}
-			</ModalPopup>
+				width={modalWidth(content)}
+				height={modalHeight(content)}
+			/>
 		</Whole>
 	);
 };

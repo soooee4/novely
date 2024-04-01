@@ -164,6 +164,7 @@ const getCompleteNovel = async ({ complete_seqno }) => {
 
 // 메인 소설 등록 
 const postMainNovel = async ({ title, content, created_user, description }) => {
+  // console.log(created_user, description, title, content,33)
 	const client = await pool.connect();
 	const sqlId = "Novel.postMainNovel";
 

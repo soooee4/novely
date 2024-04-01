@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Redux Package Module
+import { useSelector } from "react-redux";
+
 // Constant
 import { Box, styled, Typography } from "@mui/material";
 
@@ -59,9 +62,12 @@ const AuthorDetailPopup = (props) => {
 	const [authorNovelData, setAuthorNovelData] = useState([]);   // 작성한 메인 소설 데이터
 	const [userImg, setUserImg] = useState("");                   // 사용자 프로필 이미지
 	const [authorInfo, setAuthorInfo] = useState("");                   // 작가 소갯말
-	const [profile, setProfile] = useState(                       // 로컬스토리지에 저장된 사용자 정보
-		JSON.parse(localStorage.getItem("profile"))
-	);
+	// const [profile, setProfile] = useState(                       // 로컬스토리지에 저장된 사용자 정보
+	// 	JSON.parse(localStorage.getItem("profile"))
+	// );
+
+  const profile = useSelector((state) => state.main.profile);
+
 
 	const getNovelData = () => {
 		getData("novel/getAuthorNovel", {

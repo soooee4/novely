@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Redux Package Module
+import { useSelector } from "react-redux";
+
 // MUI Package Module
 import { styled, Box } from "@mui/material";
 
@@ -59,17 +62,15 @@ const NovelCardBox = styled(Box)({
 
 /** 메인화면 Component */
 const Main = () => {
+
+  const profile = useSelector((state) => state.main.profile);
+
+
 	// 소설 정보 데이터, Modal open/close, Popup State정의
 	const [novelData, setNovelData] = useState([]); // 완성 소설 데이터
 	const [modal, setModal] = useState(false); // 모달 open 여부
 	const [popup, setPopup] = useState("login"); // popup 상태값
-	const [isLogin, setIsLogin] = useState(
-		localStorage.getItem("id") ? true : false
-	); // 로그인 여부
 	const [genre, setGenre] = useState([]); // 장르
-	const [profile, setProfile] = useState(
-		JSON.parse(localStorage.getItem("profile"))
-	); // 로컬스토리지에 저장된 사용자 정보
 	const [filterNovData, setFilterNovData] = useState([]); // 태그 선택에 의해 필터링된 소설 데이터
 	const [selectedTag, setSelectedTag] = useState([]); // 선택된 태그
 	const [schWord, setSchWord] = useState(""); // Seacrh Bar에서 입력한 검색 단어
@@ -211,7 +212,6 @@ const Main = () => {
 					<LoginPopup
 						changeState={() => setPopup("join")}
 						closeModal={closeModal}
-						isLogin={() => setIsLogin(true)}
 					/>
 				);
 			}
@@ -219,6 +219,7 @@ const Main = () => {
 			return <JoinPopup changeState={() => setPopup("profile")} />;
 		}
 	};
+
 
 	return (
 		<MainBox>
