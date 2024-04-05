@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Redux Package Module
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setClickNovel, setModalClose } from "redux/slice";
 
 // Constant
 import { Box, styled, Typography } from "@mui/material";
@@ -21,11 +22,11 @@ import { getData } from "common/communication";
 // 전체 영역
 const Wrapper = styled(Box)({
 	width: "100%",
-	height:"100%",
+	height: "100%",
 	display: "flex",
-  gap: 20,
-  boxSizing: 'border-box',
-  paddingBottom: 10
+	gap: 20,
+	boxSizing: "border-box",
+	paddingBottom: 10,
 });
 
 // 소설 컴포넌트 카드 영역
@@ -50,34 +51,32 @@ const NovelCardBox = styled(Box)({
 	},
 });
 
-
-
 const IsDataInfo = styled(Typography)({
 	fontSize: 17,
 });
 
 /** 작가 상세 정보를 보여주는 모달 (소설 상세 페이지에서 작가 닉네임 클릭시 해당 팝업 띄워짐) */
 const AuthorDetailPopup = (props) => {
+	// redux state 정의
+	const profile = useSelector((state) => state.main.profile);
+	const { authorId, authorNickname } = useSelector(
+		(state) => state.main.clickData
+	);
+	const novel = useSelector((state) => state.main.clickNovel);
 
-	const [authorNovelData, setAuthorNovelData] = useState([]);   // 작성한 메인 소설 데이터
-	const [userImg, setUserImg] = useState("");                   // 사용자 프로필 이미지
-	const [authorInfo, setAuthorInfo] = useState("");                   // 작가 소갯말
-	// const [profile, setProfile] = useState(                       // 로컬스토리지에 저장된 사용자 정보
-	// 	JSON.parse(localStorage.getItem("profile"))
-	// );
-
-  const profile = useSelector((state) => state.main.profile);
-
+	const [authorNovelData, setAuthorNovelData] = useState([]); // 작성한 메인 소설 데이터
+	const [userImg, setUserImg] = useState(""); // 사용자 프로필 이미지
+	const [authorInfo, setAuthorInfo] = useState(""); // 작가 소갯말
 
 	const getNovelData = () => {
 		getData("novel/getAuthorNovel", {
-			created_user: props.authorId,
+			created_user: authorId,
 			login_id: profile.login_id,
 		})
 			.then(function (data) {
 				setAuthorNovelData(data.novel_data);
 				setUserImg(data.user_image);
-        setAuthorInfo(data.author_info);
+				setAuthorInfo(data.author_info);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -90,17 +89,21 @@ const AuthorDetailPopup = (props) => {
 
 	const navigate = useNavigate();
 
+	const dispatch = useDispatch();
+
 	const goToDetail = (novel) => {
-		navigate("/novel_detail", { state: { props: novel } });
+		navigate("/novel_detail");
+		dispatch(setClickNovel(novel));
+		dispatch(setModalClose());
 	};
 
 	return (
 		<Wrapper>
 			<AuthorInfo
-				authorNickName={props.authorNickName}
-				authorId={props.authorId}
+				authorId={authorId}
+				authorNickname={authorNickname}
 				user_image={userImg}
-        authorInfo={authorInfo}
+				authorInfo={authorInfo}
 			/>
 			<NovelCardBox>
 				{authorNovelData.length !== 0 ? (
@@ -113,13 +116,12 @@ const AuthorDetailPopup = (props) => {
 								description={list.description}
 								created_date={list.created_date}
 								created_user={list.created_user}
-								user_id={profile.login_id}       // 여기서 넘어가는 user_id는 해당 소설 찜 여부를 위한 값
+								user_id={profile.login_id} // 여기서 넘어가는 user_id는 해당 소설 찜 여부를 위한 값
 								pick_yn={list.pick_yn}
 								cover_image={list.cover_image}
 								getNovelData={getNovelData}
 								onClick={() => {
 									goToDetail(list);
-									props.closeModal();
 								}}
 							/>
 						);

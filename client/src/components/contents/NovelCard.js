@@ -1,6 +1,9 @@
 // MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
 
+// Redux Package Module
+import { useSelector } from "react-redux";
+
 // Control Component
 import { Buttons, Icons } from "components/controls";
 
@@ -28,7 +31,7 @@ const Cover = styled(Box)({
 	borderRadius: 15,
 	backgroundColor: COLOR.PURPLE,
 	marginBottom: 9,
-  	"&:hover": {
+	"&:hover": {
 		opacity: 0.7,
 		cursor: "pointer",
 	},
@@ -48,7 +51,7 @@ const TitleBox = styled(Box)({
 
 // 좋아요 영역
 const LikedBox = styled(Box)({
-	marginLeft: 'auto',
+	marginLeft: "auto",
 	display: "flex",
 });
 
@@ -58,7 +61,7 @@ const Title = styled(Typography)({
 	paddingTop: 2,
 	whiteSpace: "noWrap",
 	overflow: "hidden",
-	textOverflow: "ellipsis"
+	textOverflow: "ellipsis",
 });
 
 // 소설 한줄소개
@@ -75,45 +78,46 @@ const Description = styled(Typography)({
 const TagBox = styled(Box)({
 	marginTop: 3,
 	maxHeight: 50,
-  lineHeight: 0
+	lineHeight: 0,
 });
 
 /** 소설 정보를 담고있는 카드 형식 컴포넌트 (메인 화면, 작가 상세 정보 팝업에서 사용) */
 const NovelCard = (props) => {
 
-  // 하트 아이콘 눌렀을 때 실행될 기능 함수
-  const pickNovel = () => {
-    if (props.pick_yn === "N") {
-      postData('novel/postPickNovel', {
-        main_novel_seqno: props.main_seqno,
-        user_id: props.user_id,
-      })
-      .then(() => {
-        props.getNovelData && props.getNovelData();                         // Main 페이지 완성 소설 조회
-        props.getIncompleteNovelData && props.getIncompleteNovelData();     // Main 페이지 미완성 소설 조회
-        props.getPickNovels && props.getPickNovels();                       // 찜한 소설 페이지 완성 소설 조회
-        props.getPickIncompleteNovels && props.getPickIncompleteNovels();   // 찜한 소설 페이지 미완성 소설 조회
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    } else if (props.pick_yn === "Y") {
-      deleteData('novel/deletePickNovel', {
-        main_novel_seqno: props.main_seqno,
-        user_id: props.user_id,
-      })
-      .then(() => {
-        props.getNovelData && props.getNovelData();                         // Main 페이지 완성 소설 조회
-        props.getIncompleteNovelData && props.getIncompleteNovelData();     // Main 페이지 미완성 소설 조회
-        props.getPickNovels && props.getPickNovels();                       // 찜한 소설 페이지 완성 소설 조회
-        props.getPickIncompleteNovels && props.getPickIncompleteNovels();   // 찜한 소설 페이지 미완성 소설 조회
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    }
-  };
+  const isLogin = useSelector((state) => state.main.isLogin);
 
+	// 하트 아이콘 눌렀을 때 실행될 기능 함수
+	const pickNovel = () => {
+		if (props.pick_yn === "N") {
+			postData("novel/postPickNovel", {
+				main_novel_seqno: props.main_seqno,
+				user_id: props.user_id,
+			})
+				.then(() => {
+					props.getNovelData && props.getNovelData(); // Main 페이지 완성 소설 조회
+					props.getIncompleteNovelData && props.getIncompleteNovelData(); // Main 페이지 미완성 소설 조회
+					props.getPickNovels && props.getPickNovels(); // 찜한 소설 페이지 완성 소설 조회
+					props.getPickIncompleteNovels && props.getPickIncompleteNovels(); // 찜한 소설 페이지 미완성 소설 조회
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		} else if (props.pick_yn === "Y") {
+			deleteData("novel/deletePickNovel", {
+				main_novel_seqno: props.main_seqno,
+				user_id: props.user_id,
+			})
+				.then(() => {
+					props.getNovelData && props.getNovelData(); // Main 페이지 완성 소설 조회
+					props.getIncompleteNovelData && props.getIncompleteNovelData(); // Main 페이지 미완성 소설 조회
+					props.getPickNovels && props.getPickNovels(); // 찜한 소설 페이지 완성 소설 조회
+					props.getPickIncompleteNovels && props.getPickIncompleteNovels(); // 찜한 소설 페이지 미완성 소설 조회
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+	};
 
 	return (
 		<Whole>
@@ -121,11 +125,13 @@ const NovelCard = (props) => {
 				onClick={props.onClick}
 				style={{
 					// props.cover_image => 파일명이 한글일 경우 encoding을 통해 올바른 경로 추출
-					backgroundImage: `url(${process.env.REACT_APP_COVER_IMAGE_DIRECTORY}/${encodeURIComponent(props.cover_image)})`,
+					backgroundImage: `url(${
+						process.env.REACT_APP_COVER_IMAGE_DIRECTORY
+					}/${encodeURIComponent(props.cover_image)})`,
 					backgroundSize: "cover",
 				}}
 			/>
-      <div>
+			<div>
 				<InfoItemBox>
 					<TitleBox>
 						<Title>{props.title}</Title>
@@ -187,7 +193,7 @@ const NovelCard = (props) => {
 						)}
 					</TagBox>
 				)}
-      </div>
+			</div>
 		</Whole>
 	);
 };
