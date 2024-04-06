@@ -9,6 +9,8 @@ import { Buttons } from "components/controls";
 
 // Constant
 import { CODE, LABEL, COLOR, MESSAGE } from "common";
+import { useDispatch, useSelector } from "react-redux";
+import { setModalOpen, setPostNovelData } from "redux/slice";
 
 /** STYLE 정의 */
 // 전체 영역
@@ -19,6 +21,7 @@ const Wrapper = styled(Box)({
 	flexDirection: "column",
 	padding: "0 3%",
 	boxSizing: "border-box",
+
 	paddingBottom: 20,
 });
 
@@ -48,46 +51,45 @@ const IntroMsg = styled(Typography)({
 });
 
 /** 서브 소설 작성 후 소설 설명을 작성하는 컴포넌트 */
-const WriteNovIntroPopup = (props) => {
+const WriteNovIntroPopup = () => {
+	// redux state
+	const color = useSelector((state) => state.main.color);
+
 	const [description, setDescription] = useState(""); // 서브 소설 설명
 
 	const inputDescription = (e) => {
 		setDescription(e.target.value);
 	};
 
-	// 저장 후 다음 버튼 눌렀을 때 NovDetail 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
-	const postSubDesc = () => {
-		if (description.length === 0) {
-			alert(MESSAGE.ERROR.WRITE_DESCRIPTION);
-			return;
-		} else if (description.length > 100) {
-			alert(MESSAGE.ERROR.INFO_INVALIDATION);
-			return;
-		} else {
-			props.setDescription({
-				description: description,
-			});
-			// return;
-		}
-	};
+	const dispatch = useDispatch();
 
 	return (
 		<Wrapper>
 			<Buttons
 				type={CODE.BUTTON.BASIC}
 				backgroundColor={COLOR.WHITE}
-				color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
+				color={color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
 				name={LABEL.BUTTONS.GOTONEXT}
 				margin={"5px 20px 5px auto"}
-				postSubDesc={postSubDesc}
-				changeState={
-					description.length !== 0 &&
-					description.length < 100 &&
-					props.changeState
-				}
+				onClick={() => {
+					// 사용자가 소설 설명을 입력하지 않았다면 경고창 띄워줌
+					if (description.trim().length === 0) {
+						alert(MESSAGE.ERROR.WRITE_DESCRIPTION); //
+					} else {
+						dispatch(
+							setModalOpen({
+								open: true,
+								content: "novCover",
+								width: 480,
+								height: 520,
+							})
+						);
+						dispatch(setPostNovelData({ description: description }));
+					}
+				}}
 			/>
 			<IntroMsg>{MESSAGE.WRITE_MAIN_NOVEL_INTRO}</IntroMsg>
-			<textarea style={writeNovText(props.color)} onChange={inputDescription} />
+			<textarea style={writeNovText(color)} onChange={inputDescription} />
 		</Wrapper>
 	);
 };

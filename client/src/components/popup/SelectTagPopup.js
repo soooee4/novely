@@ -12,6 +12,8 @@ import { CODE, LABEL, COLOR, MESSAGE } from "common";
 
 // API
 import { getData } from "common/communication";
+import { useDispatch, useSelector } from "react-redux";
+import { setModalOpen, setPostNovelData } from "redux/slice";
 
 /** STYLE 정의 */
 // 전체 영역
@@ -78,10 +80,12 @@ const DivTag = styled(Typography)({
 
 /** 서브 소설 작성 후 태그 선택하는 팝업 */
 const SelectTagPopup = (props) => {
+	// redux state
+	const color = useSelector((state) => state.main.color);
 
-	const [tag, setTag] = useState([]);             // 전체 태그
-	const [genre, setGenre] = useState([]);         // 선택된 장르
-	const [keyword, setKeyword] = useState([]);     // 선택된 키워드
+	const [tag, setTag] = useState([]); // 전체 태그
+	const [genre, setGenre] = useState([]); // 선택된 장르
+	const [keyword, setKeyword] = useState([]); // 선택된 키워드
 
 	useEffect(() => {
 		getData("common/tag")
@@ -93,29 +97,34 @@ const SelectTagPopup = (props) => {
 			});
 	}, []);
 
-  // 태그 클릭 시 실행될 함수 (태그 선택 및 선택 해제)
-  const onSelectTags = (tag, type) => {
-    const checkState = type === "genre" ? genre : keyword;          // 현재 선택된 태그들을 담는 배열
-    const setState = type === "genre" ? setGenre: setKeyword;       // 상태를 업데이트하는 함수
-    // findIndex 매서드를 사용하여 true를 반환하는 첫 번째 요소의 인덱스를 담은 배열 생성
-    const check = checkState.findIndex((v) => v === tag);           // 선택된 태그와 일치하는 요소의 인덱스 추출하여 담는 배열
-    const maxLength = type === "genre" ? 1 : 2;                     // 선택 가능한 최대 갯수
+	const dispatch = useDispatch();
 
-    // 사용자가 선택한 태그가 기존 선택된 태그 배열에 없는 경우
+	// 태그 클릭 시 실행될 함수 (태그 선택 및 선택 해제)
+	const onSelectTags = (tag, type) => {
+		const checkState = type === "genre" ? genre : keyword; // 현재 선택된 태그들을 담는 배열
+		const setState = type === "genre" ? setGenre : setKeyword; // 상태를 업데이트하는 함수
+		const check = checkState.findIndex((v) => v === tag); // 선택된 태그와 일치하는 요소의 인덱스 추출하여 담는 배열
+		const maxLength = type === "genre" ? 1 : 2; // 선택 가능한 최대 갯수
+
+		// 사용자가 선택한 태그가 기존 선택된 태그 배열에 없는 경우
 		if (check === -1) {
-      // 선택된 태그 배열의 갯수와 최대 허용 갯수 비교하여 초과일 경우 알림창 띄워주고 함수 종료
-      if (checkState.length > maxLength) {
-        alert(type === "genre" ? MESSAGE.OVER_SELECTED_GENRE : MESSAGE.OVER_SELECTED_KEY_WORD);
-        return;
-        // 초과하지 않을 경우 스프레드 연산자 사용하여 기존 배열 첫번째 자리에 사용자가 선택한 태그 추가 
-      } else {
-        setState([tag, ...checkState]);
-      }
-    // 사용자가 선택한 태그가 기존 선택된 태그 배열에 이미 존재하는 경우 선택 해제
-    } else {
-      // 사용자가 선택한 태그를 기존 배열에서 찾은 경우 사용자가 선택한 태그를 제외한 새로운 배열 생성
-      setState(checkState.filter((v) => v !== checkState[check]));
-    }
+			// 선택된 태그 배열의 갯수와 최대 허용 갯수 비교하여 초과일 경우 알림창 띄워주고 함수 종료
+			if (checkState.length > maxLength) {
+				alert(
+					type === "genre"
+						? MESSAGE.OVER_SELECTED_GENRE
+						: MESSAGE.OVER_SELECTED_KEY_WORD
+				);
+				return;
+				// 초과하지 않을 경우 스프레드 연산자 사용하여 기존 배열 첫번째 자리에 사용자가 선택한 태그 추가
+			} else {
+				setState([tag, ...checkState]);
+			}
+			// 사용자가 선택한 태그가 기존 선택된 태그 배열에 이미 존재하는 경우 선택 해제
+		} else {
+			// 사용자가 선택한 태그를 기존 배열에서 찾은 경우 사용자가 선택한 태그를 제외한 새로운 배열 생성
+			setState(checkState.filter((v) => v !== checkState[check]));
+		}
 	};
 
 	// 저장 후 다음 버튼 클릭 시 실행할 기능들 함수
@@ -123,23 +132,35 @@ const SelectTagPopup = (props) => {
 		if (genre.length === 0 || keyword.length === 0) {
 			alert(MESSAGE.MIN_SELECT_TAG);
 		} else {
-			props.changeState();
-			props.setTags({
-				genre: genre,
-				keyword: keyword,
-			});
+			dispatch(
+				setModalOpen({
+					open: true,
+					content: "novIntro",
+					width: 450,
+					height: 420,
+				})
+			);
+			dispatch(
+				setPostNovelData({
+					genre_1: genre[0].code,
+					genre_2: genre[1] && genre[1].code,
+					keyword_1: keyword[0].code,
+					keyword_2: keyword[1] && keyword[1].code,
+					keyword_3: keyword[2] && keyword[2].code,
+				})
+			);
 		}
 	};
-	
+
 	return (
 		<Wrapper>
 			<Buttons
 				type={CODE.BUTTON.BASIC}
 				backgroundColor={COLOR.WHITE}
-				color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
+				color={color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
 				name={LABEL.BUTTONS.GOTONEXT}
 				margin={"5px 20px 5px auto"}
-				onClickNextBtn={onClickNextBtn}
+				onClick={onClickNextBtn}
 			/>
 			<IntroMsg>{MESSAGE.SELECT_TAG_INTRO}</IntroMsg>
 			<WholeBox>

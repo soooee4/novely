@@ -1,5 +1,8 @@
 // React Package Module
-import { useEffect, useState, React } from "react";
+import { useEffect, React } from "react";
+
+// Redux Package Module
+import { useDispatch, useSelector } from "react-redux";
 
 // MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
@@ -12,6 +15,7 @@ import { CODE, LABEL, COLOR } from "common";
 
 // API
 import { getData } from "common/communication";
+import { setClickNovel, setModalOpen } from "redux/slice";
 
 /** STYLE 정의 */
 // 전체 영역
@@ -20,7 +24,7 @@ const Wrapper = styled(Box)({
 	display: "flex",
 	flexDirection: "column",
 	padding: "0 3%",
-  	paddingRight: "1.5%",
+	paddingRight: "1.5%",
 	boxSizing: "border-box",
 	paddingTop: "20px",
 	height: "100%",
@@ -31,7 +35,7 @@ const HeaderBox = styled(Box)({
 	width: "100%",
 	display: "flex",
 	boxSizing: "border-box",
-  flexShrink: 0
+	flexShrink: 0,
 });
 
 const Title = styled(Typography)({
@@ -42,45 +46,41 @@ const Title = styled(Typography)({
 
 const Content = styled(Typography)({
 	fontSize: 15,
-  whiteSpace: "pre-wrap",
-  
+	whiteSpace: "pre-wrap",
 });
 
 const ScrollBox = styled(Box)({
-  overflow: "auto",
+	overflow: "auto",
 	height: "100%",
 
-  '&::-webkit-scrollbar': {
-    width: 7, 
-  },
-  '&::-webkit-scrollbar-thumb': {
-    background: '#aaa',
-    borderRadius: 5,
-  },
-  '&::-webkit-scrollbar-track': {
-    backgroundColor: 'transparent',
-  },
-})
-
+	"&::-webkit-scrollbar": {
+		width: 7,
+	},
+	"&::-webkit-scrollbar-thumb": {
+		background: "#aaa",
+		borderRadius: 5,
+	},
+	"&::-webkit-scrollbar-track": {
+		backgroundColor: "transparent",
+	},
+});
 
 /** 미완성 작품 (메인 소설) 읽기 컴포넌트 (작품 상세 페이지에서 view 버튼 클릭 시 미완성작일 경우 해당 팝업 띄워줌) */
 const ViewIncompleteNovPopup = (props) => {
-	const [mainNovel, setMainNovel] = useState({});         // 메인 소설 데이터
+	// redux state 정의(로그인 유저 프로필, 클릭한 메인 소설 정보)
+	const profile = useSelector((state) => state.main.profile);
+	const clickNovel = useSelector((state) => state.main.clickNovel);
+	const color = useSelector((state) => state.main.color);
+
+	const { main_seqno, title, content, created_user } = clickNovel;
+
+	const dispatch = useDispatch();
 
 	// 미완성 소설 보기
 	useEffect(() => {
-		getData("novel/getMainNovel", { novel_seqno: props.main_seqno })
+		getData("novel/getMainNovel", { novel_seqno: main_seqno })
 			.then(function (data) {
-				// 현재 팝업과 소설 상세 페이지에서 값을 공유해야 하므로 2군데 데이터 세팅
-				setMainNovel(data[0]);
-
-				// NovDetail에서 필요한 데이터만 뽑아 가공 후 전달
-				const mainData = {
-					title: data[0].title,
-					content: data[0].content,
-					main_seqno: data[0].main_seqno,
-				};
-				props.setMainNovel(mainData);
+				dispatch(setClickNovel(data[0]));
 			})
 			.catch((err) => {
 				console.log(err);
@@ -90,29 +90,39 @@ const ViewIncompleteNovPopup = (props) => {
 	return (
 		<Wrapper>
 			<HeaderBox>
-				<Title>{mainNovel && mainNovel.title}</Title>
-				{mainNovel.created_user !== props.login_id && (
+				<Title>{title}</Title>
+
+				{created_user !== profile.login_id && (
 					<Buttons
 						type={CODE.BUTTON.BASIC}
 						backgroundColor={COLOR.WHITE}
-						color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
+						color={color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
 						name={LABEL.BUTTONS.GOTOWRITE}
 						margin={"-30px 0px 0px auto"}
 						padding={0}
-						changeState={props.changeState}
+						setModalOpen={() =>
+							dispatch(
+								setModalOpen({
+									open: true,
+									content: "writeSubNov",
+									fullwidth: true,
+									width: "100%",
+									height: "90vh",
+								})
+							)
+						}
 					/>
 				)}
 			</HeaderBox>
 			<ScrollBox>
 				<Content>
-					{mainNovel && mainNovel.content
-						? mainNovel.content.split("\\n").map((line, i) => (
-								<>
-									{line}
-									<br />
-								</>
-						  ))
-						: ""}
+					{content &&
+						content.split("\\n").map((line, i) => (
+							<>
+								{line}
+								<br />
+							</>
+						))}
 				</Content>
 			</ScrollBox>
 		</Wrapper>

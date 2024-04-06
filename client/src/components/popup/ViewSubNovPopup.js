@@ -1,3 +1,6 @@
+// Redux Package Module
+import { useDispatch, useSelector } from "react-redux";
+
 // MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
 
@@ -9,6 +12,7 @@ import { CODE, LABEL, COLOR, MESSAGE } from "common";
 
 // API
 import { postData } from "common/communication";
+import { setReset } from "redux/slice";
 
 /** STYLE 정의 */
 // 전체 영역
@@ -20,7 +24,7 @@ const Wrapper = styled(Box)({
 	boxSizing: "border-box",
 	marinTop: "-30px",
 	height: "100%",
-  paddingTop: 20
+	paddingTop: 20,
 });
 
 const WholeBox = styled(Box)({
@@ -53,78 +57,88 @@ const Title = styled(Typography)({
 });
 
 const Content = styled("div")({
-	fontSize: 15
+	fontSize: 15,
 });
 
 // 내용 표시되는 영역
 const ContentBox = styled(Box)({
-  boxSizing: "border-box",
+	boxSizing: "border-box",
 	border: "2px solid grey",
 	flex: 1,
 	border: `1px solid ${COLOR.GRAY}`,
 	borderRadius: 10,
 	padding: "8px 5px 0px 0px",
 	boxSizing: "border-box",
-  overflow: "auto",
-  height: "100%",
+	overflow: "auto",
+	height: "100%",
 });
 
 const ScrollBox = styled(Box)({
-  boxSizing: "border-box",
-  overflowY: "auto",
-  height: "100%",
-  padding: "0 3%",
+	boxSizing: "border-box",
+	overflowY: "auto",
+	height: "100%",
+	padding: "0 3%",
 
-	'&::-webkit-scrollbar': {
-		width: 5
+	"&::-webkit-scrollbar": {
+		width: 5,
 	},
-	'&::-webkit-scrollbar-thumb': {
-		backgroundColor: '#aaa',
+	"&::-webkit-scrollbar-thumb": {
+		backgroundColor: "#aaa",
 		borderRadius: 5,
-
 	},
-	'&::-webkit-scrollbar-track': {
-		backgroundColor: 'transparent',
-    width: 10,
+	"&::-webkit-scrollbar-track": {
+		backgroundColor: "transparent",
+		width: 10,
 	},
 });
 
-
 /** 미완성 작품 (메인 소설)에 달린 서브 소설 읽기 컴포넌트 (작품 상세 페이지 하단 테이블의 소설 제목 클릭 시 해당 팝업 띄워줌) */
-const ViewSubNovPopup = (props) => {
+const ViewSubNovPopup = () => {
+	// redux state 정의
+	const profile = useSelector((state) => state.main.profile);
+	const subNovel = useSelector((state) => state.main.clickSubNovel);
+	const mainCompleteSeqno = useSelector(
+		(state) => state.main.clickNovel.complete_seqno
+	);
+	const color = useSelector((state) => state.main.color);
+
+	const dispatch = useDispatch();
 
 	// 투표하기 버튼 눌렀을 때 실행될 기능 함수
 	const likeSubNovel = () => {
-		if (props.subNovelData.like_yn === "N") {
+		if (subNovel.like_yn === "N") {
 			if (window.confirm(MESSAGE.CONFIRM_VOTE)) {
 				postData("novel/postLikeSubNovel", {
-					sub_novel_seqno: props.subNovelData.sub_novel_seqno,
-					user_id: props.user_id,
+					sub_novel_seqno: subNovel.sub_novel_seqno,
+					user_id: profile.login_id,
 				})
 					.then((data) => {
-						props.getSubNovelData();
-            alert(MESSAGE.VOTED);
+						alert(MESSAGE.VOTED);
+
+						dispatch(setReset(true));
 					})
 					.catch((err) => {
 						console.log(err);
 					});
 			}
-		} else if (props.subNovelData.like_yn === "Y") {
+			//
+		} else if (subNovel.like_yn === "Y") {
 			alert(MESSAGE.ALREADY_VOTED);
-		} 
+		}
 	};
 
 	return (
 		<Wrapper>
 			{/* 서브 소설의 제목만 표시 */}
-			<Title>{props.subNovelData.sub_title}</Title>
+
+			<Title>{subNovel.sub_title}</Title>
 			<WholeBox>
 				<MainNovBox>
 					<ContentBox>
 						<ScrollBox>
 							<Content>
-								{props.subNovelData &&
-									props.subNovelData.content.split("\\n").map((line, i) => (
+								{subNovel &&
+									subNovel.content.split("\\n").map((line, i) => (
 										<div key={i}>
 											{line.replace("\\r", "")}
 											<br />
@@ -138,8 +152,8 @@ const ViewSubNovPopup = (props) => {
 					<ContentBox>
 						<ScrollBox>
 							<Content>
-								{props.subNovelData &&
-									props.subNovelData.sub_content.split("\\n").map((line, i) => (
+								{subNovel &&
+									subNovel.sub_content.split("\\n").map((line, i) => (
 										<div key={i}>
 											{line.replace("\\r", "")}
 											<br />
@@ -150,18 +164,18 @@ const ViewSubNovPopup = (props) => {
 					</ContentBox>
 				</SubNovBox>
 			</WholeBox>
-			{props.subNovelData.created_user !== props.user_id &&
-				!props.mainNovel.complete_seqno && (
-					<Buttons
-						type={CODE.BUTTON.BASIC}
-						backgroundColor={COLOR.WHITE}
-						color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
-						name={LABEL.BUTTONS.LIKE_BTN}
-						fontSize={15}
-						margin={"0px -5px 0px auto"}
-						likeSubNovel={likeSubNovel}
-					/>
-				)}
+
+			{subNovel.created_user !== profile.user_id && !mainCompleteSeqno && (
+				<Buttons
+					type={CODE.BUTTON.BASIC}
+					backgroundColor={COLOR.WHITE}
+					color={color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
+					name={LABEL.BUTTONS.LIKE_BTN}
+					fontSize={15}
+					margin={"0px -5px 0px auto"}
+					onClick={likeSubNovel}
+				/>
+			)}
 		</Wrapper>
 	);
 };
