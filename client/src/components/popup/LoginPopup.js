@@ -51,7 +51,7 @@ const SighUpText = styled(Typography)({
 });
 
 /** 로그인 팝업 컴포넌트 (헤더에서 로그인/로그아웃 버튼 클릭 시 해당 팝업 띄워줌) */
-const LoginPopup = (props) => {
+const LoginPopup = () => {
 	// 아이디, 비밀번호 유효성 검사 담는 상태
 	const [id, setId] = useState(""); // 입력한 아이디
 	const [pw, setPw] = useState(""); // 입력한 비밀번호
@@ -77,8 +77,37 @@ const LoginPopup = (props) => {
 
 	const dispatch = useDispatch();
 
+
 	// rtk query
 	const [login] = useOnLoginMutation();
+
+	//  const onLogin = () => {
+	//    postData("auth/login", {
+	//      login_id: id,
+	//      login_pw: pw,
+	//    })
+	//      .then((data) => {
+	//        if (typeof data === "object") {
+	//          localStorage.setItem(
+	//            "profile",
+	//            JSON.stringify({
+	//              user_nickname: data.user_nickname,
+	//              user_reg_dv: data.user_reg_dv,
+	//              login_id: data.login_id,
+	//              image: data.image,
+	//              author_info: data.author_info,
+	//              author_first_login: data.author_first_login,
+	//            })
+	//          );
+	//          window.location.reload();
+	//        } else if (typeof data === "string") {
+	//          alert(data);
+	//        }
+	//      })
+	//      .catch((err) => {
+	//        console.log(err);
+	//      });
+	//  };
 
 	const enter = (e) => {
 		if (e.key === "Enter") login({ login_id: id, login_pw: pw });
@@ -138,7 +167,7 @@ const LoginPopup = (props) => {
 						fontSize="13px"
 						fontWeight="bolder"
 						// changeState={props.changeState}
-						setModalOpen={() => dispatch(setModalOpen("join"))}
+            setModalOpen={() => dispatch(setModalOpen({ open: true, content: "join", width: 550, height: 340 }))}
 						margin="5px 0 0 0"
 					/>
 				</Box>

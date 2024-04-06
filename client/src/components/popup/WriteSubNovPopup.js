@@ -1,5 +1,5 @@
 // React Package Module
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // Control Component
 import { Buttons, Inputs } from "components/controls";
@@ -9,6 +9,8 @@ import { Box, styled, Typography } from "@mui/material";
 
 // Constant
 import { CODE, LABEL, COLOR, MESSAGE } from "common";
+import { useDispatch, useSelector } from "react-redux";
+import { setModalOpen, setPostNovelData } from "redux/slice";
 
 /** STYLE 정의 */
 // 전체 영역
@@ -19,11 +21,9 @@ const Wrapper = styled(Box)({
 	flexDirection: "column",
 	padding: "0 3%",
 	boxSizing: "border-box",
-	marinTop: "-30px",
 });
 
 const WholeBox = styled(Box)({
-	width: "100%",
 	height: "88%",
 	display: "flex",
 	gap: 20,
@@ -102,7 +102,6 @@ const writeNovText = (color) => {
 		border: "none",
 		width: "100%",
 		height: "100%",
-		boxSizing: "borderBox",
 		resize: "none",
 		outline: "none",
 		fontSize: 17,
@@ -113,34 +112,54 @@ const writeNovText = (color) => {
 };
 
 /** 서브 소설 title, content 작성 컴포넌트 (미완성 소설 보는 팝업에서 이어쓰기 버튼 클릭 시 해당 팝업 띄워줌) */
-const WriteSubNovPopup = (props) => {
-	const [title, setTitle] = useState(""); // 서브 소설 제목
-	const [content, setContent] = useState(""); // 서브 소설 내용
+const WriteSubNovPopup = () => {
+	// redux state
+	const clickNovel = useSelector((state) => state.main.clickNovel);
+	const color = useSelector((state) => state.main.color);
+	const loginId = useSelector((state) => state.main.profile.login_id);
+
+	const { title, content, main_seqno } = clickNovel;
+
+	const [subTitle, setSubTitle] = useState(""); // 서브 소설 제목
+	const [subContent, setSubContent] = useState(""); // 서브 소설 내용
 	const [contentCount, setContentCount] = useState(0); // 내용 글자수 체크
 
 	const inputTitle = (e) => {
-		setTitle(e.target.value);
+		setSubTitle(e.target.value);
 	};
 
 	const inputContent = (e) => {
-		setContent(e.target.value);
+		setSubContent(e.target.value);
 		setContentCount(e.target.value.length);
 	};
 
+	const dispatch = useDispatch();
+
 	// 저장 후 다음 버튼 눌렀을 때 NovDetail 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
-	const postSubNovel = () => {
-		if (content === "") {
+	const setSubNovel = () => {
+		if (subContent === "") {
 			alert(MESSAGE.ERROR.WRITE_CONTENT);
 			return;
-		} else if (title.length > 50) {
+		} else if (subTitle.length > 50) {
 			alert(MESSAGE.ERROR.TITLE_INVALIDATION);
 			return;
 		} else {
-			props.setTitleContent({
-				title: title,
-				content: content,
-				main_novel_seqno: props.mainNovel.main_seqno,
-			});
+			dispatch(
+				setPostNovelData({
+					title: subTitle === "" ? title : subTitle,
+					content: subContent,
+					main_novel_seqno: main_seqno,
+					created_user: loginId,
+				})
+			);
+			dispatch(
+				setModalOpen({
+					open: true,
+					content: "selectTag",
+					width: 450,
+					height: 420,
+				})
+			);
 		}
 	};
 
@@ -149,27 +168,24 @@ const WriteSubNovPopup = (props) => {
 			<HeaderBox>
 				<Inputs
 					fullWidth
-					defaultValue={props.mainNovel.title}
+					defaultValue={title}
 					onChange={inputTitle}
-					color={props.color}
+					color={color}
 				/>
 				<Buttons
 					type={CODE.BUTTON.BASIC}
-					color={props.color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
+					color={color === "#121212" ? COLOR.WHITE : COLOR.BLACK}
 					name={LABEL.BUTTONS.GOTONEXT}
 					margin={"-20px 0px 0px auto"}
-					postSubNovel={postSubNovel}
-					changeState={
-						content !== "" && title.length <= 50 && props.changeState
-					}
+					onClick={setSubNovel}
 				/>
 			</HeaderBox>
 			<WholeBox>
 				<ViewBox>
 					<ScrollBox>
 						<Content>
-							{props.mainNovel.content && props.mainNovel.content
-								? props.mainNovel.content.split("\\n").map((line, i) => (
+							{content && content
+								? content.split("\\n").map((line, i) => (
 										<div key={i}>
 											{line.replace("\\r", "")}
 											<br />
@@ -181,7 +197,7 @@ const WriteSubNovPopup = (props) => {
 				</ViewBox>
 				<WriteBox>
 					<textarea
-						style={writeNovText(props.color)}
+						style={writeNovText(color)}
 						onChange={inputContent}
 						maxLength={10000}
 					/>

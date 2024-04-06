@@ -14,7 +14,7 @@ import { COLOR, LABEL, CODE, MESSAGE } from "common";
 import { idValidation, pwValidation } from "common/util";
 
 // API
-import { postData } from "common/communication";
+import { useOnJoinMutation } from "redux/services/AuthService";
 
 /** STYLE 정의 */
 // 전체 영역
@@ -66,33 +66,22 @@ const JoinPopup = () => {
 		}
 	};
 
-	const onJoin = () => {
+  // rtk query
+	const [join] = useOnJoinMutation();
 
+  const onClick = async () => {
     // 유효성 검사 통과 못하거나 입력한 id, pw값이 없으면 경고 메세지 띄워주고 함수 종료
     if (idRegMsg !== '' || pwRegMsg !== '' || id == '' || pw == '') {
-      alert(MESSAGE.ERROR.CHECK_JOIN_INFO);
-      return;
-    }
-		postData("auth/join", {
-			login_id: id,
-			login_pw: pw,
-		})
-			.then((data) => {
-				if (typeof data === "string") {
-					alert(MESSAGE.ERROR.EXIST_USER);
-				} else if (typeof data === "object") {
-					localStorage.setItem("profile", JSON.stringify(data));
-					alert(MESSAGE.JOINED);
-					window.location.reload();
-				}
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	};
+          alert(MESSAGE.ERROR.CHECK_JOIN_INFO);
+          return;
+        }
+
+    await join({login_id: id, login_pw: pw})
+  }
+
 
   const enter = (e) => {
-    if (e.key === "Enter") onJoin();
+    if (e.key === "Enter") onClick();
   };
 
 
@@ -134,7 +123,8 @@ const JoinPopup = () => {
 						height="40px"
 						padding="3px"
 						fontSize="20px"
-						onSubmit={onJoin}
+	
+            onClick={onClick}
 					/>
 				</LoginBox>
 			</Wrapper>
