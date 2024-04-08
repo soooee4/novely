@@ -17,6 +17,7 @@ import { MESSAGE, LABEL, CODE } from "../../common";
 import TextField from "@mui/material/TextField";
 
 // API Service
+import { patchData } from "common/communication";
 import { useEditProfileMutation } from "redux/services/AuthService";
 
 // Util
@@ -61,21 +62,18 @@ const EditProfile = () => {
   const profile = useSelector((state) => state.main.profile);
   
   // STATE 정의
-  const [newPw, setNewPw] = useState(""); 												// 새 비밀번호
-  const [curPw, setCurPw] = useState(""); 												// 현재 비밀번호
-  const [nickname, setNickname] = useState(profile.user_nickname); 						// 로컬스토리지에 저장된 사용자 닉네임
-  const [img, setImg] = useState(); 													// 사용자 프로필 이미지
-  const [confirmNewPwRegMsg, setConfirmNewPwRegMsg] = useState(""); 					// 비밀번호 변경 시 새 비밀번호와 새 비밀번호 확인의 값이 다를 경우 띄워주는 에러 메세지
-  const [pwRegMsg, setPwRegMsg] = useState(""); 										// 비밀번호 유효성 검사 미통과 시 띄워주는 에러 메세지
-  const [nickNameRegMsg, setNickNameRegMsg] = useState(""); 							// 닉네임 유효성 검사 미통과 시 띄워주는 에러 메세지
-  const [info, setInfo] = useState(""); 												// 작가 소개
-  const [isAuthor, setIsAuthor] = useState(
-    profile.user_reg_dv === "W" ? true : false
-  );
-  const [selectedFileName, setSelectedFileName] = useState("");   // 사용자가 선택한 프로필 사진 이름
+  const [newPw, setNewPw] = useState(""); // 새 비밀번호
+  const [curPw, setCurPw] = useState(""); // 현재 비밀번호
+  const [nickname, setNickname] = useState(profile.user_nickname); // 로컬스토리지에 저장된 사용자 닉네임
+  const [img, setImg] = useState(); // 사용자 프로필 이미지
+  const [confirmNewPwRegMsg, setConfirmNewPwRegMsg] = useState(""); // 비밀번호 변경 시 새 비밀번호와 새 비밀번호 확인의 값이 다를 경우 띄워주는 에러 메세지
+  const [pwRegMsg, setPwRegMsg] = useState(""); // 비밀번호 유효성 검사 미통과 시 띄워주는 에러 메세지
+  const [nickNameRegMsg, setNickNameRegMsg] = useState(""); // 닉네임 유효성 검사 미통과 시 띄워주는 에러 메세지
+  const [info, setInfo] = useState(""); // 작가 소개
+  const [isAuthor, setIsAuthor] = useState(profile.user_reg_dv === "W" ? true : false);
+  const [selectedFileName, setSelectedFileName] = useState(""); // 사용자가 선택한 프로필 사진 이름
   const [previewUrl, setPreviewUrl] = useState("");
-
-
+  
   // rtk query
   const [editProfile] = useEditProfileMutation();
 
@@ -167,7 +165,7 @@ const EditProfile = () => {
   // 파일 업로드 하는 input에 대한 참조를 저장하는 변수 (현재 참조 대상이 없음을 나타내기 위해 초기값 null로 세팅)
   const fileInputRef = useRef(null);
 
-  // ! 파일 업로드 하는 input 클릭 했을 때 기능 함수 (현재 참조하는 요소 클릭하도록)
+  // 파일 업로드 하는 input 클릭 했을 때 기능 함수 (현재 참조하는 요소 클릭하도록)
   const fileUploadBtn = () => {
     fileInputRef.current.click();
   }

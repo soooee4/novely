@@ -56,6 +56,9 @@ const modalWidth = (popup) => {
 		case "join":
 			width = 550;
 			break;
+    case "authorFirstLogin":
+			width = 500;
+			break;
 		default:
 			width = "90%";
 	}
@@ -88,6 +91,9 @@ const modalHeight = (popup) => {
 			height = 340;
 			break;
 		case "join":
+			height = 340;
+			break;
+		case "authorFirstLogin":
 			height = 340;
 			break;
 		default:
@@ -146,6 +152,36 @@ const compressImage = async (img) => {
   }
 };
 
+// 소설 마감 기한 알려주는 디데이 카운터 함수
+const novelDdayCounter = (created_date, complete_seqno) => {
+  // 문자열로 뽑히는 created_date를 Date 객체로 변환
+  const createdDate = new Date(created_date);
+
+  // 마감일은 소설의 작성일 기준 30일 후로 설정
+  const dueDate = new Date(createdDate.setDate(createdDate.getDate() + 30));
+
+  // 현재 시간(PC 설정 관계없이 서울 시간으로 고정)
+  const krCurr = new Date(
+    new Date().getTime() +
+      new Date().getTimezoneOffset() * 60 * 1000 +
+      9 * 60 * 60 * 1000
+  );
+
+  // 현재 날짜와 마감일의 차이를 밀리초 단위로 변환하여 계산
+  let leftTime = dueDate.getTime() - krCurr.getTime();
+
+  // 밀리초를 일 단위로 변환
+  let leftDay = Math.ceil(leftTime / (1000 * 60 * 60 * 24)); // 1초 = 1000밀리초, 1분은 60초, 1시간은 60분, 1일은 24시간
+
+  if (leftDay === 0) {
+    return MESSAGE.D_DAY;
+  } else if (leftDay < 0 || complete_seqno) {
+    return MESSAGE.DDAY_COMPLETE;
+  } else {
+    return MESSAGE.DDAY_COUNT + leftDay;
+  }
+};
+
 export {
   idValidation,
   pwValidation,
@@ -153,4 +189,5 @@ export {
   modalHeight,
   modalColorMode,
   compressImage,
+  novelDdayCounter
 };

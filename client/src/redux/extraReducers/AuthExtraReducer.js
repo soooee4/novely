@@ -16,28 +16,26 @@ export const AuthExtraReducer = (builder) => {
 			alert("로그인 실패");
 		})
 
-    // 회원가입
+    	// 회원가입
 		.addMatcher(AuthApi.endpoints.onJoin.matchPending, (state, payload) => {})
-		.addMatcher(
-			AuthApi.endpoints.onJoin.matchFulfilled, (state, { payload }) => {
+		.addMatcher(AuthApi.endpoints.onJoin.matchFulfilled, (state, { payload }) => {
+			if (payload.message) {
+				alert(payload.message)
+			} else {
 				state.profile = payload;
 				state.isLogin = true;
-        // ! 아래 alert 처리
-        alert("환영합니다 :)")
-				state.modal.open = false;
-
-    
-      }
-		)
-		.addMatcher(AuthApi.endpoints.onJoin.matchRejected, (state, payload) => {
+				state.modal = { open: false, content: '', fullWidth: false, width: 0, height: 0 };
+			}
+      	})
+		.addMatcher(AuthApi.endpoints.onJoin.matchRejected, (state, {payload}) => {
 			alert("회원가입 실패");
 		})
 
 
-    // 프로필 수정
+    	// 프로필 수정
 		.addMatcher(AuthApi.endpoints.editProfile.matchPending, (state, payload) => {
       
-    })
+    	})
 		.addMatcher(
 			AuthApi.endpoints.editProfile.matchFulfilled, (state, { payload }) => {
         const newData = {
@@ -48,7 +46,7 @@ export const AuthExtraReducer = (builder) => {
         }
         state.profile = newData;
         alert(MESSAGE.EDIT_SUCCEED);
-        state.modal.open = false;
+        state.modal = { open: false, content: '', fullWidth: false, width: 0, height: 0 };
 			}
 		)
 		.addMatcher(AuthApi.endpoints.editProfile.matchRejected, (state, payload) => {

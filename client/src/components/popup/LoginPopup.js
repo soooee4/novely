@@ -77,37 +77,8 @@ const LoginPopup = () => {
 
 	const dispatch = useDispatch();
 
-
 	// rtk query
 	const [login] = useOnLoginMutation();
-
-	//  const onLogin = () => {
-	//    postData("auth/login", {
-	//      login_id: id,
-	//      login_pw: pw,
-	//    })
-	//      .then((data) => {
-	//        if (typeof data === "object") {
-	//          localStorage.setItem(
-	//            "profile",
-	//            JSON.stringify({
-	//              user_nickname: data.user_nickname,
-	//              user_reg_dv: data.user_reg_dv,
-	//              login_id: data.login_id,
-	//              image: data.image,
-	//              author_info: data.author_info,
-	//              author_first_login: data.author_first_login,
-	//            })
-	//          );
-	//          window.location.reload();
-	//        } else if (typeof data === "string") {
-	//          alert(data);
-	//        }
-	//      })
-	//      .catch((err) => {
-	//        console.log(err);
-	//      });
-	//  };
 
 	const enter = (e) => {
 		if (e.key === "Enter") login({ login_id: id, login_pw: pw });
@@ -153,8 +124,6 @@ const LoginPopup = () => {
 					height="40px"
 					padding="3px"
 					fontSize="21px"
-					// onSubmit={onLogin}
-					// postData={postData({id: id, pw: pw})}
 					onClick={onClick}
 				/>
 				<Box sx={{ display: "flex" }}>
@@ -166,8 +135,16 @@ const LoginPopup = () => {
 						color={COLOR.BLACK}
 						fontSize="13px"
 						fontWeight="bolder"
-						// changeState={props.changeState}
-            setModalOpen={() => dispatch(setModalOpen({ open: true, content: "join", width: 550, height: 340 }))}
+						setModalOpen={() =>
+							dispatch(
+								setModalOpen({
+									open: true,
+									content: "join",
+									width: 550,
+									height: 340,
+								})
+							)
+						}
 						margin="5px 0 0 0"
 					/>
 				</Box>

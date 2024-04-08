@@ -2,6 +2,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Redux Package Module
+import { useDispatch, useSelector } from "react-redux";
+import { setModalOpen, setLogout, setClickNovel } from "redux/slice";
+
 // MUI Package Module
 import { styled, Box } from "@mui/material";
 
@@ -44,21 +48,21 @@ const DivNovelBtn = styled(Box)({
 
 /** 찜한 작품 클릭 시 나오는 페이지 */
 const FavoriteNov = () => {
-	/** STATE 정의
-	 * completeNovData: 로그인한 작가의 완성 소설 데이터
-	 * inCompleteNovData: 로그인한 작가의 미완성 소설 데이터
-	 * profile: 로컬스토리지에 저장된 프로필
-	 */
-	const [completeNovData, setCompleteNovData] = useState([]); 							// 로그인한 작가의 완성 소설 데이터
-	const [incompleteNovData, setIncompleteNovData] = useState([]); 						// 로그인한 작가의 미완성 소설 데이터
-	const [profile, setProfile] = useState(JSON.parse(localStorage.getItem("profile"))); 	// 로컬스토리지에 저장된 사용자 프로필
-	const [selectedTab, setSelectedTab] = useState("complete"); 							// 선택된 메뉴
-	const [isComplete, setIsComplete] = useState(true); 									// 소설 완성 여부 (기본값 complete 소설 표시)
+  
+  // redux state 정의
+	const profile = useSelector((state) => state.main.profile);
+
+	const [completeNovData, setCompleteNovData] = useState([]); // 로그인한 작가의 완성 소설 데이터
+	const [incompleteNovData, setIncompleteNovData] = useState([]); // 로그인한 작가의 미완성 소설 데이터
+	const [selectedTab, setSelectedTab] = useState("complete"); // 선택된 메뉴
+	const [isComplete, setIsComplete] = useState(true); // 소설 완성 여부 (기본값 complete 소설 표시)
 
 	// 페이지 렌더링 시 찜한 완성 소설 데이터 조회
 	useEffect(() => {
 		getPickNovels();
 	}, []);
+
+  const dispatch = useDispatch();
 
 	// 찜한 완성 소설 데이터 조회
 	const getPickNovels = () => {
@@ -86,7 +90,8 @@ const FavoriteNov = () => {
 	const navigate = useNavigate();
 
 	const goToDetail = (novel) => {
-		navigate("/novel_detail", { state: { props: novel } });
+		navigate("/novel_detail");
+    dispatch(setClickNovel(novel));
 	};
 
 	return (

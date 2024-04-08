@@ -79,7 +79,7 @@ const DivTag = styled(Typography)({
 });
 
 /** 서브 소설 작성 후 태그 선택하는 팝업 */
-const SelectTagPopup = (props) => {
+const SelectTagPopup = () => {
 	// redux state
 	const color = useSelector((state) => state.main.color);
 

@@ -6,14 +6,14 @@ import { NovelExtraReducer } from "./extraReducers/NovelExtraReducer";
  * states
  *   [권한 관련]
  *   - isLogin            : 로그인 여부
- *   - profile            : 로그인한 유저의 프로필 정보(프로필 이미지, 권한 구분, 로그인 아이디 등 상세하게 기록)
+ *   - profile            : 로그인한 유저의 프로필 정보
  *   - modal              : modal 정보(open여부, 콘텐트 내용, 최대화, 넓이, 높이)
  *   - clickData          : 클릭한 영역의 정보 담기(현재는 메인/서브 작가 아이디 클릭에 쓰임)
- *   - clickNovel         :
- *   - clickSubNovel      :
+ *   - clickNovel         : 클릭한 메인 소설
+ *   - clickSubNovel      : 클릭한 서브 소설
  *   - postNovel          : 입력된 소설 데이터(서버 전송용 / file명은 기본값 세팅 필요)
- *   - subNovels          :
- *   - color              :
+ *   - subNovels          : 서브 소설 데이터 목록
+ *   - color              : 사용자가 선택한 테마 컬러
  *   - reset              : POST, PATCH, DELETE 성공 시 데이터 재조회를 위한 flag
  *****************************************************************************/
 
@@ -30,8 +30,9 @@ const initialState = {
   clickSubNovel: {},
   postNovel: { file: 'cover_basic.jpg' },
   subNovels: [],
-  color: '#ffffff',
+  color: "#ffffff",
   reset: false,
+  delay: false
 };
 
 export const slice = createSlice({
@@ -112,6 +113,10 @@ export const slice = createSlice({
 		setReset: (state, action) => {
 			state.reset = action.payload;
 		},
+
+		setDelay: (state, action) => {
+			state.delay = true;
+		}	 
 	},
 
 	extraReducers: (builder) => {
@@ -132,7 +137,8 @@ export const {
   setSubNovels,
   setPostNovelData,
   setColor,
-  setReset
+  setReset,
+  setDelay
 } = actions;
 
 export default reducer;

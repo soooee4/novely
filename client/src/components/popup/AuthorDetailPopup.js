@@ -62,7 +62,6 @@ const AuthorDetailPopup = (props) => {
 	const { authorId, authorNickname } = useSelector(
 		(state) => state.main.clickData
 	);
-	const novel = useSelector((state) => state.main.clickNovel);
 
 	const [authorNovelData, setAuthorNovelData] = useState([]); // 작성한 메인 소설 데이터
 	const [userImg, setUserImg] = useState(""); // 사용자 프로필 이미지

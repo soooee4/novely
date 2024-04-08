@@ -30,10 +30,13 @@ export const NovelExtraReducer = (builder) => {
 
     })
     .addMatcher(NovelApi.endpoints.postMainNovel.matchFulfilled, (state, {payload}) => {
-      // 메시지 노출
-      alert(payload.message);
       // 모달창 닫기
       state.modal = { open: false, content: '', fullWidth: false, width: 0, height: 0 };
+      state.postNovel = { file: 'cover_basic.jpg' };
+      state.color = "#ffffff";
+      
+      // 메시지 노출
+      alert(payload.message);
 
     })
     .addMatcher(NovelApi.endpoints.postMainNovel.matchRejected, (state, payload) => {
@@ -48,6 +51,7 @@ export const NovelExtraReducer = (builder) => {
       // modal, postNovel 상태 초기화
       state.modal = { open: false, content: '', fullWidth: false, width: 0, height: 0 };
       state.postNovel = { file: 'cover_basic.jpg' };
+      state.color = "#ffffff";
 
       // 메시지 노출
       alert(payload.message);

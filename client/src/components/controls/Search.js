@@ -38,6 +38,7 @@ const SearchBar = (props) => {
 		}
 	};
 
+
 	return (
 		<Search>
 			<StyledInputBase

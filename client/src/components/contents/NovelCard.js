@@ -1,9 +1,6 @@
 // MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
 
-// Redux Package Module
-import { useSelector } from "react-redux";
-
 // Control Component
 import { Buttons, Icons } from "components/controls";
 
@@ -83,8 +80,6 @@ const TagBox = styled(Box)({
 
 /** 소설 정보를 담고있는 카드 형식 컴포넌트 (메인 화면, 작가 상세 정보 팝업에서 사용) */
 const NovelCard = (props) => {
-
-  const isLogin = useSelector((state) => state.main.isLogin);
 
 	// 하트 아이콘 눌렀을 때 실행될 기능 함수
 	const pickNovel = () => {

@@ -1,15 +1,13 @@
 import Header from "components/container/Header";
+import { ToastPopup } from "components/popup";
 
 const Page = (props) => {
   
   return (
     <>
-      <Header 
-        // profile={props.profile}
-        // setProfile={props.setProfile}
-        // logout={props.logout}
-      />
+      <Header />
       {props.children}
+      <ToastPopup />
     </>
   )
 }

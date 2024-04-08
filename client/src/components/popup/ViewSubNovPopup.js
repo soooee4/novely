@@ -165,7 +165,7 @@ const ViewSubNovPopup = () => {
 				</SubNovBox>
 			</WholeBox>
 
-			{subNovel.created_user !== profile.user_id && !mainCompleteSeqno && (
+			{subNovel.created_user !== profile.login_id && !mainCompleteSeqno && (
 				<Buttons
 					type={CODE.BUTTON.BASIC}
 					backgroundColor={COLOR.WHITE}

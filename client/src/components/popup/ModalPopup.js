@@ -2,7 +2,7 @@ import { useState } from "react";
 
 // Redux Package Module
 import { useDispatch, useSelector } from "react-redux";
-import { setColor, setModalClose, setPostNovelData } from "redux/slice";
+import { setColor, setDelay, setModalClose, setPostNovelData } from "redux/slice";
 
 // MUI Package Module
 import {
@@ -116,7 +116,6 @@ const ModalPopup = () => {
 	// redux state 정의
 	const modal = useSelector((state) => state.main.modal);
 	const color = useSelector((state) => state.main.color);
-	const profile = useSelector((state) => state.main.profile);
 
 	// modal 속성
 	// fullWidth 속성 props에 추가하여 fullWidth일 때만 너비 100%로 설정 (novel-detail 소설 보기, 쓰기)
@@ -147,6 +146,7 @@ const ModalPopup = () => {
 			dispatch(setModalClose());
 			dispatch(setPostNovelData({ clear: true }));
 			dispatch(setColor("#ffffff"));
+			if (content === "authorFirstLogin") dispatch(setDelay());
 		}
 	};
 
@@ -218,6 +218,7 @@ const ModalPopup = () => {
 						dispatch(setModalClose());
 						dispatch(setPostNovelData({ clear: true }));
 						dispatch(setColor("#ffffff"));
+						if (content === "authorFirstLogin") dispatch(setDelay());
 					}}
 				/>
 				<DialogContent

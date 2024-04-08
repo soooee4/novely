@@ -10,7 +10,7 @@ import { NovelApi } from "./services/NovelService";
 const persistMainConfig = {
 	key: "main",
 	storage,
-	whitelist: ["isLogin", "profile", "clickNovel", "clickData"],
+	whitelist: ["isLogin", "profile", "clickNovel", "clickData", "delay"],
   blacklist: ["modal"]
 };
 

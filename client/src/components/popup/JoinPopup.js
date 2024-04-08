@@ -24,13 +24,13 @@ const Wrapper = styled(Box)({
 	display: "flex",
 	justifyContent: "center",
 	alignItems: "center",
-  boxSizing: "border-box",
+	boxSizing: "border-box",
 });
 
 // 로그인 전체 영역
 const LoginBox = styled(Box)({
 	width: 400,
-  marginTop: -39
+	marginTop: -39,
 });
 
 const Text = styled(TextField)({
@@ -43,11 +43,10 @@ const Text = styled(TextField)({
 
 /** 회원가입 팝업 컴포넌트 (로그인 컴포넌트 내 회원가입 버튼 클릭 시 해당 팝업 띄워줌) */
 const JoinPopup = () => {
-
-	const [id, setId] = useState("");               // 입력한 아이디
-	const [pw, setPw] = useState("");               // 입력한 비밀번호
-	const [idRegMsg, setIdRegMsg] = useState("");   // 아이디 유효성 검사 미통화 시 띄워주는 에러메세지
-	const [pwRegMsg, setPwRegMsg] = useState("");   // 비밀번호 유효성 검사 미통화 시 띄워주는 에러메세지
+	const [id, setId] = useState(""); // 입력한 아이디
+	const [pw, setPw] = useState(""); // 입력한 비밀번호
+	const [idRegMsg, setIdRegMsg] = useState(""); // 아이디 유효성 검사 미통화 시 띄워주는 에러메세지
+	const [pwRegMsg, setPwRegMsg] = useState(""); // 비밀번호 유효성 검사 미통화 시 띄워주는 에러메세지
 
 	// input값 입력
 	const inputId = (e) => {
@@ -66,24 +65,22 @@ const JoinPopup = () => {
 		}
 	};
 
-  // rtk query
+	// rtk query
 	const [join] = useOnJoinMutation();
 
-  const onClick = async () => {
-    // 유효성 검사 통과 못하거나 입력한 id, pw값이 없으면 경고 메세지 띄워주고 함수 종료
-    if (idRegMsg !== '' || pwRegMsg !== '' || id == '' || pw == '') {
-          alert(MESSAGE.ERROR.CHECK_JOIN_INFO);
-          return;
-        }
+	const onClick = async () => {
+		// 유효성 검사 통과 못하거나 입력한 id, pw값이 없으면 경고 메세지 띄워주고 함수 종료
+		if (idRegMsg !== "" || pwRegMsg !== "" || id == "" || pw == "") {
+			alert(MESSAGE.ERROR.CHECK_JOIN_INFO);
+			return;
+		}
 
-    await join({login_id: id, login_pw: pw})
-  }
+		await join({ login_id: id, login_pw: pw });
+	};
 
-
-  const enter = (e) => {
-    if (e.key === "Enter") onClick();
-  };
-
+	const enter = (e) => {
+		if (e.key === "Enter") onClick();
+	};
 
 	return (
 		<>
@@ -112,7 +109,7 @@ const JoinPopup = () => {
 							marginBottom: 5,
 						}}
 						helperText={pwRegMsg}
-            onKeyDown={enter}
+						onKeyDown={enter}
 					/>
 					<Buttons
 						type={CODE.BUTTON.BORDER}
@@ -123,8 +120,7 @@ const JoinPopup = () => {
 						height="40px"
 						padding="3px"
 						fontSize="20px"
-	
-            onClick={onClick}
+						onClick={onClick}
 					/>
 				</LoginBox>
 			</Wrapper>
