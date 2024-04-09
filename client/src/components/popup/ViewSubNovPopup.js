@@ -1,5 +1,6 @@
 // Redux Package Module
 import { useDispatch, useSelector } from "react-redux";
+import { setToastOpen, setSubNovelLikeYn } from "redux/slice";
 
 // MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
@@ -104,33 +105,41 @@ const ViewSubNovPopup = () => {
 
 	const dispatch = useDispatch();
 
-	// 투표하기 버튼 눌렀을 때 실행될 기능 함수
-	const likeSubNovel = () => {
-		if (subNovel.like_yn === "N") {
-			if (window.confirm(MESSAGE.CONFIRM_VOTE)) {
+  const likeSubNovel = () => {
+    if (subNovel.like_yn === "N") {
 				postData("novel/postLikeSubNovel", {
 					sub_novel_seqno: subNovel.sub_novel_seqno,
 					user_id: profile.login_id,
 				})
 					.then((data) => {
-						alert(MESSAGE.VOTED);
-
+            dispatch(
+              setToastOpen({
+                open: true,
+                type: "success",
+                message: MESSAGE.VOTED,
+              })
+            );
+            dispatch(setSubNovelLikeYn("Y"));
 						dispatch(setReset(true));
 					})
 					.catch((err) => {
 						console.log(err);
-					});
+					})
+        } else if (subNovel.like_yn === "Y") {
+          dispatch(
+            setToastOpen({
+              open: true,
+              type: "warning",
+              message: MESSAGE.ALREADY_VOTED,
+            })
+          );
+        }
 			}
-			//
-		} else if (subNovel.like_yn === "Y") {
-			alert(MESSAGE.ALREADY_VOTED);
-		}
-	};
+	
 
 	return (
 		<Wrapper>
 			{/* 서브 소설의 제목만 표시 */}
-
 			<Title>{subNovel.sub_title}</Title>
 			<WholeBox>
 				<MainNovBox>

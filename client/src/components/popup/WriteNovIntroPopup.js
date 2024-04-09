@@ -10,7 +10,7 @@ import { Buttons } from "components/controls";
 // Constant
 import { CODE, LABEL, COLOR, MESSAGE } from "common";
 import { useDispatch, useSelector } from "react-redux";
-import { setModalOpen, setPostNovelData } from "redux/slice";
+import { setModalOpen, setPostNovelData, setToastOpen } from "redux/slice";
 
 /** STYLE 정의 */
 // 전체 영역
@@ -74,7 +74,13 @@ const WriteNovIntroPopup = () => {
 				onClick={() => {
 					// 사용자가 소설 설명을 입력하지 않았다면 경고창 띄워줌
 					if (description.trim().length === 0) {
-						alert(MESSAGE.ERROR.WRITE_DESCRIPTION); //
+            dispatch(
+              setToastOpen({
+                open: true,
+                type: "warning",
+                message: MESSAGE.ERROR.WRITE_DESCRIPTION,
+              })
+            );
 					} else {
 						dispatch(
 							setModalOpen({

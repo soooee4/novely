@@ -15,6 +15,8 @@ import { NovelExtraReducer } from "./extraReducers/NovelExtraReducer";
  *   - subNovels          : 서브 소설 데이터 목록
  *   - color              : 사용자가 선택한 테마 컬러
  *   - reset              : POST, PATCH, DELETE 성공 시 데이터 재조회를 위한 flag
+ *   - delay              : 작가 승급 후 첫 로그인 시 작가 소개 노출 여부 제어
+ *   - toast              : toast 알림창
  *****************************************************************************/
 
 const initialState = {
@@ -32,7 +34,8 @@ const initialState = {
   subNovels: [],
   color: "#ffffff",
   reset: false,
-  delay: false
+  delay: false,
+  toast: { open: false, type: '', message: '' },
 };
 
 export const slice = createSlice({
@@ -116,7 +119,16 @@ export const slice = createSlice({
 
 		setDelay: (state, action) => {
 			state.delay = true;
-		}	 
+		},
+    setToastOpen: (state, action) => {
+      state.toast = action.payload;
+    },
+    setToastClose: (state, action) => {
+      state.toast.open = false;
+    },
+    setSubNovelLikeYn: (state, action) => {
+      state.clickSubNovel.like_yn = action.payload;
+    },
 	},
 
 	extraReducers: (builder) => {
@@ -138,7 +150,10 @@ export const {
   setPostNovelData,
   setColor,
   setReset,
-  setDelay
+  setDelay,
+  setToastOpen,
+  setToastClose,
+  setSubNovelLikeYn
 } = actions;
 
 export default reducer;

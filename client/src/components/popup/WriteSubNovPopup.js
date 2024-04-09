@@ -10,7 +10,7 @@ import { Box, styled, Typography } from "@mui/material";
 // Constant
 import { CODE, LABEL, COLOR, MESSAGE } from "common";
 import { useDispatch, useSelector } from "react-redux";
-import { setModalOpen, setPostNovelData } from "redux/slice";
+import { setModalOpen, setPostNovelData, setToastOpen } from "redux/slice";
 
 /** STYLE 정의 */
 // 전체 영역
@@ -120,7 +120,7 @@ const WriteSubNovPopup = () => {
 
 	const { title, content, main_seqno } = clickNovel;
 
-	const [subTitle, setSubTitle] = useState(""); // 서브 소설 제목
+	const [subTitle, setSubTitle] = useState(title); // 서브 소설 제목
 	const [subContent, setSubContent] = useState(""); // 서브 소설 내용
 	const [contentCount, setContentCount] = useState(0); // 내용 글자수 체크
 
@@ -137,30 +137,60 @@ const WriteSubNovPopup = () => {
 
 	// 저장 후 다음 버튼 눌렀을 때 NovDetail 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
 	const setSubNovel = () => {
-		if (subContent === "") {
-			alert(MESSAGE.ERROR.WRITE_CONTENT);
-			return;
-		} else if (subTitle.length > 50) {
-			alert(MESSAGE.ERROR.TITLE_INVALIDATION);
-			return;
-		} else {
+		// 제목이 비어있는지 확인 (사용자가 제목을 수정하지 않을 경우에는 기존 제목 그대로 사용하고 유효성 검사를 통과하도록)
+		if (!subTitle.trim() && !title.trim()) {
 			dispatch(
-				setPostNovelData({
-					title: subTitle === "" ? title : subTitle,
-					content: subContent,
-					main_novel_seqno: main_seqno,
-					created_user: loginId,
-				})
-			);
-			dispatch(
-				setModalOpen({
+				setToastOpen({
 					open: true,
-					content: "selectTag",
-					width: 450,
-					height: 420,
+					type: "warning",
+					message: MESSAGE.ERROR.WRITE_TITLE,
 				})
 			);
+			return;
 		}
+
+		// 제목의 길이가 50자를 초과하는지 확인
+		if (subTitle.length > 50) {
+			dispatch(
+				setToastOpen({
+					open: true,
+					type: "warning",
+					message: MESSAGE.ERROR.TITLE_INVALIDATION,
+				})
+			);
+			return;
+		}
+
+		// 내용이 비어있는지 확인
+		if (!subContent.trim()) {
+			dispatch(
+				setToastOpen({
+					open: true,
+					type: "warning",
+					message: MESSAGE.ERROR.WRITE_CONTENT,
+				})
+			);
+			return;
+		}
+
+		// 모든 검사를 통과한 경우, 서버로 보낼 상태값에 데이터 세팅 및 모달 열기
+		dispatch(
+			setPostNovelData({
+				title: subTitle,
+				content: subContent,
+				main_novel_seqno: main_seqno,
+				created_user: loginId,
+			})
+		);
+
+		dispatch(
+			setModalOpen({
+				open: true,
+				content: "selectTag",
+				width: 450,
+				height: 420,
+			})
+		);
 	};
 
 	return (

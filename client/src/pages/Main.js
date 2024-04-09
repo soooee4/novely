@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 // Redux Package Module
 import { useDispatch, useSelector } from "react-redux";
-import { setClickData, setClickNovel, setModalOpen } from "redux/slice";
+import { setToastOpen, setClickNovel, setModalOpen } from "redux/slice";
 
 // MUI Package Module
 import { styled, Box } from "@mui/material";
@@ -161,7 +161,13 @@ const Main = () => {
     if (check === -1) {
       // 선택된 태그가 3개일 경우
       if (selectedTag.length > 2) {
-        alert(MESSAGE.OVER_SELECTED_TAG);
+        dispatch(
+          setToastOpen({
+            open: true,
+            type: "info",
+            message: MESSAGE.OVER_SELECTED_TAG,
+          })
+        );
         return;
       } else {
         setSelectedTag([...selectedTag, tag]);

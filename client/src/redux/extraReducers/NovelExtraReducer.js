@@ -1,4 +1,3 @@
-import { MESSAGE } from "common";
 import { NovelApi } from "redux/services/NovelService";
 
 export const NovelExtraReducer = (builder) => {
@@ -36,7 +35,9 @@ export const NovelExtraReducer = (builder) => {
       state.color = "#ffffff";
       
       // 메시지 노출
-      alert(payload.message);
+      state.toast.open = true;
+      state.toast.message = payload.message;
+      state.toast.type = 'success';
 
     })
     .addMatcher(NovelApi.endpoints.postMainNovel.matchRejected, (state, payload) => {
@@ -54,7 +55,9 @@ export const NovelExtraReducer = (builder) => {
       state.color = "#ffffff";
 
       // 메시지 노출
-      alert(payload.message);
+      state.toast.open = true;
+      state.toast.message = payload.message;
+      state.toast.type = 'success';
 
       // 데이터 재조회 flag 변경
       state.reset = true;

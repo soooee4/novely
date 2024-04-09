@@ -2,7 +2,8 @@
 import { useMemo, useState, useRef, useEffect } from "react";
 
 // Redux Package Module
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setToastOpen } from "redux/slice";
 
 // MUI Package Module
 import { Box, styled } from "@mui/material";
@@ -17,7 +18,6 @@ import { MESSAGE, LABEL, CODE } from "../../common";
 import TextField from "@mui/material/TextField";
 
 // API Service
-import { patchData } from "common/communication";
 import { useEditProfileMutation } from "redux/services/AuthService";
 
 // Util
@@ -128,14 +128,28 @@ const EditProfile = () => {
     setPwRegMsg(pwValidation(newPw));
   };
 
+  const dispatch = useDispatch();
+
   // 프로필 수정
   const onClick = async () => {
 		// 현재 비밀번호 미입력 시
 		if (curPw === "") {
-			alert(MESSAGE.WRITE_CUR_PW);
+      dispatch(
+				setToastOpen({
+					open: true,
+					type: "warning",
+					message: MESSAGE.WRITE_CUR_PW,
+				})
+			);
 			return;
 		} else if (info.length > 50) {
-      alert(MESSAGE.ERROR.INFO_INVALIDATION);
+      dispatch(
+				setToastOpen({
+					open: true,
+					type: "warning",
+					message: MESSAGE.ERROR.INFO_INVALIDATION,
+				})
+			);
       return;
     }
 

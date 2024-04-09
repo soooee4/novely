@@ -1,6 +1,10 @@
 // React Package Module
 import { useState } from "react";
 
+// Redux Package Module
+import { useSelector, useDispatch } from "react-redux";
+import { setToastOpen } from "redux/slice";
+
 // MUI Package Module
 import { Box, styled, TextField } from "@mui/material";
 
@@ -43,6 +47,7 @@ const Text = styled(TextField)({
 
 /** 회원가입 팝업 컴포넌트 (로그인 컴포넌트 내 회원가입 버튼 클릭 시 해당 팝업 띄워줌) */
 const JoinPopup = () => {
+
 	const [id, setId] = useState(""); // 입력한 아이디
 	const [pw, setPw] = useState(""); // 입력한 비밀번호
 	const [idRegMsg, setIdRegMsg] = useState(""); // 아이디 유효성 검사 미통화 시 띄워주는 에러메세지
@@ -68,10 +73,20 @@ const JoinPopup = () => {
 	// rtk query
 	const [join] = useOnJoinMutation();
 
+  
+  const dispatch = useDispatch();
+
+
 	const onClick = async () => {
 		// 유효성 검사 통과 못하거나 입력한 id, pw값이 없으면 경고 메세지 띄워주고 함수 종료
 		if (idRegMsg !== "" || pwRegMsg !== "" || id == "" || pw == "") {
-			alert(MESSAGE.ERROR.CHECK_JOIN_INFO);
+      dispatch(
+				setToastOpen({
+					open: true,
+					type: "warning",
+					message: MESSAGE.ERROR.CHECK_JOIN_INFO,
+				})
+			);
 			return;
 		}
 

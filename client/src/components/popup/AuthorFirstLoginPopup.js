@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 // Redux Package Module
 import { useDispatch, useSelector } from "react-redux";
+import { setToastOpen } from "redux/slice";
 
 // MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
@@ -55,16 +56,18 @@ const AuthorFirstLoginPopup = (props) => {
 	const profile = useSelector((state) => state.main.profile);
 
 	const [authorInfo, setAuthorInfo] = useState(""); // 작가 소갯말
-	const navigate = useNavigate();
 	const inputAuthorInfo = (e) => {
 		setAuthorInfo(e.target.value);
 	};
 
+  const dispatch = useDispatch();
 
 	// 저장 후 다음 버튼 눌렀을 때 Main 페이지에 있는 (서버로 보낼) 상태값에 데이터 세팅
 	const patchAuthorInfo = () => {
 		if (authorInfo.length > 50) {
-			alert(MESSAGE.ERROR.INFO_INVALIDATION);
+      dispatch(setToastOpen({
+        open: true, type: 'error', message: MESSAGE.ERROR.INFO_INVALIDATION
+      }))
 			return;
 		}
 
@@ -82,10 +85,18 @@ const AuthorFirstLoginPopup = (props) => {
 							author_info: data.author_info,
 						})
 					);
-					alert(MESSAGE.AUTHOR_REGISTER_SUCCESS);
+          dispatch(setToastOpen({
+            open: true, type: 'sucess', message: MESSAGE.AUTHOR_REGISTER_SUCCESS
+          }))
 					window.location.reload();
 				} else if (typeof data === "string") {
-					alert(data);
+          dispatch(
+            setToastOpen({
+              open: true,
+              type: "error",
+              message: data,
+            })
+          );
 				}
 			})
 			.catch((err) => console.log(err));

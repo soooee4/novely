@@ -3,7 +3,7 @@ import { useState } from "react";
 
 // Redux Package Module
 import { useDispatch, useSelector } from "react-redux"; 
-import { setPostNovelData, setModalOpen } from "redux/slice";
+import { setPostNovelData, setModalOpen, setToastOpen } from "redux/slice";
 
 // MUI Package Module
 import { Box, Typography, styled } from "@mui/material";
@@ -95,30 +95,37 @@ const AuthorWriteNovPopup = () => {
 		setContentCount(e.target.value.length);
 	};
 
-	const goToNext = () => {
-		if (title === "") {
-			alert(MESSAGE.ERROR.WRITE_TITLE);
-		} else if (content === "") {
-			alert(MESSAGE.ERROR.WRITE_CONTENT);
-		} else if (title.length > 50) {
-			alert(MESSAGE.ERROR.TITLE_INVALIDATION);
-		} else {
-			dispatch(
-				setModalOpen({
-					open: true,
-					content: "authorWriteIntro",
-					width: 400,
-					height: 500,
-				})
-			);
-			dispatch(
-				setPostNovelData({
-					title,
-					content,
-				})
-			);
-		}
-	};
+  const goToNext = () => {
+    if (title === "") {
+        dispatch(setToastOpen({
+            open: true, type: 'error', message: MESSAGE.ERROR.WRITE_TITLE
+        }));
+    } else if (content === "") {
+        dispatch(setToastOpen({
+            open: true, type: 'error', message: MESSAGE.ERROR.WRITE_CONTENT
+        }));
+    } else if (title.length > 50) {
+        dispatch(setToastOpen({
+            open: true, type: 'error', message: MESSAGE.ERROR.TITLE_INVALIDATION
+        }));
+    } else {
+        dispatch(
+            setModalOpen({
+                open: true,
+                content: "authorWriteIntro",
+                width: 400,
+                height: 500,
+            })
+        );
+        dispatch(
+            setPostNovelData({
+                title,
+                content,
+            })
+        );
+    }
+};
+  
 
 	return (
 		<Wrapper>

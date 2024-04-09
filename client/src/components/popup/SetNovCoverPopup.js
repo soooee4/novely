@@ -1,6 +1,9 @@
 // React Package Module
 import { useState, useRef, useMemo } from "react";
 
+// Redux Package Module
+import { setToastOpen } from "redux/slice";
+
 // MUI Package Module
 import { Box, styled, Typography } from "@mui/material";
 
@@ -75,7 +78,6 @@ const SetNovCoverPopup = (props) => {
 	// redux state
 	const color = useSelector((state) => state.main.color);
 	const novelData = useSelector((state) => state.main.postNovel);
-	const loginId = useSelector((state) => state.main.profile.login_id);
 
 	const [selectedFileName, setSelectedFileName] = useState(""); // 사용자가 선택한 프로필 사진 이름
 	const [previewUrl, setPreviewUrl] = useState(""); // 선택한 이미지 Blob데이터의 경로 state
@@ -125,8 +127,14 @@ const SetNovCoverPopup = (props) => {
 			const ext = novelData.file.type.split("/")[1];
 			const allowList = ["jpeg", "jpg", "png"];
 			if (!allowList.includes(ext)) {
-				alert(MESSAGE.ERROR.CHECK_EXT);
-				return;
+        dispatch(
+          setToastOpen({
+            open: true,
+            type: "warning",
+            message: MESSAGE.ERROR.CHECK_EXT,
+          })
+        );
+        return;
 			}
 
 			// 이미지 압축

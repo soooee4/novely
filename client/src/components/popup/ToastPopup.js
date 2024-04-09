@@ -1,38 +1,35 @@
 // MUI Package Module
 import { Stack, Snackbar, Alert } from "@mui/material";
 
-// Constant
-import { LABEL } from "common";
+// Redux Package Module
+import { useSelector, useDispatch } from "react-redux";
+import { setToastClose } from "redux/slice";
 
-const _getAlertType = (type) => {
-	let severity;
-	switch (type) {
-		case LABEL.ALERT.ERROR:
-			severity = "error";
-			break;
-		case LABEL.ALERT.SUCCESS:
-			severity = "success";
-			break;
-	}
-	return severity;
-};
+const ToastPopup = () => {
 
-const ToastPopup = (props) => {
-	const severity = _getAlertType(props.type);
+  const toast = useSelector((state) => state.main.toast)
+
+  const dispatch = useDispatch();
 
 	return (
 		<Stack spacing={2} sx={{ width: "100%" }}>
 			<Snackbar
-				open={props.open}
-				autoHideDuration={2000}
-				onClose={props.close}
+				open={toast.open}
+				autoHideDuration={8500}
+				onClose={() => dispatch(setToastClose())}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        sx={{
+          marginTop: '200px',
+        }}
 			>
 				<Alert
-					onClose={props.close}
-					severity={severity}
+					severity={toast.type}
 					sx={{ width: "100%" }}
 				>
-					{props.message}
+					{toast.message}
 				</Alert>
 			</Snackbar>
 		</Stack>

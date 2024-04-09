@@ -13,7 +13,7 @@ import { CODE, LABEL, COLOR, MESSAGE } from "common";
 // API
 import { getData } from "common/communication";
 import { useDispatch, useSelector } from "react-redux";
-import { setModalOpen, setPostNovelData } from "redux/slice";
+import { setModalOpen, setPostNovelData, setToastOpen } from "redux/slice";
 
 /** STYLE 정의 */
 // 전체 영역
@@ -110,11 +110,14 @@ const SelectTagPopup = () => {
 		if (check === -1) {
 			// 선택된 태그 배열의 갯수와 최대 허용 갯수 비교하여 초과일 경우 알림창 띄워주고 함수 종료
 			if (checkState.length > maxLength) {
-				alert(
-					type === "genre"
-						? MESSAGE.OVER_SELECTED_GENRE
-						: MESSAGE.OVER_SELECTED_KEY_WORD
-				);
+        dispatch(
+          setToastOpen({
+              open: true,
+              type: "info",
+              message: type === "genre" ? MESSAGE.OVER_SELECTED_GENRE : MESSAGE.OVER_SELECTED_KEY_WORD
+          })
+      );
+      
 				return;
 				// 초과하지 않을 경우 스프레드 연산자 사용하여 기존 배열 첫번째 자리에 사용자가 선택한 태그 추가
 			} else {
@@ -130,7 +133,14 @@ const SelectTagPopup = () => {
 	// 저장 후 다음 버튼 클릭 시 실행할 기능들 함수
 	const onClickNextBtn = () => {
 		if (genre.length === 0 || keyword.length === 0) {
-			alert(MESSAGE.MIN_SELECT_TAG);
+      dispatch(
+        setToastOpen({
+            open: true,
+            type: "warning",
+            message: MESSAGE.MIN_SELECT_TAG
+        })
+    );
+    
 		} else {
 			dispatch(
 				setModalOpen({

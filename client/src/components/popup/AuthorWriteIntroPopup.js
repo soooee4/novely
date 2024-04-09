@@ -1,6 +1,6 @@
 // Redux Package Module
 import { useDispatch, useSelector } from "react-redux";
-import { setPostNovelData } from "redux/slice";
+import { setPostNovelData, setToastOpen } from "redux/slice";
 import { usePostMainNovelMutation } from "redux/services/NovelService";
 
 // MUI Package Module
@@ -65,15 +65,23 @@ const AuthorWriteIntroPopup = () => {
 		});
 	};
 
-	const onClick = () => {
-		if (postNovel.description.length === 0) {
-			alert(MESSAGE.ERROR.WRITE_DESCRIPTION);
-		} else if (postNovel.description.length >= 100) {
-			alert(MESSAGE.ERROR.DESC_INVALIDATION);
-		} else {
-			postMainNovel();
-		}
-	};
+const onClick = () => {
+  // description이 undefined일 때 length 접근으로 인한 타입 오류 방지
+  const descriptionLength = postNovel.description?.length || 0;
+  if (descriptionLength === 0) {
+      dispatch(setToastOpen({
+          open: true, type: 'error', message: MESSAGE.ERROR.WRITE_DESCRIPTION
+      }));
+  } else if (descriptionLength >= 100) {
+      dispatch(setToastOpen({
+          open: true, type: 'error', message: MESSAGE.ERROR.DESC_INVALIDATION
+      }));
+  } else {
+      postMainNovel();
+  }
+};
+
+
 
 	return (
 		<Wrapper>
