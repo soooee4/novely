@@ -205,6 +205,7 @@ const Main = () => {
       {selectedTab === "complete" && (
         <TagBox>
           {genre.map((list, i) => {
+            const isSelected = selectedTag.includes(list.code_name);
             return (
               <Buttons
                 key={i}
@@ -220,6 +221,7 @@ const Main = () => {
                 }
                 setSelectedTag={(tag) => settingTag(tag)}
                 selectedTag={selectedTag}
+                border={isSelected ? "1.5px solid black" : "1px solid transparent"}
               />
             );
           })}

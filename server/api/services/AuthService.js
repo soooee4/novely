@@ -56,7 +56,7 @@ const join = async ({ login_id, login_pw, image }) => {
     // 회원가입 시 입력한 id값이 DB에 존재하는지 확인
     if (isUser.rows.length === 1) {
       // 존재할 경우
-      return MESSAGE.ALREADY_JOINED;
+      return { message: MESSAGE.ALREADY_JOINED };
     } else {
       // 존재하지 않는 경우(최초 가입)
       // 비밀번호 해쉬화
@@ -79,7 +79,7 @@ const join = async ({ login_id, login_pw, image }) => {
 
       // 회원 등록이 성공할 경우 회원 정보 조회 및 컨트롤러로 회원 정보 전송
       if (regditUser.rowCount === 1) {
-        sqlId = "Auth.getUserInfo";
+        sqlId = "Auth.getLoginUserInfo";
         userInfo = await client.query(mapper.makeSql(sqlId, { login_id }));
         return {
           user_nickname: userInfo.rows[0].user_nickname,
@@ -88,7 +88,7 @@ const join = async ({ login_id, login_pw, image }) => {
           image: userInfo.rows[0].image
         };
       } else {
-        return MESSAGE.JOIN_FAILED;
+        return { message: MESSAGE.JOIN_FAILED };
       }
     }
   } catch (err) {

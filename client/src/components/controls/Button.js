@@ -1,9 +1,10 @@
 // MUI Package Module
 import { Button, styled } from "@mui/material";
 
+
 // Constant
 import { CODE, COLOR } from "common";
-import { useDispatch } from "react-redux";
+
 
 // 기본 버튼
 const BasicBtn = styled(Button)({
