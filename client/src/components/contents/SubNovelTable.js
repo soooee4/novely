@@ -75,16 +75,17 @@ const SubNovelTable = (props) => {
 									align="center"
 									size="small"
 									sx={{
-										width: "60%",
+										width: "65%",
 										textAlign: "left",
 										cursor: "pointer",
+                    paddingLeft: 3
 									}}
 								>
 									<div>{novel.sub_title}</div>
 								</TableCell>
 								<TableCell
 									sx={{
-										width: "27%",
+										width: "20%",
 									}}
 								>
 									By.{novel.user_nickname}
