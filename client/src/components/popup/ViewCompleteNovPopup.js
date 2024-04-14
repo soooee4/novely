@@ -34,6 +34,7 @@ const Content = styled(Typography)({
 const ContentBox = styled(Box)({
   overflow: "auto",
   paddingRight: 12,
+  
   "&::-webkit-scrollbar": {
     width: 5,
   },

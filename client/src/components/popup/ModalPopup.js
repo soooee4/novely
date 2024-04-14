@@ -133,7 +133,7 @@ const ModalPopup = () => {
 			MuiDialog: {
 				styleOverrides: {
 					root: {
-						backgroundColor: "rgba(0, 0, 0, 0.7)",
+						backgroundColor: "rgba(0, 0, 0, 0.4)",
 					},
 				},
 			},

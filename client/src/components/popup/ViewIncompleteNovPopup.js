@@ -47,6 +47,7 @@ const Title = styled(Typography)({
 const Content = styled(Typography)({
 	fontSize: 15,
 	whiteSpace: "pre-wrap",
+  marginRight: 25
 });
 
 const ScrollBox = styled(Box)({
