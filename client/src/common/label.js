@@ -62,7 +62,7 @@ export const LABEL = {
 
 	// SELECT BOX
 	SELECT: {
-		GENRE: "장르",
-		KEY_WORD: "키워드",
+		GENRE: "장르 (최대 2개)",
+		KEY_WORD: "키워드 (최대 3개)",
 	}
 };

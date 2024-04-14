@@ -15,7 +15,7 @@ const ToastPopup = () => {
 		<Stack spacing={2} sx={{ width: "100%" }}>
 			<Snackbar
 				open={toast.open}
-				autoHideDuration={8500}
+				autoHideDuration={2000}
 				onClose={() => dispatch(setToastClose())}
         anchorOrigin={{
           vertical: 'top',
