@@ -30,7 +30,7 @@ const initialState = {
   },
   clickNovel: {},
   clickSubNovel: {},
-  postNovel: { file: 'cover_basic.jpg' },
+  postNovel: { file: 'cover_basic.jpg', description: '' },
   subNovels: [],
   color: "#ffffff",
   reset: false,

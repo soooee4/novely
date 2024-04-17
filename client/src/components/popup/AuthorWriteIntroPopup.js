@@ -66,13 +66,11 @@ const AuthorWriteIntroPopup = () => {
 	};
 
 const onClick = () => {
-  // description이 undefined일 때 length 접근으로 인한 타입 오류 방지
-  const descriptionLength = postNovel.description?.length || 0;
-  if (descriptionLength === 0) {
+    if (postNovel.description.length === 0) {
       dispatch(setToastOpen({
           open: true, type: 'error', message: MESSAGE.ERROR.WRITE_DESCRIPTION
       }));
-  } else if (descriptionLength >= 100) {
+  } else if (postNovel.descriptionLength >= 100) {
       dispatch(setToastOpen({
           open: true, type: 'error', message: MESSAGE.ERROR.DESC_INVALIDATION
       }));
