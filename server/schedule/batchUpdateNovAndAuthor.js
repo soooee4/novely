@@ -59,9 +59,11 @@ const batchUpdateNovAndAuthor = async () => {
 
         // 완성 소설 테이블에 데이터 입력
         sqlId = "Schedule.postCompleteNovel";
-        await client.query(
-          mapper.makeSql(sqlId, { mostLikeNov: mostLikeNov.rows })
-        );
+        if (mostLikeNov.rows.length !== 0) {
+          await client.query(
+            mapper.makeSql(sqlId, { mostLikeNov: mostLikeNov.rows })
+          );
+        }
 
         // 완성 소설 승급이 미뤄진 메인 소설들의 작성일자 초기화
         if (postpone_main_seqno.length > 0) {
@@ -69,24 +71,27 @@ const batchUpdateNovAndAuthor = async () => {
           await client.query(mapper.makeSql(sqlId, { postpone_main_seqno }));
         }
 
-        // 미완 메인 소설 완성 여부 Y로 일괄 변경
-        sqlId = "Schedule.patchNovToComplete";
-        await client.query(
-          mapper.makeSql(sqlId, { like_more_than_zero_main_seqno })
-        );
+        // 적어도 좋아요가 1개 이상인 서브 소설이 있는 메인 소설이 있는 경우
+        if (like_more_than_zero_main_seqno.length > 0) {
+          // 미완 메인 소설 완성 여부 Y로 일괄 변경
+          sqlId = "Schedule.patchNovToComplete";
+          await client.query(
+            mapper.makeSql(sqlId, { like_more_than_zero_main_seqno })
+          );
 
-        // 미완 서브 소설 완성 여부 Y로 일괄 변경
-        sqlId = "Schedule.patchSubNovToComplete";
-        await client.query(
-          mapper.makeSql(sqlId, { like_more_than_zero_main_seqno })
-        );
+          // 미완 서브 소설 완성 여부 Y로 일괄 변경
+          sqlId = "Schedule.patchSubNovToComplete";
+          await client.query(
+            mapper.makeSql(sqlId, { like_more_than_zero_main_seqno })
+          );
 
-        // 좋아요 수 가장 많은 일반 유저들의 권한을 작가로 일괄 변경
-        sqlId = "Schedule.patchToAuthor";
-        await client.query(
-          mapper.makeSql(sqlId, { sub_created_user })
-        );
-
+          // 좋아요 수 가장 많은 일반 유저들의 권한을 작가로 일괄 변경
+          sqlId = "Schedule.patchToAuthor";
+          await client.query(
+            mapper.makeSql(sqlId, { sub_created_user })
+          );
+        }
+        
         console.log(
           `현재 기준 작성한지 30일이 넘어 승급될 미완 메인 소설들의 seqno는 ${main_seqno} 입니다.
           서브 소설이 존재하지 않거나, 좋아요가 없어 승급이 미루어질 메인 소설들의 seqno는 ${postpone_main_seqno},
